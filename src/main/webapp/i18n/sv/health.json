@@ -1,0 +1,31 @@
+{
+  "health": {
+    "title": "Statuskontroller",
+    "refresh.button": "Uppdatera",
+    "stacktrace": "Stacktrace",
+    "details": {
+      "details": "Detaljer",
+      "properties": "Egenskaper",
+      "name": "Namn",
+      "value": "Värde",
+      "error": "Fel"
+    },
+    "indicator": {
+      "binders": "Message broker",
+      "diskSpace": "Diskutrymme",
+      "mail": "E-post",
+      "ping": "Application",
+      "elasticsearch": "Elasticsearch",
+      "db": "Databas"
+    },
+    "table": {
+      "service": "Service namn",
+      "status": "Status"
+    },
+    "status": {
+      "UNKNOWN": "UNKNOWN",
+      "UP": "UPP",
+      "DOWN": "NED"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "health": {
+    "title": "Xolati",
+    "refresh.button": "Yangila",
+    "stacktrace": "Stacktrace",
+    "details": {
+      "details": "Batafsil",
+      "properties": "Parametrlari",
+      "name": "Nomi",
+      "value": "Qiymati",
+      "error": "Xatolik"
+    },
+    "indicator": {
+      "binders": "Xabar brokeri",
+      "diskSpace": "Diskdagi joy",
+      "mail": "Email",
+      "ping": "Application",
+      "elasticsearch": "Elasticsearch",
+      "db": "Ma`lumotlar bazasi"
+    },
+    "table": {
+      "service": "Servis",
+      "status": "Holat"
+    },
+    "status": {
+      "UNKNOWN": "UNKNOWN",
+      "UP": "Faol",
+      "DOWN": "Faol emas"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+version: '2'
+services:
+  bounties-app:
+    image: bounties
+    environment:
+      - _JAVA_OPTIONS=-Xmx512m -Xms256m
+      - SPRING_PROFILES_ACTIVE=prod,swagger
+      - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://bounties-mysql:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+      - JHIPSTER_CACHE_REDIS_SERVER=redis://bounties-redis:6379
+      - JHIPSTER_CACHE_REDIS_CLUSTER=false
+      # - JHIPSTER_CACHE_REDIS_SERVER=redis://bounties-redis:6379
+      # - JHIPSTER_CACHE_REDIS_CLUSTER=true
+      - SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI=http://keycloak:9080/auth/realms/jhipster
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID=web_app
+      - SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET=web_app
+      - JHIPSTER_SLEEP=30 # gives time for other services to boot before the application
+      - SPRING_DATA_JEST_URI=http://bounties-elasticsearch:9200
+      - SPRING_ELASTICSEARCH_REST_URIS=http://bounties-elasticsearch:9200
+      - KAFKA_BOOTSTRAPSERVERS=kafka:9092
+    ports:
+      - 8080:8080
+  bounties-mysql:
+    extends:
+      file: mysql.yml
+      service: bounties-mysql
+  bounties-redis:
+    extends:
+      file: redis.yml
+      service: bounties-redis
+  bounties-elasticsearch:
+    extends:
+      file: elasticsearch.yml
+      service: bounties-elasticsearch
+  kafka:
+    extends:
+      file: kafka.yml
+      service: kafka
+    environment:
+      - KAFKA_ADVERTISED_HOST_NAME=kafka
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+  zookeeper:
+    extends:
+      file: kafka.yml
+      service: zookeeper
+  keycloak:
+    extends:
+      file: keycloak.yml
+      service: keycloak

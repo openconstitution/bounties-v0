@@ -1,0 +1,31 @@
+{
+  "health": {
+    "title": "Проверка на състоянието",
+    "refresh.button": "Обновяване",
+    "stacktrace": "Трасировка на стека",
+    "details": {
+      "details": "Детайли",
+      "properties": "Параметри",
+      "name": "Име",
+      "value": "Стойност",
+      "error": "Грешка"
+    },
+    "indicator": {
+      "binders": "Брокер за съобщения",
+      "diskSpace": "Място на диска",
+      "mail": "Имейл",
+      "ping": "Приложение",
+      "elasticsearch": "Elasticsearch",
+      "db": "База данни"
+    },
+    "table": {
+      "service": "Име на услугата",
+      "status": "Статус"
+    },
+    "status": {
+      "UNKNOWN": "НЕИЗВЕСТЕН",
+      "UP": "АКТИВНА",
+      "DOWN": "НЕАКТИВНА"
+    }
+  }
+}
