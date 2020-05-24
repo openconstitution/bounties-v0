@@ -30,9 +30,9 @@ The `npm run` command will list all of the scripts available to run for this pro
 
 ## OAuth 2.0 / OpenID Connect
 
-Congratulations! You've selected an excellent way to secure your JHipster application. If you're not sure what OAuth and OpenID Connect (OIDC) are, please see [What the Heck is OAuth?](https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth)
+Congratulations! You've selected an excellent way to secure your bounties application. If you're not sure what OAuth and OpenID Connect (OIDC) are, please see [What the Heck is OAuth?](https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth)
 
-To log in to your app, you'll need to have [Keycloak](https://keycloak.org) up and running. The JHipster Team has created a Docker container for you that has the default users and roles. Start Keycloak using the following command.
+To log in to your app, you'll need to have [Keycloak](https://keycloak.org) up and running. The Bounties Team has created a Docker container for you that has the default users and roles. Start Keycloak using the following command.
 
 ```
 docker-compose -f src/main/docker/keycloak.yml up
@@ -54,6 +54,10 @@ spring:
             client-id: web_app
             client-secret: web_app
 ```
+
+### Apache Kafka
+
+### Elasticsearch
 
 ### Okta
 
