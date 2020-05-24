@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "สร้าง Bounties",
+        "createOrEditLabel": "สร้างหรือแก้ไข Bounties",
+        "search": "ค้นหา Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Bounties ถูกสร้างด้วย {{ param }}",
+      "updated": "Bounties ถูกแก้ไขด้วย {{ param }}",
+      "deleted": "Bounties ถูกลบด้วย {{ param }}",
+      "delete": {
+        "question": "คุณต้องการที่จะลบ Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

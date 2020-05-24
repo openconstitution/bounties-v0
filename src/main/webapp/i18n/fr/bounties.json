@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Créer un nouveau Bounties",
+        "createOrEditLabel": "Créer ou éditer un Bounties",
+        "search": "Recherche pour Bounties",
+        "notFound": "Aucun Bounties trouvé"
+      },
+      "created": "Un nouveau Bounties a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Bounties avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Bounties avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Bounties {{ id }} ?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

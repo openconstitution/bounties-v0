@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Ստեղծել նոր Bounties",
+        "createOrEditLabel": "Ստեղծել կամ փոփոխել Bounties",
+        "search": "Գտնել Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Նոր Bounties ստեղծված է {{ param }} նունացուցիչով",
+      "updated": "Bounties թարմացվաց է {{ param }} նունացուցիչով",
+      "deleted": "Bounties հեռացված է {{ param }}  նունացուցիչով",
+      "delete": {
+        "question": "Դուք վստահ ե՞ք, որ ցանկանում եք հեռացնել Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

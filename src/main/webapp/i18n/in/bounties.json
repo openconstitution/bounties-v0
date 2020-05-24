@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Buat Bounties baru",
+        "createOrEditLabel": "Buat atau edit Bounties",
+        "search": "Cari Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Bounties dengan id {{ param }} telah dibuat",
+      "updated": "Bounties dengan id {{ param }} telah diperbaharui",
+      "deleted": "Bounties dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

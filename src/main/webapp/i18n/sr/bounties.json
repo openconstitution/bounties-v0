@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Kreiraj novi Bounties",
+        "createOrEditLabel": "Kreirajte ili izmenite Bounties",
+        "search": "Potražite Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Kreiran je novi Bounties pod nazivom {{ param }}",
+      "updated": "Bounties pod nazivom {{ param }} je ažuriran",
+      "deleted": "Bounties pod nazivom {{ param }} je obrisan",
+      "delete": {
+        "question": "Da li ste sigurni da želite da obrišete Bounties pod nazivom {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

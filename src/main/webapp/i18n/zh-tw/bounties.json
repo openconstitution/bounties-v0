@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "建立一筆新的 Bounties",
+        "createOrEditLabel": "建立或編輯 Bounties",
+        "search": "搜尋 Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "新的 Bounties 建立成功，識別碼為 {{ param }}",
+      "updated": "識別碼為 {{ param }} 的 Bounties 更新成功",
+      "deleted": "識別碼為 {{ param }} 的 Bounties 刪除成功",
+      "delete": {
+        "question": "您確定要刪除 Bounties {{ id }} 嗎?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Skapa en ny Bounties",
+        "createOrEditLabel": "Skapa eller ändra en Bounties",
+        "search": "Sök efter Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "En ny Bounties är skapad med id {{ param }}",
+      "updated": "En Bounties är uppdaterad med id  {{ param }}",
+      "deleted": "En Bounties är borttagen med id  {{ param }}",
+      "delete": {
+        "question": "Är du säker på att du vill ta bort Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

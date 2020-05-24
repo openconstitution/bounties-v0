@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "创建新 Bounties",
+        "createOrEditLabel": "创建或编辑 Bounties",
+        "search": "查找 Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Bounties {{ param }} 创建成功",
+      "updated": "Bounties {{ param }} 更新成功",
+      "deleted": "Bounties {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Bounties {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

@@ -93,6 +93,7 @@
       "uz-Latn-uz",
       "vi"
     ],
-    "blueprints": []
+    "blueprints": [],
+    "lastLiquibaseTimestamp": 1590326863000
   }
 }

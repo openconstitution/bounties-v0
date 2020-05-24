@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "కొత్త Bounties  సృష్టించండి",
+        "createOrEditLabel": "Bounties సృష్టించండి లేదా సవరించండి",
+        "search": "Bounties కొరకు శోధించండి",
+        "notFound": "No Bounties found"
+      },
+      "created": "{{ param }} ఐడీ తో ఒక కొత్త Bounties సృష్టించబడినది",
+      "updated": "{{ param }} ఐడీ తో ఒక కొత్త Bounties సవరించబడినది",
+      "deleted": "{{ param }} ఐడీ తో ఒక కొత్త Bounties తొలగించబడినది",
+      "delete": {
+        "question": "మీరు Bounties {{ id }} ఖచ్చితంగా తొలగించాలనుకుంటున్నారా?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

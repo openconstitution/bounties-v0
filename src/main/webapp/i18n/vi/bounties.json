@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Thêm mới một Bounties",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Bounties",
+        "search": "Tìm Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Một Bounties mới được tạo với định danh {{ param }}",
+      "updated": "Một Bounties cập nhật với định danh {{ param }}",
+      "deleted": "Một Bounties đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

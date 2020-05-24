@@ -1,0 +1,46 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="bounties">
+            <h2><span jhiTranslate="bountiesApp.bounties.detail.title">Bounties</span> {{ bounties.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="bountiesApp.bounties.status">Status</span></dt>
+                <dd>
+                    <span>{{ bounties.status }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.url">Url</span></dt>
+                <dd>
+                    <span>{{ bounties.url }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.amount">Amount</span></dt>
+                <dd>
+                    <span>{{ bounties.amount }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.type">Type</span></dt>
+                <dd>
+                    <span>{{ bounties.type }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.category">Category</span></dt>
+                <dd>
+                    <span>{{ bounties.category }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/bounties', bounties.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

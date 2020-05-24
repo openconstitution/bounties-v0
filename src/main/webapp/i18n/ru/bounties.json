@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Создать новый Bounties",
+        "createOrEditLabel": "Создать или отредактировать Bounties",
+        "search": "Найти Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Новый Bounties создан с идентификатором {{ param }}",
+      "updated": "Bounties обновлен с идентификатором {{ param }}",
+      "deleted": "Bounties удален с идентификатором {{ param }}",
+      "delete": {
+        "question": "Вы уверены что хотите удалить Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

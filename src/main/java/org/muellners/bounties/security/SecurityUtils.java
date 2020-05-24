@@ -31,6 +31,16 @@ public final class SecurityUtils {
         return Optional.ofNullable(extractPrincipal(securityContext.getAuthentication()));
     }
 
+    /**
+     * Get the login of the current user
+     *
+     * @return the login of the current user
+     */
+    public static String getCurrentUserLoginString() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        return extractPrincipal(securityContext.getAuthentication());
+    }
+
     private static String extractPrincipal(Authentication authentication) {
         if (authentication == null) {
             return null;
@@ -42,6 +52,7 @@ public final class SecurityUtils {
         } else if (authentication.getPrincipal() instanceof DefaultOidcUser) {
             Map<String, Object> attributes = ((DefaultOidcUser) authentication.getPrincipal()).getAttributes();
             if (attributes.containsKey("preferred_username")) {
+                System.out.println(attributes);
                 return (String) attributes.get("preferred_username");
             }
         } else if (authentication.getPrincipal() instanceof String) {

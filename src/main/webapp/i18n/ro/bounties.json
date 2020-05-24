@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Creeare o nouă entitate Bounties",
+        "createOrEditLabel": "Creeare sau editare Bounties",
+        "search": "Căutare după Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "A fost creată o nouă entitate Bounties cu identificatorul {{ param }}",
+      "updated": "Bounties cu identificatorul {{ param }} a fost actualizată",
+      "deleted": "Bounties cu identificatorul {{ param }} a fost ștearsă",
+      "delete": {
+        "question": "Sunteți sigur că doriți să ștergeți Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Lisa uus Bounties",
+        "createOrEditLabel": "Lisa või muuda Bounties",
+        "search": "Otsi Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Uus Bounties on loodud identifikaatoriga {{ param }}",
+      "updated": "Bounties identifikaatoriga {{ param }} on muudetud",
+      "deleted": "Bounties identifikaatoriga {{ param }} on kustutatud",
+      "delete": {
+        "question": "Kas olete kindel, et soovite kustutada Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

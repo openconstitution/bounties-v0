@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Maak een nieuwe Bounties",
+        "createOrEditLabel": "Maak of wijzig een Bounties",
+        "search": "Search for Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "A new Bounties is created with identifier {{ param }}",
+      "updated": "A Bounties is updated with identifier {{ param }}",
+      "deleted": "A Bounties is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Bent u zeker dat u Bounties {{ id }} wilt verwijderen?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

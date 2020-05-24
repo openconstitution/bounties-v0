@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Vytvořit Bounties",
+        "createOrEditLabel": "Vytvořit nebo upravit Bounties",
+        "search": "Vyhledat Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "Byl vytvořen potomek entity Bounties s identifikátorem {{ param }}",
+      "updated": "Potomek entity Bounties s identifikátorem {{ param }} byl upravený.",
+      "deleted": "Potomek entity Bounties s identifikátorem {{ param }} bol smazaný.",
+      "delete": {
+        "question": "Jste si jisti, že chcete smazat Bounties {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

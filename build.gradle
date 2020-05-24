@@ -34,8 +34,8 @@ version = "0.0.1-SNAPSHOT"
 
 description = ""
 
-sourceCompatibility=JavaVersion.VERSION_11
-targetCompatibility=JavaVersion.VERSION_11
+sourceCompatibility=1.8
+targetCompatibility=1.8
 assert System.properties["java.specification.version"] == "1.8" || "11" || "12" || "13" || "14"
 
 apply from: "gradle/docker.gradle"
@@ -238,7 +238,6 @@ dependencies {
     implementation "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase:liquibase-core"
     liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
-    liquibaseRuntime 'javax.xml.bind:jaxb-api'
     liquibaseRuntime sourceSets.main.compileClasspath
     implementation "org.springframework.boot:spring-boot-loader-tools"
     implementation "org.springframework.boot:spring-boot-starter-mail"
@@ -314,7 +313,7 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.4"
+    gradleVersion = "6.4.1"
 }
 
 

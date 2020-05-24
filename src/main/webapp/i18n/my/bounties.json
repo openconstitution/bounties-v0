@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Bounties အသစ်ထည့်မည်",
+        "createOrEditLabel": "Bounties အသစ်ထည့်ခြင်း (သို့) ပြုပြင်ခြင်း",
+        "search": "ရှာဖွေရန် Bounties",
+        "notFound": "No Bounties found"
+      },
+      "created": "{{ param }} အိုင်ဒီဖြင့် Bounties အသစ်တစ်ခုအား ထည့်ပြီးပါပြီ။",
+      "updated": "{{ param }} အိုင်ဒီဖြင့် Bounties တစ်ခုအား ပြုပြင်ပြီးပါပြီ။",
+      "deleted": "{{ param }} အိုင်ဒီဖြင့် Bounties တစ်ခုအား ဖျက်ပြီးပါပြီ။",
+      "delete": {
+        "question": "Bounties {{ id }} အား ဖျက်ပါမည်။ သေချာပါသလား?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}

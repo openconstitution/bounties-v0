@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "bounties": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "නව Bounties එකක් සාදන්න",
+        "createOrEditLabel": "Bounties සාදන්න හෝ සංස්කරණය කරන්න",
+        "search": "Bounties සඳහා සොයන්න",
+        "notFound": "Bounties හමු නොවීය"
+      },
+      "created": "{{ param }} හඳුනාගැනීමෙන් නව Bounties සාදනු ලැබේ",
+      "updated": "{{ param }} හඳුනාගැනීමෙන් Bounties යාවත්කාලීන වේ",
+      "deleted": "{{ param }} හඳුනාගැනීමෙන් Bounties මකා දමනු ලැබේ",
+      "delete": {
+        "question": "Bounties {{ id }} මකා දැමීමට ඔබට විශ්වාසද?"
+      },
+      "detail": {
+        "title": "Bounties"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "type": "Type",
+      "category": "Category"
+    }
+  }
+}
