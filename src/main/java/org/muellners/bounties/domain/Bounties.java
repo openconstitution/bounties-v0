@@ -245,7 +245,7 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
             return;
         }
         else {
-            throw new BadRequestAlertException("Operation Not permitted")
+            throw new BadRequestAlertException("Operation Not permitted", "NotFound", "Something")
         }
     }
 
