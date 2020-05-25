@@ -18,6 +18,8 @@ import org.muellners.bounties.domain.enumeration.Experience;
 import org.muellners.bounties.domain.enumeration.Type;
 
 import org.muellners.bounties.domain.enumeration.Category;
+import org.muellners.bounties.security.SecurityUtils;
+import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 /**
  * A Bounties.
@@ -230,6 +232,21 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
         this.fundings.remove(funding);
         funding.setBounties(null);
         return this;
+    }
+
+    /**
+     * Checks the Bounty Before Update
+     * @return the persisted entity
+     */
+    @PreUpdate
+    public void preUpdate(){
+        if (getCreatedBy().equals(SecurityUtils.getCurrentUserLoginString())){
+            // Same user is updating let him update
+            return;
+        }
+        else {
+            throw new BadRequestAlertException("Operation Not permitted")
+        }
     }
 
     public void setFundings(Set<Funding> fundings) {
