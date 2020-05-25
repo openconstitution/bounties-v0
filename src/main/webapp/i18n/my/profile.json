@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "Profile အသစ်ထည့်မည်",
+        "createOrEditLabel": "Profile အသစ်ထည့်ခြင်း (သို့) ပြုပြင်ခြင်း",
+        "search": "ရှာဖွေရန် Profile",
+        "notFound": "No Profiles found"
+      },
+      "created": "{{ param }} အိုင်ဒီဖြင့် Profile အသစ်တစ်ခုအား ထည့်ပြီးပါပြီ။",
+      "updated": "{{ param }} အိုင်ဒီဖြင့် Profile တစ်ခုအား ပြုပြင်ပြီးပါပြီ။",
+      "deleted": "{{ param }} အိုင်ဒီဖြင့် Profile တစ်ခုအား ဖျက်ပြီးပါပြီ။",
+      "delete": {
+        "question": "Profile {{ id }} အား ဖျက်ပါမည်။ သေချာပါသလား?"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

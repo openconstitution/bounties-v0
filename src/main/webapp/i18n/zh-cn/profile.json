@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "创建新 Profile",
+        "createOrEditLabel": "创建或编辑 Profile",
+        "search": "查找 Profile",
+        "notFound": "No Profiles found"
+      },
+      "created": "Profile {{ param }} 创建成功",
+      "updated": "Profile {{ param }} 更新成功",
+      "deleted": "Profile {{ param }} 删除成功",
+      "delete": {
+        "question": "你确定要删除 Profile {{ id }} 吗？"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

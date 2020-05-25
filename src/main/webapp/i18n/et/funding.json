@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Lisa uus Funding",
+        "createOrEditLabel": "Lisa või muuda Funding",
+        "search": "Otsi Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Uus Funding on loodud identifikaatoriga {{ param }}",
+      "updated": "Funding identifikaatoriga {{ param }} on muudetud",
+      "deleted": "Funding identifikaatoriga {{ param }} on kustutatud",
+      "delete": {
+        "question": "Kas olete kindel, et soovite kustutada Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

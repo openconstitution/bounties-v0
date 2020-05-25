@@ -1,0 +1,11 @@
+{
+  "bountiesApp": {
+    "Status": {
+      "null": "",
+      "OPEN": "OPEN",
+      "INVALID": "INVALID",
+      "CLOSED": "CLOSED",
+      "FUNDED": "FUNDED"
+    }
+  }
+}

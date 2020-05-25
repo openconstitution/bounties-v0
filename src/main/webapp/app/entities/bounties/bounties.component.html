@@ -44,19 +44,29 @@
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.status">Status</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.url">Url</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.amount">Amount</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounties.experience">Experience</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounties.commitment">Commitment</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.type">Type</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.category">Category</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounties.keywords">Keywords</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounties.permission">Permission</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounties.expires">Expires</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let bounties of bounties ;trackBy: trackId">
                     <td><a [routerLink]="['/bounties', bounties.id, 'view']">{{ bounties.id }}</a></td>
-                    <td>{{ bounties.status }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Status.' + bounties.status }}">{{ bounties.status }}</td>
                     <td>{{ bounties.url }}</td>
                     <td>{{ bounties.amount }}</td>
-                    <td>{{ bounties.type }}</td>
-                    <td>{{ bounties.category }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Experience.' + bounties.experience }}">{{ bounties.experience }}</td>
+                    <td>{{ bounties.commitment }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Type.' + bounties.type }}">{{ bounties.type }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Category.' + bounties.category }}">{{ bounties.category }}</td>
+                    <td>{{ bounties.keywords }}</td>
+                    <td>{{ bounties.permission }}</td>
+                    <td>{{ bounties.expires | date:'mediumDate' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

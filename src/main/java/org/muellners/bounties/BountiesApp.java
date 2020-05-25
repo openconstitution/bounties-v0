@@ -59,7 +59,8 @@ public class BountiesApp {
      */
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(BountiesApp.class);
-        System.setProperty("es.set.netty.runtime.available.processors", "false");
+//        System.setProperty("es.set.netty.runtime.available.processors", "false");
+        // this needs to be passed as -Des.set.netty.runtime.available.processors=false not needed here.
         DefaultProfileUtil.addDefaultProfile(app);
         Environment env = app.run(args).getEnvironment();
         logApplicationStartup(env);

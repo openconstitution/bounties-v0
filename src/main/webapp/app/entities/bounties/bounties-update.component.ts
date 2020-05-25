@@ -14,14 +14,20 @@ import { BountiesService } from './bounties.service';
 })
 export class BountiesUpdateComponent implements OnInit {
   isSaving = false;
+  expiresDp: any;
 
   editForm = this.fb.group({
     id: [],
     status: [],
     url: [],
     amount: [],
+    experience: [],
+    commitment: [],
     type: [],
     category: [],
+    keywords: [],
+    permission: [],
+    expires: [],
   });
 
   constructor(protected bountiesService: BountiesService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -38,8 +44,13 @@ export class BountiesUpdateComponent implements OnInit {
       status: bounties.status,
       url: bounties.url,
       amount: bounties.amount,
+      experience: bounties.experience,
+      commitment: bounties.commitment,
       type: bounties.type,
       category: bounties.category,
+      keywords: bounties.keywords,
+      permission: bounties.permission,
+      expires: bounties.expires,
     });
   }
 
@@ -64,8 +75,13 @@ export class BountiesUpdateComponent implements OnInit {
       status: this.editForm.get(['status'])!.value,
       url: this.editForm.get(['url'])!.value,
       amount: this.editForm.get(['amount'])!.value,
+      experience: this.editForm.get(['experience'])!.value,
+      commitment: this.editForm.get(['commitment'])!.value,
       type: this.editForm.get(['type'])!.value,
       category: this.editForm.get(['category'])!.value,
+      keywords: this.editForm.get(['keywords'])!.value,
+      permission: this.editForm.get(['permission'])!.value,
+      expires: this.editForm.get(['expires'])!.value,
     };
   }
 

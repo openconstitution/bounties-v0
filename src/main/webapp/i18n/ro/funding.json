@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Creeare o nouă entitate Funding",
+        "createOrEditLabel": "Creeare sau editare Funding",
+        "search": "Căutare după Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "A fost creată o nouă entitate Funding cu identificatorul {{ param }}",
+      "updated": "Funding cu identificatorul {{ param }} a fost actualizată",
+      "deleted": "Funding cu identificatorul {{ param }} a fost ștearsă",
+      "delete": {
+        "question": "Sunteți sigur că doriți să ștergeți Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

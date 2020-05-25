@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Krijo një të ri Funding",
+        "createOrEditLabel": "Krijo ose përpuno një Funding",
+        "search": "Kërko për Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Një Funding i ri u krijua me identifikues {{ param }}",
+      "updated": "Një Funding u përpunua me identifikues {{ param }}",
+      "deleted": "Një Funding u fshi me identifikues {{ param }}",
+      "delete": {
+        "question": "Jeni i sigurtë që doni të fshini Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

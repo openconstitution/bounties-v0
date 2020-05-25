@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "नया Funding बनाएँ",
+        "createOrEditLabel": "Funding बनाएँ या संपादित करें",
+        "search": "Funding खोजें",
+        "notFound": "No Fundings found"
+      },
+      "created": "एक नया Funding [identifier: {{ param }}] तैयार है",
+      "updated": "एक Funding [identifier: {{ param }}] का अद्यतन हुआ है",
+      "deleted": "Funding [identifier: {{ param }}] हटा दिया है",
+      "delete": {
+        "question": "Funding [id: {{ id }}] हटाने की पुष्टि करें"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

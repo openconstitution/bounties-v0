@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "Skapa en ny Profile",
+        "createOrEditLabel": "Skapa eller ändra en Profile",
+        "search": "Sök efter Profile",
+        "notFound": "No Profiles found"
+      },
+      "created": "En ny Profile är skapad med id {{ param }}",
+      "updated": "En Profile är uppdaterad med id  {{ param }}",
+      "deleted": "En Profile är borttagen med id  {{ param }}",
+      "delete": {
+        "question": "Är du säker på att du vill ta bort Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

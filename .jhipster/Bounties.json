@@ -1,11 +1,19 @@
 {
   "fluentMethods": true,
   "clientRootFolder": "",
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "funding",
+      "otherEntityRelationshipName": "bounties",
+      "relationshipName": "funding"
+    }
+  ],
   "fields": [
     {
       "fieldName": "status",
-      "fieldType": "Boolean"
+      "fieldType": "Status",
+      "fieldValues": "OPEN,INVALID,CLOSED,FUNDED"
     },
     {
       "fieldName": "url",
@@ -16,21 +24,47 @@
       "fieldType": "BigDecimal"
     },
     {
+      "fieldName": "experience",
+      "fieldType": "Experience",
+      "fieldValues": "BEGINNER,INTERMEDIATE,ADVANCED"
+    },
+    {
+      "fieldName": "commitment",
+      "fieldType": "Integer"
+    },
+    {
       "fieldName": "type",
-      "fieldType": "String"
+      "fieldType": "Type",
+      "fieldValues": "BUG,FEATURE,IMPROVEMENT,EX"
     },
     {
       "fieldName": "category",
+      "fieldType": "Category",
+      "fieldValues": "FRONT_END,BACKEND,THIS"
+    },
+    {
+      "fieldName": "keywords",
       "fieldType": "String"
+    },
+    {
+      "fieldName": "permission",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "expires",
+      "fieldType": "LocalDate"
     }
   ],
   "changelogDate": "20200524132743",
   "dto": "no",
   "searchEngine": "elasticsearch",
-  "service": "no",
+  "service": "serviceClass",
   "entityTableName": "bounties",
   "databaseType": "sql",
   "readOnly": false,
   "jpaMetamodelFiltering": false,
-  "pagination": "no"
+  "pagination": "no",
+  "name": "Bounties",
+  "embedded": false,
+  "applications": "*"
 }

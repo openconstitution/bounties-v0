@@ -10,7 +10,7 @@
             <dl class="row-md jh-entity-details">
                 <dt><span jhiTranslate="bountiesApp.bounties.status">Status</span></dt>
                 <dd>
-                    <span>{{ bounties.status }}</span>
+                    <span jhiTranslate="{{ 'bountiesApp.Status.' + bounties.status }}">{{ bounties.status }}</span>
                 </dd>
                 <dt><span jhiTranslate="bountiesApp.bounties.url">Url</span></dt>
                 <dd>
@@ -20,13 +20,33 @@
                 <dd>
                     <span>{{ bounties.amount }}</span>
                 </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.experience">Experience</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'bountiesApp.Experience.' + bounties.experience }}">{{ bounties.experience }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.commitment">Commitment</span></dt>
+                <dd>
+                    <span>{{ bounties.commitment }}</span>
+                </dd>
                 <dt><span jhiTranslate="bountiesApp.bounties.type">Type</span></dt>
                 <dd>
-                    <span>{{ bounties.type }}</span>
+                    <span jhiTranslate="{{ 'bountiesApp.Type.' + bounties.type }}">{{ bounties.type }}</span>
                 </dd>
                 <dt><span jhiTranslate="bountiesApp.bounties.category">Category</span></dt>
                 <dd>
-                    <span>{{ bounties.category }}</span>
+                    <span jhiTranslate="{{ 'bountiesApp.Category.' + bounties.category }}">{{ bounties.category }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.keywords">Keywords</span></dt>
+                <dd>
+                    <span>{{ bounties.keywords }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.permission">Permission</span></dt>
+                <dd>
+                    <span>{{ bounties.permission }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounties.expires">Expires</span></dt>
+                <dd>
+                    <span>{{ bounties.expires }}</span>
                 </dd>
             </dl>
 

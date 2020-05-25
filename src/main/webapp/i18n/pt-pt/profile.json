@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "Criar novo(a) Profile",
+        "createOrEditLabel": "Criar ou editar Profile",
+        "search": "Procurar por Profile",
+        "notFound": "Nenhum Profiles encontrado"
+      },
+      "created": "Um novo Profile foi criado com o identificador {{ param }}",
+      "updated": "Profile com identificador {{ param }} foi actualizado",
+      "deleted": "Profile com identificador {{ param }} foi eliminado",
+      "delete": {
+        "question": "Tem a certeza que pretende eliminar o(a) Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

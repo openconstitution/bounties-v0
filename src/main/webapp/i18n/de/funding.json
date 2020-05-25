@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Funding erstellen",
+        "createOrEditLabel": "Funding erstellen oder bearbeiten",
+        "search": "Suche nach Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Funding erstellt mit ID {{ param }}",
+      "updated": "Funding aktualisiert mit ID {{ param }}",
+      "deleted": "Funding gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Funding {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

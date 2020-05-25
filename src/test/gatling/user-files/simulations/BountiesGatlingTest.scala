@@ -101,11 +101,16 @@ class BountiesGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "status":null
+                , "status":"OPEN"
                 , "url":"SAMPLE_TEXT"
                 , "amount":"0"
-                , "type":"SAMPLE_TEXT"
-                , "category":"SAMPLE_TEXT"
+                , "experience":"BEGINNER"
+                , "commitment":"0"
+                , "type":"BUG"
+                , "category":"FRONT_END"
+                , "keywords":"SAMPLE_TEXT"
+                , "permission":null
+                , "expires":"2020-01-01T00:00:00.000Z"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_bounties_url"))).exitHereIfFailed

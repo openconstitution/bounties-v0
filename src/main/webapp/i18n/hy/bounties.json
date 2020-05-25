@@ -20,8 +20,14 @@
       "status": "Status",
       "url": "Url",
       "amount": "Amount",
+      "experience": "Experience",
+      "commitment": "Commitment",
       "type": "Type",
-      "category": "Category"
+      "category": "Category",
+      "keywords": "Keywords",
+      "permission": "Permission",
+      "expires": "Expires",
+      "funding": "Funding"
     }
   }
 }

@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Yangi Funding qo`shish",
+        "createOrEditLabel": "Fundingni tahrirlash",
+        "search": "Fundingni izlash",
+        "notFound": "No Fundings found"
+      },
+      "created": "Funding {{ param }} bilan qo`shildi",
+      "updated": "{{ param }}- Funding saqlandi",
+      "deleted": "{{ param }}- Funding o`chirildi",
+      "delete": {
+        "question": "{{ id }}- Fundingni o`chirmoqchimisiz? "
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

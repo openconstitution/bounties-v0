@@ -1,0 +1,37 @@
+{
+  "name": "Profile",
+  "fields": [
+    {
+      "fieldName": "votes",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "profilelink",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "about",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "walletaddress",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "userId",
+      "fieldType": "Long"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20200525090949",
+  "entityTableName": "profile",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

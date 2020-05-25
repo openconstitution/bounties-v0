@@ -1,0 +1,10 @@
+{
+  "bountiesApp": {
+    "Category": {
+      "null": "",
+      "FRONT_END": "FRONT_END",
+      "BACKEND": "BACKEND",
+      "THIS": "THIS"
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "Янги Profile қўшиш",
+        "createOrEditLabel": "Profileни таҳрирлаш",
+        "search": "Profileни излаш",
+        "notFound": "No Profiles found"
+      },
+      "created": "Profile {{ param }} билан қўшилди.",
+      "updated": "{{ param }}- Profile сақланди.",
+      "deleted": "{{ param }}- Profile ўчирилди.",
+      "delete": {
+        "question": "{{ id }}- Profileни ўчирмоқчимисиз? "
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

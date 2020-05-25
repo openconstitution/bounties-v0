@@ -1,0 +1,11 @@
+{
+  "bountiesApp": {
+    "Type": {
+      "null": "",
+      "BUG": "BUG",
+      "FEATURE": "FEATURE",
+      "IMPROVEMENT": "IMPROVEMENT",
+      "EX": "EX"
+    }
+  }
+}

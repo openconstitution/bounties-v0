@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Luo Funding",
+        "createOrEditLabel": "Luo tai muokkaa Funding",
+        "search": "Etsi Funding",
+        "notFound": "Funding ei löytynyt"
+      },
+      "created": "Uusi Funding on luotu, id: {{ param }}",
+      "updated": "Funding on päivitetty, id: {{ param }}",
+      "deleted": "Funding on päivitetty, id: {{ param }}",
+      "delete": {
+        "question": "Haluatko varmasti poistaa Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

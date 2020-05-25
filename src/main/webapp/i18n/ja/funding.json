@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Funding を追加",
+        "createOrEditLabel": "Fundingを追加または編集",
+        "search": "Search for Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "A new Funding is created with identifier {{ param }}",
+      "updated": "A Funding is updated with identifier {{ param }}",
+      "deleted": "A Funding is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Funding {{ id }}を削除してもよろしいですか？"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

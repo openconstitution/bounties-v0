@@ -33,6 +33,18 @@
                             <span jhiTranslate="global.menu.entities.bounties">Bounties</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="funding" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.funding">Funding</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="profile" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span jhiTranslate="global.menu.entities.profile">Profile</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

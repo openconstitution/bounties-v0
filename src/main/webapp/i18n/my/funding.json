@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Funding အသစ်ထည့်မည်",
+        "createOrEditLabel": "Funding အသစ်ထည့်ခြင်း (သို့) ပြုပြင်ခြင်း",
+        "search": "ရှာဖွေရန် Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "{{ param }} အိုင်ဒီဖြင့် Funding အသစ်တစ်ခုအား ထည့်ပြီးပါပြီ။",
+      "updated": "{{ param }} အိုင်ဒီဖြင့် Funding တစ်ခုအား ပြုပြင်ပြီးပါပြီ။",
+      "deleted": "{{ param }} အိုင်ဒီဖြင့် Funding တစ်ခုအား ဖျက်ပြီးပါပြီ။",
+      "delete": {
+        "question": "Funding {{ id }} အား ဖျက်ပါမည်။ သေချာပါသလား?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

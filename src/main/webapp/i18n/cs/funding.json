@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Vytvořit Funding",
+        "createOrEditLabel": "Vytvořit nebo upravit Funding",
+        "search": "Vyhledat Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Byl vytvořen potomek entity Funding s identifikátorem {{ param }}",
+      "updated": "Potomek entity Funding s identifikátorem {{ param }} byl upravený.",
+      "deleted": "Potomek entity Funding s identifikátorem {{ param }} bol smazaný.",
+      "delete": {
+        "question": "Jste si jisti, že chcete smazat Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

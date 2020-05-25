@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Thêm mới một Funding",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Funding",
+        "search": "Tìm Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Một Funding mới được tạo với định danh {{ param }}",
+      "updated": "Một Funding cập nhật với định danh {{ param }}",
+      "deleted": "Một Funding đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

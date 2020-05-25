@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "Ստեղծել նոր Profile",
+        "createOrEditLabel": "Ստեղծել կամ փոփոխել Profile",
+        "search": "Գտնել Profile",
+        "notFound": "No Profiles found"
+      },
+      "created": "Նոր Profile ստեղծված է {{ param }} նունացուցիչով",
+      "updated": "Profile թարմացվաց է {{ param }} նունացուցիչով",
+      "deleted": "Profile հեռացված է {{ param }}  նունացուցիչով",
+      "delete": {
+        "question": "Դուք վստահ ե՞ք, որ ցանկանում եք հեռացնել Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

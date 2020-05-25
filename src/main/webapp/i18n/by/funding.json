@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Стварыць новы Funding",
+        "createOrEditLabel": "Стварыць або адрэдагаваць Funding",
+        "search": "Знайсці Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Новы Funding створан з ідэнтыфікатарам {{ param }}",
+      "updated": "Funding абноўлен з ідэнтыфікатарам {{ param }}",
+      "deleted": "Funding выдален з ідэнтыфікатарам {{ param }}",
+      "delete": {
+        "question": "Вы ўпэўнены, што жадаеце выдаліць Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}

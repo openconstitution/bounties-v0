@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "Buat Profile baru",
+        "createOrEditLabel": "Buat atau edit Profile",
+        "search": "Cari Profile",
+        "notFound": "No Profiles found"
+      },
+      "created": "Profile dengan id {{ param }} telah dibuat",
+      "updated": "Profile dengan id {{ param }} telah diperbaharui",
+      "deleted": "Profile dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

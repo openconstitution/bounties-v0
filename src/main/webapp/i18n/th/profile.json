@@ -1,0 +1,27 @@
+{
+  "bountiesApp": {
+    "profile": {
+      "home": {
+        "title": "Profiles",
+        "createLabel": "สร้าง Profile",
+        "createOrEditLabel": "สร้างหรือแก้ไข Profile",
+        "search": "ค้นหา Profile",
+        "notFound": "No Profiles found"
+      },
+      "created": "Profile ถูกสร้างด้วย {{ param }}",
+      "updated": "Profile ถูกแก้ไขด้วย {{ param }}",
+      "deleted": "Profile ถูกลบด้วย {{ param }}",
+      "delete": {
+        "question": "คุณต้องการที่จะลบ Profile {{ id }}?"
+      },
+      "detail": {
+        "title": "Profile"
+      },
+      "votes": "Votes",
+      "profilelink": "Profilelink",
+      "about": "About",
+      "walletaddress": "Walletaddress",
+      "userId": "User Id"
+    }
+  }
+}

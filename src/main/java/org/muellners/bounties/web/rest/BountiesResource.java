@@ -1,10 +1,8 @@
 package org.muellners.bounties.web.rest;
 
-import com.nimbusds.jose.proc.SecurityContext;
 import org.muellners.bounties.domain.Bounties;
-import org.muellners.bounties.repository.BountiesRepository;
-import org.muellners.bounties.repository.search.BountiesSearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
+import org.muellners.bounties.service.BountiesService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -13,16 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -32,7 +26,6 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class BountiesResource {
 
     private final Logger log = LoggerFactory.getLogger(BountiesResource.class);
@@ -42,13 +35,10 @@ public class BountiesResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final BountiesRepository bountiesRepository;
+    private final BountiesService bountiesService;
 
-    private final BountiesSearchRepository bountiesSearchRepository;
-
-    public BountiesResource(BountiesRepository bountiesRepository, BountiesSearchRepository bountiesSearchRepository) {
-        this.bountiesRepository = bountiesRepository;
-        this.bountiesSearchRepository = bountiesSearchRepository;
+    public BountiesResource(BountiesService bountiesService) {
+        this.bountiesService = bountiesService;
     }
 
     /**
@@ -64,8 +54,7 @@ public class BountiesResource {
         if (bounties.getId() != null) {
             throw new BadRequestAlertException("A new bounties cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Bounties result = bountiesRepository.save(bounties);
-        bountiesSearchRepository.save(result);
+        Bounties result = bountiesService.save(bounties);
         return ResponseEntity.created(new URI("/api/bounties/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -86,8 +75,10 @@ public class BountiesResource {
         if (bounties.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Bounties result = bountiesRepository.save(bounties);
-        bountiesSearchRepository.save(result);
+        if (!bounties.getCreatedBy().equals(SecurityUtils.getCurrentUserLoginString())) {
+            throw new BadRequestAlertException("Operation not permitted", ENTITY_NAME, "Operation not allowed");
+        }
+        Bounties result = bountiesService.save(bounties);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bounties.getId().toString()))
             .body(result);
@@ -101,7 +92,7 @@ public class BountiesResource {
     @GetMapping("/bounties")
     public List<Bounties> getAllBounties() {
         log.debug("REST request to get all Bounties");
-        return bountiesRepository.findAll();
+        return bountiesService.findAll();
     }
 
     /**
@@ -113,7 +104,7 @@ public class BountiesResource {
     @GetMapping("/bounties/{id}")
     public ResponseEntity<Bounties> getBounties(@PathVariable Long id) {
         log.debug("REST request to get Bounties : {}", id);
-        Optional<Bounties> bounties = bountiesRepository.findById(id);
+        Optional<Bounties> bounties = bountiesService.findOne(id);
         return ResponseUtil.wrapOrNotFound(bounties);
     }
 
@@ -127,8 +118,7 @@ public class BountiesResource {
     public ResponseEntity<Void> deleteBounties(@PathVariable Long id) {
         log.debug("REST request to delete Bounties : {}", id);
 
-        bountiesRepository.deleteById(id);
-        bountiesSearchRepository.deleteById(id);
+        bountiesService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
@@ -142,8 +132,6 @@ public class BountiesResource {
     @GetMapping("/_search/bounties")
     public List<Bounties> searchBounties(@RequestParam String query) {
         log.debug("REST request to search Bounties for query {}", query);
-        return StreamSupport
-            .stream(bountiesSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+        return bountiesService.search(query);
     }
 }

@@ -1,0 +1,37 @@
+{
+  "name": "Funding",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "mode",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "paymentAuth",
+      "fieldType": "Boolean"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "bounties",
+      "otherEntityRelationshipName": "funding",
+      "relationshipName": "bounties",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20200525074416",
+  "entityTableName": "funding",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

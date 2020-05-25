@@ -8,6 +8,8 @@
       "entities": {
         "main": "實體",
         "bounties": "Bounties",
+        "funding": "Funding",
+        "profile": "Profile",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

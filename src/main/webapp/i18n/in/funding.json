@@ -1,0 +1,26 @@
+{
+  "bountiesApp": {
+    "funding": {
+      "home": {
+        "title": "Fundings",
+        "createLabel": "Buat Funding baru",
+        "createOrEditLabel": "Buat atau edit Funding",
+        "search": "Cari Funding",
+        "notFound": "No Fundings found"
+      },
+      "created": "Funding dengan id {{ param }} telah dibuat",
+      "updated": "Funding dengan id {{ param }} telah diperbaharui",
+      "deleted": "Funding dengan id {{ param }} telah dihapus",
+      "delete": {
+        "question": "Apakah anda yakin ingin menghapus Funding {{ id }}?"
+      },
+      "detail": {
+        "title": "Funding"
+      },
+      "amount": "Amount",
+      "mode": "Mode",
+      "paymentAuth": "Payment Auth",
+      "bounties": "Bounties"
+    }
+  }
+}
