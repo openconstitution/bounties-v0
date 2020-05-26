@@ -1,6 +1,7 @@
 package org.muellners.bounties.web.rest;
 
 import org.muellners.bounties.domain.Bounties;
+import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.BountiesService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
@@ -13,11 +14,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
+
+import com.fasterxml.jackson.core.JsonParseException;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -26,6 +30,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@SuppressWarnings("unused")
 public class BountiesResource {
 
     private final Logger log = LoggerFactory.getLogger(BountiesResource.class);
@@ -45,16 +50,24 @@ public class BountiesResource {
      * {@code POST  /bounties} : Create a new bounties.
      *
      * @param bounties the bounties to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bounties, or with status {@code 400 (Bad Request)} if the bounties has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
+     *         body the new bounties, or with status {@code 400 (Bad Request)} if
+     *         the bounties has already an ID.
+     * @throws URISyntaxException   if the Location URI syntax is incorrect.
+     * @throws InterruptedException
+     * @throws IOException
+     * @throws JsonParseException
      */
     @PostMapping("/bounties")
-    public ResponseEntity<Bounties> createBounties(@RequestBody Bounties bounties) throws URISyntaxException {
+    public ResponseEntity<Bounties> createBounties(@RequestBody Bounties bounties)
+            throws URISyntaxException, JsonParseException, IOException, InterruptedException {
         log.debug("REST request to save Bounties : {}", bounties);
         if (bounties.getId() != null) {
             throw new BadRequestAlertException("A new bounties cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Bounties result = bountiesService.save(bounties);
+
+        Issue issue = new IssueHelper().createIssue(result.getUrl());
         return ResponseEntity.created(new URI("/api/bounties/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
