@@ -5,6 +5,8 @@ export interface IProfile {
   about?: string;
   walletaddress?: string;
   userId?: number;
+  githubEmail?: string;
+  githubOrgName?: string;
 }
 
 export class Profile implements IProfile {
@@ -14,6 +16,8 @@ export class Profile implements IProfile {
     public profilelink?: string,
     public about?: string,
     public walletaddress?: string,
-    public userId?: number
+    public userId?: number,
+    public githubEmail?: string,
+    public githubOrgName?: string
   ) {}
 }

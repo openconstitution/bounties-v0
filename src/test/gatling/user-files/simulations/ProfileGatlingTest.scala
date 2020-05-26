@@ -106,6 +106,8 @@ class ProfileGatlingTest extends Simulation {
                 , "about":"SAMPLE_TEXT"
                 , "walletaddress":"SAMPLE_TEXT"
                 , "userId":null
+                , "githubEmail":"SAMPLE_TEXT"
+                , "githubOrgName":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_profile_url"))).exitHereIfFailed

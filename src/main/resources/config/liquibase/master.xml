@@ -21,4 +21,148 @@
     <include file="config/liquibase/changelog/20200525074416_added_entity_constraints_Funding.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
+    <changeSet author="maektwain (generated)" id="1590510873565-1">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_AUTHORITY_NAME"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-2">
+        <dropForeignKeyConstraint baseTableName="JHI_PERSISTENT_AUDIT_EVT_DATA" constraintName="FK_EVT_PERS_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-3">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_USER_ID"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-4">
+        <dropUniqueConstraint constraintName="UX_USER_EMAIL" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-5">
+        <dropUniqueConstraint constraintName="UX_USER_LOGIN" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-6">
+        <dropTable tableName="BOUNTIES"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-7">
+        <dropTable tableName="JHI_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-8">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVENT"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-9">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-10">
+        <dropTable tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590510873565-11">
+        <dropTable tableName="JHI_USER_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-1">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_AUTHORITY_NAME"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-2">
+        <dropForeignKeyConstraint baseTableName="JHI_PERSISTENT_AUDIT_EVT_DATA" constraintName="FK_EVT_PERS_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-3">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_USER_ID"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-4">
+        <dropUniqueConstraint constraintName="UX_USER_EMAIL" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-5">
+        <dropUniqueConstraint constraintName="UX_USER_LOGIN" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-6">
+        <dropTable tableName="BOUNTIES"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-7">
+        <dropTable tableName="JHI_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-8">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVENT"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-9">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-10">
+        <dropTable tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511003081-11">
+        <dropTable tableName="JHI_USER_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-1">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_AUTHORITY_NAME"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-2">
+        <dropForeignKeyConstraint baseTableName="JHI_PERSISTENT_AUDIT_EVT_DATA" constraintName="FK_EVT_PERS_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-3">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_USER_ID"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-4">
+        <dropUniqueConstraint constraintName="UX_USER_EMAIL" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-5">
+        <dropUniqueConstraint constraintName="UX_USER_LOGIN" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-6">
+        <dropTable tableName="BOUNTIES"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-7">
+        <dropTable tableName="FUNDING"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-8">
+        <dropTable tableName="JHI_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-9">
+        <dropTable tableName="JHI_DATE_TIME_WRAPPER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-10">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVENT"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-11">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-12">
+        <dropTable tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590511617893-13">
+        <dropTable tableName="JHI_USER_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-1">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_AUTHORITY_NAME"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-2">
+        <dropForeignKeyConstraint baseTableName="JHI_PERSISTENT_AUDIT_EVT_DATA" constraintName="FK_EVT_PERS_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-3">
+        <dropForeignKeyConstraint baseTableName="JHI_USER_AUTHORITY" constraintName="FK_USER_ID"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-4">
+        <dropUniqueConstraint constraintName="UX_USER_EMAIL" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-5">
+        <dropUniqueConstraint constraintName="UX_USER_LOGIN" tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-6">
+        <dropTable tableName="BOUNTIES"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-7">
+        <dropTable tableName="FUNDING"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-8">
+        <dropTable tableName="JHI_AUTHORITY"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-9">
+        <dropTable tableName="JHI_DATE_TIME_WRAPPER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-10">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVENT"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-11">
+        <dropTable tableName="JHI_PERSISTENT_AUDIT_EVT_DATA"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-12">
+        <dropTable tableName="JHI_USER"/>
+    </changeSet>
+    <changeSet author="maektwain (generated)" id="1590512377906-13">
+        <dropTable tableName="JHI_USER_AUTHORITY"/>
+    </changeSet>
 </databaseChangeLog>

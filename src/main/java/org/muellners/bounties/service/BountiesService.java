@@ -3,6 +3,8 @@ package org.muellners.bounties.service;
 import org.muellners.bounties.domain.Bounties;
 import org.muellners.bounties.repository.BountiesRepository;
 import org.muellners.bounties.repository.search.BountiesSearchRepository;
+import org.muellners.bounties.security.SecurityUtils;
+import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +49,12 @@ public class BountiesService {
         bountiesSearchRepository.save(result);
         return result;
     }
+
+    /**
+     * Fetch Information about the issue based on the link provided.
+     * @param link the link to parse
+     * @return description from the link.
+     */
 
     /**
      * Get all the bounties.

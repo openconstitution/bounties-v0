@@ -32,7 +32,7 @@ plugins {
 group = "org.muellners.bounties"
 version = "0.0.1-SNAPSHOT"
 
-description = ""
+description = "Bounties platform to grow open source"
 
 sourceCompatibility=1.8
 targetCompatibility=1.8
@@ -85,6 +85,10 @@ eclipse {
 }
 
 defaultTasks "bootRun"
+
+bootRun {
+    jvmArgs = ["-Des.set.netty.runtime.available.processors=false"]
+}
 
 springBoot {
     mainClassName = "org.muellners.bounties.BountiesApp"

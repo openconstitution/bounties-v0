@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(ProfileService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Profile(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0);
+      elemDefault = new Profile(0, 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -59,6 +59,8 @@ describe('Service Tests', () => {
             about: 'BBBBBB',
             walletaddress: 'BBBBBB',
             userId: 1,
+            githubEmail: 'BBBBBB',
+            githubOrgName: 'BBBBBB',
           },
           elemDefault
         );
@@ -80,6 +82,8 @@ describe('Service Tests', () => {
             about: 'BBBBBB',
             walletaddress: 'BBBBBB',
             userId: 1,
+            githubEmail: 'BBBBBB',
+            githubOrgName: 'BBBBBB',
           },
           elemDefault
         );

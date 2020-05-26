@@ -55,6 +55,12 @@ public class ProfileResourceIT {
     private static final Long DEFAULT_USER_ID = 1L;
     private static final Long UPDATED_USER_ID = 2L;
 
+    private static final String DEFAULT_GITHUB_EMAIL = "AAAAAAAAAA";
+    private static final String UPDATED_GITHUB_EMAIL = "BBBBBBBBBB";
+
+    private static final String DEFAULT_GITHUB_ORG_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_GITHUB_ORG_NAME = "BBBBBBBBBB";
+
     @Autowired
     private ProfileRepository profileRepository;
 
@@ -86,7 +92,9 @@ public class ProfileResourceIT {
             .profilelink(DEFAULT_PROFILELINK)
             .about(DEFAULT_ABOUT)
             .walletaddress(DEFAULT_WALLETADDRESS)
-            .userId(DEFAULT_USER_ID);
+            .userId(DEFAULT_USER_ID)
+            .githubEmail(DEFAULT_GITHUB_EMAIL)
+            .githubOrgName(DEFAULT_GITHUB_ORG_NAME);
         return profile;
     }
     /**
@@ -101,7 +109,9 @@ public class ProfileResourceIT {
             .profilelink(UPDATED_PROFILELINK)
             .about(UPDATED_ABOUT)
             .walletaddress(UPDATED_WALLETADDRESS)
-            .userId(UPDATED_USER_ID);
+            .userId(UPDATED_USER_ID)
+            .githubEmail(UPDATED_GITHUB_EMAIL)
+            .githubOrgName(UPDATED_GITHUB_ORG_NAME);
         return profile;
     }
 
@@ -129,6 +139,8 @@ public class ProfileResourceIT {
         assertThat(testProfile.getAbout()).isEqualTo(DEFAULT_ABOUT);
         assertThat(testProfile.getWalletaddress()).isEqualTo(DEFAULT_WALLETADDRESS);
         assertThat(testProfile.getUserId()).isEqualTo(DEFAULT_USER_ID);
+        assertThat(testProfile.getGithubEmail()).isEqualTo(DEFAULT_GITHUB_EMAIL);
+        assertThat(testProfile.getGithubOrgName()).isEqualTo(DEFAULT_GITHUB_ORG_NAME);
 
         // Validate the Profile in Elasticsearch
         verify(mockProfileSearchRepository, times(1)).save(testProfile);
@@ -172,7 +184,9 @@ public class ProfileResourceIT {
             .andExpect(jsonPath("$.[*].profilelink").value(hasItem(DEFAULT_PROFILELINK)))
             .andExpect(jsonPath("$.[*].about").value(hasItem(DEFAULT_ABOUT)))
             .andExpect(jsonPath("$.[*].walletaddress").value(hasItem(DEFAULT_WALLETADDRESS)))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
+            .andExpect(jsonPath("$.[*].githubEmail").value(hasItem(DEFAULT_GITHUB_EMAIL)))
+            .andExpect(jsonPath("$.[*].githubOrgName").value(hasItem(DEFAULT_GITHUB_ORG_NAME)));
     }
     
     @Test
@@ -190,7 +204,9 @@ public class ProfileResourceIT {
             .andExpect(jsonPath("$.profilelink").value(DEFAULT_PROFILELINK))
             .andExpect(jsonPath("$.about").value(DEFAULT_ABOUT))
             .andExpect(jsonPath("$.walletaddress").value(DEFAULT_WALLETADDRESS))
-            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()));
+            .andExpect(jsonPath("$.userId").value(DEFAULT_USER_ID.intValue()))
+            .andExpect(jsonPath("$.githubEmail").value(DEFAULT_GITHUB_EMAIL))
+            .andExpect(jsonPath("$.githubOrgName").value(DEFAULT_GITHUB_ORG_NAME));
     }
     @Test
     @Transactional
@@ -217,7 +233,9 @@ public class ProfileResourceIT {
             .profilelink(UPDATED_PROFILELINK)
             .about(UPDATED_ABOUT)
             .walletaddress(UPDATED_WALLETADDRESS)
-            .userId(UPDATED_USER_ID);
+            .userId(UPDATED_USER_ID)
+            .githubEmail(UPDATED_GITHUB_EMAIL)
+            .githubOrgName(UPDATED_GITHUB_ORG_NAME);
 
         restProfileMockMvc.perform(put("/api/profiles").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -233,6 +251,8 @@ public class ProfileResourceIT {
         assertThat(testProfile.getAbout()).isEqualTo(UPDATED_ABOUT);
         assertThat(testProfile.getWalletaddress()).isEqualTo(UPDATED_WALLETADDRESS);
         assertThat(testProfile.getUserId()).isEqualTo(UPDATED_USER_ID);
+        assertThat(testProfile.getGithubEmail()).isEqualTo(UPDATED_GITHUB_EMAIL);
+        assertThat(testProfile.getGithubOrgName()).isEqualTo(UPDATED_GITHUB_ORG_NAME);
 
         // Validate the Profile in Elasticsearch
         verify(mockProfileSearchRepository, times(1)).save(testProfile);
@@ -296,6 +316,8 @@ public class ProfileResourceIT {
             .andExpect(jsonPath("$.[*].profilelink").value(hasItem(DEFAULT_PROFILELINK)))
             .andExpect(jsonPath("$.[*].about").value(hasItem(DEFAULT_ABOUT)))
             .andExpect(jsonPath("$.[*].walletaddress").value(hasItem(DEFAULT_WALLETADDRESS)))
-            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())));
+            .andExpect(jsonPath("$.[*].userId").value(hasItem(DEFAULT_USER_ID.intValue())))
+            .andExpect(jsonPath("$.[*].githubEmail").value(hasItem(DEFAULT_GITHUB_EMAIL)))
+            .andExpect(jsonPath("$.[*].githubOrgName").value(hasItem(DEFAULT_GITHUB_ORG_NAME)));
     }
 }

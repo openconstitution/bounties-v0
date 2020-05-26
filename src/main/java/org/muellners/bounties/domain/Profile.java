@@ -38,6 +38,12 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
+    @Column(name = "github_email")
+    private String githubEmail;
+
+    @Column(name = "github_org_name")
+    private String githubOrgName;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -111,6 +117,32 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
+    public String getGithubEmail() {
+        return githubEmail;
+    }
+
+    public Profile githubEmail(String githubEmail) {
+        this.githubEmail = githubEmail;
+        return this;
+    }
+
+    public void setGithubEmail(String githubEmail) {
+        this.githubEmail = githubEmail;
+    }
+
+    public String getGithubOrgName() {
+        return githubOrgName;
+    }
+
+    public Profile githubOrgName(String githubOrgName) {
+        this.githubOrgName = githubOrgName;
+        return this;
+    }
+
+    public void setGithubOrgName(String githubOrgName) {
+        this.githubOrgName = githubOrgName;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -139,6 +171,8 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
             ", about='" + getAbout() + "'" +
             ", walletaddress='" + getWalletaddress() + "'" +
             ", userId=" + getUserId() +
+            ", githubEmail='" + getGithubEmail() + "'" +
+            ", githubOrgName='" + getGithubOrgName() + "'" +
             "}";
     }
 }

@@ -20,6 +20,14 @@
     {
       "fieldName": "userId",
       "fieldType": "Long"
+    },
+    {
+      "fieldName": "githubEmail",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "githubOrgName",
+      "fieldType": "String"
     }
   ],
   "relationships": [],
@@ -33,5 +41,7 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*"
+  "applications": "*",
+  "searchEngine": "elasticsearch",
+  "databaseType": "sql"
 }

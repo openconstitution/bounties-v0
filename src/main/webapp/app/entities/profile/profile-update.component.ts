@@ -22,6 +22,8 @@ export class ProfileUpdateComponent implements OnInit {
     about: [],
     walletaddress: [],
     userId: [],
+    githubEmail: [],
+    githubOrgName: [],
   });
 
   constructor(protected profileService: ProfileService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -40,6 +42,8 @@ export class ProfileUpdateComponent implements OnInit {
       about: profile.about,
       walletaddress: profile.walletaddress,
       userId: profile.userId,
+      githubEmail: profile.githubEmail,
+      githubOrgName: profile.githubOrgName,
     });
   }
 
@@ -66,6 +70,8 @@ export class ProfileUpdateComponent implements OnInit {
       about: this.editForm.get(['about'])!.value,
       walletaddress: this.editForm.get(['walletaddress'])!.value,
       userId: this.editForm.get(['userId'])!.value,
+      githubEmail: this.editForm.get(['githubEmail'])!.value,
+      githubOrgName: this.editForm.get(['githubOrgName'])!.value,
     };
   }
 

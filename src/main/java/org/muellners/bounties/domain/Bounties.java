@@ -73,6 +73,7 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
     @OneToMany(mappedBy = "bounties")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
+    
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -232,21 +233,6 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
         this.fundings.remove(funding);
         funding.setBounties(null);
         return this;
-    }
-
-    /**
-     * Checks the Bounty Before Update
-     * @return the persisted entity
-     */
-    @PreUpdate
-    public void preUpdate(){
-        if (getCreatedBy().equals(SecurityUtils.getCurrentUserLoginString())){
-            // Same user is updating let him update
-            return;
-        }
-        else {
-            throw new BadRequestAlertException("Operation Not permitted", "NotFound", "Something");
-        }
     }
 
     public void setFundings(Set<Funding> fundings) {

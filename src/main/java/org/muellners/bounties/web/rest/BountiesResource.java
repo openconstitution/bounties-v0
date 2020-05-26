@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -75,9 +76,6 @@ public class BountiesResource {
         if (bounties.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if (!bounties.getCreatedBy().equals(SecurityUtils.getCurrentUserLoginString())) {
-            throw new BadRequestAlertException("Operation not permitted", ENTITY_NAME, "Operation not allowed");
-        }
         Bounties result = bountiesService.save(bounties);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bounties.getId().toString()))
@@ -114,6 +112,7 @@ public class BountiesResource {
      * @param id the id of the bounties to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/bounties/{id}")
     public ResponseEntity<Void> deleteBounties(@PathVariable Long id) {
         log.debug("REST request to delete Bounties : {}", id);

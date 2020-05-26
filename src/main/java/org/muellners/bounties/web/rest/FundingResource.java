@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -110,6 +111,7 @@ public class FundingResource {
      * @param id the id of the funding to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/fundings/{id}")
     public ResponseEntity<Void> deleteFunding(@PathVariable Long id) {
         log.debug("REST request to delete Funding : {}", id);
