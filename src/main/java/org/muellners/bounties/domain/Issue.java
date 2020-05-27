@@ -65,4 +65,30 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
         this.description = description;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Issue)) {
+            return false;
+        }
+        return id != null && id.equals(((Issue) o).id);
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
+    @Override
+    public String toString() {
+        return "Issue{" +
+            "id=" + getId() +
+            ", issueId='" + getIssueId() + "'" +
+            ", url='" + getUrl() + "'" +
+            ", description='" + getDescription() + "'" +
+            "}";
+    }
+
 }
