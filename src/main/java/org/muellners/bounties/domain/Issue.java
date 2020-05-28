@@ -14,10 +14,10 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "issue")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "issue")
 public class Issue extends AbstractAuditingEntity implements Serializable {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Id

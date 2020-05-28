@@ -2,8 +2,8 @@ package org.muellners.bounties.web.rest;
 
 import org.muellners.bounties.domain.Bounties;
 import org.muellners.bounties.domain.Issue;
-import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.BountiesService;
+import org.muellners.bounties.service.IssueHelper;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -20,11 +20,8 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 import com.fasterxml.jackson.core.JsonParseException;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link org.muellners.bounties.domain.Bounties}.

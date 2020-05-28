@@ -52,6 +52,7 @@ public class BountiesApp {
         }
     }
 
+
     /**
      * Main method, used to run the application.
      *

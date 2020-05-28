@@ -1,4 +1,4 @@
-package org.muellners.bounties.web.rest;
+package org.muellners.bounties.service;
 
 import kong.unirest.JsonNode;
 import kong.unirest.Unirest;
@@ -8,7 +8,6 @@ import kong.unirest.HttpResponse;
 import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.repository.IssueRepository;
 import org.muellners.bounties.repository.search.IssueSearchRepository;
-import org.muellners.bounties.service.IssueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,5 +37,5 @@ public class IssueHelper {
         }
         return issueService.save(issue);
     }
-    
+
 }
