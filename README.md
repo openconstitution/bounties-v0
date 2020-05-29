@@ -12,11 +12,25 @@ Before you can build this project, you must install and configure the following 
 After installing Node, you should be able to run the following command to install development tools.
 You will only need to run this command when dependencies change in [package.json](package.json).
 
-    npm install
+```
+npm install
+```
 
 We use npm scripts and [Webpack][] as our build system.
 
-Run the following commands in two separate terminals to create a blissful development experience where your browser
+In order to cache data you would have to run an instance of [Redis](https://redis.io/) before authtenticating. The Bounties Team has created a Docker container to do this. Start redis using the follwoing command.
+
+```
+docker-compose -f src/main/docker/redis.yml up
+```
+
+To log in to your app, you'll need to have [Keycloak](https://keycloak.org) up and running. The Bounties Team has created a Docker container for you that has the default users and roles. In a separate terminal, start Keycloak using the following command.
+
+```
+docker-compose -f src/main/docker/keycloak.yml up
+```
+
+Run the following commands in another two separate terminals to create a blissful development experience where your browser
 auto-refreshes when files change on your hard drive.
 
     ./gradlew -x webpack
@@ -31,12 +45,6 @@ The `npm run` command will list all of the scripts available to run for this pro
 ## OAuth 2.0 / OpenID Connect
 
 Congratulations! You've selected an excellent way to secure your bounties application. If you're not sure what OAuth and OpenID Connect (OIDC) are, please see [What the Heck is OAuth?](https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth)
-
-To log in to your app, you'll need to have [Keycloak](https://keycloak.org) up and running. The Bounties Team has created a Docker container for you that has the default users and roles. Start Keycloak using the following command.
-
-```
-docker-compose -f src/main/docker/keycloak.yml up
-```
 
 The security settings in `src/main/resources/config/application.yml` are configured for this image.
 
