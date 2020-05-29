@@ -322,7 +322,6 @@ wrapper {
     gradleVersion = "6.4.1"
 }
 
-
 if (project.hasProperty("nodeInstall")) {
     node {
         version = "${node_version}"
