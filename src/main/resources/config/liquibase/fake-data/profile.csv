@@ -1,11 +1,11 @@
-id;votes;profilelink;about;walletaddress;user_id;github_email;github_org_name
-1;61714;Macao microchip Manager;navigate;Concrete;80508;optical HDD deposit;Functionality Haiti SCSI
-2;62610;networks;hacking teal Communications;Optimization National;1212;morph;bluetooth relationships
-3;89830;bluetooth parse copying;scalable Generic copy;Dynamic;72968;Keyboard;Avon Money Market Account
-4;91863;Dynamic;Bacon;deposit;95653;e-services Creek time-frame;next-generation
-5;79771;transform Trinidad and Tobago;back-end Investment Account;Maine cross-platform;70669;Buckinghamshire virtual Investor;SDD South Dakota
-6;36357;invoice El Salvador Avon;strategize Soap;Orchard;75042;Route evolve;override
-7;10315;Cotton;user-centric synthesize Row;mindshare Uzbekistan Sum;53296;Health Steel New Mexico;New Mexico Sleek primary
-8;33883;hard drive;Applications Bike;Handmade Plastic Chicken Michigan;24281;Fully-configurable contextually-based infomediaries;JSON Executive metrics
-9;18154;hacking;Andorra Assistant;transmit Soap;84411;Personal Loan Account Wyoming database;transmit iterate
-10;37374;Home connect;Kids cross-platform connecting;Massachusetts;5361;Rand Namibia Dollar standardization RAM;Washington
+profile_id;votes;profilelink;about;walletaddress;github_email;github_org_name;created_by
+1;61714;Macao microchip Manager;navigate;Concrete;optical HDD deposit;Functionality Haiti SCSI;user
+2;62610;networks;hacking teal Communications;Optimization National;morph;bluetooth relationships;user
+3;89830;bluetooth parse copying;scalable Generic copy;Dynamic;Keyboard;Avon Money Market Account;user
+4;91863;Dynamic;Bacon;deposit;e-services Creek time-frame;next-generation;user
+5;79771;transform Trinidad and Tobago;back-end Investment Account;Maine cross-platform;Buckinghamshire virtual Investor;SDD South Dakota;user
+6;36357;invoice El Salvador Avon;strategize Soap;Orchard;Route evolve;override;user
+7;10315;Cotton;user-centric synthesize Row;mindshare Uzbekistan Sum;Health Steel New Mexico;New Mexico Sleek primary;user
+8;33883;hard drive;Applications Bike;Handmade Plastic Chicken Michigan;Fully-configurable contextually-based infomediaries;JSON Executive metrics;user
+9;18154;hacking;Andorra Assistant;transmit Soap;Personal Loan Account Wyoming database;transmit iterate;user
+10;37374;Home connect;Kids cross-platform connecting;Massachusetts;Rand Namibia Dollar standardization RAM;Washington;user

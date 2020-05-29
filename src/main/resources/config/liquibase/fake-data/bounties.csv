@@ -1,11 +1,11 @@
-id;status;url;amount;experience;commitment;type;category;keywords;permission;expires;created_By
-1;FUNDED;https://pansy.com;5884;BEGINNER;22514;FEATURE;FRONT_END;Massachusetts;false;2020-05-24;user
-2;OPEN;http://assunta.com;94753;BEGINNER;94811;BUG;THIS;Checking Account;false;2020-05-23;user
-3;INVALID;http://esperanza.com;1976;ADVANCED;41175;EX;FRONT_END;New Jersey orchestrate Money Market Account;false;2020-05-24;user
-4;INVALID;http://citlalli.name;41337;INTERMEDIATE;72534;BUG;THIS;Home Loan Account;false;2020-05-24;user
-5;OPEN;http://adelle.name;6630;INTERMEDIATE;11225;BUG;FRONT_END;Sausages deposit;false;2020-05-23;user
-6;FUNDED;http://alverta.biz;58095;INTERMEDIATE;10745;FEATURE;BACKEND;Paradigm Web Soft;true;2020-05-23;user
-7;FUNDED;http://ariane.info;99472;ADVANCED;80026;IMPROVEMENT;BACKEND;global;true;2020-05-24;user
-8;CLOSED;http://manuel.com;79250;INTERMEDIATE;74001;FEATURE;THIS;intuitive array Argentina;false;2020-05-24;user
-9;OPEN;http://antone.biz;32719;INTERMEDIATE;20242;IMPROVEMENT;BACKEND;technologies Incredible;true;2020-05-24;user
-10;FUNDED;https://nora.biz;125;BEGINNER;27029;EX;FRONT_END;Checking Account Hat indexing;false;2020-05-23;user
+id;status;issue_id;url;amount;experience;commitment;type;category;keywords;permission;expires;created_By
+1;FUNDED;2;https://pansy.com;5884;BEGINNER;22514;FEATURE;FRONT_END;Massachusetts;false;2020-05-24;user
+2;OPEN;3;http://assunta.com;94753;BEGINNER;94811;BUG;THIS;Checking Account;false;2020-05-23;user
+3;INVALID;4;http://esperanza.com;1976;ADVANCED;41175;EX;FRONT_END;New Jersey orchestrate Money Market Account;false;2020-05-24;user
+4;INVALID;5;http://citlalli.name;41337;INTERMEDIATE;72534;BUG;THIS;Home Loan Account;false;2020-05-24;user
+5;OPEN;6;http://adelle.name;6630;INTERMEDIATE;11225;BUG;FRONT_END;Sausages deposit;false;2020-05-23;user
+6;FUNDED;9;http://alverta.biz;58095;INTERMEDIATE;10745;FEATURE;BACKEND;Paradigm Web Soft;true;2020-05-23;user
+7;FUNDED;1;http://ariane.info;99472;ADVANCED;80026;IMPROVEMENT;BACKEND;global;true;2020-05-24;user
+8;CLOSED;2;http://manuel.com;79250;INTERMEDIATE;74001;FEATURE;THIS;intuitive array Argentina;false;2020-05-24;user
+9;OPEN;3;http://antone.biz;32719;INTERMEDIATE;20242;IMPROVEMENT;BACKEND;technologies Incredible;true;2020-05-24;user
+10;FUNDED;1;https://nora.biz;125;BEGINNER;27029;EX;FRONT_END;Checking Account Hat indexing;false;2020-05-23;user

@@ -66,7 +66,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     private String imageUrl;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "profile_id")
     private Profile profile;
 
     @JsonIgnore

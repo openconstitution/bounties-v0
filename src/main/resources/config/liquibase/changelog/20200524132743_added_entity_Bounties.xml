@@ -19,6 +19,9 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="issue_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="url" type="varchar(255)">
                 <constraints nullable="true" />
             </column>

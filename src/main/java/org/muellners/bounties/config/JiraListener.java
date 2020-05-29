@@ -15,7 +15,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 
 @Configuration
-@ConfigurationProperties(prefix = "listeners")
 public class JiraListener {
 
     @Autowired

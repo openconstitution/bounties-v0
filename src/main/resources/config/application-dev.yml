@@ -121,4 +121,7 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  listeners:
+    url: https://pubsub.apache.org:2070/
+    path: /jira/FINERACT

@@ -73,7 +73,22 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
     @OneToMany(mappedBy = "bounties")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
-    
+
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "issue_id")
+    private Issue issue;
+
+    public Boolean getPermission() {
+        return permission;
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

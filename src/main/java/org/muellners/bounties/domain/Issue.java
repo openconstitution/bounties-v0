@@ -21,10 +21,11 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
+    @Column(name = "issue_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "issue_id")
+    @Column(name = "issueID")
     private String issueId;
 
     @Column(name = "url")

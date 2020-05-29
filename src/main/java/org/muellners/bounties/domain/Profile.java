@@ -21,6 +21,7 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "profile_id")
     private Long id;
 
     @Column(name = "votes")
@@ -35,8 +36,6 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     @Column(name = "walletaddress")
     private String walletaddress;
 
-    @Column(name = "user_id")
-    private Long userId;
 
     @Column(name = "github_email")
     private String githubEmail;
@@ -105,19 +104,6 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
         this.walletaddress = walletaddress;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Profile userId(Long userId) {
-        this.userId = userId;
-        return this;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
     public String getGithubEmail() {
         return githubEmail;
     }
@@ -170,7 +156,6 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
             ", profilelink='" + getProfilelink() + "'" +
             ", about='" + getAbout() + "'" +
             ", walletaddress='" + getWalletaddress() + "'" +
-            ", userId=" + getUserId() +
             ", githubEmail='" + getGithubEmail() + "'" +
             ", githubOrgName='" + getGithubOrgName() + "'" +
             "}";
