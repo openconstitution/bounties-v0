@@ -12,13 +12,11 @@ Before you can build this project, you must install and configure the following 
 After installing Node, you should be able to run the following command to install development tools.
 You will only need to run this command when dependencies change in [package.json](package.json).
 
-```
-npm install
-```
+    npm install
 
 We use npm scripts and [Webpack][] as our build system.
 
-In order to cache data you would have to run an instance of [Redis](https://redis.io/) before authtenticating. The Bounties Team has created a Docker container to do this. Start redis using the follwoing command.
+In order to cache data we would have to run an instance of [Redis](https://redis.io/) before authtenticating. The Bounties Team has created a Docker container to do this. Start redis using the follwoing command.
 
 ```
 docker-compose -f src/main/docker/redis.yml up
