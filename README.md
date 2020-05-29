@@ -1,6 +1,7 @@
 # bounties
 
-Bounties grow open source learn more about at https://bounties.muellners.org.
+Bounties grow open source. Learn more about Bounties at https://bounties.muellners.org.
+Bounties bot that listens to Issues and Pull Requests can be found at https://github.com/muellners/bounty-hunter
 
 ## Documentation
 
