@@ -16,8 +16,11 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="issue_id" type="integer">
+            <column name="issueId" type="integer">
                 <constraints nullable="true" />
+            </column>
+            <column name="bounties_id" type="integer">
+                <constraints nullable="false" />
             </column>
             <column name="url" type="varchar(255)">
                 <constraints nullable="true" />
@@ -25,15 +28,21 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
-    <changeSet id="20200525100102-2-reltions" author="maektwain">
+    <changeSet id="20200525100102-2-relations" author="maektwain">
         <addForeignKeyConstraint baseTableName="issue"
-                                 baseColumnNames="issue_id"
-                                 constraintName="fk_issue_bounties_id"
+                                 baseColumnNames="bounties_id"
+                                 constraintName="fk_bounties_issue_id"
                                  referencedTableName="bounties"
-                                 referencedColumnNames="issue_id"/>
+                                 referencedColumnNames="id"/>
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
@@ -48,14 +57,14 @@
     -->
     <changeSet id="20200525100102-1-data" author="maektwain" context="faker">
         <loadData
-            file="config/liquibase/fake-data/profile.csv"
+            file="config/liquibase/fake-data/issue.csv"
             separator=";"
             tableName="issue">
             <column name="id" type="numeric"/>
-            <column name="issue_id" type="numeric"/>
+            <column name="issueId" type="numeric"/>
+            <column name="bounties_id" type="numeric"/>
             <column name="url" type="string"/>
             <column name="description" type="string"/>
-            <column name="created_By" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

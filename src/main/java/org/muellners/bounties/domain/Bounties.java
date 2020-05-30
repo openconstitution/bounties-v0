@@ -1,5 +1,6 @@
 package org.muellners.bounties.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -74,8 +75,8 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "issue_id")
+    @OneToOne(mappedBy = "bounties" ,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Issue issue;
 
     public Boolean getPermission() {

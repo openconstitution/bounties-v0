@@ -13,11 +13,14 @@
     -->
     <changeSet id="20200525090949-1" author="jhipster">
         <createTable tableName="profile">
-            <column name="profile_id" type="bigint" autoIncrement="${autoIncrement}">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="votes" type="integer">
                 <constraints nullable="true" />
+            </column>
+            <column name="user_id" type="integer">
+                <constraints nullable="false" />
             </column>
             <column name="profilelink" type="varchar(255)">
                 <constraints nullable="true" />
@@ -47,12 +50,12 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="20200525090949-2-reltions" author="maektwain">
+    <changeSet id="20200525090949-2-relations" author="maektwain">
         <addForeignKeyConstraint baseTableName="profile"
-                                 baseColumnNames="profile_id"
+                                 baseColumnNames="user_id"
                                  constraintName="fk_user_profile_id"
                                  referencedTableName="jhi_user"
-                                 referencedColumnNames="profile_id"/>
+                                 referencedColumnNames="id"/>
 
     </changeSet>
     <changeSet id="20200525090949-1-relations" author="jhipster">
@@ -68,21 +71,21 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-<!--    <changeSet id="20200525090949-1-data" author="jhipster" context="faker">-->
-<!--        <loadData-->
-<!--                  file="config/liquibase/fake-data/profile.csv"-->
-<!--                  separator=";"-->
-<!--                  tableName="profile">-->
-<!--            <column name="profile_id" type="numeric"/>-->
-<!--            <column name="votes" type="numeric"/>-->
-<!--            <column name="profilelink" type="string"/>-->
-<!--            <column name="about" type="string"/>-->
-<!--            <column name="walletaddress" type="string"/>-->
-<!--            <column name="user_id" type="numeric"/>-->
-<!--            <column name="github_email" type="string"/>-->
-<!--            <column name="github_org_name" type="string"/>-->
-<!--            &lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here &ndash;&gt;-->
-<!--        </loadData>-->
-<!--    </changeSet>-->
+    <changeSet id="20200525090949-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/profile.csv"
+                  separator=";"
+                  tableName="profile">
+            <column name="id" type="numeric"/>
+            <column name="votes" type="numeric"/>
+            <column name="user_id" type="numeric"/>
+            <column name="profilelink" type="string"/>
+            <column name="about" type="string"/>
+            <column name="walletaddress" type="string"/>
+            <column name="github_email" type="string"/>
+            <column name="github_org_name" type="string"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
 
 </databaseChangeLog>

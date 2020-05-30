@@ -1,5 +1,6 @@
 package org.muellners.bounties.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -21,7 +22,6 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "profile_id")
     private Long id;
 
     @Column(name = "votes")
@@ -36,6 +36,10 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     @Column(name = "walletaddress")
     private String walletaddress;
 
+    @OneToOne
+    @MapsId
+    @JsonBackReference
+    private User user;
 
     @Column(name = "github_email")
     private String githubEmail;
@@ -85,6 +89,14 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     public Profile about(String about) {
         this.about = about;
         return this;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public void setAbout(String about) {

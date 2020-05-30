@@ -17,9 +17,6 @@
             <column name="id" type="varchar(100)">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="profile_id" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
             <column name="login" type="varchar(50)">
                 <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_login"/>
             </column>

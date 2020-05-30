@@ -2,26 +2,21 @@ package org.muellners.bounties.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 @Entity
 @Table(name = "issue")
-//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "issue")
 public class Issue extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "issue_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -33,6 +28,11 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "description")
     private String description;
+
+    @OneToOne
+    @MapsId
+    @JsonBackReference
+    private Bounties bounties;
 
     public Long getId() {
         return this.id;
@@ -64,6 +64,14 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Bounties getBounties() {
+        return bounties;
+    }
+
+    public void setBounties(Bounties bounties) {
+        this.bounties = bounties;
     }
 
     @Override

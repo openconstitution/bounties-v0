@@ -1,5 +1,6 @@
 package org.muellners.bounties.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.muellners.bounties.config.Constants;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -65,8 +66,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Profile profile;
 
     @JsonIgnore
@@ -160,6 +161,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
