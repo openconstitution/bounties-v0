@@ -44,7 +44,7 @@
                     <th scope="col" ><span jhiTranslate="bountiesApp.funding.amount">Amount</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.funding.mode">Mode</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.funding.paymentAuth">Payment Auth</span></th>
-                    <th scope="col" ><span jhiTranslate="bountiesApp.funding.bounties">Bounties</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.funding.bounty">Bounty</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -55,8 +55,8 @@
                     <td>{{ funding.mode }}</td>
                     <td>{{ funding.paymentAuth }}</td>
                     <td>
-                        <div *ngIf="funding.bounties">
-                            <a [routerLink]="['/bounties', funding.bounties?.id, 'view']" >{{ funding.bounties?.id }}</a>
+                        <div *ngIf="funding.bounty">
+                            <a [routerLink]="['/bounties', funding.bounty?.id, 'view']" >{{ funding.bounty?.id }}</a>
                         </div>
                     </td>
                     <td class="text-right">

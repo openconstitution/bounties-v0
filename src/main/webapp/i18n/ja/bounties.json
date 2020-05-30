@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Bounties を追加",
+        "createLabel": "Bounty を追加",
         "createOrEditLabel": "Bountiesを追加または編集",
-        "search": "Search for Bounties",
-        "notFound": "No Bounties found"
+        "search": "Search for Bounty",
+        "notFound": "No Bounty found"
       },
-      "created": "A new Bounties is created with identifier {{ param }}",
-      "updated": "A Bounties is updated with identifier {{ param }}",
-      "deleted": "A Bounties is deleted with identifier {{ param }}",
+      "created": "A new Bounty is created with identifier {{ param }}",
+      "updated": "A Bounty is updated with identifier {{ param }}",
+      "deleted": "A Bounty is deleted with identifier {{ param }}",
       "delete": {
-        "question": "Bounties {{ id }}を削除してもよろしいですか？"
+        "question": "Bounty {{ id }}を削除してもよろしいですか？"
       },
       "detail": {
         "title": "Bounties"

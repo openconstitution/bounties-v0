@@ -2,20 +2,20 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
-import { BountiesService } from 'app/entities/bounties/bounties.service';
-import { IBounties, Bounties } from 'app/shared/model/bounties.model';
+import { BountyService } from 'app/entities/bounty/bounty.service';
+import { IBounty, Bounty } from 'app/shared/model/bounty.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 
 describe('Service Tests', () => {
-  describe('Bounties Service', () => {
+  describe('Bounty Service', () => {
     let injector: TestBed;
-    let service: BountiesService;
+    let service: BountyService;
     let httpMock: HttpTestingController;
-    let elemDefault: IBounties;
-    let expectedResult: IBounties | IBounties[] | boolean | null;
+    let elemDefault: IBounty;
+    let expectedResult: IBounty | IBounty[] | boolean | null;
     let currentDate: moment.Moment;
 
     beforeEach(() => {
@@ -24,11 +24,11 @@ describe('Service Tests', () => {
       });
       expectedResult = null;
       injector = getTestBed();
-      service = injector.get(BountiesService);
+      service = injector.get(BountyService);
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Bounties(
+      elemDefault = new Bounty(
         0,
         Status.OPEN,
         'AAAAAAA',
@@ -59,7 +59,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject(elemDefault);
       });
 
-      it('should create a Bounties', () => {
+      it('should create a Bounty', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
@@ -75,14 +75,14 @@ describe('Service Tests', () => {
           returnedFromService
         );
 
-        service.create(new Bounties()).subscribe(resp => (expectedResult = resp.body));
+        service.create(new Bounty()).subscribe(resp => (expectedResult = resp.body));
 
         const req = httpMock.expectOne({ method: 'POST' });
         req.flush(returnedFromService);
         expect(expectedResult).toMatchObject(expected);
       });
 
-      it('should update a Bounties', () => {
+      it('should update a Bounty', () => {
         const returnedFromService = Object.assign(
           {
             status: 'BBBBBB',
@@ -113,7 +113,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject(expected);
       });
 
-      it('should return a list of Bounties', () => {
+      it('should return a list of Bounty', () => {
         const returnedFromService = Object.assign(
           {
             status: 'BBBBBB',
@@ -145,7 +145,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toContainEqual(expected);
       });
 
-      it('should delete a Bounties', () => {
+      it('should delete a Bounty', () => {
         service.delete(123).subscribe(resp => (expectedResult = resp.ok));
 
         const req = httpMock.expectOne({ method: 'DELETE' });

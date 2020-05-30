@@ -1,16 +1,16 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Yangi Bounties qo`shish",
+        "createLabel": "Yangi Bounty qo`shish",
         "createOrEditLabel": "Bountiesni tahrirlash",
         "search": "Bountiesni izlash",
-        "notFound": "No Bounties found"
+        "notFound": "No Bounty found"
       },
-      "created": "Bounties {{ param }} bilan qo`shildi",
-      "updated": "{{ param }}- Bounties saqlandi",
-      "deleted": "{{ param }}- Bounties o`chirildi",
+      "created": "Bounty {{ param }} bilan qo`shildi",
+      "updated": "{{ param }}- Bounty saqlandi",
+      "deleted": "{{ param }}- Bounty o`chirildi",
       "delete": {
         "question": "{{ id }}- Bountiesni o`chirmoqchimisiz? "
       },

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'bounties',
-        loadChildren: () => import('./bounties/bounties.module').then(m => m.BountiesBountiesModule),
+        loadChildren: () => import('./bounty/bounty.module').then(m => m.BountiesBountyModule),
       },
       {
         path: 'funding',

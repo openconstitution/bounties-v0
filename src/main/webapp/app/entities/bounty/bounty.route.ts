@@ -6,23 +6,23 @@ import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { IBounties, Bounties } from 'app/shared/model/bounties.model';
-import { BountiesService } from './bounties.service';
-import { BountiesComponent } from './bounties.component';
-import { BountiesDetailComponent } from './bounties-detail.component';
-import { BountiesUpdateComponent } from './bounties-update.component';
+import { IBounty, Bounty } from 'app/shared/model/bounty.model';
+import { BountyService } from './bounty.service';
+import { BountyComponent } from './bounty.component';
+import { BountyDetailComponent } from './bounty-detail.component';
+import { BountyUpdateComponent } from './bounty-update.component';
 
 @Injectable({ providedIn: 'root' })
-export class BountiesResolve implements Resolve<IBounties> {
-  constructor(private service: BountiesService, private router: Router) {}
+export class BountyResolve implements Resolve<IBounty> {
+  constructor(private service: BountyService, private router: Router) {}
 
-  resolve(route: ActivatedRouteSnapshot): Observable<IBounties> | Observable<never> {
+  resolve(route: ActivatedRouteSnapshot): Observable<IBounty> | Observable<never> {
     const id = route.params['id'];
     if (id) {
       return this.service.find(id).pipe(
-        flatMap((bounties: HttpResponse<Bounties>) => {
-          if (bounties.body) {
-            return of(bounties.body);
+        flatMap((bounty: HttpResponse<Bounty>) => {
+          if (bounty.body) {
+            return of(bounty.body);
           } else {
             this.router.navigate(['404']);
             return EMPTY;
@@ -30,14 +30,14 @@ export class BountiesResolve implements Resolve<IBounties> {
         })
       );
     }
-    return of(new Bounties());
+    return of(new Bounty());
   }
 }
 
-export const bountiesRoute: Routes = [
+export const bountyRoute: Routes = [
   {
     path: '',
-    component: BountiesComponent,
+    component: BountyComponent,
     data: {
       authorities: [Authority.USER],
       pageTitle: 'bountiesApp.bounties.home.title',
@@ -46,9 +46,9 @@ export const bountiesRoute: Routes = [
   },
   {
     path: ':id/view',
-    component: BountiesDetailComponent,
+    component: BountyDetailComponent,
     resolve: {
-      bounties: BountiesResolve,
+      bounty: BountyResolve,
     },
     data: {
       authorities: [Authority.USER],
@@ -58,9 +58,9 @@ export const bountiesRoute: Routes = [
   },
   {
     path: 'new',
-    component: BountiesUpdateComponent,
+    component: BountyUpdateComponent,
     resolve: {
-      bounties: BountiesResolve,
+      bounty: BountyResolve,
     },
     data: {
       authorities: [Authority.USER],
@@ -70,9 +70,9 @@ export const bountiesRoute: Routes = [
   },
   {
     path: ':id/edit',
-    component: BountiesUpdateComponent,
+    component: BountyUpdateComponent,
     resolve: {
-      bounties: BountiesResolve,
+      bounty: BountyResolve,
     },
     data: {
       authorities: [Authority.USER],

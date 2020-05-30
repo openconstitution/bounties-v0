@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
-import { BountiesTestModule } from '../../../test.module';
+import { BountyTestModule } from '../../../test.module';
 import { FundingDetailComponent } from 'app/entities/funding/funding-detail.component';
 import { Funding } from 'app/shared/model/funding.model';
 
@@ -14,7 +14,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [BountiesTestModule],
+        imports: [BountyTestModule],
         declarations: [FundingDetailComponent],
         providers: [{ provide: ActivatedRoute, useValue: route }],
       })

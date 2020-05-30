@@ -7,42 +7,42 @@ import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption, Search } from 'app/shared/util/request-util';
-import { IBounties } from 'app/shared/model/bounties.model';
+import { IBounty } from 'app/shared/model/bounty.model';
 
-type EntityResponseType = HttpResponse<IBounties>;
-type EntityArrayResponseType = HttpResponse<IBounties[]>;
+type EntityResponseType = HttpResponse<IBounty>;
+type EntityArrayResponseType = HttpResponse<IBounty[]>;
 
 @Injectable({ providedIn: 'root' })
-export class BountiesService {
+export class BountyService {
   public resourceUrl = SERVER_API_URL + 'api/bounties';
   public resourceSearchUrl = SERVER_API_URL + 'api/_search/bounties';
 
   constructor(protected http: HttpClient) {}
 
-  create(bounties: IBounties): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(bounties);
+  create(bounty: IBounty): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(bounty);
     return this.http
-      .post<IBounties>(this.resourceUrl, copy, { observe: 'response' })
+      .post<IBounty>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
-  update(bounties: IBounties): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(bounties);
+  update(bounty: IBounty): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(bounty);
     return this.http
-      .put<IBounties>(this.resourceUrl, copy, { observe: 'response' })
+      .put<IBounty>(this.resourceUrl, copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   find(id: number): Observable<EntityResponseType> {
     return this.http
-      .get<IBounties>(`${this.resourceUrl}/${id}`, { observe: 'response' })
+      .get<IBounty>(`${this.resourceUrl}/${id}`, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
-      .get<IBounties[]>(this.resourceUrl, { params: options, observe: 'response' })
+      .get<IBounty[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
@@ -53,13 +53,13 @@ export class BountiesService {
   search(req: Search): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
-      .get<IBounties[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
+      .get<IBounty[]>(this.resourceSearchUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  protected convertDateFromClient(bounties: IBounties): IBounties {
-    const copy: IBounties = Object.assign({}, bounties, {
-      expires: bounties.expires && bounties.expires.isValid() ? bounties.expires.format(DATE_FORMAT) : undefined,
+  protected convertDateFromClient(bounty: IBounty): IBounty {
+    const copy: IBounty = Object.assign({}, bounty, {
+      expires: bounty.expires && bounty.expires.isValid() ? bounty.expires.format(DATE_FORMAT) : undefined,
     });
     return copy;
   }
@@ -73,8 +73,8 @@ export class BountiesService {
 
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
-      res.body.forEach((bounties: IBounties) => {
-        bounties.expires = bounties.expires ? moment(bounties.expires) : undefined;
+      res.body.forEach((bounty: IBounty) => {
+        bounty.expires = bounty.expires ? moment(bounty.expires) : undefined;
       });
     }
     return res;

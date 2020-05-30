@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Luo Bounties",
-        "createOrEditLabel": "Luo tai muokkaa Bounties",
-        "search": "Etsi Bounties",
-        "notFound": "Bounties ei löytynyt"
+        "createLabel": "Luo Bounty",
+        "createOrEditLabel": "Luo tai muokkaa Bounty",
+        "search": "Etsi Bounty",
+        "notFound": "Bounty ei löytynyt"
       },
-      "created": "Uusi Bounties on luotu, id: {{ param }}",
-      "updated": "Bounties on päivitetty, id: {{ param }}",
-      "deleted": "Bounties on päivitetty, id: {{ param }}",
+      "created": "Uusi Bounty on luotu, id: {{ param }}",
+      "updated": "Bounty on päivitetty, id: {{ param }}",
+      "deleted": "Bounty on päivitetty, id: {{ param }}",
       "delete": {
-        "question": "Haluatko varmasti poistaa Bounties {{ id }}?"
+        "question": "Haluatko varmasti poistaa Bounty {{ id }}?"
       },
       "detail": {
         "title": "Bounties"

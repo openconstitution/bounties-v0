@@ -21,13 +21,13 @@ import org.muellners.bounties.domain.enumeration.Type;
 import org.muellners.bounties.domain.enumeration.Category;
 
 /**
- * A Bounties.
+ * A Bounty.
  */
 @Entity
-@Table(name = "bounties")
+@Table(name = "bounty")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "bounties")
-public class Bounties implements Serializable {
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "bounty")
+public class Bounty implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -69,7 +69,7 @@ public class Bounties implements Serializable {
     @Column(name = "expires")
     private LocalDate expires;
 
-    @OneToMany(mappedBy = "bounties")
+    @OneToMany(mappedBy = "bounty")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
@@ -90,7 +90,7 @@ public class Bounties implements Serializable {
         return status;
     }
 
-    public Bounties status(Status status) {
+    public Bounty status(Status status) {
         this.status = status;
         return this;
     }
@@ -103,7 +103,7 @@ public class Bounties implements Serializable {
         return url;
     }
 
-    public Bounties url(String url) {
+    public Bounty url(String url) {
         this.url = url;
         return this;
     }
@@ -116,7 +116,7 @@ public class Bounties implements Serializable {
         return amount;
     }
 
-    public Bounties amount(BigDecimal amount) {
+    public Bounty amount(BigDecimal amount) {
         this.amount = amount;
         return this;
     }
@@ -129,7 +129,7 @@ public class Bounties implements Serializable {
         return experience;
     }
 
-    public Bounties experience(Experience experience) {
+    public Bounty experience(Experience experience) {
         this.experience = experience;
         return this;
     }
@@ -142,7 +142,7 @@ public class Bounties implements Serializable {
         return commitment;
     }
 
-    public Bounties commitment(Integer commitment) {
+    public Bounty commitment(Integer commitment) {
         this.commitment = commitment;
         return this;
     }
@@ -155,7 +155,7 @@ public class Bounties implements Serializable {
         return type;
     }
 
-    public Bounties type(Type type) {
+    public Bounty type(Type type) {
         this.type = type;
         return this;
     }
@@ -168,7 +168,7 @@ public class Bounties implements Serializable {
         return category;
     }
 
-    public Bounties category(Category category) {
+    public Bounty category(Category category) {
         this.category = category;
         return this;
     }
@@ -181,7 +181,7 @@ public class Bounties implements Serializable {
         return keywords;
     }
 
-    public Bounties keywords(String keywords) {
+    public Bounty keywords(String keywords) {
         this.keywords = keywords;
         return this;
     }
@@ -194,7 +194,7 @@ public class Bounties implements Serializable {
         return permission;
     }
 
-    public Bounties permission(Boolean permission) {
+    public Bounty permission(Boolean permission) {
         this.permission = permission;
         return this;
     }
@@ -207,7 +207,7 @@ public class Bounties implements Serializable {
         return expires;
     }
 
-    public Bounties expires(LocalDate expires) {
+    public Bounty expires(LocalDate expires) {
         this.expires = expires;
         return this;
     }
@@ -220,20 +220,20 @@ public class Bounties implements Serializable {
         return fundings;
     }
 
-    public Bounties fundings(Set<Funding> fundings) {
+    public Bounty fundings(Set<Funding> fundings) {
         this.fundings = fundings;
         return this;
     }
 
-    public Bounties addFunding(Funding funding) {
+    public Bounty addFunding(Funding funding) {
         this.fundings.add(funding);
-        funding.setBounties(this);
+        funding.setBounty(this);
         return this;
     }
 
-    public Bounties removeFunding(Funding funding) {
+    public Bounty removeFunding(Funding funding) {
         this.fundings.remove(funding);
-        funding.setBounties(null);
+        funding.setBounty(null);
         return this;
     }
 
@@ -245,7 +245,7 @@ public class Bounties implements Serializable {
         return issue;
     }
 
-    public Bounties issue(Issue issue) {
+    public Bounty issue(Issue issue) {
         this.issue = issue;
         return this;
     }
@@ -260,10 +260,10 @@ public class Bounties implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Bounties)) {
+        if (!(o instanceof Bounty)) {
             return false;
         }
-        return id != null && id.equals(((Bounties) o).id);
+        return id != null && id.equals(((Bounty) o).id);
     }
 
     @Override
@@ -274,7 +274,7 @@ public class Bounties implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Bounties{" +
+        return "Bounty{" +
             "id=" + getId() +
             ", status='" + getStatus() + "'" +
             ", url='" + getUrl() + "'" +

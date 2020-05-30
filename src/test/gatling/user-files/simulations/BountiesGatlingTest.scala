@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the Bounties entity.
+ * Performance test for the Bounty entity.
  */
-class BountiesGatlingTest extends Simulation {
+class BountyGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -45,7 +45,7 @@ class BountiesGatlingTest extends Simulation {
         "Upgrade-Insecure-Requests" -> "1"
     )
 
-    val scn = scenario("Test the Bounties entity")
+    val scn = scenario("Test the Bounty entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -91,12 +91,12 @@ class BountiesGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all bounties")
+            exec(http("Get all bounty")
             .get("/api/bounties")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new bounties")
+            .exec(http("Create new bounty")
             .post("/api/bounties")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
@@ -116,12 +116,12 @@ class BountiesGatlingTest extends Simulation {
             .check(headerRegex("Location", "(.*)").saveAs("new_bounties_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created bounties")
+                exec(http("Get created bounty")
                 .get("${new_bounties_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created bounties")
+            .exec(http("Delete created bounty")
             .delete("${new_bounties_url}")
             .headers(headers_http_authenticated))
             .pause(10)

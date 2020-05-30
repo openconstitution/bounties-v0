@@ -33,7 +33,7 @@ public class BountiesApp {
     }
 
     /**
-     * Initializes bounties.
+     * Initializes bounty.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>

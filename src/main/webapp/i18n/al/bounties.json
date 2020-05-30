@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Krijo një të ri Bounties",
-        "createOrEditLabel": "Krijo ose përpuno një Bounties",
-        "search": "Kërko për Bounties",
-        "notFound": "No Bounties found"
+        "createLabel": "Krijo një të ri Bounty",
+        "createOrEditLabel": "Krijo ose përpuno një Bounty",
+        "search": "Kërko për Bounty",
+        "notFound": "No Bounty found"
       },
-      "created": "Një Bounties i ri u krijua me identifikues {{ param }}",
-      "updated": "Një Bounties u përpunua me identifikues {{ param }}",
-      "deleted": "Një Bounties u fshi me identifikues {{ param }}",
+      "created": "Një Bounty i ri u krijua me identifikues {{ param }}",
+      "updated": "Një Bounty u përpunua me identifikues {{ param }}",
+      "deleted": "Një Bounty u fshi me identifikues {{ param }}",
       "delete": {
-        "question": "Jeni i sigurtë që doni të fshini Bounties {{ id }}?"
+        "question": "Jeni i sigurtë që doni të fshini Bounty {{ id }}?"
       },
       "detail": {
         "title": "Bounties"

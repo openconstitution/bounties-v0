@@ -3,35 +3,35 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 
-import { BountiesTestModule } from '../../../test.module';
-import { BountiesUpdateComponent } from 'app/entities/bounties/bounties-update.component';
-import { BountiesService } from 'app/entities/bounties/bounties.service';
-import { Bounties } from 'app/shared/model/bounties.model';
+import { BountyTestModule } from '../../../test.module';
+import { BountyUpdateComponent } from 'app/entities/bounty/bounty-update.component';
+import { BountyService } from 'app/entities/bounty/bounty.service';
+import { Bounty } from 'app/shared/model/bounty.model';
 
 describe('Component Tests', () => {
-  describe('Bounties Management Update Component', () => {
-    let comp: BountiesUpdateComponent;
-    let fixture: ComponentFixture<BountiesUpdateComponent>;
-    let service: BountiesService;
+  describe(' Management Update Component', () => {
+    let comp: BountyUpdateComponent;
+    let fixture: ComponentFixture<BountyUpdateComponent>;
+    let service: BountyService;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [BountiesTestModule],
-        declarations: [BountiesUpdateComponent],
+        imports: [BountyTestModule],
+        declarations: [BountyUpdateComponent],
         providers: [FormBuilder],
       })
-        .overrideTemplate(BountiesUpdateComponent, '')
+        .overrideTemplate(BountyUpdateComponent, '')
         .compileComponents();
 
-      fixture = TestBed.createComponent(BountiesUpdateComponent);
+      fixture = TestBed.createComponent(BountyUpdateComponent);
       comp = fixture.componentInstance;
-      service = fixture.debugElement.injector.get(BountiesService);
+      service = fixture.debugElement.injector.get(BountyService);
     });
 
     describe('save', () => {
       it('Should call update service on save for existing entity', fakeAsync(() => {
         // GIVEN
-        const entity = new Bounties(123);
+        const entity = new Bounty(123);
         spyOn(service, 'update').and.returnValue(of(new HttpResponse({ body: entity })));
         comp.updateForm(entity);
         // WHEN
@@ -45,7 +45,7 @@ describe('Component Tests', () => {
 
       it('Should call create service on save for new entity', fakeAsync(() => {
         // GIVEN
-        const entity = new Bounties();
+        const entity = new Bounty();
         spyOn(service, 'create').and.returnValue(of(new HttpResponse({ body: entity })));
         comp.updateForm(entity);
         // WHEN
