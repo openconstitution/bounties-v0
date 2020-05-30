@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Crear nuevo Bounties",
-        "createOrEditLabel": "Crear o editar Bounties",
-        "search": "Buscar Bounties",
-        "notFound": "Ningún Bounties encontrado"
+        "createLabel": "Crear nuevo Bounty",
+        "createOrEditLabel": "Crear o editar Bounty",
+        "search": "Buscar Bounty",
+        "notFound": "Ningún Bounty encontrado"
       },
-      "created": "Un nuevo Bounties ha sido creado con el identificador {{ param }}",
-      "updated": "Un Bounties ha sido actualizado con el identificador {{ param }}",
-      "deleted": "Un Bounties ha sido eliminado con el identificador {{ param }}",
+      "created": "Un nuevo Bounty ha sido creado con el identificador {{ param }}",
+      "updated": "Un Bounty ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Bounty ha sido eliminado con el identificador {{ param }}",
       "delete": {
-        "question": "¿Seguro que quiere eliminar Bounties {{ id }}?"
+        "question": "¿Seguro que quiere eliminar Bounty {{ id }}?"
       },
       "detail": {
         "title": "Bounties"

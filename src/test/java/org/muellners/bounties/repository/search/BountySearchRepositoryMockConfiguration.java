@@ -4,13 +4,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * Configure a Mock version of {@link BountiesSearchRepository} to test the
+ * Configure a Mock version of {@link BountySearchRepository} to test the
  * application without starting Elasticsearch.
  */
 @Configuration
-public class BountiesSearchRepositoryMockConfiguration {
+public class BountySearchRepositoryMockConfiguration {
 
     @MockBean
-    private BountiesSearchRepository mockBountiesSearchRepository;
+    private BountySearchRepository mockBountySearchRepository;
 
 }

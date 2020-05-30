@@ -1,21 +1,21 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
-        "title": "Bounties",
-        "createLabel": "Thêm mới một Bounties",
-        "createOrEditLabel": "Thêm mới hoặc cập nhật Bounties",
-        "search": "Tìm Bounties",
-        "notFound": "No Bounties found"
+        "title": "Bounty",
+        "createLabel": "Thêm mới một Bounty",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Bounty",
+        "search": "Tìm Bounty",
+        "notFound": "No Bounty found"
       },
-      "created": "Một Bounties mới được tạo với định danh {{ param }}",
-      "updated": "Một Bounties cập nhật với định danh {{ param }}",
-      "deleted": "Một Bounties đã xóa với định danh {{ param }}",
+      "created": "Một Bounty mới được tạo với định danh {{ param }}",
+      "updated": "Một Bounty cập nhật với định danh {{ param }}",
+      "deleted": "Một Bounty đã xóa với định danh {{ param }}",
       "delete": {
-        "question": "Bạn có chắc là muốn xóa Bounties {{ id }}?"
+        "question": "Bạn có chắc là muốn xóa Bounty {{ id }}?"
       },
       "detail": {
-        "title": "Bounties"
+        "title": "Bounty"
       },
       "status": "Status",
       "url": "Url",

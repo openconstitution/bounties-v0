@@ -3,7 +3,7 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { of } from 'rxjs';
 
-import { BountiesTestModule } from '../../../test.module';
+import { BountyTestModule } from '../../../test.module';
 import { FundingUpdateComponent } from 'app/entities/funding/funding-update.component';
 import { FundingService } from 'app/entities/funding/funding.service';
 import { Funding } from 'app/shared/model/funding.model';
@@ -16,7 +16,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [BountiesTestModule],
+        imports: [BountyTestModule],
         declarations: [FundingUpdateComponent],
         providers: [FormBuilder],
       })

@@ -3,30 +3,30 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
-import { BountiesTestModule } from '../../../test.module';
+import { BountyTestModule } from '../../../test.module';
 import { MockEventManager } from '../../../helpers/mock-event-manager.service';
 import { MockActiveModal } from '../../../helpers/mock-active-modal.service';
-import { BountiesDeleteDialogComponent } from 'app/entities/bounties/bounties-delete-dialog.component';
-import { BountiesService } from 'app/entities/bounties/bounties.service';
+import { BountyDeleteDialogComponent } from 'app/entities/bounty/bounty-delete-dialog.component';
+import { BountyService } from 'app/entities/bounty/bounty.service';
 
 describe('Component Tests', () => {
-  describe('Bounties Management Delete Component', () => {
-    let comp: BountiesDeleteDialogComponent;
-    let fixture: ComponentFixture<BountiesDeleteDialogComponent>;
-    let service: BountiesService;
+  describe('Bounty Management Delete Component', () => {
+    let comp: BountyDeleteDialogComponent;
+    let fixture: ComponentFixture<BountyDeleteDialogComponent>;
+    let service: BountyService;
     let mockEventManager: MockEventManager;
     let mockActiveModal: MockActiveModal;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [BountiesTestModule],
-        declarations: [BountiesDeleteDialogComponent],
+        imports: [BountyTestModule],
+        declarations: [BountyDeleteDialogComponent],
       })
-        .overrideTemplate(BountiesDeleteDialogComponent, '')
+        .overrideTemplate(BountyDeleteDialogComponent, '')
         .compileComponents();
-      fixture = TestBed.createComponent(BountiesDeleteDialogComponent);
+      fixture = TestBed.createComponent(BountyDeleteDialogComponent);
       comp = fixture.componentInstance;
-      service = fixture.debugElement.injector.get(BountiesService);
+      service = fixture.debugElement.injector.get(BountyService);
       mockEventManager = TestBed.get(JhiEventManager);
       mockActiveModal = TestBed.get(NgbActiveModal);
     });

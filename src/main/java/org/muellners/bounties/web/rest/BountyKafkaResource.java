@@ -22,15 +22,15 @@ import java.util.concurrent.Executors;
 
 @RestController
 @RequestMapping("/api/bounties-kafka")
-public class BountiesKafkaResource {
+public class BountyKafkaResource {
 
-    private final Logger log = LoggerFactory.getLogger(BountiesKafkaResource.class);
+    private final Logger log = LoggerFactory.getLogger(BountyKafkaResource.class);
 
     private final KafkaProperties kafkaProperties;
     private KafkaProducer<String, String> producer;
     private ExecutorService sseExecutorService = Executors.newCachedThreadPool();
 
-    public BountiesKafkaResource(KafkaProperties kafkaProperties) {
+    public BountyKafkaResource(KafkaProperties kafkaProperties) {
         this.kafkaProperties = kafkaProperties;
         this.producer = new KafkaProducer<>(kafkaProperties.getProducerProps());
     }

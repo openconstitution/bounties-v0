@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 
-import { BountiesTestModule } from '../../../test.module';
+import { BountyTestModule } from '../../../test.module';
 import { FundingComponent } from 'app/entities/funding/funding.component';
 import { FundingService } from 'app/entities/funding/funding.service';
 import { Funding } from 'app/shared/model/funding.model';
@@ -15,7 +15,7 @@ describe('Component Tests', () => {
 
     beforeEach(() => {
       TestBed.configureTestingModule({
-        imports: [BountiesTestModule],
+        imports: [BountyTestModule],
         declarations: [FundingComponent],
       })
         .overrideTemplate(FundingComponent, '')

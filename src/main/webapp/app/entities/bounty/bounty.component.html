@@ -1,0 +1,103 @@
+<div>
+    <h2 id="page-heading">
+        <span jhiTranslate="bountiesApp.bounty.home.title">Bounty</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-bounty" [routerLink]="['/bounties/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down"  jhiTranslate="bountiesApp.bounty.home.createLabel">
+            Create a new Bounty
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'bountiesApp.bounty.home.search' | translate }}">
+
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                    <button class="input-group-append btn btn-danger" (click)="search('')" *ngIf="currentSearch">
+                        <fa-icon icon="trash-alt"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="bounty?.length === 0">
+        <span jhiTranslate="bountiesApp.bounty.home.notFound">No Bounty found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="bounty && bounty.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span jhiTranslate="global.field.id">ID</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.status">Status</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.url">Url</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.amount">Amount</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.experience">Experience</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.commitment">Commitment</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.type">Type</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.category">Category</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.keywords">Keywords</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.permission">Permission</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.expires">Expires</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounty.issue">Issue</span></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let bounty of bounty ;trackBy: trackId">
+                    <td><a [routerLink]="['/bounties', bounty.id, 'view']">{{ bounty.id }}</a></td>
+                    <td jhiTranslate="{{ 'bountiesApp.Status.' + bounty.status }}">{{ bounty.status }}</td>
+                    <td>{{ bounty.url }}</td>
+                    <td>{{ bounty.amount }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Experience.' + bounty.experience }}">{{ bounty.experience }}</td>
+                    <td>{{ bounty.commitment }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Type.' + bounty.type }}">{{ bounty.type }}</td>
+                    <td jhiTranslate="{{ 'bountiesApp.Category.' + bounty.category }}">{{ bounty.category }}</td>
+                    <td>{{ bounty.keywords }}</td>
+                    <td>{{ bounty.permission }}</td>
+                    <td>{{ bounty.expires | date:'mediumDate' }}</td>
+                    <td>
+                        <div *ngIf="bounties.issue">
+                            <a [routerLink]="['/issue', bounties.issue?.id, 'view']" >{{ bounties.issue?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/bounties', bounty.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/bounties', bounty.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(bounty)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

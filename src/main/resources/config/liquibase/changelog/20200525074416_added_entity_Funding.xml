@@ -25,7 +25,7 @@
             <column name="payment_auth" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="bounties_id" type="bigint">
+            <column name="bounty_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="created_by" type="varchar(50)">

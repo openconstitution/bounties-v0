@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Створити новий Bounties",
-        "createOrEditLabel": "Створити чи редагувати Bounties",
-        "search": "Знайти Bounties",
-        "notFound": "No Bounties found"
+        "createLabel": "Створити новий Bounty",
+        "createOrEditLabel": "Створити чи редагувати Bounty",
+        "search": "Знайти Bounty",
+        "notFound": "No Bounty found"
       },
-      "created": "Новий Bounties створений з ідентифікатором {{ param }}",
-      "updated": "Bounties оновлений з ідентифікатором {{ param }}",
-      "deleted": "Bounties видалений з ідентифікатором {{ param }}",
+      "created": "Новий Bounty створений з ідентифікатором {{ param }}",
+      "updated": "Bounty оновлений з ідентифікатором {{ param }}",
+      "deleted": "Bounty видалений з ідентифікатором {{ param }}",
       "delete": {
-        "question": "Ви впевнені, що хочете видалити Bounties {{ id }}?"
+        "question": "Ви впевнені, що хочете видалити Bounty {{ id }}?"
       },
       "detail": {
         "title": "Bounties"

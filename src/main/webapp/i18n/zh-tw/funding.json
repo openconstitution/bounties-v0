@@ -20,7 +20,7 @@
       "amount": "Amount",
       "mode": "Mode",
       "paymentAuth": "Payment Auth",
-      "bounties": "Bounties"
+      "bounty": "Bounty"
     }
   }
 }
