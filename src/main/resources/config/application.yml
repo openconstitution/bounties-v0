@@ -121,7 +121,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: https://login.muelleners.tech/auth/realms/jhipster
+            issuer-uri: http://login.muelleners.tech/auth/realms/jhipster
         registration:
           oidc:
             client-id: web_app
