@@ -20,7 +20,7 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "issueID")
+    @Column(name = "issue_id")
     private String issueId;
 
     @Column(name = "url")
