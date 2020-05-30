@@ -1,16 +1,16 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Янги Bounties қўшиш",
+        "createLabel": "Янги Bounty қўшиш",
         "createOrEditLabel": "Bountiesни таҳрирлаш",
         "search": "Bountiesни излаш",
-        "notFound": "No Bounties found"
+        "notFound": "No Bounty found"
       },
-      "created": "Bounties {{ param }} билан қўшилди.",
-      "updated": "{{ param }}- Bounties сақланди.",
-      "deleted": "{{ param }}- Bounties ўчирилди.",
+      "created": "Bounty {{ param }} билан қўшилди.",
+      "updated": "{{ param }}- Bounty сақланди.",
+      "deleted": "{{ param }}- Bounty ўчирилди.",
       "delete": {
         "question": "{{ id }}- Bountiesни ўчирмоқчимисиз? "
       },

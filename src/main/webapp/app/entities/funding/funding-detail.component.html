@@ -20,10 +20,10 @@
                 <dd>
                     <span>{{ funding.paymentAuth }}</span>
                 </dd>
-                <dt><span jhiTranslate="bountiesApp.funding.bounties">Bounties</span></dt>
+                <dt><span jhiTranslate="bountiesApp.funding.bounty">Bounty</span></dt>
                 <dd>
-                    <div *ngIf="funding.bounties">
-                        <a [routerLink]="['/bounties', funding.bounties?.id, 'view']">{{ funding.bounties?.id }}</a>
+                    <div *ngIf="funding.bounty">
+                        <a [routerLink]="['/bounties', funding.bounty?.id, 'view']">{{ funding.bounty?.id }}</a>
                     </div>
                 </dd>
             </dl>

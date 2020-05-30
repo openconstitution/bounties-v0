@@ -30,10 +30,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.funding.bounties" for="field_bounties">Bounties</label>
-                    <select class="form-control" id="field_bounties" name="bounties" formControlName="bounties">
+                    <label class="form-control-label" jhiTranslate="bountiesApp.funding.bounty" for="field_bounties">Bounty</label>
+                    <select class="form-control" id="field_bounties" name="bounty" formControlName="bounties">
                         <option [ngValue]="null"></option>
-                        <option [ngValue]="bountiesOption.id === editForm.get('bounties')!.value?.id ? editForm.get('bounties')!.value : bountiesOption" *ngFor="let bountiesOption of bounties; trackBy: trackById">{{ bountiesOption.id }}</option>
+                        <option [ngValue]="bountyOption.id === editForm.get('bounty')!.value?.id ? editForm.get('bounty')!.value : bountyOption" *ngFor="let bountyOption of bounty; trackBy: trackById">{{ bountyOption.id }}</option>
                     </select>
                 </div>
             </div>

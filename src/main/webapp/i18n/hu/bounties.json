@@ -1,16 +1,16 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Egy új Bounties létrehozása",
+        "createLabel": "Egy új Bounty létrehozása",
         "createOrEditLabel": "Hozzon létre, vagy módosítson Bountiest",
-        "search": "Bounties keresése",
-        "notFound": "No Bounties found"
+        "search": "Bounty keresése",
+        "notFound": "No Bounty found"
       },
-      "created": "Egy új Bounties lett létrehozva {{ param }} azonosítóval",
-      "updated": "A Bounties módosítva lett {{ param }} azonosítóval",
-      "deleted": "A Bounties törölve lett {{ param }} azonosítóval",
+      "created": "Egy új Bounty lett létrehozva {{ param }} azonosítóval",
+      "updated": "A Bounty módosítva lett {{ param }} azonosítóval",
+      "deleted": "A Bounty törölve lett {{ param }} azonosítóval",
       "delete": {
         "question": "Biztos benne, hogy törölni szeretné az Bountiest {{ id }} azonosítóval?"
       },

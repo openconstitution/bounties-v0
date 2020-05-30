@@ -36,7 +36,7 @@ public class Funding extends AbstractAuditingEntity implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "fundings", allowSetters = true)
-    private Bounties bounties;
+    private Bounty bounty;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -86,17 +86,17 @@ public class Funding extends AbstractAuditingEntity implements Serializable {
         this.paymentAuth = paymentAuth;
     }
 
-    public Bounties getBounties() {
-        return bounties;
+    public Bounty getBounty() {
+        return bounty;
     }
 
-    public Funding bounties(Bounties bounties) {
-        this.bounties = bounties;
+    public Funding bounty(Bounty bounty) {
+        this.bounty = bounty;
         return this;
     }
 
-    public void setBounties(Bounties bounties) {
-        this.bounties = bounties;
+    public void setBounty(Bounty bounty) {
+        this.bounty = bounty;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

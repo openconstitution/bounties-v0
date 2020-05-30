@@ -28,4 +28,4 @@ import { ErrorComponent } from './layouts/error/error.component';
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, ActiveMenuDirective, FooterComponent],
   bootstrap: [MainComponent],
 })
-export class BountiesAppModule {}
+export class BountyAppModule {}

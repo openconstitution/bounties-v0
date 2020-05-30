@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="bounty">
+            <h2><span jhiTranslate="bountiesApp.bounty.detail.title">Bounty</span> {{ bounty.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span jhiTranslate="bountiesApp.bounty.status">Status</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'bountiesApp.Status.' + bounty.status }}">{{ bounty.status }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.url">Url</span></dt>
+                <dd>
+                    <span>{{ bounty.url }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.amount">Amount</span></dt>
+                <dd>
+                    <span>{{ bounty.amount }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.experience">Experience</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'bountiesApp.Experience.' + bounty.experience }}">{{ bounty.experience }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.commitment">Commitment</span></dt>
+                <dd>
+                    <span>{{ bounty.commitment }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.type">Type</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'bountiesApp.Type.' + bounty.type }}">{{ bounty.type }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.category">Category</span></dt>
+                <dd>
+                    <span jhiTranslate="{{ 'bountiesApp.Category.' + bounty.category }}">{{ bounty.category }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.keywords">Keywords</span></dt>
+                <dd>
+                    <span>{{ bounty.keywords }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.permission">Permission</span></dt>
+                <dd>
+                    <span>{{ bounty.permission }}</span>
+                </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.expires">Expires</span></dt>
+                <dd>
+                    <span>{{ bounty.expires }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/bounties', bounty.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

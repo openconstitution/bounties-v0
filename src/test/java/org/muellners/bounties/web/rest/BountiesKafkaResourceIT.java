@@ -58,7 +58,7 @@ class BountiesKafkaResourceIT {
         consumerProps.put("client.id", "default-client");
         kafkaProperties.setConsumer(consumerProps);
 
-        BountiesKafkaResource kafkaResource = new BountiesKafkaResource(kafkaProperties);
+        BountyKafkaResource kafkaResource = new BountyKafkaResource(kafkaProperties);
 
         restMockMvc = MockMvcBuilders.standaloneSetup(kafkaResource).build();
     }

@@ -6,7 +6,7 @@ import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 
-export interface IBounties {
+export interface IBounty {
   id?: number;
   status?: Status;
   url?: string;
@@ -22,7 +22,7 @@ export interface IBounties {
   issue?: IIssue;
 }
 
-export class Bounties implements IBounties {
+export class Bounty implements IBounty {
   constructor(
     public id?: number,
     public status?: Status,

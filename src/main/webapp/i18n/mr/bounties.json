@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "नवीन Bounties तयार करा",
-        "createOrEditLabel": "Bounties तयार किंवा संपादित करा",
-        "search": "Bounties शोधा",
-        "notFound": "No Bounties found"
+        "createLabel": "नवीन Bounty तयार करा",
+        "createOrEditLabel": "Bounty तयार किंवा संपादित करा",
+        "search": "Bounty शोधा",
+        "notFound": "No Bounty found"
       },
-      "created": "Bounties [identifier: {{ param }}] तयार आहे",
-      "updated": "Bounties [identifier: {{ param }}] सुधारित केले आहे",
-      "deleted": "Bounties [identifier: {{ param }}] हटविले आहे",
+      "created": "Bounty [identifier: {{ param }}] तयार आहे",
+      "updated": "Bounty [identifier: {{ param }}] सुधारित केले आहे",
+      "deleted": "Bounty [identifier: {{ param }}] हटविले आहे",
       "delete": {
-        "question": "Bounties [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
+        "question": "Bounty [id: {{ id }}] काढून टाकण्याबाबत पुष्टी?"
       },
       "detail": {
         "title": "Bounties"

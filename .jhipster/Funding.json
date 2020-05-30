@@ -17,9 +17,9 @@
   "relationships": [
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "bounties",
+      "otherEntityName": "bounty",
       "otherEntityRelationshipName": "funding",
-      "relationshipName": "bounties",
+      "relationshipName": "bounty",
       "otherEntityField": "id"
     }
   ],

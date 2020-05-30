@@ -9,10 +9,10 @@
         <property name="autoIncrement" value="true"/>
 
     <!--
-        Added the entity Bounties.
+        Added the entity Bounty.
     -->
     <changeSet id="20200524132743-1" author="jhipster">
-        <createTable tableName="bounties">
+        <createTable tableName="bounty">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -68,7 +68,7 @@
     -->
     <changeSet id="20200524132743-1-data" author="jhipster" context="faker">
         <loadData
-                  file="config/liquibase/fake-data/bounties.csv"
+                  file="config/liquibase/fake-data/bounty.csv"
                   separator=";"
                   tableName="bounties">
             <column name="id" type="numeric"/>

@@ -1,18 +1,18 @@
 {
   "bountiesApp": {
-    "bounties": {
+    "bounty": {
       "home": {
         "title": "Bounties",
-        "createLabel": "Bounties-ஐ உருவாக்கு",
-        "createOrEditLabel": "Bounties -ஐ மாற்று (அ) உருவாக்கு",
-        "search": "Search for Bounties",
-        "notFound": "No Bounties found"
+        "createLabel": "Bounty-ஐ உருவாக்கு",
+        "createOrEditLabel": "Bounty -ஐ மாற்று (அ) உருவாக்கு",
+        "search": "Search for Bounty",
+        "notFound": "No Bounty found"
       },
-      "created": "Bounties புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
-      "updated": "Bounties மாற்றப்பட்டது, அடையாளம்  {{ param }}",
-      "deleted": "A Bounties நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "created": "Bounty புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Bounty மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Bounty நீக்கப்பட்டது, அடையாளம {{ param }}",
       "delete": {
-        "question": "நீக்குவதற்கு உறுதி செய் Bounties {{ id }}?"
+        "question": "நீக்குவதற்கு உறுதி செய் Bounty {{ id }}?"
       },
       "detail": {
         "title": "Bounties"

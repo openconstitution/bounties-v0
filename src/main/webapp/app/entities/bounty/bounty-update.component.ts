@@ -6,16 +6,16 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { IBounties, Bounties } from 'app/shared/model/bounties.model';
-import { BountiesService } from './bounties.service';
+import { IBounty, Bounty } from 'app/shared/model/bounty.model';
+import { BountyService } from './bounty.service';
 import { IIssue } from 'app/shared/model/issue.model';
 import { IssueService } from 'app/entities/issue/issue.service';
 
 @Component({
-  selector: 'jhi-bounties-update',
-  templateUrl: './bounties-update.component.html',
+  selector: 'jhi-bounty-update',
+  templateUrl: './bounty-update.component.html',
 })
-export class BountiesUpdateComponent implements OnInit {
+export class BountyUpdateComponent implements OnInit {
   isSaving = false;
   issues: IIssue[] = [];
   expiresDp: any;
@@ -36,29 +36,29 @@ export class BountiesUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected bountiesService: BountiesService,
+    protected bountyService: bountyService,
     protected issueService: IssueService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ bounties }) => {
-      this.updateForm(bounties);
+    this.activatedRoute.data.subscribe(({ bounty }) => {
+      this.updateForm(bounty);
 
       this.issueService
-        .query({ filter: 'bounties-is-null' })
+        .query({ filter: 'bounty-is-null' })
         .pipe(
           map((res: HttpResponse<IIssue[]>) => {
             return res.body || [];
           })
         )
         .subscribe((resBody: IIssue[]) => {
-          if (!bounties.issue || !bounties.issue.id) {
+          if (!bounty.issue || !bounty.issue.id) {
             this.issues = resBody;
           } else {
             this.issueService
-              .find(bounties.issue.id)
+              .find(bounty.issue.id)
               .pipe(
                 map((subRes: HttpResponse<IIssue>) => {
                   return subRes.body ? [subRes.body].concat(resBody) : resBody;
@@ -70,20 +70,20 @@ export class BountiesUpdateComponent implements OnInit {
     });
   }
 
-  updateForm(bounties: IBounties): void {
+  updateForm(bounty: IBounty): void {
     this.editForm.patchValue({
-      id: bounties.id,
-      status: bounties.status,
-      url: bounties.url,
-      amount: bounties.amount,
-      experience: bounties.experience,
-      commitment: bounties.commitment,
-      type: bounties.type,
-      category: bounties.category,
-      keywords: bounties.keywords,
-      permission: bounties.permission,
-      expires: bounties.expires,
-      issue: bounties.issue,
+      id: bounty.id,
+      status: bounty.status,
+      url: bounty.url,
+      amount: bounty.amount,
+      experience: bounty.experience,
+      commitment: bounty.commitment,
+      type: bounty.type,
+      category: bounty.category,
+      keywords: bounty.keywords,
+      permission: bounty.permission,
+      expires: bounty.expires,
+      issue: bounty.issue,
     });
   }
 
@@ -93,17 +93,17 @@ export class BountiesUpdateComponent implements OnInit {
 
   save(): void {
     this.isSaving = true;
-    const bounties = this.createFromForm();
-    if (bounties.id !== undefined) {
-      this.subscribeToSaveResponse(this.bountiesService.update(bounties));
+    const bounty = this.createFromForm();
+    if (bounty.id !== undefined) {
+      this.subscribeToSaveResponse(this.bountyService.update(bounty));
     } else {
-      this.subscribeToSaveResponse(this.bountiesService.create(bounties));
+      this.subscribeToSaveResponse(this.bountyService.create(bounty));
     }
   }
 
-  private createFromForm(): IBounties {
+  private createFromForm(): IBounty {
     return {
-      ...new Bounties(),
+      ...new Bounty(),
       id: this.editForm.get(['id'])!.value,
       status: this.editForm.get(['status'])!.value,
       url: this.editForm.get(['url'])!.value,
@@ -119,7 +119,7 @@ export class BountiesUpdateComponent implements OnInit {
     };
   }
 
-  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBounties>>): void {
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IBounty>>): void {
     result.subscribe(
       () => this.onSaveSuccess(),
       () => this.onSaveError()

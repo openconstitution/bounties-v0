@@ -5,7 +5,7 @@
     {
       "relationshipType": "one-to-many",
       "otherEntityName": "funding",
-      "otherEntityRelationshipName": "bounties",
+      "otherEntityRelationshipName": "bounty",
       "relationshipName": "funding"
     },
     {
@@ -68,7 +68,7 @@
   "dto": "no",
   "searchEngine": "elasticsearch",
   "service": "serviceClass",
-  "entityTableName": "bounties",
+  "entityTableName": "bounty",
   "databaseType": "sql",
   "readOnly": false,
   "jpaMetamodelFiltering": false,

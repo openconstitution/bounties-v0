@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 
 import { IFunding, Funding } from 'app/shared/model/funding.model';
 import { FundingService } from './funding.service';
-import { IBounties } from 'app/shared/model/bounties.model';
-import { BountiesService } from 'app/entities/bounties/bounties.service';
+import { IBounty } from 'app/shared/model/bounty.model';
+import { BountyService } from 'app/entities/bounty/bounty.service';
 
 @Component({
   selector: 'jhi-funding-update',
@@ -16,19 +16,19 @@ import { BountiesService } from 'app/entities/bounties/bounties.service';
 })
 export class FundingUpdateComponent implements OnInit {
   isSaving = false;
-  bounties: IBounties[] = [];
+  bounty: IBounty[] = [];
 
   editForm = this.fb.group({
     id: [],
     amount: [],
     mode: [],
     paymentAuth: [],
-    bounties: [],
+    bounty: [],
   });
 
   constructor(
     protected fundingService: FundingService,
-    protected bountiesService: BountiesService,
+    protected bountyService: BountyService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -37,7 +37,7 @@ export class FundingUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ funding }) => {
       this.updateForm(funding);
 
-      this.bountiesService.query().subscribe((res: HttpResponse<IBounties[]>) => (this.bounties = res.body || []));
+      this.bountyService.query().subscribe((res: HttpResponse<IBounty[]>) => (this.bounty = res.body || []));
     });
   }
 
@@ -47,7 +47,7 @@ export class FundingUpdateComponent implements OnInit {
       amount: funding.amount,
       mode: funding.mode,
       paymentAuth: funding.paymentAuth,
-      bounties: funding.bounties,
+      bounty: funding.bounty,
     });
   }
 
@@ -72,7 +72,7 @@ export class FundingUpdateComponent implements OnInit {
       amount: this.editForm.get(['amount'])!.value,
       mode: this.editForm.get(['mode'])!.value,
       paymentAuth: this.editForm.get(['paymentAuth'])!.value,
-      bounties: this.editForm.get(['bounties'])!.value,
+      bounty: this.editForm.get(['bounty'])!.value,
     };
   }
 
@@ -92,7 +92,7 @@ export class FundingUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IBounties): any {
+  trackById(index: number, item: IBounty): any {
     return item.id;
   }
 }

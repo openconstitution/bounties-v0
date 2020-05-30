@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-bounties-heading" jhiTranslate="bountiesApp.bounties.home.createOrEditLabel">Create or edit a Bounties</h2>
+            <h2 id="jhi-bounty-heading" jhiTranslate="bountiesApp.bounty.home.createOrEditLabel">Create or edit a Bounty</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.status" for="field_status">Status</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.status" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
                         <option value="OPEN">{{ 'bountiesApp.Status.OPEN' | translate }}</option>
                         <option value="INVALID">{{ 'bountiesApp.Status.INVALID' | translate }}</option>
@@ -22,19 +22,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.url" for="field_url">Url</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.url" for="field_url">Url</label>
                     <input type="text" class="form-control" name="url" id="field_url"
                            formControlName="url"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.amount" for="field_amount">Amount</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.amount" for="field_amount">Amount</label>
                     <input type="number" class="form-control" name="amount" id="field_amount"
                            formControlName="amount"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.experience" for="field_experience">Experience</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.experience" for="field_experience">Experience</label>
                     <select class="form-control" name="experience" formControlName="experience" id="field_experience">
                         <option value="BEGINNER">{{ 'bountiesApp.Experience.BEGINNER' | translate }}</option>
                         <option value="INTERMEDIATE">{{ 'bountiesApp.Experience.INTERMEDIATE' | translate }}</option>
@@ -43,13 +43,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.commitment" for="field_commitment">Commitment</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.commitment" for="field_commitment">Commitment</label>
                     <input type="number" class="form-control" name="commitment" id="field_commitment"
                            formControlName="commitment"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.type" for="field_type">Type</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.type" for="field_type">Type</label>
                     <select class="form-control" name="type" formControlName="type" id="field_type">
                         <option value="BUG">{{ 'bountiesApp.Type.BUG' | translate }}</option>
                         <option value="FEATURE">{{ 'bountiesApp.Type.FEATURE' | translate }}</option>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.category" for="field_category">Category</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.category" for="field_category">Category</label>
                     <select class="form-control" name="category" formControlName="category" id="field_category">
                         <option value="FRONT_END">{{ 'bountiesApp.Category.FRONT_END' | translate }}</option>
                         <option value="BACKEND">{{ 'bountiesApp.Category.BACKEND' | translate }}</option>
@@ -68,19 +68,19 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.keywords" for="field_keywords">Keywords</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.keywords" for="field_keywords">Keywords</label>
                     <input type="text" class="form-control" name="keywords" id="field_keywords"
                            formControlName="keywords"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.permission" for="field_permission">Permission</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.permission" for="field_permission">Permission</label>
                     <input type="checkbox" class="form-control" name="permission" id="field_permission"
                            formControlName="permission"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" jhiTranslate="bountiesApp.bounties.expires" for="field_expires">Expires</label>
+                    <label class="form-control-label" jhiTranslate="bountiesApp.bounty.expires" for="field_expires">Expires</label>
                     <div class="input-group">
                         <input id="field_expires" type="text" class="form-control" name="expires" ngbDatepicker #expiresDp="ngbDatepicker" formControlName="expires"/>
                         <span class="input-group-append">
