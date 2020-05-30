@@ -1,3 +1,11 @@
-id;issueId;bounties_id;url;description;created_By
-1;1212;1;http://jira.link;There is this issue;user
-2;1213;2;http://jira.link;There is this user;user
+id;issue_id;url;description;created_by
+1;1212;A good first issue;http://jira.link;user
+2;1213;Some crazy things happening at line 2;http://jira.link;user
+3;3434;Fix changelog;http://jira.link;user
+4;3444;Update project dependencies;http://jira.link;user
+5;2334;New module for future use;http://jira.link;user
+6;3741;Super duper octo winner;http://jira.link;user
+7;0234;365 days of python;http://jira.link;user
+8;3018;Dog breed classifier;http://jira.link;user
+9;3400;School management system;http://jira.link;user
+10;0034;Octo winner super duper;http://jira.link;user
