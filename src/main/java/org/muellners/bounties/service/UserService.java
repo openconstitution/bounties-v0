@@ -137,13 +137,6 @@ public class UserService {
             log.debug("Saving user '{}' in local database", user.getLogin());
             userRepository.save(user);
             this.clearUserCaches(user);
-            if (user.getProfile() == null) {
-                log.debug("Saving profile for user '{}' in local database", user.getId());
-                Profile profile = new Profile();
-                profile.setGithubEmail("none@none.com");
-                profile.setUser(user);
-            }
-
         }
         return user;
     }

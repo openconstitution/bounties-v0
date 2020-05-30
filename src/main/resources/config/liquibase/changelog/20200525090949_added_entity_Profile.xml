@@ -49,15 +49,6 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
-
-    <changeSet id="20200525090949-2-relations" author="maektwain">
-        <addForeignKeyConstraint baseTableName="profile"
-                                 baseColumnNames="user_id"
-                                 constraintName="fk_user_profile_id"
-                                 referencedTableName="jhi_user"
-                                 referencedColumnNames="id"/>
-
-    </changeSet>
     <changeSet id="20200525090949-1-relations" author="jhipster">
 
     </changeSet>

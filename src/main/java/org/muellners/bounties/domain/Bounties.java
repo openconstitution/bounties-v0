@@ -73,7 +73,7 @@ public class Bounties implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id", unique = true)
     private Issue issue;
 
