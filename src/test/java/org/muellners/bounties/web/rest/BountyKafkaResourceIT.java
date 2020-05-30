@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class BountiesKafkaResourceIT {
+class BountyKafkaResourceIT {
 
     private static boolean started = false;
     private static KafkaContainer kafkaContainer;
@@ -119,4 +119,3 @@ class BountiesKafkaResourceIT {
         return consumerProps;
     }
 }
-
