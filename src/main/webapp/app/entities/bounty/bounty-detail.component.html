@@ -48,6 +48,12 @@
                 <dd>
                     <span>{{ bounty.expires }}</span>
                 </dd>
+                <dt><span jhiTranslate="bountiesApp.bounty.issue">Issue</span></dt>
+                <dd>
+                    <div *ngIf="bounty.issue">
+                        <a [routerLink]="['/issue', bounty.issue?.id, 'view']">{{ bounty.issue?.id }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
