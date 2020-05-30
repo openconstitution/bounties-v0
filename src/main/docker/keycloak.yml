@@ -19,6 +19,7 @@ services:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - DB_VENDOR=h2
+      - PROXY_ADDRESS_FORWARDING=true
     ports:
       - 9080:9080
       - 9443:9443
