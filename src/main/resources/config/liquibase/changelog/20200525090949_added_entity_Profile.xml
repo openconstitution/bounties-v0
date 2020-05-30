@@ -51,6 +51,12 @@
     </changeSet>
     <changeSet id="20200525090949-1-relations" author="jhipster">
 
+        <addForeignKeyConstraint baseColumnNames="profile_id"
+                                 baseTableName="jhi_user"
+                                 constraintName="fk_user_profile_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="profile"/>
+
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 

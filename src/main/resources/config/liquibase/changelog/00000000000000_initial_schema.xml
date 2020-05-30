@@ -20,6 +20,9 @@
             <column name="login" type="varchar(50)">
                 <constraints unique="true" nullable="false" uniqueConstraintName="ux_user_login"/>
             </column>
+            <column name="profile_id" type="varchar(50)">
+                <constraints nullable="true"/>
+            </column>
             <column name="first_name" type="varchar(50)"/>
             <column name="last_name" type="varchar(50)"/>
             <column name="email" type="varchar(191)">

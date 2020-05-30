@@ -21,7 +21,9 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    @GeneratedValue
+    @Column(name = "profile_id")
+    private Long id;
 
     @Column(name = "votes")
     private Integer votes;
@@ -41,16 +43,12 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     @Column(name = "github_org_name")
     private String githubOrgName;
 
-    @OneToOne
-    @MapsId
-    private User user;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -100,14 +98,6 @@ public class Profile extends AbstractAuditingEntity implements Serializable {
     public Profile walletaddress(String walletaddress) {
         this.walletaddress = walletaddress;
         return this;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public void setWalletaddress(String walletaddress) {

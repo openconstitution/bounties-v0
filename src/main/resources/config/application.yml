@@ -121,7 +121,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: http://localhost:9080/auth/realms/jhipster
+            issuer-uri: https://login.muelleners.tech/auth/realms/jhipster
         registration:
           oidc:
             client-id: web_app
@@ -174,7 +174,7 @@ jhipster:
         - account
         - api://default
 kafka:
-  bootstrap-servers: localhost:9092
+  bootstrap-servers: kafka.muelleners.tech:9092
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
