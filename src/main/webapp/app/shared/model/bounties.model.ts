@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { IFunding } from 'app/shared/model/funding.model';
+import { IIssue } from 'app/shared/model/issue.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
@@ -18,6 +19,7 @@ export interface IBounties {
   permission?: boolean;
   expires?: Moment;
   fundings?: IFunding[];
+  issue?: IIssue;
 }
 
 export class Bounties implements IBounties {
@@ -33,7 +35,8 @@ export class Bounties implements IBounties {
     public keywords?: string,
     public permission?: boolean,
     public expires?: Moment,
-    public fundings?: IFunding[]
+    public fundings?: IFunding[],
+    public issue?: IIssue
   ) {
     this.permission = this.permission || false;
   }

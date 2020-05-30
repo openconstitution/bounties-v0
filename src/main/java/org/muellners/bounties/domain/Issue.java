@@ -29,11 +29,6 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @OneToOne
-    @MapsId
-    @JsonBackReference
-    private Bounties bounties;
-
     public Long getId() {
         return this.id;
     }
@@ -64,14 +59,6 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Bounties getBounties() {
-        return bounties;
-    }
-
-    public void setBounties(Bounties bounties) {
-        this.bounties = bounties;
     }
 
     @Override

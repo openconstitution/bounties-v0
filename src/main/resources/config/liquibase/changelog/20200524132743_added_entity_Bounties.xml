@@ -19,9 +19,6 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="issue_id" type="varchar(255)">
-                <constraints nullable="true" />
-            </column>
             <column name="url" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -49,27 +46,17 @@
             <column name="expires" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="created_by" type="varchar(50)">
-                <constraints nullable="false"/>
+            <column name="issue_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_bounties_issue_id" />
             </column>
-            <column name="created_date" type="timestamp"></column>
-            <column name="last_modified_by" type="varchar(50)"></column>
-            <column name="last_modified_date" type="timestamp"></column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-    </changeSet>
-        
-    <changeSet id="20200525100102-2-reltions" author="maektwain">
-        <addForeignKeyConstraint baseTableName="bounties"
-                                 baseColumnNames="issue_id"
-                                 constraintName="fk_bounties_issue_id"
-                                 referencedTableName="issue"
-                                 referencedColumnNames="id"/>
     </changeSet>
 
     <changeSet id="20200524132743-1-relations" author="jhipster">
 
     </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--
         Load sample data generated with Faker.js
@@ -95,7 +82,6 @@
             <column name="keywords" type="string"/>
             <column name="permission" type="boolean"/>
             <column name="expires" type="date"/>
-            <column name="created_by" type="string">
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

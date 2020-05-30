@@ -220,7 +220,7 @@ public class BountiesResourceIT {
             .andExpect(jsonPath("$.[*].permission").value(hasItem(DEFAULT_PERMISSION.booleanValue())))
             .andExpect(jsonPath("$.[*].expires").value(hasItem(DEFAULT_EXPIRES.toString())));
     }
-
+    
     @Test
     @Transactional
     public void getBounties() throws Exception {
@@ -348,7 +348,7 @@ public class BountiesResourceIT {
         when(mockBountiesSearchRepository.search(queryStringQuery("id:" + bounties.getId())))
             .thenReturn(Collections.singletonList(bounties));
 
-        // Searwch the bounties
+        // Search the bounties
         restBountiesMockMvc.perform(get("/api/_search/bounties?query=id:" + bounties.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))

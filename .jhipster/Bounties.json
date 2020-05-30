@@ -7,6 +7,15 @@
       "otherEntityName": "funding",
       "otherEntityRelationshipName": "bounties",
       "relationshipName": "funding"
+    },
+    {
+      "relationshipName": "issue",
+      "otherEntityName": "issue",
+      "relationshipType": "one-to-one",
+      "otherEntityField": "id",
+      "ownerSide": true,
+      "useJPADerivedIdentifier": false,
+      "otherEntityRelationshipName": "bounties"
     }
   ],
   "fields": [

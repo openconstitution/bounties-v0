@@ -4,9 +4,12 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IBounties, Bounties } from 'app/shared/model/bounties.model';
 import { BountiesService } from './bounties.service';
+import { IIssue } from 'app/shared/model/issue.model';
+import { IssueService } from 'app/entities/issue/issue.service';
 
 @Component({
   selector: 'jhi-bounties-update',
@@ -14,6 +17,7 @@ import { BountiesService } from './bounties.service';
 })
 export class BountiesUpdateComponent implements OnInit {
   isSaving = false;
+  issues: IIssue[] = [];
   expiresDp: any;
 
   editForm = this.fb.group({
@@ -28,13 +32,41 @@ export class BountiesUpdateComponent implements OnInit {
     keywords: [],
     permission: [],
     expires: [],
+    issue: [],
   });
 
-  constructor(protected bountiesService: BountiesService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    protected bountiesService: BountiesService,
+    protected issueService: IssueService,
+    protected activatedRoute: ActivatedRoute,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ bounties }) => {
       this.updateForm(bounties);
+
+      this.issueService
+        .query({ filter: 'bounties-is-null' })
+        .pipe(
+          map((res: HttpResponse<IIssue[]>) => {
+            return res.body || [];
+          })
+        )
+        .subscribe((resBody: IIssue[]) => {
+          if (!bounties.issue || !bounties.issue.id) {
+            this.issues = resBody;
+          } else {
+            this.issueService
+              .find(bounties.issue.id)
+              .pipe(
+                map((subRes: HttpResponse<IIssue>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IIssue[]) => (this.issues = concatRes));
+          }
+        });
     });
   }
 
@@ -51,6 +83,7 @@ export class BountiesUpdateComponent implements OnInit {
       keywords: bounties.keywords,
       permission: bounties.permission,
       expires: bounties.expires,
+      issue: bounties.issue,
     });
   }
 
@@ -82,6 +115,7 @@ export class BountiesUpdateComponent implements OnInit {
       keywords: this.editForm.get(['keywords'])!.value,
       permission: this.editForm.get(['permission'])!.value,
       expires: this.editForm.get(['expires'])!.value,
+      issue: this.editForm.get(['issue'])!.value,
     };
   }
 
@@ -99,5 +133,9 @@ export class BountiesUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IIssue): any {
+    return item.id;
   }
 }

@@ -51,6 +51,7 @@
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.keywords">Keywords</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.permission">Permission</span></th>
                     <th scope="col" ><span jhiTranslate="bountiesApp.bounties.expires">Expires</span></th>
+                    <th scope="col" ><span jhiTranslate="bountiesApp.bounties.issue">Issue</span></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -67,6 +68,11 @@
                     <td>{{ bounties.keywords }}</td>
                     <td>{{ bounties.permission }}</td>
                     <td>{{ bounties.expires | date:'mediumDate' }}</td>
+                    <td>
+                        <div *ngIf="bounties.issue">
+                            <a [routerLink]="['/issue', bounties.issue?.id, 'view']" >{{ bounties.issue?.id }}</a>
+                        </div>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

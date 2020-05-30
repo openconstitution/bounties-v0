@@ -1,11 +1,11 @@
 package org.muellners.bounties.domain;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
+import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -19,8 +19,6 @@ import org.muellners.bounties.domain.enumeration.Experience;
 import org.muellners.bounties.domain.enumeration.Type;
 
 import org.muellners.bounties.domain.enumeration.Category;
-import org.muellners.bounties.security.SecurityUtils;
-import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 /**
  * A Bounties.
@@ -29,7 +27,7 @@ import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 @Table(name = "bounties")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "bounties")
-public class Bounties extends AbstractAuditingEntity implements Serializable {
+public class Bounties implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -75,21 +73,9 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
-    @OneToOne(mappedBy = "bounties" ,fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @OneToOne
+    @JoinColumn(name = "id", unique = true)
     private Issue issue;
-
-    public Boolean getPermission() {
-        return permission;
-    }
-
-    public Issue getIssue() {
-        return issue;
-    }
-
-    public void setIssue(Issue issue) {
-        this.issue = issue;
-    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -253,6 +239,19 @@ public class Bounties extends AbstractAuditingEntity implements Serializable {
 
     public void setFundings(Set<Funding> fundings) {
         this.fundings = fundings;
+    }
+
+    public Issue getIssue() {
+        return issue;
+    }
+
+    public Bounties issue(Issue issue) {
+        this.issue = issue;
+        return this;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

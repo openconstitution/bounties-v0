@@ -2,8 +2,10 @@ package org.muellners.bounties.service;
 
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.domain.Authority;
+import org.muellners.bounties.domain.Profile;
 import org.muellners.bounties.domain.User;
 import org.muellners.bounties.repository.AuthorityRepository;
+import org.muellners.bounties.repository.ProfileRepository;
 import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
@@ -42,11 +44,15 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    private final ProfileRepository profileRepository;
+
+    public UserService(UserRepository userRepository, UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository,
+                       CacheManager cacheManager,ProfileRepository profileRepository) {
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.authorityRepository = authorityRepository;
         this.cacheManager = cacheManager;
+        this.profileRepository = profileRepository;
     }
 
     /**
@@ -131,6 +137,13 @@ public class UserService {
             log.debug("Saving user '{}' in local database", user.getLogin());
             userRepository.save(user);
             this.clearUserCaches(user);
+            if (user.getProfile() == null) {
+                log.debug("Saving profile for user '{}' in local database", user.getId());
+                Profile profile = new Profile();
+                profile.setGithubEmail("none@none.com");
+                profile.setUser(user);
+            }
+
         }
         return user;
     }

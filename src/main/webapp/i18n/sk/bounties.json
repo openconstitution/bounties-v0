@@ -27,7 +27,8 @@
       "keywords": "Keywords",
       "permission": "Permission",
       "expires": "Expires",
-      "funding": "Funding"
+      "funding": "Funding",
+      "issue": "Issue"
     }
   }
 }

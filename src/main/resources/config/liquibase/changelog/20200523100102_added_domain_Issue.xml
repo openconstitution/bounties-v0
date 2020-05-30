@@ -52,7 +52,6 @@
             tableName="issue">
             <column name="id" type="numeric"/>
             <column name="issue_id" type="numeric"/>
-            <column name="bounties_id" type="numeric"/>
             <column name="url" type="string"/>
             <column name="description" type="string"/>
             <column name="created_by" type="string"/>

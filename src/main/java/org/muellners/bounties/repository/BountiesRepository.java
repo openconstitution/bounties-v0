@@ -11,7 +11,4 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface BountiesRepository extends JpaRepository<Bounties, Long> {
-    @Modifying
-    @Query("delete from Bounties b where b.createdBy = ?#{T(org.muellners.bounties.security.SecurityUtils).currentUserLoginString}")
-    void deleteById();
 }
