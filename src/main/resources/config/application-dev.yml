@@ -84,7 +84,7 @@ jhipster:
   cache: # Cache configuration
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://localhost:6379
+      server: redis://user:upscale123SDF@redis-19522.c8.us-east-1-4.ec2.cloud.redislabs.com:19522/cache
       cluster: false
       # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
       # cluster: true

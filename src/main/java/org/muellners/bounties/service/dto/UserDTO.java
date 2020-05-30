@@ -3,6 +3,7 @@ package org.muellners.bounties.service.dto;
 import org.muellners.bounties.config.Constants;
 
 import org.muellners.bounties.domain.Authority;
+import org.muellners.bounties.domain.Profile;
 import org.muellners.bounties.domain.User;
 
 import javax.validation.constraints.*;
