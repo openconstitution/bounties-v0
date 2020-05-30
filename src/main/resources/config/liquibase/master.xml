@@ -17,7 +17,7 @@
     <include file="config/liquibase/changelog/20200523100102_added_domain_Issue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200524132743_added_entity_Bounties.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200525074416_added_entity_Funding.xml" relativeToChangelogFile="false"/>
-    
+
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
     <include file="config/liquibase/changelog/20200525090949_added_entity_Profile.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->

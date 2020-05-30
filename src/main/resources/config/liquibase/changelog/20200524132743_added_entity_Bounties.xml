@@ -58,7 +58,7 @@
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
-        
+
     <changeSet id="20200525100102-2-reltions" author="maektwain">
         <addForeignKeyConstraint baseTableName="bounties"
                                  baseColumnNames="issue_id"
