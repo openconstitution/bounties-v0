@@ -10,7 +10,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class BountySearchRepositoryMockConfiguration {
 
-    @MockBean
-    private BountySearchRepository mockBountySearchRepository;
-
+  @MockBean private BountySearchRepository mockBountySearchRepository;
 }
