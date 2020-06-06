@@ -70,7 +70,7 @@
         <loadData
                   file="config/liquibase/fake-data/bounty.csv"
                   separator=";"
-                  tableName="bounties">
+                  tableName="bounty">
             <column name="id" type="numeric"/>
             <column name="status" type="string"/>
             <column name="url" type="string"/>
