@@ -69,8 +69,8 @@
                     <td>{{ bounty.permission }}</td>
                     <td>{{ bounty.expires | date:'mediumDate' }}</td>
                     <td>
-                        <div *ngIf="bounties.issue">
-                            <a [routerLink]="['/issue', bounties.issue?.id, 'view']" >{{ bounties.issue?.id }}</a>
+                        <div *ngIf="bounty.issue">
+                            <a [routerLink]="['/issue', bounty.issue?.id, 'view']" >{{ bounty.issue?.id }}</a>
                         </div>
                     </td>
                     <td class="text-right">

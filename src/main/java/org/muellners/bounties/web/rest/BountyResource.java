@@ -45,7 +45,7 @@ public class BountyResource {
     /**
      * {@code POST  /bounties} : Create a new bounty.
      *
-     * @param bounties the bounties to create.
+     * @param bounty the bounties to create.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bounties, or with status {@code 400 (Bad Request)} if the bounties has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */

@@ -9,7 +9,6 @@ import { map } from 'rxjs/operators';
 import { IBounty, Bounty } from 'app/shared/model/bounty.model';
 import { BountyService } from './bounty.service';
 import { IIssue } from 'app/shared/model/issue.model';
-import { IssueService } from 'app/entities/issue/issue.service';
 
 @Component({
   selector: 'jhi-bounty-update',
@@ -35,38 +34,11 @@ export class BountyUpdateComponent implements OnInit {
     issue: [],
   });
 
-  constructor(
-    protected bountyService: bountyService,
-    protected issueService: IssueService,
-    protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) {}
+  constructor(protected bountyService: BountyService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ bounty }) => {
       this.updateForm(bounty);
-
-      this.issueService
-        .query({ filter: 'bounty-is-null' })
-        .pipe(
-          map((res: HttpResponse<IIssue[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IIssue[]) => {
-          if (!bounty.issue || !bounty.issue.id) {
-            this.issues = resBody;
-          } else {
-            this.issueService
-              .find(bounty.issue.id)
-              .pipe(
-                map((subRes: HttpResponse<IIssue>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IIssue[]) => (this.issues = concatRes));
-          }
-        });
     });
   }
 

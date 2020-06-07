@@ -1,5 +1,7 @@
 package org.muellners.bounties.domain;
 
+import com.sun.istack.NotNull;
+import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -39,6 +41,7 @@ public class Bounty implements Serializable {
     @Column(name = "status")
     private Status status;
 
+    @NotNull
     @Column(name = "url")
     private String url;
 
@@ -73,6 +76,7 @@ public class Bounty implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id", unique = true)
     private Issue issue;

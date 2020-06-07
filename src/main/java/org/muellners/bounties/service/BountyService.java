@@ -32,9 +32,13 @@ public class BountyService {
 
     private final BountySearchRepository bountySearchRepository;
 
-    public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository) {
+    private final IssueHelper issueHelper;
+
+    public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository,
+                         IssueHelper issueHelper) {
         this.bountyRepository = bountyRepository;
         this.bountySearchRepository = bountySearchRepository;
+        this.issueHelper = issueHelper;
     }
 
     /**
@@ -45,6 +49,8 @@ public class BountyService {
      */
     public Bounty save(Bounty bounty) {
         log.debug("Request to save Bounty : {}", bounty);
+        // Before we go and save the url from git/bitbucket/jira/or anything else
+        issueHelper.createIssue(bounty.getUrl());
         Bounty result = bountyRepository.save(bounty);
         bountySearchRepository.save(result);
         return result;
