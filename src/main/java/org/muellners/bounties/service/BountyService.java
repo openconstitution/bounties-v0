@@ -4,6 +4,7 @@ import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.repository.BountyRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
+import org.muellners.bounties.service.dto.BountiesDTO;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,11 +48,11 @@ public class BountyService {
      * @param bounty the entity to save.
      * @return the persisted entity.
      */
-    public Bounty save(Bounty bounty) {
+    public BountiesDTO save(BountiesDTO bounty) {
         log.debug("Request to save Bounty : {}", bounty);
         // Before we go and save the url from git/bitbucket/jira/or anything else
         issueHelper.createIssue(bounty.getUrl());
-        Bounty result = bountyRepository.save(bounty);
+        BountiesDTO result = bountyRepository.save(bounty);
         bountySearchRepository.save(result);
         return result;
     }
@@ -68,7 +69,7 @@ public class BountyService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Bounty> findAll() {
+    public List<BountiesDTO> findAll() {
         log.debug("Request to get all Bounty");
         return bountyRepository.findAll();
     }
@@ -81,7 +82,7 @@ public class BountyService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Bounty> findOne(Long id) {
+    public Optional<BountiesDTO> findOne(Long id) {
         log.debug("Request to get Bounty : {}", id);
         return bountyRepository.findById(id);
     }
@@ -105,7 +106,7 @@ public class BountyService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Bounty> search(String query) {
+    public List<BountiesDTO> search(String query) {
         log.debug("Request to search Bounty for query {}", query);
         return StreamSupport
             .stream(bountySearchRepository.search(queryStringQuery(query)).spliterator(), false)

@@ -1,5 +1,6 @@
 package org.muellners.bounties.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.Cache;
@@ -7,6 +8,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
+import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,7 +31,7 @@ import org.muellners.bounties.domain.enumeration.Category;
 @Table(name = "bounty")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "bounty")
-public class Bounty implements Serializable {
+public class Bounty extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -76,7 +78,6 @@ public class Bounty implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
-    @JsonIgnore
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "id", unique = true)
     private Issue issue;
@@ -291,5 +292,9 @@ public class Bounty implements Serializable {
             ", permission='" + isPermission() + "'" +
             ", expires='" + getExpires() + "'" +
             "}";
+    }
+
+    public Boolean getPermission() {
+        return permission;
     }
 }

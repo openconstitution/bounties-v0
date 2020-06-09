@@ -49,6 +49,13 @@
             <column name="issue_id" type="bigint">
                 <constraints unique="true" nullable="true" uniqueConstraintName="ux_bounties_issue_id" />
             </column>
+
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>

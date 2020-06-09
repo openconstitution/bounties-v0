@@ -2,6 +2,7 @@ package org.muellners.bounties.repository;
 
 import org.muellners.bounties.domain.Bounty;
 
+import org.muellners.bounties.service.dto.BountiesDTO;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-    public interface BountyRepository extends JpaRepository<Bounty, Long> {
+    public interface BountyRepository extends JpaRepository<BountiesDTO, Long> {
 }

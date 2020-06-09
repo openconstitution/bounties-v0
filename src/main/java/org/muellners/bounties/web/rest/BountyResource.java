@@ -4,6 +4,7 @@ import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.service.BountyService;
 import org.muellners.bounties.service.IssueHelper;
+import org.muellners.bounties.service.dto.BountiesDTO;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -50,12 +51,12 @@ public class BountyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/bounties")
-    public ResponseEntity<Bounty> createBounties(@RequestBody Bounty bounty) throws URISyntaxException {
+    public ResponseEntity<BountiesDTO> createBounties(@RequestBody BountiesDTO bounty) throws URISyntaxException {
         log.debug("REST request to save Bounty : {}", bounty);
         if (bounty.getId() != null) {
             throw new BadRequestAlertException("A new bounty cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Bounty result = bountyService.save(bounty);
+        BountiesDTO result = bountyService.save(bounty);
         return ResponseEntity.created(new URI("/api/bounties/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -71,12 +72,12 @@ public class BountyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bounties")
-    public ResponseEntity<Bounty> updateBounties(@RequestBody Bounty bounty) throws URISyntaxException {
+    public ResponseEntity<BountiesDTO> updateBounties(@RequestBody BountiesDTO bounty) throws URISyntaxException {
         log.debug("REST request to update Bounty : {}", bounty);
         if (bounty.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Bounty result = bountyService.save(bounty);
+        BountiesDTO result = bountyService.save(bounty);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bounty.getId().toString()))
             .body(result);
@@ -88,7 +89,7 @@ public class BountyResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounty in body.
      */
     @GetMapping("/bounties")
-    public List<Bounty> getAllBounties() {
+    public List<BountiesDTO> getAllBounties() {
         log.debug("REST request to get all Bounty");
         return bountyService.findAll();
     }
@@ -100,9 +101,9 @@ public class BountyResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bounty, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/bounties/{id}")
-    public ResponseEntity<Bounty> getBounty(@PathVariable Long id) {
+    public ResponseEntity<BountiesDTO> getBounty(@PathVariable Long id) {
         log.debug("REST request to get Bounty : {}", id);
-        Optional<Bounty> bounty = bountyService.findOne(id);
+        Optional<BountiesDTO> bounty = bountyService.findOne(id);
         return ResponseUtil.wrapOrNotFound(bounty);
     }
 
@@ -128,7 +129,7 @@ public class BountyResource {
      * @return the result of the search.
      */
     @GetMapping("/_search/bounties")
-    public List<Bounty> searchBounties(@RequestParam String query) {
+    public List<BountiesDTO> searchBounties(@RequestParam String query) {
         log.debug("REST request to search Bounty for query {}", query);
         return bountyService.search(query);
     }

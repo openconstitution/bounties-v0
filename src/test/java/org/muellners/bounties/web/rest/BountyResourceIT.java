@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.muellners.bounties.service.dto.BountiesDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -51,8 +52,8 @@ public class BountyResourceIT {
     private static final Status DEFAULT_STATUS = Status.OPEN;
     private static final Status UPDATED_STATUS = Status.INVALID;
 
-    private static final String DEFAULT_URL = "AAAAAAAAAA";
-    private static final String UPDATED_URL = "BBBBBBBBBB";
+    private static final String DEFAULT_URL = "https://jira.apache.org/jira/browse/FINERACT-857";
+    private static final String UPDATED_URL = "https://jira.apache.org/jira/browse/FINERACT-857";
 
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
@@ -157,9 +158,9 @@ public class BountyResourceIT {
             .andExpect(status().isCreated());
 
         // Validate the Bounty in the database
-        List<Bounty> bountyList = bountyRepository.findAll();
+        List<BountiesDTO> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
-        Bounty testBounty = bountyList.get(bountyList.size() - 1);
+        BountiesDTO testBounty = bountyList.get(bountyList.size() - 1);
         assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testBounty.getUrl()).isEqualTo(DEFAULT_URL);
         assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
@@ -190,10 +191,10 @@ public class BountyResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the Bounty in the database
-        List<Bounty> bountyList = bountyRepository.findAll();
+        List<BountiesDTO> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Bounty in Elasticsearch
+        // Validate the Bounty in Elasticsearch 
         verify(mockBountySearchRepository, times(0)).save(bounty);
     }
 
@@ -220,7 +221,7 @@ public class BountyResourceIT {
             .andExpect(jsonPath("$.[*].permission").value(hasItem(DEFAULT_PERMISSION.booleanValue())))
             .andExpect(jsonPath("$.[*].expires").value(hasItem(DEFAULT_EXPIRES.toString())));
     }
-    
+
     @Test
     @Transactional
     public void getBounty() throws Exception {
