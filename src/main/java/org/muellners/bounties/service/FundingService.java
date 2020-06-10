@@ -1,8 +1,8 @@
 package org.muellners.bounties.service;
 
-import org.muellners.bounties.domain.Funding;
 import org.muellners.bounties.repository.FundingRepository;
 import org.muellners.bounties.repository.search.FundingSearchRepository;
+import org.muellners.bounties.service.dto.FundingDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,9 +40,9 @@ public class FundingService {
      * @param funding the entity to save.
      * @return the persisted entity.
      */
-    public Funding save(Funding funding) {
+    public FundingDTO save(FundingDTO funding) {
         log.debug("Request to save Funding : {}", funding);
-        Funding result = fundingRepository.save(funding);
+        FundingDTO result = fundingRepository.save(funding);
         fundingSearchRepository.save(result);
         return result;
     }
@@ -53,7 +53,7 @@ public class FundingService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Funding> findAll() {
+    public List<FundingDTO> findAll() {
         log.debug("Request to get all Fundings");
         return fundingRepository.findAll();
     }
@@ -66,7 +66,7 @@ public class FundingService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Funding> findOne(Long id) {
+    public Optional<FundingDTO> findOne(Long id) {
         log.debug("Request to get Funding : {}", id);
         return fundingRepository.findById(id);
     }
@@ -90,7 +90,7 @@ public class FundingService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Funding> search(String query) {
+    public List<FundingDTO> search(String query) {
         log.debug("Request to search Fundings for query {}", query);
         return StreamSupport
             .stream(fundingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
