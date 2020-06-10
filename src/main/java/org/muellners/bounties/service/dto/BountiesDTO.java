@@ -3,7 +3,6 @@ package org.muellners.bounties.service.dto;
 import com.sun.istack.NotNull;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.domain.Funding;
-import org.muellners.bounties.domain.Issue;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -208,4 +207,55 @@ public class BountiesDTO {
     public void setType(String type) {
         this.type = type;
     }
+
+    public BountiesDTO status(String status) {
+        this.status = status;
+        return this;
+    }
+
+    public BountiesDTO url(String url) {
+        this.url = url;
+        return this;
+    }
+
+    public BountiesDTO amount(BigDecimal amount) {
+        this.amount = amount;
+        return this;
+    }
+
+    public BountiesDTO experience(String experience) {
+        this.experience = experience;
+        return this;
+    }
+
+    public BountiesDTO commitment(String commitment) {
+        this.status = commitment;
+        return this;
+    }
+
+    public BountiesDTO type(String type) {
+        this.type = type;
+        return this;
+    }
+
+    public BountiesDTO category(String category) {
+        this.category = category;
+        return this;
+    }
+
+    public BountiesDTO keywords(String keywords) {
+        this.keywords = keywords;
+        return this;
+    }
+
+    public BountiesDTO permission(boolean permission) {
+        this.permission = permission;
+        return this;
+    }
+
+    public BountiesDTO expires(LocalDate expires) {
+        this.expires = expires;
+        return this;
+    }
+
 }

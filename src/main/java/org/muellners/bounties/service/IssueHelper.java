@@ -5,9 +5,9 @@ import kong.unirest.Unirest;
 import kong.unirest.json.JSONObject;
 import kong.unirest.HttpResponse;
 
-import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.repository.IssueRepository;
 import org.muellners.bounties.repository.search.IssueSearchRepository;
+import org.muellners.bounties.service.dto.IssueDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,9 @@ public class IssueHelper {
         this.issueService = new IssueService(issueRepository, issueSearchRepository);
     }
 
-    public Issue createIssue(final String issueLink) {
+    public IssueDTO createIssue(final String issueLink) {
 
-        final Issue issue = new Issue();
+        final IssueDTO issue = new IssueDTO();
         if (issueLink.contains("jira")) {
             HttpResponse<JsonNode> jsonNode = Unirest.get(issueLink).asJson();
 

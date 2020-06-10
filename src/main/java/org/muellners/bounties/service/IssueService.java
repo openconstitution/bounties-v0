@@ -5,9 +5,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.repository.IssueRepository;
 import org.muellners.bounties.repository.search.IssueSearchRepository;
+import org.muellners.bounties.service.dto.IssueDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -32,43 +32,43 @@ public class IssueService {
 
     /**
      * Save an issue.
-     * 
+     *
      * @param issue the entity to save.
      * @return the persisted entity.
      */
-    public Issue save(Issue issue) {
+    public IssueDTO save(IssueDTO issue) {
         log.debug("Request to save Issue : {}", issue);
-        Issue result = issueRepository.save(issue);
+        IssueDTO result = issueRepository.save(issue);
         issueSearchRepository.save(result);
         return result;
     }
 
     /**
      * Get all issues.
-     * 
+     *
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Issue> findAll() {
+    public List<IssueDTO> findAll() {
         log.debug("Request to get all Issues");
         return issueRepository.findAll();
     }
 
     /**
      * Get one Issue by id.
-     * 
+     *
      * @param id the id of the entity.
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<Issue> findOne(Long id) {
+    public Optional<IssueDTO> findOne(Long id) {
         log.debug("Request to get Issue : {}", id);
         return issueRepository.findById(id);
     }
 
     /**
      * Delete the funding by id.
-     * 
+     *
      * @param id the id of the entity.
      */
     public void delete(Long id) {
@@ -79,12 +79,12 @@ public class IssueService {
 
     /**
      * Search for the funding corresponding to the query.
-     * 
+     *
      * @param query the query of the search.
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<Issue> search(String query) {
+    public List<IssueDTO> search(String query) {
         log.debug("Request to seach Issue for query {}", query);
         return StreamSupport
             .stream(issueSearchRepository.search(queryStringQuery(query)).spliterator(), false)

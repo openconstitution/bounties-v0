@@ -37,8 +37,8 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
         this.id = id;
     }
 
-    public Long getIssueId() {
-        return this.id;
+    public String getIssueId() {
+        return this.issueId;
     }
 
     public void setIssueId(String issueId) {
@@ -82,7 +82,7 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
         return "Issue{" +
             "id=" + getId() +
             ", issueId='" + getIssueId() + "'" +
-            ", url='" + getUrl() + "'" +
+            ", url='" + getUrl() + "\n'" +
             ", description='" + getDescription() + "'" +
             "}";
     }
