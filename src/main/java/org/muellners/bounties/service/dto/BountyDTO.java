@@ -232,8 +232,8 @@ public class BountyDTO {
         return this;
     }
 
-    public BountyDTO commitment(final Status commitment) {
-        this.status = commitment;
+    public BountyDTO commitment(final Integer commitment) {
+        this.commitment = commitment;
         return this;
     }
 

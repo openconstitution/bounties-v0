@@ -5,9 +5,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.repository.IssueRepository;
 import org.muellners.bounties.repository.search.IssueSearchRepository;
 import org.muellners.bounties.service.dto.IssueDTO;
+import org.muellners.bounties.service.mapper.IssueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,9 +27,13 @@ public class IssueService {
 
     private final IssueSearchRepository issueSearchRepository;
 
-    public IssueService(IssueRepository issueRepository, IssueSearchRepository issueSearchRepository) {
+    private final IssueMapper issueMapper;
+
+    public IssueService(IssueRepository issueRepository, IssueSearchRepository issueSearchRepository,
+        IssueMapper issueMapper) {
         this.issueRepository = issueRepository;
         this.issueSearchRepository = issueSearchRepository;
+        this.issueMapper = issueMapper;
     }
 
     /**
@@ -36,11 +42,10 @@ public class IssueService {
      * @param issue the entity to save.
      * @return the persisted entity.
      */
-    public IssueDTO save(IssueDTO issue) {
+    public IssueDTO save(Issue issue) {
         log.debug("Request to save Issue : {}", issue);
-        IssueDTO result = issueRepository.save(issue);
-        issueSearchRepository.save(result);
-        return result;
+        final Issue result = issueRepository.save(issue);
+        return issueMapper.issueToIssueDTO(issueSearchRepository.save(result));
     }
 
     /**
@@ -51,7 +56,7 @@ public class IssueService {
     @Transactional(readOnly = true)
     public List<IssueDTO> findAll() {
         log.debug("Request to get all Issues");
-        return issueRepository.findAll();
+        return issueMapper.issuesToIssueDTOs(issueRepository.findAll());
     }
 
     /**
@@ -61,9 +66,10 @@ public class IssueService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<IssueDTO> findOne(Long id) {
+    public IssueDTO findOne(Long id) {
         log.debug("Request to get Issue : {}", id);
-        return issueRepository.findById(id);
+        final Optional<Issue> issue = issueRepository.findById(id);
+        return issueMapper.issueToIssueDTO(issue.orElse(null));
     }
 
     /**
@@ -86,9 +92,10 @@ public class IssueService {
     @Transactional(readOnly = true)
     public List<IssueDTO> search(String query) {
         log.debug("Request to seach Issue for query {}", query);
-        return StreamSupport
+        final List<Issue> issues = StreamSupport
             .stream(issueSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
+        return issueMapper.issuesToIssueDTOs(issues);
     }
 
 }

@@ -82,8 +82,6 @@ public class BountyResourceIT {
     @Autowired
     private BountyRepository bountyRepository;
 
-    @Autowired
-    private BountyService bountyService;
 
     /**
      * This repository is mocked in the org.muellners.bounties.repository.search test package.
@@ -99,7 +97,7 @@ public class BountyResourceIT {
     @Autowired
     private MockMvc restBountyMockMvc;
 
-    private BountyDTO bounty;
+    private Bounty bounty;
 
     /**
      * Create an entity for this test.
@@ -107,15 +105,15 @@ public class BountyResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static BountyDTO createEntity(EntityManager em) {
-        BountyDTO bounty = new BountyDTO()
-            .status(UPDATED_STATUS.toString())
+    public static Bounty createEntity(EntityManager em) {
+        Bounty bounty = new Bounty()
+            .status(UPDATED_STATUS)
             .url(UPDATED_URL)
             .amount(UPDATED_AMOUNT)
-            .experience(UPDATED_EXPERIENCE.toString())
-            .commitment(UPDATED_COMMITMENT.toString())
-            .type(UPDATED_TYPE.toString())
-            .category(UPDATED_CATEGORY.toString())
+            .experience(UPDATED_EXPERIENCE)
+            .commitment(UPDATED_COMMITMENT)
+            .type(UPDATED_TYPE)
+            .category(UPDATED_CATEGORY)
             .keywords(UPDATED_KEYWORDS)
             .permission(UPDATED_PERMISSION)
             .expires(UPDATED_EXPIRES);
@@ -127,15 +125,15 @@ public class BountyResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static BountyDTO createUpdatedEntity(EntityManager em) {
-        BountyDTO bounty = new BountyDTO()
-            .status(UPDATED_STATUS.toString())
+    public static Bounty createUpdatedEntity(EntityManager em) {
+        Bounty bounty = new Bounty()
+            .status(UPDATED_STATUS)
             .url(UPDATED_URL)
             .amount(UPDATED_AMOUNT)
-            .experience(UPDATED_EXPERIENCE.toString())
-            .commitment(UPDATED_COMMITMENT.toString())
-            .type(UPDATED_TYPE.toString())
-            .category(UPDATED_CATEGORY.toString())
+            .experience(UPDATED_EXPERIENCE)
+            .commitment(UPDATED_COMMITMENT)
+            .type(UPDATED_TYPE)
+            .category(UPDATED_CATEGORY)
             .keywords(UPDATED_KEYWORDS)
             .permission(UPDATED_PERMISSION)
             .expires(UPDATED_EXPIRES);
@@ -158,9 +156,9 @@ public class BountyResourceIT {
             .andExpect(status().isCreated());
 
         // Validate the Bounty in the database
-        List<BountyDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
-        BountyDTO testBounty = bountyList.get(bountyList.size() - 1);
+        Bounty testBounty = bountyList.get(bountyList.size() - 1);
         assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testBounty.getUrl()).isEqualTo(DEFAULT_URL);
         assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
@@ -191,7 +189,7 @@ public class BountyResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the Bounty in the database
-        List<BountyDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeCreate);
 
         // Validate the Bounty in Elasticsearch
@@ -256,22 +254,22 @@ public class BountyResourceIT {
     @Transactional
     public void updateBounty() throws Exception {
         // Initialize the database
-        bountyService.save(bounty);
+        bountyRepository.save(bounty);
 
         int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
 
         // Update the bounty
-        BountyDTO updatedBounty = bountyRepository.findById(bounty.getId()).get();
+        Bounty updatedBounty = bountyRepository.findById(bounty.getId()).get();
         // Disconnect from session so that the updates on updatedBounty are not directly saved in db
         em.detach(updatedBounty);
         updatedBounty
-            .status(UPDATED_STATUS.toString())
+            .status(UPDATED_STATUS)
             .url(UPDATED_URL)
             .amount(UPDATED_AMOUNT)
-            .experience(UPDATED_EXPERIENCE.toString())
-            .commitment(UPDATED_COMMITMENT.toString())
-            .type(UPDATED_TYPE.toString())
-            .category(UPDATED_CATEGORY.toString())
+            .experience(UPDATED_EXPERIENCE)
+            .commitment(UPDATED_COMMITMENT)
+            .type(UPDATED_TYPE)
+            .category(UPDATED_CATEGORY)
             .keywords(UPDATED_KEYWORDS)
             .permission(UPDATED_PERMISSION)
             .expires(UPDATED_EXPIRES);
@@ -282,9 +280,9 @@ public class BountyResourceIT {
             .andExpect(status().isOk());
 
         // Validate the Bounty in the database
-        List<BountyDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
-        BountyDTO testBounty = bountyList.get(bountyList.size() - 1);
+        Bounty testBounty = bountyList.get(bountyList.size() - 1);
         assertThat(testBounty.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testBounty.getUrl()).isEqualTo(UPDATED_URL);
         assertThat(testBounty.getAmount()).isEqualTo(UPDATED_AMOUNT);
@@ -312,7 +310,7 @@ public class BountyResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the Bounty in the database
-        List<BountyDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
 
         // Validate the Bounty in Elasticsearch
@@ -323,7 +321,7 @@ public class BountyResourceIT {
     @Transactional
     public void deleteBounty() throws Exception {
         // Initialize the database
-        bountyService.save(bounty);
+        bountyRepository.save(bounty);
 
         int databaseSizeBeforeDelete = bountyRepository.findAll().size();
 
@@ -333,7 +331,7 @@ public class BountyResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<BountyDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeDelete - 1);
 
         // Validate the Bounty in Elasticsearch
@@ -345,7 +343,7 @@ public class BountyResourceIT {
     public void searchBounty() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        bountyService.save(bounty);
+        bountyRepository.save(bounty);
         when(mockBountySearchRepository.search(queryStringQuery("id:" + bounty.getId())))
             .thenReturn(Collections.singletonList(bounty));
 

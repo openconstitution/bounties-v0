@@ -78,7 +78,7 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     }
 
     @Override
-    public Issue toString() {
+    public String toString() {
         return "Issue{" +
             "id=" + getId() +
             ", issueId='" + getIssueId() + "'" +
