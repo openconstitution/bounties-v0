@@ -101,8 +101,12 @@ public class FundingResource {
     @GetMapping("/fundings/{id}")
     public ResponseEntity<FundingDTO> getFunding(@PathVariable Long id) {
         log.debug("REST request to get Funding : {}", id);
-        Optional<FundingDTO> funding = fundingService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(funding);
+        FundingDTO fundingDTO = fundingService.findOne(id);
+        if (fundingDTO == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(fundingDTO);
+        }
     }
 
     /**

@@ -3,6 +3,7 @@ package org.muellners.bounties.service.dto;
 import java.math.BigDecimal;
 
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.Funding;
 
 public class FundingDTO {
     private Long id;
@@ -15,7 +16,15 @@ public class FundingDTO {
 
     private Bounty bounty;
 
-    public Long getId() {
+    public FundingDTO(Funding funding) {
+        this.id = funding.getId();
+        this.amount = funding.getAmount();
+        this.mode = funding.getMode();
+        this.paymentAuth = funding.getPaymentAuth();
+        this.bounty = funding.getBounty();
+	}
+
+	public Long getId() {
         return id;
     }
 
@@ -60,6 +69,10 @@ public class FundingDTO {
 
     public void setPaymentAuth(Boolean paymentAuth) {
         this.paymentAuth = paymentAuth;
+    }
+
+    public Boolean getPaymentAuth() {
+        return this.paymentAuth;
     }
 
     public Bounty getBounty() {

@@ -12,6 +12,7 @@ import org.muellners.bounties.service.dto.IssueDTO;
 import org.muellners.bounties.service.mapper.IssueMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class IssueService {
 
     private final IssueSearchRepository issueSearchRepository;
 
+    @Autowired
     private final IssueMapper issueMapper;
 
     public IssueService(IssueRepository issueRepository, IssueSearchRepository issueSearchRepository,

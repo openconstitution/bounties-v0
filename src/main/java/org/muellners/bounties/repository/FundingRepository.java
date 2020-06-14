@@ -1,6 +1,6 @@
 package org.muellners.bounties.repository;
 
-import org.muellners.bounties.service.dto.FundingDTO;
+import org.muellners.bounties.domain.Funding;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface FundingRepository extends JpaRepository<FundingDTO, Long> {
+public interface FundingRepository extends JpaRepository<Funding, Long> {
 
 }

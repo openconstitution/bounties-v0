@@ -71,7 +71,7 @@ public class FundingResourceIT {
     @Autowired
     private MockMvc restFundingMockMvc;
 
-    private FundingDTO funding;
+    private Funding funding;
 
     /**
      * Create an entity for this test.
@@ -79,8 +79,8 @@ public class FundingResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static FundingDTO createEntity(EntityManager em) {
-        FundingDTO funding = new FundingDTO()
+    public static Funding createEntity(EntityManager em) {
+        Funding funding = new Funding()
             .amount(DEFAULT_AMOUNT)
             .mode(DEFAULT_MODE)
             .paymentAuth(DEFAULT_PAYMENT_AUTH);
@@ -92,8 +92,8 @@ public class FundingResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static FundingDTO createUpdatedEntity(EntityManager em) {
-        FundingDTO funding = new FundingDTO()
+    public static Funding createUpdatedEntity(EntityManager em) {
+        Funding funding = new Funding()
             .amount(UPDATED_AMOUNT)
             .mode(UPDATED_MODE)
             .paymentAuth(UPDATED_PAYMENT_AUTH);
@@ -116,9 +116,9 @@ public class FundingResourceIT {
             .andExpect(status().isCreated());
 
         // Validate the Funding in the database
-        List<FundingDTO> fundingList = fundingRepository.findAll();
+        List<Funding> fundingList = fundingRepository.findAll();
         assertThat(fundingList).hasSize(databaseSizeBeforeCreate + 1);
-        FundingDTO testFunding = fundingList.get(fundingList.size() - 1);
+        Funding testFunding = fundingList.get(fundingList.size() - 1);
         assertThat(testFunding.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testFunding.getMode()).isEqualTo(DEFAULT_MODE);
         assertThat(testFunding.isPaymentAuth()).isEqualTo(DEFAULT_PAYMENT_AUTH);
@@ -142,7 +142,7 @@ public class FundingResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the Funding in the database
-        List<FundingDTO> fundingList = fundingRepository.findAll();
+        List<Funding> fundingList = fundingRepository.findAll();
         assertThat(fundingList).hasSize(databaseSizeBeforeCreate);
 
         // Validate the Funding in Elasticsearch
@@ -193,12 +193,12 @@ public class FundingResourceIT {
     @Transactional
     public void updateFunding() throws Exception {
         // Initialize the database
-        fundingService.save(funding);
+        fundingRepository.save(funding);
 
         int databaseSizeBeforeUpdate = fundingRepository.findAll().size();
 
         // Update the funding
-        FundingDTO updatedFunding = fundingRepository.findById(funding.getId()).get();
+        Funding updatedFunding = fundingRepository.findById(funding.getId()).get();
         // Disconnect from session so that the updates on updatedFunding are not directly saved in db
         em.detach(updatedFunding);
         updatedFunding
@@ -212,9 +212,9 @@ public class FundingResourceIT {
             .andExpect(status().isOk());
 
         // Validate the Funding in the database
-        List<FundingDTO> fundingList = fundingRepository.findAll();
+        List<Funding> fundingList = fundingRepository.findAll();
         assertThat(fundingList).hasSize(databaseSizeBeforeUpdate);
-        FundingDTO testFunding = fundingList.get(fundingList.size() - 1);
+        Funding testFunding = fundingList.get(fundingList.size() - 1);
         assertThat(testFunding.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testFunding.getMode()).isEqualTo(UPDATED_MODE);
         assertThat(testFunding.isPaymentAuth()).isEqualTo(UPDATED_PAYMENT_AUTH);
@@ -235,7 +235,7 @@ public class FundingResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the Funding in the database
-        List<FundingDTO> fundingList = fundingRepository.findAll();
+        List<Funding> fundingList = fundingRepository.findAll();
         assertThat(fundingList).hasSize(databaseSizeBeforeUpdate);
 
         // Validate the Funding in Elasticsearch
@@ -246,7 +246,7 @@ public class FundingResourceIT {
     @Transactional
     public void deleteFunding() throws Exception {
         // Initialize the database
-        fundingService.save(funding);
+        fundingRepository.save(funding);
 
         int databaseSizeBeforeDelete = fundingRepository.findAll().size();
 
@@ -256,7 +256,7 @@ public class FundingResourceIT {
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<FundingDTO> fundingList = fundingRepository.findAll();
+        List<Funding> fundingList = fundingRepository.findAll();
         assertThat(fundingList).hasSize(databaseSizeBeforeDelete - 1);
 
         // Validate the Funding in Elasticsearch
@@ -268,7 +268,7 @@ public class FundingResourceIT {
     public void searchFunding() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        fundingService.save(funding);
+        fundingRepository.save(funding);
         when(mockFundingSearchRepository.search(queryStringQuery("id:" + funding.getId())))
             .thenReturn(Collections.singletonList(funding));
 

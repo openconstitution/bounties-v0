@@ -1,11 +1,13 @@
 package org.muellners.bounties.service;
 
+import org.muellners.bounties.domain.Funding;
 import org.muellners.bounties.repository.FundingRepository;
 import org.muellners.bounties.repository.search.FundingSearchRepository;
 import org.muellners.bounties.service.dto.FundingDTO;
+import org.muellners.bounties.service.mapper.FundingMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +31,15 @@ public class FundingService {
 
     private final FundingSearchRepository fundingSearchRepository;
 
-    public FundingService(FundingRepository fundingRepository, FundingSearchRepository fundingSearchRepository) {
+    @Autowired
+    private final FundingMapper fundingMapper;
+
+    public FundingService(FundingRepository fundingRepository,
+        FundingSearchRepository fundingSearchRepository,
+        FundingMapper fundingMapper) {
         this.fundingRepository = fundingRepository;
         this.fundingSearchRepository = fundingSearchRepository;
+        this.fundingMapper = fundingMapper;
     }
 
     /**
@@ -40,11 +48,12 @@ public class FundingService {
      * @param funding the entity to save.
      * @return the persisted entity.
      */
-    public FundingDTO save(FundingDTO funding) {
-        log.debug("Request to save Funding : {}", funding);
-        FundingDTO result = fundingRepository.save(funding);
+    public FundingDTO save(final FundingDTO fundingDTO) {
+        log.debug("Request to save Funding : {}", fundingDTO);
+        final Funding funding = fundingMapper.fundingDTOToFunding(fundingDTO);
+        Funding result = fundingRepository.save(funding);
         fundingSearchRepository.save(result);
-        return result;
+        return fundingMapper.fundingToFundingDTO(result);
     }
 
     /**
@@ -55,7 +64,7 @@ public class FundingService {
     @Transactional(readOnly = true)
     public List<FundingDTO> findAll() {
         log.debug("Request to get all Fundings");
-        return fundingRepository.findAll();
+        return fundingMapper.fundingsToFundingDTOs(fundingRepository.findAll());
     }
 
 
@@ -66,9 +75,10 @@ public class FundingService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<FundingDTO> findOne(Long id) {
+    public FundingDTO findOne(Long id) {
         log.debug("Request to get Funding : {}", id);
-        return fundingRepository.findById(id);
+        final Optional<Funding> funding = fundingRepository.findById(id);
+        return fundingMapper.fundingToFundingDTO(funding.orElse(null));
     }
 
     /**
@@ -92,8 +102,9 @@ public class FundingService {
     @Transactional(readOnly = true)
     public List<FundingDTO> search(String query) {
         log.debug("Request to search Fundings for query {}", query);
-        return StreamSupport
+        final List<Funding> fundings = StreamSupport
             .stream(fundingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
+        return fundingMapper.fundingsToFundingDTOs(fundings);
     }
 }
