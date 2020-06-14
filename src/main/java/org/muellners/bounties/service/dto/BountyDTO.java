@@ -3,6 +3,11 @@ package org.muellners.bounties.service.dto;
 import com.sun.istack.NotNull;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.domain.Funding;
+import org.muellners.bounties.domain.Issue;
+import org.muellners.bounties.domain.enumeration.Category;
+import org.muellners.bounties.domain.enumeration.Experience;
+import org.muellners.bounties.domain.enumeration.Status;
+import org.muellners.bounties.domain.enumeration.Type;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -10,11 +15,11 @@ import java.time.LocalDate;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class BountiesDTO {
+public class BountyDTO {
 
     private Long id;
 
-    private String status;
+    private Status status;
 
     @NotNull
     private String url;
@@ -22,46 +27,45 @@ public class BountiesDTO {
     @NotNull
     private BigDecimal amount;
 
-    private String experience;
+    private Experience experience;
 
     private Integer commitment;
 
-    private String category;
+    private Category category;
 
     private String keywords;
 
-    private String type;
+    private Type type;
 
     private boolean permission;
 
     private LocalDate expires;
 
-    private Set<String> funding;
+    private Set<Funding> funding;
 
-    private String issue;
+    private Issue issue;
 
     private String createdBy;
 
     private Instant createdDate;
 
-    public BountiesDTO(){
+    public BountyDTO(){
         // Empty
     }
 
-    public BountiesDTO(Bounty bounty) {
+    public BountyDTO(final Bounty bounty) {
         this.id = bounty.getId();
-        this.status = bounty.getStatus().toString();
+        this.status = bounty.getStatus();
         this.amount = bounty.getAmount();
-        this.type = bounty.getType().toString();
-        this.experience = bounty.getExperience().toString();
+        this.type = bounty.getType();
+        this.experience = bounty.getExperience();
         this.commitment = bounty.getCommitment();
-        this.category = bounty.getCategory().toString();
+        this.category = bounty.getCategory();
         this.keywords = bounty.getKeywords();
         this.permission = bounty.getPermission();
         this.expires = bounty.getExpires();
-        this.funding = bounty.getFundings().stream()
-            .map(Funding::toString).collect(Collectors.toSet());
-        this.issue = bounty.getIssue().toString();
+        this.funding = bounty.getFundings();
+        this.issue = bounty.getIssue();
         this.createdBy = bounty.getCreatedBy();
         this.createdDate = bounty.getCreatedDate();
 
@@ -70,7 +74,7 @@ public class BountiesDTO {
     // prettier-ignore
     @Override
     public String toString() {
-        return "BountiesDTO{" +
+        return "BountyDTO{" +
             "id=" + id +
             ", status='" + status + '\'' +
             ", url='" + url + '\'' +
@@ -92,15 +96,15 @@ public class BountiesDTO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(final Status status) {
         this.status = status;
     }
 
@@ -108,7 +112,7 @@ public class BountiesDTO {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -116,15 +120,15 @@ public class BountiesDTO {
         return amount;
     }
 
-    public void setAmount(BigDecimal amount) {
+    public void setAmount(final BigDecimal amount) {
         this.amount = amount;
     }
 
-    public String getExperience() {
+    public Experience getExperience() {
         return experience;
     }
 
-    public void setExperience(String experience) {
+    public void setExperience(final Experience experience) {
         this.experience = experience;
     }
 
@@ -132,15 +136,15 @@ public class BountiesDTO {
         return commitment;
     }
 
-    public void setCommitment(Integer commitment) {
+    public void setCommitment(final Integer commitment) {
         this.commitment = commitment;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(final Category category) {
         this.category = category;
     }
 
@@ -148,7 +152,7 @@ public class BountiesDTO {
         return keywords;
     }
 
-    public void setKeywords(String keywords) {
+    public void setKeywords(final String keywords) {
         this.keywords = keywords;
     }
 
@@ -156,7 +160,7 @@ public class BountiesDTO {
         return permission;
     }
 
-    public void setPermission(boolean permission) {
+    public void setPermission(final boolean permission) {
         this.permission = permission;
     }
 
@@ -164,23 +168,23 @@ public class BountiesDTO {
         return expires;
     }
 
-    public void setExpires(LocalDate expires) {
+    public void setExpires(final LocalDate expires) {
         this.expires = expires;
     }
 
-    public Set<String> getFunding() {
+    public Set<Funding> getFunding() {
         return funding;
     }
 
-    public void setFunding(Set<String> funding) {
+    public void setFunding(final Set<Funding> funding) {
         this.funding = funding;
     }
 
-    public String getIssue() {
+    public Issue getIssue() {
         return issue;
     }
 
-    public void setIssue(String issue) {
+    public void setIssue(final Issue issue) {
         this.issue = issue;
     }
 
@@ -188,7 +192,7 @@ public class BountiesDTO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -196,66 +200,79 @@ public class BountiesDTO {
         return createdDate;
     }
 
-    public void setCreatedDate(Instant createdDate) {
+    public void setCreatedDate(final Instant createdDate) {
         this.createdDate = createdDate;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(final Type type) {
         this.type = type;
     }
 
-    public BountiesDTO status(String status) {
+    public BountyDTO status(final Status status) {
         this.status = status;
         return this;
     }
 
-    public BountiesDTO url(String url) {
+    public BountyDTO url(final String url) {
         this.url = url;
         return this;
     }
 
-    public BountiesDTO amount(BigDecimal amount) {
+    public BountyDTO amount(final BigDecimal amount) {
         this.amount = amount;
         return this;
     }
 
-    public BountiesDTO experience(String experience) {
+    public BountyDTO experience(final Experience experience) {
         this.experience = experience;
         return this;
     }
 
-    public BountiesDTO commitment(String commitment) {
+    public BountyDTO commitment(final Status commitment) {
         this.status = commitment;
         return this;
     }
 
-    public BountiesDTO type(String type) {
+    public BountyDTO type(final Type type) {
         this.type = type;
         return this;
     }
 
-    public BountiesDTO category(String category) {
+    public BountyDTO category(final Category category) {
         this.category = category;
         return this;
     }
 
-    public BountiesDTO keywords(String keywords) {
+    public BountyDTO keywords(final String keywords) {
         this.keywords = keywords;
         return this;
     }
 
-    public BountiesDTO permission(boolean permission) {
+    public BountyDTO permission(final boolean permission) {
         this.permission = permission;
         return this;
     }
 
-    public BountiesDTO expires(LocalDate expires) {
+    public BountyDTO expires(final LocalDate expires) {
         this.expires = expires;
         return this;
+    }
+
+    public BountyDTO permission(final Boolean permission) {
+        this.permission = permission;
+        return this;
+    }
+
+    public void setPermission(final Boolean permission) {
+        this.permission = permission;
+    }
+
+	public Boolean getPermission() {
+        return permission;
     }
 
 }
