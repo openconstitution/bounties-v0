@@ -57,7 +57,7 @@ public class BountyService {
         log.debug("Request to save Bounty : {}", bountyDTO);
         // Before we go and save the url from git/bitbucket/jira/or anything else
         issueHelper.createIssue(bountyDTO.getUrl());
-        final Bounty bounty = bountyMapper.bountyDTOTOBounty(bountyDTO);
+        final Bounty bounty = bountyMapper.bountyDTOToBounty(bountyDTO);
         Bounty result = bountyRepository.save(bounty);
         bountySearchRepository.save(result);
         return bountyMapper.bountyToBountyDTO(result);

@@ -24,22 +24,18 @@ public class BountyMapper {
             .collect(Collectors.toList());
     }
     
-    public BountyDTO bountyToBountyDTO(Bounty bounty) {
+    public BountyDTO bountyToBountyDTO(final Bounty bounty) {
         return new BountyDTO(bounty);
     }
-
-	public BountyDTO bountyToBountyDTO(Optional<Bounty> bounty) {
-        return new BountyDTO(bounty.orElse(null));
-	}
 
     public List<Bounty> bountyDTOsToBounties(final List<BountyDTO> bountyDTOs) {
         return bountyDTOs.stream()
             .filter(Objects::nonNull)
-            .map(this::bountyDTOTOBounty)
+            .map(this::bountyDTOToBounty)
             .collect(Collectors.toList());
     }
 
-    public Bounty bountyDTOTOBounty(BountyDTO bountyDTO) {
+    public Bounty bountyDTOToBounty(final BountyDTO bountyDTO) {
         if (bountyDTO == null) {
             return null;
         } else {
