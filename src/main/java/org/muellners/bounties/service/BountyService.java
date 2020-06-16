@@ -4,11 +4,12 @@ import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.repository.BountyRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
-import org.muellners.bounties.service.dto.BountiesDTO;
+import org.muellners.bounties.service.dto.BountyDTO;
+import org.muellners.bounties.service.mapper.BountyMapper;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,11 +36,15 @@ public class BountyService {
 
     private final IssueHelper issueHelper;
 
+    @Autowired
+    private final BountyMapper bountyMapper;
+
     public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository,
-                         IssueHelper issueHelper) {
+                        IssueHelper issueHelper, BountyMapper bountyMapper) {
         this.bountyRepository = bountyRepository;
         this.bountySearchRepository = bountySearchRepository;
         this.issueHelper = issueHelper;
+        this.bountyMapper = bountyMapper;
     }
 
     /**
@@ -48,13 +53,14 @@ public class BountyService {
      * @param bounty the entity to save.
      * @return the persisted entity.
      */
-    public BountiesDTO save(BountiesDTO bounty) {
-        log.debug("Request to save Bounty : {}", bounty);
+    public BountyDTO save(final BountyDTO bountyDTO) {
+        log.debug("Request to save Bounty : {}", bountyDTO);
         // Before we go and save the url from git/bitbucket/jira/or anything else
-        issueHelper.createIssue(bounty.getUrl());
-        BountiesDTO result = bountyRepository.save(bounty);
+        issueHelper.createIssue(bountyDTO.getUrl());
+        final Bounty bounty = bountyMapper.bountyDTOToBounty(bountyDTO);
+        Bounty result = bountyRepository.save(bounty);
         bountySearchRepository.save(result);
-        return result;
+        return bountyMapper.bountyToBountyDTO(result);
     }
 
     /**
@@ -69,9 +75,9 @@ public class BountyService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<BountiesDTO> findAll() {
+    public List<BountyDTO> findAll() {
         log.debug("Request to get all Bounty");
-        return bountyRepository.findAll();
+        return bountyMapper.bountiesToBountyDTOs(bountyRepository.findAll());
     }
 
 
@@ -82,9 +88,10 @@ public class BountyService {
      * @return the entity.
      */
     @Transactional(readOnly = true)
-    public Optional<BountiesDTO> findOne(Long id) {
+    public BountyDTO findOne(Long id) {
         log.debug("Request to get Bounty : {}", id);
-        return bountyRepository.findById(id);
+        final Optional<Bounty> bounty = bountyRepository.findById(id);
+        return bountyMapper.bountyToBountyDTO(bounty.orElse(null));
     }
 
     /**
@@ -106,10 +113,11 @@ public class BountyService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<BountiesDTO> search(String query) {
+    public List<BountyDTO> search(String query) {
         log.debug("Request to search Bounty for query {}", query);
-        return StreamSupport
+        final List<Bounty> bounties = StreamSupport
             .stream(bountySearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+            .collect(Collectors.toList());
+        return bountyMapper.bountiesToBountyDTOs(bounties);
     }
 }

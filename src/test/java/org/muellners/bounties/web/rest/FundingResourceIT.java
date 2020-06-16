@@ -7,7 +7,7 @@ import org.muellners.bounties.domain.Funding;
 import org.muellners.bounties.repository.FundingRepository;
 import org.muellners.bounties.repository.search.FundingSearchRepository;
 import org.muellners.bounties.service.FundingService;
-
+import org.muellners.bounties.service.dto.FundingDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -165,7 +165,7 @@ public class FundingResourceIT {
             .andExpect(jsonPath("$.[*].mode").value(hasItem(DEFAULT_MODE)))
             .andExpect(jsonPath("$.[*].paymentAuth").value(hasItem(DEFAULT_PAYMENT_AUTH.booleanValue())));
     }
-    
+
     @Test
     @Transactional
     public void getFunding() throws Exception {
@@ -193,7 +193,7 @@ public class FundingResourceIT {
     @Transactional
     public void updateFunding() throws Exception {
         // Initialize the database
-        fundingService.save(funding);
+        fundingRepository.save(funding);
 
         int databaseSizeBeforeUpdate = fundingRepository.findAll().size();
 
@@ -246,7 +246,7 @@ public class FundingResourceIT {
     @Transactional
     public void deleteFunding() throws Exception {
         // Initialize the database
-        fundingService.save(funding);
+        fundingRepository.save(funding);
 
         int databaseSizeBeforeDelete = fundingRepository.findAll().size();
 
@@ -268,7 +268,7 @@ public class FundingResourceIT {
     public void searchFunding() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        fundingService.save(funding);
+        fundingRepository.save(funding);
         when(mockFundingSearchRepository.search(queryStringQuery("id:" + funding.getId())))
             .thenReturn(Collections.singletonList(funding));
 

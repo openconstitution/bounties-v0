@@ -1,7 +1,7 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.domain.Funding;
 import org.muellners.bounties.service.FundingService;
+import org.muellners.bounties.service.dto.FundingDTO;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -49,12 +49,12 @@ public class FundingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/fundings")
-    public ResponseEntity<Funding> createFunding(@RequestBody Funding funding) throws URISyntaxException {
+    public ResponseEntity<FundingDTO> createFunding(@RequestBody FundingDTO funding) throws URISyntaxException {
         log.debug("REST request to save Funding : {}", funding);
         if (funding.getId() != null) {
             throw new BadRequestAlertException("A new funding cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Funding result = fundingService.save(funding);
+        FundingDTO result = fundingService.save(funding);
         return ResponseEntity.created(new URI("/api/fundings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -70,12 +70,12 @@ public class FundingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/fundings")
-    public ResponseEntity<Funding> updateFunding(@RequestBody Funding funding) throws URISyntaxException {
+    public ResponseEntity<FundingDTO> updateFunding(@RequestBody FundingDTO funding) throws URISyntaxException {
         log.debug("REST request to update Funding : {}", funding);
         if (funding.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Funding result = fundingService.save(funding);
+        FundingDTO result = fundingService.save(funding);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, funding.getId().toString()))
             .body(result);
@@ -87,7 +87,7 @@ public class FundingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fundings in body.
      */
     @GetMapping("/fundings")
-    public List<Funding> getAllFundings() {
+    public List<FundingDTO> getAllFundings() {
         log.debug("REST request to get all Fundings");
         return fundingService.findAll();
     }
@@ -99,10 +99,14 @@ public class FundingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the funding, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/fundings/{id}")
-    public ResponseEntity<Funding> getFunding(@PathVariable Long id) {
+    public ResponseEntity<FundingDTO> getFunding(@PathVariable Long id) {
         log.debug("REST request to get Funding : {}", id);
-        Optional<Funding> funding = fundingService.findOne(id);
-        return ResponseUtil.wrapOrNotFound(funding);
+        FundingDTO fundingDTO = fundingService.findOne(id);
+        if (fundingDTO == null) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(fundingDTO);
+        }
     }
 
     /**
@@ -128,7 +132,7 @@ public class FundingResource {
      * @return the result of the search.
      */
     @GetMapping("/_search/fundings")
-    public List<Funding> searchFundings(@RequestParam String query) {
+    public List<FundingDTO> searchFundings(@RequestParam String query) {
         log.debug("REST request to search Fundings for query {}", query);
         return fundingService.search(query);
     }

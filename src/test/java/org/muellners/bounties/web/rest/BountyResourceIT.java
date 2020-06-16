@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.muellners.bounties.service.dto.BountiesDTO;
+import org.muellners.bounties.service.dto.BountyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -82,8 +82,6 @@ public class BountyResourceIT {
     @Autowired
     private BountyRepository bountyRepository;
 
-    @Autowired
-    private BountyService bountyService;
 
     /**
      * This repository is mocked in the org.muellners.bounties.repository.search test package.
@@ -109,16 +107,16 @@ public class BountyResourceIT {
      */
     public static Bounty createEntity(EntityManager em) {
         Bounty bounty = new Bounty()
-            .status(DEFAULT_STATUS)
-            .url(DEFAULT_URL)
-            .amount(DEFAULT_AMOUNT)
-            .experience(DEFAULT_EXPERIENCE)
-            .commitment(DEFAULT_COMMITMENT)
-            .type(DEFAULT_TYPE)
-            .category(DEFAULT_CATEGORY)
-            .keywords(DEFAULT_KEYWORDS)
-            .permission(DEFAULT_PERMISSION)
-            .expires(DEFAULT_EXPIRES);
+            .status(UPDATED_STATUS)
+            .url(UPDATED_URL)
+            .amount(UPDATED_AMOUNT)
+            .experience(UPDATED_EXPERIENCE)
+            .commitment(UPDATED_COMMITMENT)
+            .type(UPDATED_TYPE)
+            .category(UPDATED_CATEGORY)
+            .keywords(UPDATED_KEYWORDS)
+            .permission(UPDATED_PERMISSION)
+            .expires(UPDATED_EXPIRES);
         return bounty;
     }
     /**
@@ -158,9 +156,9 @@ public class BountyResourceIT {
             .andExpect(status().isCreated());
 
         // Validate the Bounty in the database
-        List<BountiesDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
-        BountiesDTO testBounty = bountyList.get(bountyList.size() - 1);
+        Bounty testBounty = bountyList.get(bountyList.size() - 1);
         assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testBounty.getUrl()).isEqualTo(DEFAULT_URL);
         assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
@@ -191,10 +189,10 @@ public class BountyResourceIT {
             .andExpect(status().isBadRequest());
 
         // Validate the Bounty in the database
-        List<BountiesDTO> bountyList = bountyRepository.findAll();
+        List<Bounty> bountyList = bountyRepository.findAll();
         assertThat(bountyList).hasSize(databaseSizeBeforeCreate);
 
-        // Validate the Bounty in Elasticsearch 
+        // Validate the Bounty in Elasticsearch
         verify(mockBountySearchRepository, times(0)).save(bounty);
     }
 
@@ -256,7 +254,7 @@ public class BountyResourceIT {
     @Transactional
     public void updateBounty() throws Exception {
         // Initialize the database
-        bountyService.save(bounty);
+        bountyRepository.save(bounty);
 
         int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
 
@@ -323,7 +321,7 @@ public class BountyResourceIT {
     @Transactional
     public void deleteBounty() throws Exception {
         // Initialize the database
-        bountyService.save(bounty);
+        bountyRepository.save(bounty);
 
         int databaseSizeBeforeDelete = bountyRepository.findAll().size();
 
@@ -345,7 +343,7 @@ public class BountyResourceIT {
     public void searchBounty() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        bountyService.save(bounty);
+        bountyRepository.save(bounty);
         when(mockBountySearchRepository.search(queryStringQuery("id:" + bounty.getId())))
             .thenReturn(Collections.singletonList(bounty));
 

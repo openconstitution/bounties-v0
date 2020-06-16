@@ -86,6 +86,10 @@ public class Funding extends AbstractAuditingEntity implements Serializable {
         this.paymentAuth = paymentAuth;
     }
 
+    public Boolean getPaymentAuth() {
+        return this.paymentAuth;
+    }
+
     public Bounty getBounty() {
         return bounty;
     }
