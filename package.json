@@ -60,7 +60,7 @@
     "eslint-loader": "4.0.2",
     "file-loader": "6.0.0",
     "friendly-errors-webpack-plugin": "1.7.0",
-    "generator-jhipster": "6.9.0",
+    "generator-jhipster": "6.10.1",
     "generator-jhipster-audit-helper": "1.0.3",
     "generator-jhipster-stripe-payment": "1.0.9",
     "html-loader": "1.1.0",
