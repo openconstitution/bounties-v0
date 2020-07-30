@@ -47,7 +47,7 @@
     "@typescript-eslint/eslint-plugin": "2.30.0",
     "@typescript-eslint/eslint-plugin-tslint": "2.30.0",
     "@typescript-eslint/parser": "2.30.0",
-    "autoprefixer": "9.7.6",
+    "autoprefixer": "9.8.6",
     "base-href-webpack-plugin": "2.0.0",
     "browser-sync": "2.26.7",
     "browser-sync-webpack-plugin": "2.2.2",
