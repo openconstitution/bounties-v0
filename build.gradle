@@ -67,7 +67,6 @@ if (project.hasProperty("gae")) {
     appengineStage.dependsOn thinResolve
 }
 
-
 idea {
     module {
         excludeDirs += files("node_modules")
@@ -184,6 +183,7 @@ checkstyle {
     configFile file("checkstyle.xml")
     checkstyleTest.enabled = false
 }
+
 nohttp {
     source.include "build.gradle", "README.md"
 }
