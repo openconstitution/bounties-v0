@@ -50,7 +50,7 @@ public class BountyService {
     /**
      * Save a bounty.
      *
-     * @param bounty the entity to save.
+     * @param bountyDTO the entity to save.
      * @return the persisted entity.
      */
     public BountyDTO save(final BountyDTO bountyDTO) {
@@ -79,7 +79,6 @@ public class BountyService {
         log.debug("Request to get all Bounty");
         return bountyMapper.bountiesToBountyDTOs(bountyRepository.findAll());
     }
-
 
     /**
      * Get one bounty by id.
