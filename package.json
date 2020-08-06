@@ -22,7 +22,7 @@
     "@ng-bootstrap/ng-bootstrap": "6.1.0",
     "@ngx-translate/core": "12.1.2",
     "@ngx-translate/http-loader": "4.0.0",
-    "bootstrap": "4.4.1",
+    "bootstrap": "4.5.2",
     "bootswatch": "4.4.1",
     "moment": "2.24.0",
     "ng-jhipster": "0.13.0",
