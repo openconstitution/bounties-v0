@@ -23,7 +23,7 @@ public class RedisTestContainerExtension implements BeforeAllCallback {
     @Override
     public void beforeAll(ExtensionContext extensionContext) throws Exception {
         if (!started.get()) {
-            redis = new GenericContainer("redis:5.0.9").withExposedPorts(6379);
+            redis = new GenericContainer("redis:6.0.4").withExposedPorts(6379);
             redis.start();
             started.set(true);
         }

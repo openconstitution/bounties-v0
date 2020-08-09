@@ -1,10 +1,10 @@
 
-  ${AnsiColor.MAGENTA} ███████╗  ████████╗ ██║   ██║ ███████╗  ████████╗ ████████╗ ███████╗ ███████╗
-  ${AnsiColor.MAGENTA} ██╔═══██║ ██╔═══██║ ██║   ██║ ██╔═══██║ ╚══██╔══╝ ╚══██╔══╝ ██╔════╝ ██╔════╝
-  ${AnsiColor.MAGENTA} ███████╔╝ ██║   ██║ ██║   ██║ ██║   ██║    ██║       ██║    ██████╗  ███████╗
-  ${AnsiColor.CYAN} ██╔═══██║ ██║   ██║ ██║   ██║ ██║   ██║    ██║       ██║    ██╔═══╝  ╚════██║
-  ${AnsiColor.CYAN} ███████╔╝ ████████║ ╚██████╔╝ ██║   ██║    ██║    ████████╗ ███████╗ ███████║
-  ${AnsiColor.CYAN} ╚══════╝  ╚═══════╝  ╚═════╝  ╚═╝   ╚═╝    ╚═╝    ╚═══════╝ ╚══════╝ ╚══════╝
+  ${AnsiColor.GREEN}      ██╗${AnsiColor.CYAN} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
+  ${AnsiColor.GREEN}      ██║${AnsiColor.CYAN} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
+  ${AnsiColor.GREEN}      ██║${AnsiColor.CYAN} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
+  ${AnsiColor.GREEN}██╗   ██║${AnsiColor.CYAN} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
+  ${AnsiColor.GREEN}╚██████╔╝${AnsiColor.CYAN} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
+  ${AnsiColor.GREEN} ╚═════╝ ${AnsiColor.CYAN} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
 
 ${AnsiColor.BRIGHT_BLUE}:: Bounties Platform By Muellners 🤓  :: Running Spring Boot ${spring-boot.version} ::
 :: https://www.jhipster.tech ::${AnsiColor.DEFAULT}

@@ -4,7 +4,7 @@
       "packageName": "org.muellners.bounties",
       "nativeLanguage": "en"
     },
-    "jhipsterVersion": "6.9.0",
+    "jhipsterVersion": "6.10.1",
     "applicationType": "monolith",
     "baseName": "bounties",
     "packageName": "org.muellners.bounties",
@@ -25,24 +25,15 @@
     "embeddableLaunchScript": false,
     "useSass": true,
     "clientPackageManager": "npm",
-    "clientFramework": "angularX",
-    "clientTheme": "litera",
-    "clientThemeVariant": "primary",
-    "creationTimestamp": 1590044488653,
-    "testFrameworks": ["gatling"],
+    "clientFramework": "react",
+    "clientTheme": "materia",
+    "clientThemeVariant": "dark",
+    "creationTimestamp": 1596968372584,
+    "testFrameworks": ["gatling", "cucumber", "protractor"],
     "jhiPrefix": "jhi",
     "entitySuffix": "",
     "dtoSuffix": "DTO",
-    "otherModules": [
-      {
-        "name": "generator-jhipster-audit-helper",
-        "version": "1.0.3"
-      },
-      {
-        "name": "generator-jhipster-stripe-payment",
-        "version": "1.0.9"
-      }
-    ],
+    "otherModules": [],
     "enableTranslation": true,
     "nativeLanguage": "en",
     "languages": [
@@ -93,7 +84,6 @@
       "uz-Latn-uz",
       "vi"
     ],
-    "blueprints": [],
-    "lastLiquibaseTimestamp": 1590326863000
+    "blueprints": []
   }
 }

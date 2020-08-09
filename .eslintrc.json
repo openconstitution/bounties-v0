@@ -1,24 +1,7 @@
 {
-  "plugins": ["@typescript-eslint/tslint"],
-  "extends": ["jhipster"],
+  "extends": ["jhipster-react"],
   "parserOptions": {
-    "project": "./tsconfig.json"
+    "project": "./tsconfig.e2e.json"
   },
-  "rules": {
-    "@typescript-eslint/tslint/config": [
-      "error",
-      {
-        "lintFile": "./tslint.json"
-      }
-    ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        "vars": "all",
-        "args": "after-used",
-        "ignoreRestSiblings": false
-      }
-    ],
-    "@typescript-eslint/no-non-null-assertion": "off"
-  }
+  "rules": {}
 }

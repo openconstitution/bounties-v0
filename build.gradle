@@ -41,7 +41,6 @@ assert System.properties["java.specification.version"] == "1.8" || "11" || "12" 
 apply from: "gradle/docker.gradle"
 apply from: "gradle/sonar.gradle"
 apply from: "gradle/swagger.gradle"
-
 //jhipster-needle-gradle-apply-from - JHipster will add additional gradle scripts to be applied here
 
 if (project.hasProperty("prod") || project.hasProperty("gae")) {
@@ -111,6 +110,7 @@ task integrationTest(type: Test) {
     description = "Execute integration tests."
     group = "verification"
     include "**/*IT*", "**/*IntTest*"
+    exclude "**/*CucumberIT*"
 
     testLogging {
         events 'FAILED', 'SKIPPED'
@@ -126,6 +126,19 @@ task integrationTest(type: Test) {
     reports.html.enabled = false
 }
 
+task cucumberTest(type: Test) {
+    description = "Execute cucumber BDD tests."
+    group = "verification"
+    include "**/*CucumberIT*"
+
+    // uncomment if the tests reports are not generated
+    // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
+    // ignoreFailures true
+    reports.html.enabled = false
+}
+
+check.dependsOn cucumberTest
+
 check.dependsOn integrationTest
 task testReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/tests")
@@ -135,6 +148,11 @@ task testReport(type: TestReport) {
 task integrationTestReport(type: TestReport) {
     destinationDir = file("$buildDir/reports/tests")
     reportOn integrationTest
+}
+
+task cucumberTestReport(type: TestReport) {
+    destinationDir = file("$buildDir/reports/tests")
+    reportOn cucumberTest
 }
 
 if (!project.hasProperty("runList")) {
@@ -152,7 +170,7 @@ liquibase {
             password ""
             changeLogFile "src/main/resources/config/liquibase/master.xml"
             defaultSchemaName ""
-            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+            // referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
             logLevel "debug"
             classpath "src/main/resources/"
         }
@@ -183,7 +201,6 @@ checkstyle {
     configFile file("checkstyle.xml")
     checkstyleTest.enabled = false
 }
-
 nohttp {
     source.include "build.gradle", "README.md"
 }
@@ -227,15 +244,12 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
     implementation "com.fasterxml.jackson.core:jackson-annotations"
     implementation "com.fasterxml.jackson.core:jackson-databind"
-    implementation "com.fasterxml.jackson.module:jackson-module-afterburner"
     implementation "org.redisson:redisson"
     implementation "org.hibernate:hibernate-jcache"
     implementation "javax.cache:cache-api"
     implementation "org.hibernate:hibernate-core"
     implementation "com.zaxxer:HikariCP"
     implementation "org.openapitools:jackson-databind-nullable:${jackson_databind_nullable_version}"
-    implementation "org.apache.commons:commons-lang3"
-    implementation "commons-io:commons-io"
     implementation "javax.transaction:javax.transaction-api"
     implementation "org.hibernate:hibernate-entitymanager"
     implementation "org.hibernate.validator:hibernate-validator"
@@ -250,8 +264,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch"
-    implementation "org.springframework.boot:spring-boot-starter-webflux"
-    implementation "com.konghq:unirest-java:3.7.02"
     // Spring Data Jest dependencies for Elasticsearch
     implementation ("com.github.vanroy:spring-boot-starter-data-jest") {
         exclude module: "commons-logging"
@@ -287,8 +299,9 @@ dependencies {
     annotationProcessor "org.hibernate:hibernate-jpamodelgen:${hibernate_version}"
     annotationProcessor "org.glassfish.jaxb:jaxb-runtime:${jaxb_runtime_version}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
+    testImplementation "io.cucumber:cucumber-junit"
+    testImplementation "io.cucumber:cucumber-spring"
     testImplementation ("org.springframework.boot:spring-boot-starter-test") {
-        exclude group: "org.junit.vintage", module: "junit-vintage-engine"
     }
     testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.springframework.boot:spring-boot-test"
@@ -319,8 +332,9 @@ task cleanResources(type: Delete) {
 }
 
 wrapper {
-    gradleVersion = "6.4.1"
+    gradleVersion = "6.5"
 }
+
 
 if (project.hasProperty("nodeInstall")) {
     node {

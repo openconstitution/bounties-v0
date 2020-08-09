@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "jsx": "react",
     "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
@@ -7,23 +8,21 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "removeComments": false,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
+    "noImplicitAny": false,
     "suppressImplicitAnyIndexErrors": true,
-    "skipLibCheck": true,
     "outDir": "build/resources/main/static/app",
-    "lib": ["es7", "dom"],
+    "lib": ["dom", "es2015", "es2016", "es2017"],
+    "types": ["jest", "webpack-env"],
+    "allowJs": true,
+    "checkJs": false,
     "baseUrl": "./",
     "paths": {
       "app/*": ["src/main/webapp/app/*"]
     },
-    "importHelpers": true
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
-  "angularCompilerOptions": {
-    "genDir": "build/resources/main/aot",
-    "fullTemplateTypeCheck": true,
-    "strictTemplates": true,
-    "preserveWhitespaces": true
-  }
+  "include": ["src/main/webapp/app", "src/test/javascript/spec"],
+  "exclude": ["node_modules"]
 }
