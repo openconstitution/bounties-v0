@@ -50,8 +50,9 @@ spring:
       auto-commit: false
   h2:
     console:
-      enabled: true
+      enabled: false
   jpa:
+    database-platform: io.github.jhipster.domain.util.FixedH2Dialect
     show-sql: true
   data:
     elasticsearch:
@@ -84,7 +85,7 @@ jhipster:
   cache: # Cache configuration
     redis: # Redis configuration
       expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://redis.muelleners.tech:6379
+      server: redis://localhost:6379
       cluster: false
       # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
       # cluster: true
@@ -121,7 +122,4 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-  listeners:
-    url: https://pubsub.apache.org:2070/
-    path: /jira/FINERACT
+# application:

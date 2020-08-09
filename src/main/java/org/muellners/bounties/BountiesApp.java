@@ -33,7 +33,7 @@ public class BountiesApp {
     }
 
     /**
-     * Initializes bounty.
+     * Initializes bounties.
      * <p>
      * Spring profiles can be configured with a program argument --spring.profiles.active=your-active-profile
      * <p>
@@ -51,7 +51,6 @@ public class BountiesApp {
                 "run with both the 'dev' and 'cloud' profiles at the same time.");
         }
     }
-
 
     /**
      * Main method, used to run the application.

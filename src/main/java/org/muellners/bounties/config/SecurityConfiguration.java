@@ -60,7 +60,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/h2-console/**")
             .antMatchers("/swagger-ui/index.html")
             .antMatchers("/test/**");
-
     }
 
     @Override

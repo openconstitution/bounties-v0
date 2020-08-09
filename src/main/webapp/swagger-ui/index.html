@@ -17,19 +17,19 @@
 
 
 <script type="text/javascript">
-    window.onload = function () {
 
-        function getCSRF() {
-            var name = "XSRF-TOKEN=";
-            var ca = document.cookie.split(';');
-            for(var i=0; i<ca.length; i++) {
-                var c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1);
-                if (c.indexOf(name) !== -1) return c.substring(name.length,c.length);
-            }
-            return "";
+    function getCSRF() {
+        var name = "XSRF-TOKEN=";
+        var ca = document.cookie.split(';');
+        for(var i=0; i<ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1);
+            if (c.indexOf(name) !== -1) return c.substring(name.length,c.length);
         }
+        return "";
+    }
 
+    window.onload = function () {
         var urls = [];
         axios.get("/swagger-resources").then(function (response) {
             response.data.forEach(function (resource) {

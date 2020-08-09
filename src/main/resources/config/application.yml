@@ -97,9 +97,6 @@ spring:
     basename: i18n/messages
   main:
     allow-bean-definition-overriding: true
-  mvc:
-    favicon:
-      enabled: false
   task:
     execution:
       thread-name-prefix: bounties-task-
@@ -121,7 +118,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: http://login.muelleners.tech/auth/realms/muellners
+            issuer-uri: http://localhost:9080/auth/realms/jhipster
         registration:
           oidc:
             client-id: web_app
@@ -166,7 +163,7 @@ jhipster:
     contact-name:
     contact-url:
     contact-email:
-    license:
+    license: unlicensed
     license-url:
   security:
     oauth2:
@@ -174,7 +171,7 @@ jhipster:
         - account
         - api://default
 kafka:
-  bootstrap-servers: kafka.muelleners.tech:9092
+  bootstrap-servers: localhost:9092
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
