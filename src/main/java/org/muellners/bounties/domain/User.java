@@ -14,7 +14,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -26,7 +25,7 @@ import java.util.Set;
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "user")
-public class User extends AbstractAuditingEntity implements Serializable {
+public class User extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
