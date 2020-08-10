@@ -20,7 +20,7 @@ public class AudienceValidatorTest {
     private final AudienceValidator validator = new AudienceValidator(Arrays.asList("api://default"));
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     public void testInvalidAudience() {
         Map<String, Object> claims = new HashMap<>();
         claims.put("aud", "bar");
@@ -30,7 +30,7 @@ public class AudienceValidatorTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("all")
     public void testValidAudience() {
         Map<String, Object> claims = new HashMap<>();
         claims.put("aud", "api://default");

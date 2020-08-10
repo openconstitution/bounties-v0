@@ -6,6 +6,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+@SuppressWarnings("resource")
 class BountiesKafkaResourceIT {
 
     private static boolean started = false;
@@ -37,6 +39,11 @@ class BountiesKafkaResourceIT {
             startTestcontainer();
             started = true;
         }
+    }
+
+    @AfterAll
+    static void stopServer() {
+        kafkaContainer.start();
     }
 
     private static void startTestcontainer() {
@@ -97,6 +104,7 @@ class BountiesKafkaResourceIT {
             }
         }
         fail("Expected content data:value-consume not received");
+        producer.close();
     }
 
     private Map<String, String> getProducerProps() {

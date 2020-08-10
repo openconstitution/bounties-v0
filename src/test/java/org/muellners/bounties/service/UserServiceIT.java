@@ -57,6 +57,7 @@ public class UserServiceIT {
      *
      * @see org.muellners.bounties.repository.search.UserSearchRepositoryMockConfiguration
      */
+    @SuppressWarnings("unused")
     @Autowired
     private UserSearchRepository mockUserSearchRepository;
 
