@@ -18,8 +18,23 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { CssBaseline, Container } from '@material-ui/core';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+  }),
+);
 
 export interface IAppProps extends StateProps, DispatchProps {}
 
@@ -29,10 +44,13 @@ export const App = (props: IAppProps) => {
     props.getProfile();
   }, []);
 
-  const paddingTop = '60px';
+  // const paddingTop = '60px';
+  const classes = useStyles();
+
   return (
     <Router basename={baseHref}>
-      <div className="app-container" style={{ paddingTop }}>
+      {/* <div className="app-container" style={{ paddingTop }}> */}
+      <div className={classes.root}>
         <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
           <Header
@@ -45,12 +63,38 @@ export const App = (props: IAppProps) => {
             isSwaggerEnabled={props.isSwaggerEnabled}
           />
         </ErrorBoundary>
+        <br/>
         <div className="container-fluid view-container" id="app-view-container">
-          <Card className="jh-card">
+          <CssBaseline />
+          <Container className={classes.paper}>
+            {/* <Grid container spacing={3}>
+              <Grid item xs={12}>
+                <Paper className={classes.paper}>xs=12</Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper className={classes.paper}>xs=6</Paper>
+              </Grid>
+              <Grid item xs={6}>
+                <Paper className={classes.paper}>xs=6</Paper>
+              </Grid>
+              <Grid item xs={3}>
+                <Paper className={classes.paper}>xs=3</Paper>
+              </Grid>
+              <Grid item xs={3}>
+                <Paper className={classes.paper}>xs=3</Paper>
+              </Grid>
+              <Grid item xs={3}>
+                <Paper className={classes.paper}>xs=3</Paper>
+              </Grid>
+              <Grid item xs={3}>
+                <Paper className={classes.paper}>xs=3</Paper>
+              </Grid>
+            </Grid> */}
+
             <ErrorBoundary>
               <AppRoutes />
             </ErrorBoundary>
-          </Card>
+          </Container>
           <Footer />
         </div>
       </div>
