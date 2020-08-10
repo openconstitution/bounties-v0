@@ -1,6 +1,5 @@
 package org.muellners.bounties.service;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.config.TestSecurityConfiguration;
@@ -9,10 +8,8 @@ import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.dto.UserDTO;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -24,22 +21,16 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 /**
  * Integration tests for {@link UserService}.
  */
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
 @Transactional
 public class UserServiceIT {
 

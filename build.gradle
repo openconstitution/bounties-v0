@@ -34,8 +34,8 @@ version = "0.0.1-SNAPSHOT"
 
 description = "Bounties platform to grow open source"
 
-sourceCompatibility=1.8
-targetCompatibility=1.8
+sourceCompatibility=11
+targetCompatibility=11
 assert System.properties["java.specification.version"] == "1.8" || "11" || "12" || "13" || "14"
 
 apply from: "gradle/docker.gradle"

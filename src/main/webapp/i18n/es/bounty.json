@@ -1,0 +1,34 @@
+{
+  "bountiesApp": {
+    "bounty": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Crear nuevo Bounty",
+        "createOrEditLabel": "Crear o editar Bounty",
+        "search": "Buscar Bounty",
+        "notFound": "Ningún Bounties encontrado"
+      },
+      "created": "Un nuevo Bounty ha sido creado con el identificador {{ param }}",
+      "updated": "Un Bounty ha sido actualizado con el identificador {{ param }}",
+      "deleted": "Un Bounty ha sido eliminado con el identificador {{ param }}",
+      "delete": {
+        "question": "¿Seguro que quiere eliminar Bounty {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounty"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "experience": "Experience",
+      "commitment": "Commitment",
+      "type": "Type",
+      "category": "Category",
+      "keywords": "Keywords",
+      "permission": "Permission",
+      "expires": "Expires",
+      "issue": "Issue",
+      "fundings": "Fundings"
+    }
+  }
+}

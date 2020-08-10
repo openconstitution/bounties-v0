@@ -1,12 +1,11 @@
 package org.muellners.bounties.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 import org.muellners.bounties.web.rest.TestUtil;
 
 public class IssueTest {
-    
+
     @Test
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Issue.class);

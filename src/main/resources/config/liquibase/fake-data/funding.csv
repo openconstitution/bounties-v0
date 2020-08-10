@@ -1,4 +1,4 @@
-id;amount;mode;payment_auth;created_By
+id;amount;mode;payment_auth;created_by
 1;18561;Cloned alarm application;true;user
 2;38415;withdrawal Fantastic Steel Car;false;user
 3;8022;Awesome Soft Pants District middleware;false;user

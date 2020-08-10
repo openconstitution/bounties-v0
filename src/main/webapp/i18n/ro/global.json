@@ -10,6 +10,10 @@
         "bankAccount": "ContBancar",
         "label": "Etichetă",
         "operation": "Operație",
+        "bounty": "Bounty",
+        "funding": "Funding",
+        "issue": "Issue",
+        "profile": "Profile",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

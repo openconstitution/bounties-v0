@@ -1,6 +1,5 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Authority;
@@ -13,7 +12,6 @@ import org.muellners.bounties.service.mapper.UserMapper;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -40,7 +38,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser(authorities = AuthoritiesConstants.ADMIN)
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
 public class UserResourceIT {
 
     private static final String DEFAULT_LOGIN = "johndoe";

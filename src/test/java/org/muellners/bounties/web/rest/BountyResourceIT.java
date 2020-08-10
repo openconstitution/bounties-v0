@@ -1,19 +1,15 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.repository.BountyRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
-import org.muellners.bounties.service.BountyService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.muellners.bounties.service.dto.BountyDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,7 +40,7 @@ import org.muellners.bounties.domain.enumeration.Category;
  * Integration tests for the {@link BountyResource} REST controller.
  */
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
+@ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class BountyResourceIT {
@@ -82,7 +78,6 @@ public class BountyResourceIT {
     @Autowired
     private BountyRepository bountyRepository;
 
-
     /**
      * This repository is mocked in the org.muellners.bounties.repository.search test package.
      *
@@ -107,16 +102,16 @@ public class BountyResourceIT {
      */
     public static Bounty createEntity(EntityManager em) {
         Bounty bounty = new Bounty()
-            .status(UPDATED_STATUS)
-            .url(UPDATED_URL)
-            .amount(UPDATED_AMOUNT)
-            .experience(UPDATED_EXPERIENCE)
-            .commitment(UPDATED_COMMITMENT)
-            .type(UPDATED_TYPE)
-            .category(UPDATED_CATEGORY)
-            .keywords(UPDATED_KEYWORDS)
-            .permission(UPDATED_PERMISSION)
-            .expires(UPDATED_EXPIRES);
+            .status(DEFAULT_STATUS)
+            .url(DEFAULT_URL)
+            .amount(DEFAULT_AMOUNT)
+            .experience(DEFAULT_EXPERIENCE)
+            .commitment(DEFAULT_COMMITMENT)
+            .type(DEFAULT_TYPE)
+            .category(DEFAULT_CATEGORY)
+            .keywords(DEFAULT_KEYWORDS)
+            .permission(DEFAULT_PERMISSION)
+            .expires(DEFAULT_EXPIRES);
         return bounty;
     }
     /**
@@ -150,7 +145,7 @@ public class BountyResourceIT {
     public void createBounty() throws Exception {
         int databaseSizeBeforeCreate = bountyRepository.findAll().size();
         // Create the Bounty
-        restBountyMockMvc.perform(post("/api/bounty").with(csrf())
+        restBountyMockMvc.perform(post("/api/bounties").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(bounty)))
             .andExpect(status().isCreated());
@@ -199,7 +194,7 @@ public class BountyResourceIT {
 
     @Test
     @Transactional
-    public void getAllBounty() throws Exception {
+    public void getAllBounties() throws Exception {
         // Initialize the database
         bountyRepository.saveAndFlush(bounty);
 
@@ -254,7 +249,7 @@ public class BountyResourceIT {
     @Transactional
     public void updateBounty() throws Exception {
         // Initialize the database
-        bountyRepository.save(bounty);
+        bountyRepository.saveAndFlush(bounty);
 
         int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
 
@@ -295,7 +290,7 @@ public class BountyResourceIT {
         assertThat(testBounty.getExpires()).isEqualTo(UPDATED_EXPIRES);
 
         // Validate the Bounty in Elasticsearch
-        verify(mockBountySearchRepository, times(2)).save(testBounty);
+        verify(mockBountySearchRepository, times(1)).save(testBounty);
     }
 
     @Test
@@ -321,7 +316,7 @@ public class BountyResourceIT {
     @Transactional
     public void deleteBounty() throws Exception {
         // Initialize the database
-        bountyRepository.save(bounty);
+        bountyRepository.saveAndFlush(bounty);
 
         int databaseSizeBeforeDelete = bountyRepository.findAll().size();
 
@@ -343,7 +338,7 @@ public class BountyResourceIT {
     public void searchBounty() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        bountyRepository.save(bounty);
+        bountyRepository.saveAndFlush(bounty);
         when(mockBountySearchRepository.search(queryStringQuery("id:" + bounty.getId())))
             .thenReturn(Collections.singletonList(bounty));
 

@@ -1,0 +1,34 @@
+{
+  "bountiesApp": {
+    "bounty": {
+      "home": {
+        "title": "Bounties",
+        "createLabel": "Bounty-ஐ உருவாக்கு",
+        "createOrEditLabel": "Bounty -ஐ மாற்று (அ) உருவாக்கு",
+        "search": "Search for Bounty",
+        "notFound": "No Bounties found"
+      },
+      "created": "Bounty புதிதாக உருவாக்கப்பட்டது, அடையாளம் {{ param }}",
+      "updated": "Bounty மாற்றப்பட்டது, அடையாளம்  {{ param }}",
+      "deleted": "A Bounty நீக்கப்பட்டது, அடையாளம {{ param }}",
+      "delete": {
+        "question": "நீக்குவதற்கு உறுதி செய் Bounty {{ id }}?"
+      },
+      "detail": {
+        "title": "Bounty"
+      },
+      "status": "Status",
+      "url": "Url",
+      "amount": "Amount",
+      "experience": "Experience",
+      "commitment": "Commitment",
+      "type": "Type",
+      "category": "Category",
+      "keywords": "Keywords",
+      "permission": "Permission",
+      "expires": "Expires",
+      "issue": "Issue",
+      "fundings": "Fundings"
+    }
+  }
+}

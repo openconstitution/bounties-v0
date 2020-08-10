@@ -1,18 +1,17 @@
 package org.muellners.bounties.domain;
 
-import java.io.Serializable;
-
-import javax.persistence.*;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import javax.persistence.*;
 
+/**
+ * A Issue.
+ */
 @Entity
 @Table(name = "issue")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "issue")
-public class Issue extends AbstractAuditingEntity implements Serializable {
+public class Issue extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,8 +28,9 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     @Column(name = "description")
     private String description;
 
+    // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -38,7 +38,12 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     }
 
     public String getIssueId() {
-        return this.issueId;
+        return issueId;
+    }
+
+    public Issue issueId(String issueId) {
+        this.issueId = issueId;
+        return this;
     }
 
     public void setIssueId(String issueId) {
@@ -46,7 +51,12 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     }
 
     public String getUrl() {
-        return this.url;
+        return url;
+    }
+
+    public Issue url(String url) {
+        this.url = url;
+        return this;
     }
 
     public void setUrl(String url) {
@@ -54,12 +64,18 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
     }
 
     public String getDescription() {
-        return this.description;
+        return description;
+    }
+
+    public Issue description(String description) {
+        this.description = description;
+        return this;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
     public boolean equals(Object o) {
@@ -77,14 +93,14 @@ public class Issue extends AbstractAuditingEntity implements Serializable {
         return 31;
     }
 
+    // prettier-ignore
     @Override
     public String toString() {
         return "Issue{" +
             "id=" + getId() +
             ", issueId='" + getIssueId() + "'" +
-            ", url='" + getUrl() + "\n'" +
+            ", url='" + getUrl() + "'" +
             ", description='" + getDescription() + "'" +
             "}";
     }
-
 }

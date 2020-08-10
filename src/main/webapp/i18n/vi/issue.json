@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "Thêm mới một Issue",
+        "createOrEditLabel": "Thêm mới hoặc cập nhật Issue",
+        "search": "Tìm Issue",
+        "notFound": "No Issues found"
+      },
+      "created": "Một Issue mới được tạo với định danh {{ param }}",
+      "updated": "Một Issue cập nhật với định danh {{ param }}",
+      "deleted": "Một Issue đã xóa với định danh {{ param }}",
+      "delete": {
+        "question": "Bạn có chắc là muốn xóa Issue {{ id }}?"
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

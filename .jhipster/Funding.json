@@ -18,16 +18,16 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "bounty",
-      "otherEntityRelationshipName": "funding",
+      "otherEntityRelationshipName": "fundings",
       "relationshipName": "bounty",
       "otherEntityField": "id"
     }
   ],
-  "changelogDate": "20200525074416",
+  "changelogDate": "20200809142815",
   "entityTableName": "funding",
   "dto": "no",
   "pagination": "no",
-  "service": "serviceClass",
+  "service": "no",
   "jpaMetamodelFiltering": false,
   "fluentMethods": true,
   "readOnly": false,

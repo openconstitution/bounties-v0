@@ -1,10 +1,8 @@
 package org.muellners.bounties.web.rest.errors;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -25,7 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 @AutoConfigureMockMvc
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
 public class ExceptionTranslatorIT {
 
     @Autowired
