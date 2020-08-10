@@ -20,6 +20,7 @@ public class JiraListener {
     @Autowired
     private Environment environment;
 
+    @SuppressWarnings("unused")
     private static final Logger log = LoggerFactory.getLogger(BountiesApp.class);
 
     @Bean
@@ -49,6 +50,5 @@ public class JiraListener {
     private String getUri() {
         return environment.getProperty("application.listeners.path");
     }
-
 
 }
