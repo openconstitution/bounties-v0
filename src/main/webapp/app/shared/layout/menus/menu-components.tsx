@@ -7,7 +7,7 @@ export const NavDropdown = props => (
   <UncontrolledDropdown nav inNavbar id={props.id}>
     <DropdownToggle nav caret className="d-flex align-items-center">
       <FontAwesomeIcon icon={props.icon} />
-      <span>{props.name}</span>
+      <span> {props.name}</span>
     </DropdownToggle>
     <DropdownMenu right style={props.style}>
       {props.children}

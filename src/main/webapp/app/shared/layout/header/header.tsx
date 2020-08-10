@@ -1,17 +1,15 @@
 import './header.scss';
 
-import React, { useState, useEffect } from 'react';
-import { Translate, Storage } from 'react-jhipster';
-import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { NavLink as Link } from 'react-router-dom';
+import React from 'react';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 import LoadingBar from 'react-redux-loading-bar';
-
-import { isRTL } from 'app/config/translation';
-
-import { Home, Brand } from './header-components';
-import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
+import { Translate, Storage } from 'react-jhipster';
+import { SearchItem } from '../menus';
+import appConfig from 'app/config/constants';
+import { Button, Typography, Badge, IconButton } from '@material-ui/core';
+import { AccountMenu } from '../menus';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -23,16 +21,31 @@ export interface IHeaderProps {
   onLocaleChange: Function;
 }
 
-const Header = (props: IHeaderProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  useEffect(() => document.querySelector('html').setAttribute('dir', isRTL(Storage.session.get('locale')) ? 'rtl' : 'ltr'));
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    grow: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      display: 'none',
+      [theme.breakpoints.up('sm')]: {
+        display: 'block',
+      },
+    },
+    sectionDesktop: {
+      display: 'none',
+      [theme.breakpoints.up('md')]: {
+        display: 'flex',
+      },
+    },
+  }),
+);
 
-  const handleLocaleChange = event => {
-    const langKey = event.target.value;
-    Storage.session.set('locale', langKey);
-    props.onLocaleChange(langKey);
-    document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
-  };
+const Header = (props: IHeaderProps) => {
+  const classes = useStyles();
 
   const renderDevRibbon = () =>
     props.isInProduction === false ? (
@@ -43,31 +56,31 @@ const Header = (props: IHeaderProps) => {
       </div>
     ) : null;
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
-  /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
-
   return (
     <div id="app-header">
       {renderDevRibbon()}
       <LoadingBar className="loading-bar" />
-      <Navbar dark expand="sm" fixed="top" className="bg-dark">
-        <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
-        <Brand />
-        <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ml-auto" navbar>
-            <Home />
-            {props.isAuthenticated && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && (
-              <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
-            )}
-            <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
+      <AppBar className="bg-dark" position="static">
+        <Toolbar variant="dense">
+          {/* <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+            <MenuIcon />
+          </IconButton> */}
+          <Typography className={classes.title} variant="h6" noWrap>
+            <span className="brand-title">
+              <Translate contentKey="global.title">Bounties</Translate>
+            </span>
+            <span className="navbar-version">{appConfig.VERSION}</span>
+          </Typography>
+          <SearchItem isAuthenticated={props.isAuthenticated} />
+
+          <div className={classes.grow} />
+          <div className={classes.sectionDesktop} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
-          </Nav>
-        </Collapse>
-      </Navbar>
+          <div />
+        </Toolbar>
+      </AppBar>
     </div>
   );
-};
+}
 
 export default Header;

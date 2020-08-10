@@ -1,32 +1,43 @@
 import React from 'react';
-import MenuItem from 'app/shared/layout/menus/menu-item';
-import { DropdownItem } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { NavLink as Link } from 'react-router-dom';
-import { Translate, translate } from 'react-jhipster';
-import { getLoginUrl } from 'app/shared/util/url-utils';
-import { NavDropdown } from './menu-components';
+import { Button, IconButton, Badge } from '@material-ui/core';
 
 const accountMenuItemsAuthenticated = (
   <>
-    <MenuItem icon="sign-out-alt" to="/logout">
+    {/* <MenuItem icon="sign-out-alt" to="/logout">
       <Translate contentKey="global.menu.account.logout">Sign out</Translate>
-    </MenuItem>
+    </MenuItem> */}
+    <IconButton aria-label="show 4 new mails" color="inherit">
+      <Badge badgeContent={4} color="secondary">
+        {/* <MailIcon /> */}
+      </Badge>
+    </IconButton>
+    <IconButton aria-label="show 17 new notifications" color="inherit">
+      <Badge badgeContent={17} color="secondary">
+        {/* <NotificationsIcon /> */}
+      </Badge>
+    </IconButton>
+    {/* <IconButton
+      edge="end"
+      aria-label="account of current user"
+      aria-controls={menuId}
+      aria-haspopup="true"
+      onClick={handleProfileMenuOpen}
+      color="inherit" >
+        <AccountCircle />
+    </IconButton> */}
   </>
 );
 
 const accountMenuItems = (
   <>
-    <DropdownItem id="login-item" tag="a" href={getLoginUrl()}>
-      <FontAwesomeIcon icon="sign-in-alt" /> <Translate contentKey="global.menu.account.login">Sign in</Translate>
-    </DropdownItem>
+    <Button color="inherit">Sign In</Button>
   </>
 );
 
-export const AccountMenu = ({ isAuthenticated = false }) => (
-  <NavDropdown icon="user" name={translate('global.menu.account.main')} id="account-menu">
+export const AccountMenu = ({ isAuthenticated = false}) => (
+  <div>
     {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
-  </NavDropdown>
+  </div>
 );
 
 export default AccountMenu;

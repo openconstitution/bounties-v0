@@ -1,95 +1,137 @@
 import './home.scss';
 
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
-import { Row, Col, Alert } from 'reactstrap';
-
-import { IRootState } from 'app/shared/reducers';
+import { Grid, Paper, Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Skeleton, Alert } from '@material-ui/lab';
+import { Translate } from 'react-jhipster';
 import { getLoginUrl } from 'app/shared/util/url-utils';
 
 export type IHomeProp = StateProps;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+    },
+    media: {
+      height: 140,
+    },
+    image: {
+      width: '100%',
+    },
+  }),
+);
+
 export const Home = (props: IHomeProp) => {
+  const loading = true;
   const { account } = props;
+  const classes = useStyles();
+  const numrows = 6;
+
+  const items = [];
+
+  for (let i = 0; i < numrows; i++) {
+    items.push(
+      <Grid item xs={3}>
+        <Card className={classes.root}>
+          <CardActionArea>
+            {loading ? (
+              <Skeleton variant="rect" width="100%">
+                <div style={{ paddingTop: '57%' }} />
+              </Skeleton>
+            ) : (
+              <CardMedia
+              className={classes.media}
+              image="/static/images/cards/contemplative-reptile.jpg"
+              title="Contemplative Reptile"
+            />
+            )}
+            <CardContent>
+              {loading ? (
+                <div>
+                  <Skeleton />
+                  <Skeleton animation={false} />
+                  <Skeleton animation="wave" />
+                </div>
+              ) : (
+                <div>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Bounty ####
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit quam eligendi beatae. Nam beatae deleniti, est, iusto aperiam temporibus sequi eligendi error maxime quam, neque labore architecto officiis a dolorem!
+                  </Typography>
+                </div>
+              )}
+
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="small" color="primary">
+              Share
+            </Button>
+            <Button size="small" color="primary">
+              Learn More...
+            </Button>
+          </CardActions>
+        </Card>
+      </Grid>
+    );
+  }
 
   return (
-    <Row>
-      <Col md="9">
-        <h2>
-          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
-        </h2>
-        <p className="lead">
-          <Translate contentKey="home.subtitle">This is your homepage</Translate>
-        </p>
-        {account && account.login ? (
-          <div>
-            <Alert color="success">
-              <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
-                You are logged in as user {account.login}.
-              </Translate>
-            </Alert>
-          </div>
-        ) : (
-          <div>
-            <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
-              <a href={getLoginUrl()} className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
-              </a>
-              <Translate contentKey="global.messages.info.authenticated.suffix">
-                , you can try the default accounts:
-                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-              </Translate>
-            </Alert>
-          </div>
-        )}
-        <p>
-          <Translate contentKey="home.question">If you have any question on JHipster:</Translate>
-        </p>
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Paper className={classes.paper}>
 
-        <ul>
-          <li>
-            <a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.homepage">JHipster homepage</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.stackoverflow">JHipster on Stack Overflow</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.bugtracker">JHipster bug tracker</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.chat">JHipster public chat room</Translate>
-            </a>
-          </li>
-          <li>
-            <a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.follow">follow @jhipster on Twitter</Translate>
-            </a>
-          </li>
-        </ul>
+          {account && account.login ? (
+            <div>
+              <Alert color="success">
+                <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
+                  You are logged in as user {account.login}.
+                </Translate>
+              </Alert>
+            </div>
+          ) : (
+            <div>
+              <Alert color="warning">
+                <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+                <a href={getLoginUrl()} className="alert-link">
+                  <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
+                </a>
+                <Translate contentKey="global.messages.info.authenticated.suffix">
+                  , you can try the default accounts:
+                  <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
+                  <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
+                </Translate>
+              </Alert>
+            </div>
+          )}
 
-        <p>
-          <Translate contentKey="home.like">If you like JHipster, do not forget to give us a star on</Translate>{' '}
-          <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">
-            Github
-          </a>
-          !
-        </p>
-      </Col>
-      <Col md="3" className="pad">
-        <span className="hipster rounded" />
-      </Col>
-    </Row>
+          <h2>
+            Grow OpenSource - Bounties Platform!
+          </h2>
+          <p className="lead">Social Network for developers</p>
+          <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit quam eligendi beatae. Nam beatae deleniti, est, iusto aperiam temporibus sequi eligendi error maxime quam, neque labore architecto officiis a dolorem!</p>
+          <br/>
+          <h3>Top bounties this week</h3>
+
+          <Grid container spacing={3}>
+
+            { items }
+
+          </Grid>
+        </Paper>
+      </Grid>
+
+    </Grid>
   );
 };
 
