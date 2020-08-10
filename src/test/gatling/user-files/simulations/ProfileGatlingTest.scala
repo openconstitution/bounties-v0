@@ -105,10 +105,6 @@ class ProfileGatlingTest extends Simulation {
                 , "profilelink":"SAMPLE_TEXT"
                 , "about":"SAMPLE_TEXT"
                 , "walletaddress":"SAMPLE_TEXT"
-<<<<<<< HEAD
-                , "userId":null
-=======
->>>>>>> 7826d4e... setup initial entities and config
                 , "githubEmail":"SAMPLE_TEXT"
                 , "githubOrgName":"SAMPLE_TEXT"
                 }""")).asJson

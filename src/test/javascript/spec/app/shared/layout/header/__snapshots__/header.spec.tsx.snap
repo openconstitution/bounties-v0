@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Renders a Header component in dev profile with LoadingBar, Navbar, Nav and dev ribbon. 1`] = `
+<div
+  id="app-header"
+>
+  <div
+    className="ribbon dev"
+  >
+    <a
+      href=""
+    >
+      <Translate
+        component="span"
+        contentKey="global.ribbon.dev"
+      />
+    </a>
+  </div>
+  <Connect(LoadingBar)
+    className="loading-bar"
+  />
+  <WithStyles(ForwardRef(AppBar))
+    className="bg-dark"
+    position="static"
+  >
+    <WithStyles(ForwardRef(Toolbar))
+      variant="dense"
+    >
+      <WithStyles(ForwardRef(Typography))
+        className="makeStyles-title-3"
+        noWrap={true}
+        variant="h6"
+      >
+        <span
+          className="brand-title"
+        >
+          <Translate
+            component="span"
+            contentKey="global.title"
+          >
+            Bounties
+          </Translate>
+        </span>
+        <span
+          className="navbar-version"
+        />
+      </WithStyles(ForwardRef(Typography))>
+      <Component
+        isAuthenticated={true}
+      />
+      <div
+        className="makeStyles-grow-1"
+      />
+      <div
+        className="makeStyles-sectionDesktop-4"
+      />
+      <Component
+        isAuthenticated={true}
+      />
+      <div />
+    </WithStyles(ForwardRef(Toolbar))>
+  </WithStyles(ForwardRef(AppBar))>
+</div>
+`;
+
+exports[`Header Renders a Header component in prod profile with LoadingBar, Navbar, Nav. 1`] = `
+<div
+  id="app-header"
+>
+  <Connect(LoadingBar)
+    className="loading-bar"
+  />
+  <WithStyles(ForwardRef(AppBar))
+    className="bg-dark"
+    position="static"
+  >
+    <WithStyles(ForwardRef(Toolbar))
+      variant="dense"
+    >
+      <WithStyles(ForwardRef(Typography))
+        className="makeStyles-title-3"
+        noWrap={true}
+        variant="h6"
+      >
+        <span
+          className="brand-title"
+        >
+          <Translate
+            component="span"
+            contentKey="global.title"
+          >
+            Bounties
+          </Translate>
+        </span>
+        <span
+          className="navbar-version"
+        />
+      </WithStyles(ForwardRef(Typography))>
+      <Component
+        isAuthenticated={true}
+      />
+      <div
+        className="makeStyles-grow-1"
+      />
+      <div
+        className="makeStyles-sectionDesktop-4"
+      />
+      <Component
+        isAuthenticated={true}
+      />
+      <div />
+    </WithStyles(ForwardRef(Toolbar))>
+  </WithStyles(ForwardRef(AppBar))>
+</div>
+`;
