@@ -10,7 +10,5 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class IssueSearchRepositoryMockConfiguration {
 
-    @MockBean
-    private IssueSearchRepository mockIssueSearchRepository;
-
+  @MockBean private IssueSearchRepository mockIssueSearchRepository;
 }
