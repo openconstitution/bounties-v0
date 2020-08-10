@@ -74,6 +74,7 @@ public class BountiesKafkaResource {
         return emitter;
     }
 
+    @SuppressWarnings("unused")
     private static class PublishResult {
         public final String topic;
         public final int partition;

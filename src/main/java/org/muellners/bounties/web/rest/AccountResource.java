@@ -27,6 +27,7 @@ public class AccountResource {
         }
     }
 
+    @SuppressWarnings("unused")
     private final Logger log = LoggerFactory.getLogger(AccountResource.class);
 
     private final UserService userService;
@@ -43,7 +44,6 @@ public class AccountResource {
      * @throws AccountResourceException {@code 500 (Internal Server Error)} if the user couldn't be returned.
      */
     @GetMapping("/account")
-    @SuppressWarnings("unchecked")
     public UserDTO getAccount(Principal principal) {
         if (principal instanceof AbstractAuthenticationToken) {
             return userService.getUserFromAuthentication((AbstractAuthenticationToken) principal);

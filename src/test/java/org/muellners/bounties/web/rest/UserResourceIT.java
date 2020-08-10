@@ -271,6 +271,7 @@ public class UserResourceIT {
         assertThat(authorityA.hashCode()).isEqualTo(authorityB.hashCode());
     }
 
+    @SuppressWarnings("unused")
     private void assertPersistedUsers(Consumer<List<User>> userAssertion) {
         userAssertion.accept(userRepository.findAll());
     }

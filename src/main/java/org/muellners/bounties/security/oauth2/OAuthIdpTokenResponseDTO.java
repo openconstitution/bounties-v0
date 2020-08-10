@@ -7,6 +7,11 @@ import java.util.UUID;
 
 public class OAuthIdpTokenResponseDTO implements Serializable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
     @JsonProperty("token_type")
     private String tokenType;
 

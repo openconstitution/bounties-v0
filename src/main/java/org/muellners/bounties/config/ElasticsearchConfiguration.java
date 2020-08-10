@@ -71,6 +71,7 @@ public class ElasticsearchConfiguration {
             return objectMapper.readValue(source, clazz);
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public Map<String, Object> mapObject(Object source) {
             try {
