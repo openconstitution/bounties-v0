@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BountyRepository extends JpaRepository<Bounty, Long> {
-}
+public interface BountyRepository extends JpaRepository<Bounty, Long> {}
