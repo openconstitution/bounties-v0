@@ -7,7 +7,7 @@
         Added the constraints for entity Bounty.
     -->
     <changeSet id="20200809142715-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="issue_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_issue_id"
