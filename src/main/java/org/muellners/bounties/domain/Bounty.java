@@ -198,6 +198,10 @@ public class Bounty extends AbstractAuditingEntity {
         return this;
     }
 
+    public Boolean getPermission() {
+        return this.permission;
+    }
+
     public void setPermission(Boolean permission) {
         this.permission = permission;
     }
