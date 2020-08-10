@@ -13,3 +13,5 @@ export const LocaleMenu = ({ currentLocale, onClick }: { currentLocale: string; 
       ))}
     </NavDropdown>
   ) : null;
+
+export default LocaleMenu;
