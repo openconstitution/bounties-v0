@@ -1,13 +1,8 @@
 package org.muellners.bounties.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import java.io.Serializable;
 
 /**
  * A Profile.
@@ -16,13 +11,12 @@ import java.io.Serializable;
 @Table(name = "profile")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "profile")
-public class Profile extends AbstractAuditingEntity implements Serializable {
+public class Profile extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue
-    @Column(name = "profile_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "votes")

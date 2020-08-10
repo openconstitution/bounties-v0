@@ -1,6 +1,5 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Profile;
@@ -9,7 +8,6 @@ import org.muellners.bounties.repository.search.ProfileSearchRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link ProfileResource} REST controller.
  */
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
+@ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class ProfileResourceIT {

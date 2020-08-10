@@ -1,16 +1,10 @@
 package org.muellners.bounties.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
-import net.minidev.json.annotate.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
-import org.springframework.cloud.cloudfoundry.com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -31,7 +25,7 @@ import org.muellners.bounties.domain.enumeration.Category;
 @Table(name = "bounty")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "bounty")
-public class Bounty extends AbstractAuditingEntity implements Serializable {
+public class Bounty extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,7 +73,7 @@ public class Bounty extends AbstractAuditingEntity implements Serializable {
     private Set<Funding> fundings = new HashSet<>();
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id", unique = true)
+    @JoinColumn(unique = true)
     private Issue issue;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -221,31 +215,6 @@ public class Bounty extends AbstractAuditingEntity implements Serializable {
         this.expires = expires;
     }
 
-    public Set<Funding> getFundings() {
-        return fundings;
-    }
-
-    public Bounty fundings(Set<Funding> fundings) {
-        this.fundings = fundings;
-        return this;
-    }
-
-    public Bounty addFunding(Funding funding) {
-        this.fundings.add(funding);
-        funding.setBounty(this);
-        return this;
-    }
-
-    public Bounty removeFunding(Funding funding) {
-        this.fundings.remove(funding);
-        funding.setBounty(null);
-        return this;
-    }
-
-    public void setFundings(Set<Funding> fundings) {
-        this.fundings = fundings;
-    }
-
     public Issue getIssue() {
         return issue;
     }
@@ -257,6 +226,31 @@ public class Bounty extends AbstractAuditingEntity implements Serializable {
 
     public void setIssue(Issue issue) {
         this.issue = issue;
+    }
+
+    public Set<Funding> getFundings() {
+        return fundings;
+    }
+
+    public Bounty fundings(Set<Funding> fundings) {
+        this.fundings = fundings;
+        return this;
+    }
+
+    public Bounty addFundings(Funding funding) {
+        this.fundings.add(funding);
+        funding.setBounty(this);
+        return this;
+    }
+
+    public Bounty removeFundings(Funding funding) {
+        this.fundings.remove(funding);
+        funding.setBounty(null);
+        return this;
+    }
+
+    public void setFundings(Set<Funding> fundings) {
+        this.fundings = fundings;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -292,9 +286,5 @@ public class Bounty extends AbstractAuditingEntity implements Serializable {
             ", permission='" + isPermission() + "'" +
             ", expires='" + getExpires() + "'" +
             "}";
-    }
-
-    public Boolean getPermission() {
-        return permission;
     }
 }

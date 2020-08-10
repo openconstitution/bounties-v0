@@ -3,11 +3,7 @@ package org.muellners.bounties.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -17,7 +13,7 @@ import java.math.BigDecimal;
 @Table(name = "funding")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "funding")
-public class Funding extends AbstractAuditingEntity implements Serializable {
+public class Funding extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 

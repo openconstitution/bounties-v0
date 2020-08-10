@@ -1,0 +1,76 @@
+{
+  "name": "Bounty",
+  "fields": [
+    {
+      "fieldName": "status",
+      "fieldType": "Status",
+      "fieldValues": "OPEN,INVALID,CLOSED,FUNDED"
+    },
+    {
+      "fieldName": "url",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "experience",
+      "fieldType": "Experience",
+      "fieldValues": "BEGINNER,INTERMEDIATE,ADVANCED"
+    },
+    {
+      "fieldName": "commitment",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "Type",
+      "fieldValues": "BUG,FEATURE,IMPROVEMENT,EX"
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "Category",
+      "fieldValues": "FRONT_END,BACKEND,THIS"
+    },
+    {
+      "fieldName": "keywords",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permission",
+      "fieldType": "Boolean"
+    },
+    {
+      "fieldName": "expires",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "issue",
+      "otherEntityRelationshipName": "bounty",
+      "relationshipName": "issue",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "funding",
+      "otherEntityRelationshipName": "bounty",
+      "relationshipName": "fundings"
+    }
+  ],
+  "changelogDate": "20200809142715",
+  "entityTableName": "bounty",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

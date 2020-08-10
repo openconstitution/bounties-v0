@@ -1,19 +1,25 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.service.BountyService;
-import org.muellners.bounties.service.dto.BountyDTO;
+import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.repository.BountyRepository;
+import org.muellners.bounties.repository.search.BountySearchRepository;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -22,6 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class BountyResource {
 
     private final Logger log = LoggerFactory.getLogger(BountyResource.class);
@@ -31,26 +38,30 @@ public class BountyResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final BountyService bountyService;
+    private final BountyRepository bountyRepository;
 
-    public BountyResource(BountyService bountyService) {
-        this.bountyService = bountyService;
+    private final BountySearchRepository bountySearchRepository;
+
+    public BountyResource(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository) {
+        this.bountyRepository = bountyRepository;
+        this.bountySearchRepository = bountySearchRepository;
     }
 
     /**
      * {@code POST  /bounties} : Create a new bounty.
      *
-     * @param bounty the bounties to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bounties, or with status {@code 400 (Bad Request)} if the bounties has already an ID.
+     * @param bounty the bounty to create.
+     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new bounty, or with status {@code 400 (Bad Request)} if the bounty has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/bounties")
-    public ResponseEntity<BountyDTO> createBounties(@RequestBody BountyDTO bounty) throws URISyntaxException {
+    public ResponseEntity<Bounty> createBounty(@RequestBody Bounty bounty) throws URISyntaxException {
         log.debug("REST request to save Bounty : {}", bounty);
         if (bounty.getId() != null) {
             throw new BadRequestAlertException("A new bounty cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        BountyDTO result = bountyService.save(bounty);
+        Bounty result = bountyRepository.save(bounty);
+        bountySearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/bounties/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -66,26 +77,27 @@ public class BountyResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bounties")
-    public ResponseEntity<BountyDTO> updateBounties(@RequestBody BountyDTO bounty) throws URISyntaxException {
+    public ResponseEntity<Bounty> updateBounty(@RequestBody Bounty bounty) throws URISyntaxException {
         log.debug("REST request to update Bounty : {}", bounty);
         if (bounty.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        BountyDTO result = bountyService.save(bounty);
+        Bounty result = bountyRepository.save(bounty);
+        bountySearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bounty.getId().toString()))
             .body(result);
     }
 
     /**
-     * {@code GET  /bounties} : get all the bounty.
+     * {@code GET  /bounties} : get all the bounties.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounty in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
      */
     @GetMapping("/bounties")
-    public List<BountyDTO> getAllBounties() {
-        log.debug("REST request to get all Bounty");
-        return bountyService.findAll();
+    public List<Bounty> getAllBounties() {
+        log.debug("REST request to get all Bounties");
+        return bountyRepository.findAll();
     }
 
     /**
@@ -95,14 +107,10 @@ public class BountyResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the bounty, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/bounties/{id}")
-    public ResponseEntity<BountyDTO> getBounty(@PathVariable Long id) {
+    public ResponseEntity<Bounty> getBounty(@PathVariable Long id) {
         log.debug("REST request to get Bounty : {}", id);
-        BountyDTO bountyDTO = bountyService.findOne(id);
-        if (bountyDTO == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(bountyDTO);
-        }
+        Optional<Bounty> bounty = bountyRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(bounty);
     }
 
     /**
@@ -112,10 +120,10 @@ public class BountyResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/bounties/{id}")
-    public ResponseEntity<Void> deleteBounties(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteBounty(@PathVariable Long id) {
         log.debug("REST request to delete Bounty : {}", id);
-
-        bountyService.delete(id);
+        bountyRepository.deleteById(id);
+        bountySearchRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
@@ -127,8 +135,10 @@ public class BountyResource {
      * @return the result of the search.
      */
     @GetMapping("/_search/bounties")
-    public List<BountyDTO> searchBounties(@RequestParam String query) {
-        log.debug("REST request to search Bounty for query {}", query);
-        return bountyService.search(query);
+    public List<Bounty> searchBounties(@RequestParam String query) {
+        log.debug("REST request to search Bounties for query {}", query);
+        return StreamSupport
+            .stream(bountySearchRepository.search(queryStringQuery(query)).spliterator(), false)
+        .collect(Collectors.toList());
     }
 }

@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "Янги Issue қўшиш",
+        "createOrEditLabel": "Issueни таҳрирлаш",
+        "search": "Issueни излаш",
+        "notFound": "No Issues found"
+      },
+      "created": "Issue {{ param }} билан қўшилди.",
+      "updated": "{{ param }}- Issue сақланди.",
+      "deleted": "{{ param }}- Issue ўчирилди.",
+      "delete": {
+        "question": "{{ id }}- Issueни ўчирмоқчимисиз? "
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

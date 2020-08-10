@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "Skapa en ny Issue",
+        "createOrEditLabel": "Skapa eller ändra en Issue",
+        "search": "Sök efter Issue",
+        "notFound": "No Issues found"
+      },
+      "created": "En ny Issue är skapad med id {{ param }}",
+      "updated": "En Issue är uppdaterad med id  {{ param }}",
+      "deleted": "En Issue är borttagen med id  {{ param }}",
+      "delete": {
+        "question": "Är du säker på att du vill ta bort Issue {{ id }}?"
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

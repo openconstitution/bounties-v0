@@ -59,7 +59,7 @@ management:
 
 spring:
   autoconfigure:
-    exclude: org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration
+    exclude: org.springframework.boot.actuate.autoconfigure.metrics.jdbc.DataSourcePoolMetricsAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchAutoConfiguration,org.springframework.boot.autoconfigure.data.elasticsearch.ElasticsearchDataAutoConfiguration,com.github.vanroy.springboot.autoconfigure.data.jest.ElasticsearchJestAutoConfiguration
   application:
     name: bounties
   profiles:
@@ -118,7 +118,7 @@ spring:
       client:
         provider:
           oidc:
-            issuer-uri: http://localhost:9080/auth/realms/jhipster
+            issuer-uri: http://login.muelleners.tech/auth/realms/muellners
         registration:
           oidc:
             client-id: web_app
@@ -171,7 +171,7 @@ jhipster:
         - account
         - api://default
 kafka:
-  bootstrap-servers: localhost:9092
+  bootstrap-servers: kafka.muelleners.tech:9092
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer: org.apache.kafka.common.serialization.StringDeserializer

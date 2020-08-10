@@ -1,0 +1,57 @@
+enum Category {
+    FRONT_END, BACKEND, THIS
+}
+
+enum Experience {
+    BEGINNER, INTERMEDIATE, ADVANCED
+}
+
+enum Status {
+    OPEN, INVALID, CLOSED, FUNDED
+}
+
+enum Type {
+    BUG, FEATURE, IMPROVEMENT, EX
+}
+
+entity Bounty {
+    status Status,
+    url String,
+    amount BigDecimal,
+    experience Experience,
+    commitment Integer,
+    type Type,
+    category Category,
+    keywords String,
+    permission Boolean,
+    expires LocalDate
+}
+
+entity Funding {
+    amount BigDecimal,
+    mode String,
+    paymentAuth Boolean
+}
+
+entity Issue {
+    issueId String,
+    url String,
+    description String
+}
+
+entity Profile {
+    votes Integer,
+    profilelink String,
+    about String,
+    walletaddress String,
+    githubEmail String,
+    githubOrgName String
+}
+
+relationship OneToOne {
+  Bounty{issue} to Issue
+}
+
+relationship OneToMany {
+    Bounty{fundings} to Funding{bounty},
+}

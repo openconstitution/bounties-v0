@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "Issue erstellen",
+        "createOrEditLabel": "Issue erstellen oder bearbeiten",
+        "search": "Suche nach Issue",
+        "notFound": "No Issues found"
+      },
+      "created": "Issue erstellt mit ID {{ param }}",
+      "updated": "Issue aktualisiert mit ID {{ param }}",
+      "deleted": "Issue gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Issue {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

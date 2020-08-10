@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "కొత్త Issue  సృష్టించండి",
+        "createOrEditLabel": "Issue సృష్టించండి లేదా సవరించండి",
+        "search": "Issue కొరకు శోధించండి",
+        "notFound": "No Issues found"
+      },
+      "created": "{{ param }} ఐడీ తో ఒక కొత్త Issue సృష్టించబడినది",
+      "updated": "{{ param }} ఐడీ తో ఒక కొత్త Issue సవరించబడినది",
+      "deleted": "{{ param }} ఐడీ తో ఒక కొత్త Issue తొలగించబడినది",
+      "delete": {
+        "question": "మీరు Issue {{ id }} ఖచ్చితంగా తొలగించాలనుకుంటున్నారా?"
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

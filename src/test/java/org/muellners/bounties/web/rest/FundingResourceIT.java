@@ -1,16 +1,13 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Funding;
 import org.muellners.bounties.repository.FundingRepository;
 import org.muellners.bounties.repository.search.FundingSearchRepository;
-import org.muellners.bounties.service.FundingService;
-import org.muellners.bounties.service.dto.FundingDTO;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link FundingResource} REST controller.
  */
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
+@ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class FundingResourceIT {
@@ -53,9 +50,6 @@ public class FundingResourceIT {
 
     @Autowired
     private FundingRepository fundingRepository;
-
-    @Autowired
-    private FundingService fundingService;
 
     /**
      * This repository is mocked in the org.muellners.bounties.repository.search test package.
@@ -193,7 +187,7 @@ public class FundingResourceIT {
     @Transactional
     public void updateFunding() throws Exception {
         // Initialize the database
-        fundingRepository.save(funding);
+        fundingRepository.saveAndFlush(funding);
 
         int databaseSizeBeforeUpdate = fundingRepository.findAll().size();
 
@@ -220,7 +214,7 @@ public class FundingResourceIT {
         assertThat(testFunding.isPaymentAuth()).isEqualTo(UPDATED_PAYMENT_AUTH);
 
         // Validate the Funding in Elasticsearch
-        verify(mockFundingSearchRepository, times(2)).save(testFunding);
+        verify(mockFundingSearchRepository, times(1)).save(testFunding);
     }
 
     @Test
@@ -246,7 +240,7 @@ public class FundingResourceIT {
     @Transactional
     public void deleteFunding() throws Exception {
         // Initialize the database
-        fundingRepository.save(funding);
+        fundingRepository.saveAndFlush(funding);
 
         int databaseSizeBeforeDelete = fundingRepository.findAll().size();
 
@@ -268,7 +262,7 @@ public class FundingResourceIT {
     public void searchFunding() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        fundingRepository.save(funding);
+        fundingRepository.saveAndFlush(funding);
         when(mockFundingSearchRepository.search(queryStringQuery("id:" + funding.getId())))
             .thenReturn(Collections.singletonList(funding));
 

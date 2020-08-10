@@ -18,10 +18,6 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "userId",
-      "fieldType": "Long"
-    },
-    {
       "fieldName": "githubEmail",
       "fieldType": "String"
     },
@@ -31,7 +27,7 @@
     }
   ],
   "relationships": [],
-  "changelogDate": "20200525090949",
+  "changelogDate": "20200809143015",
   "entityTableName": "profile",
   "dto": "no",
   "pagination": "no",
@@ -41,7 +37,5 @@
   "readOnly": false,
   "embedded": false,
   "clientRootFolder": "",
-  "applications": "*",
-  "searchEngine": "elasticsearch",
-  "databaseType": "sql"
+  "applications": "*"
 }

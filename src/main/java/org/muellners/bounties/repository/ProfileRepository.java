@@ -1,7 +1,6 @@
 package org.muellners.bounties.repository;
 
 import org.muellners.bounties.domain.Profile;
-
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 

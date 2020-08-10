@@ -1,7 +1,8 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.service.FundingService;
-import org.muellners.bounties.service.dto.FundingDTO;
+import org.muellners.bounties.domain.Funding;
+import org.muellners.bounties.repository.FundingRepository;
+import org.muellners.bounties.repository.search.FundingSearchRepository;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -10,13 +11,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -26,6 +28,7 @@ import static org.elasticsearch.index.query.QueryBuilders.*;
  */
 @RestController
 @RequestMapping("/api")
+@Transactional
 public class FundingResource {
 
     private final Logger log = LoggerFactory.getLogger(FundingResource.class);
@@ -35,10 +38,13 @@ public class FundingResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final FundingService fundingService;
+    private final FundingRepository fundingRepository;
 
-    public FundingResource(FundingService fundingService) {
-        this.fundingService = fundingService;
+    private final FundingSearchRepository fundingSearchRepository;
+
+    public FundingResource(FundingRepository fundingRepository, FundingSearchRepository fundingSearchRepository) {
+        this.fundingRepository = fundingRepository;
+        this.fundingSearchRepository = fundingSearchRepository;
     }
 
     /**
@@ -49,12 +55,13 @@ public class FundingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/fundings")
-    public ResponseEntity<FundingDTO> createFunding(@RequestBody FundingDTO funding) throws URISyntaxException {
+    public ResponseEntity<Funding> createFunding(@RequestBody Funding funding) throws URISyntaxException {
         log.debug("REST request to save Funding : {}", funding);
         if (funding.getId() != null) {
             throw new BadRequestAlertException("A new funding cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        FundingDTO result = fundingService.save(funding);
+        Funding result = fundingRepository.save(funding);
+        fundingSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/fundings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -70,12 +77,13 @@ public class FundingResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/fundings")
-    public ResponseEntity<FundingDTO> updateFunding(@RequestBody FundingDTO funding) throws URISyntaxException {
+    public ResponseEntity<Funding> updateFunding(@RequestBody Funding funding) throws URISyntaxException {
         log.debug("REST request to update Funding : {}", funding);
         if (funding.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        FundingDTO result = fundingService.save(funding);
+        Funding result = fundingRepository.save(funding);
+        fundingSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, funding.getId().toString()))
             .body(result);
@@ -87,9 +95,9 @@ public class FundingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fundings in body.
      */
     @GetMapping("/fundings")
-    public List<FundingDTO> getAllFundings() {
+    public List<Funding> getAllFundings() {
         log.debug("REST request to get all Fundings");
-        return fundingService.findAll();
+        return fundingRepository.findAll();
     }
 
     /**
@@ -99,14 +107,10 @@ public class FundingResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the funding, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/fundings/{id}")
-    public ResponseEntity<FundingDTO> getFunding(@PathVariable Long id) {
+    public ResponseEntity<Funding> getFunding(@PathVariable Long id) {
         log.debug("REST request to get Funding : {}", id);
-        FundingDTO fundingDTO = fundingService.findOne(id);
-        if (fundingDTO == null) {
-            return ResponseEntity.notFound().build();
-        } else {
-            return ResponseEntity.ok(fundingDTO);
-        }
+        Optional<Funding> funding = fundingRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(funding);
     }
 
     /**
@@ -115,12 +119,11 @@ public class FundingResource {
      * @param id the id of the funding to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/fundings/{id}")
     public ResponseEntity<Void> deleteFunding(@PathVariable Long id) {
         log.debug("REST request to delete Funding : {}", id);
-
-        fundingService.delete(id);
+        fundingRepository.deleteById(id);
+        fundingSearchRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id.toString())).build();
     }
 
@@ -132,8 +135,10 @@ public class FundingResource {
      * @return the result of the search.
      */
     @GetMapping("/_search/fundings")
-    public List<FundingDTO> searchFundings(@RequestParam String query) {
+    public List<Funding> searchFundings(@RequestParam String query) {
         log.debug("REST request to search Fundings for query {}", query);
-        return fundingService.search(query);
+        return StreamSupport
+            .stream(fundingSearchRepository.search(queryStringQuery(query)).spliterator(), false)
+        .collect(Collectors.toList());
     }
 }

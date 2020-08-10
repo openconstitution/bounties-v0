@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "Pridať Issue",
+        "createOrEditLabel": "Pridať alebo upraviť Issue",
+        "search": "Vyhľadať Issue",
+        "notFound": "No Issues found"
+      },
+      "created": "Bol vytvorený potomok entity Issue s identifikátorom {{ param }}",
+      "updated": "Potomok entity Issue s identifikátorom {{ param }} bol upravený.",
+      "deleted": "Potomok entity Issue s identifikátorom {{ param }} bol vymazaný.",
+      "delete": {
+        "question": "Ste si istý, že chcete vymazať Issue {{ id }}?"
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

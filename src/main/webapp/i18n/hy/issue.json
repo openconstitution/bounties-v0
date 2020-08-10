@@ -1,0 +1,25 @@
+{
+  "bountiesApp": {
+    "issue": {
+      "home": {
+        "title": "Issues",
+        "createLabel": "Ստեղծել նոր Issue",
+        "createOrEditLabel": "Ստեղծել կամ փոփոխել Issue",
+        "search": "Գտնել Issue",
+        "notFound": "No Issues found"
+      },
+      "created": "Նոր Issue ստեղծված է {{ param }} նունացուցիչով",
+      "updated": "Issue թարմացվաց է {{ param }} նունացուցիչով",
+      "deleted": "Issue հեռացված է {{ param }}  նունացուցիչով",
+      "delete": {
+        "question": "Դուք վստահ ե՞ք, որ ցանկանում եք հեռացնել Issue {{ id }}?"
+      },
+      "detail": {
+        "title": "Issue"
+      },
+      "issueId": "Issue Id",
+      "url": "Url",
+      "description": "Description"
+    }
+  }
+}

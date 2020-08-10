@@ -1,15 +1,12 @@
 package org.muellners.bounties.repository;
 
 import org.muellners.bounties.BountiesApp;
-
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.config.audit.AuditEventConverter;
 import org.muellners.bounties.domain.PersistentAuditEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +14,6 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -32,7 +28,6 @@ import static org.muellners.bounties.repository.CustomAuditEventRepository.EVENT
  * Integration tests for {@link CustomAuditEventRepository}.
  */
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
 @Transactional
 public class CustomAuditEventRepositoryIT {
 
