@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col } from 'reactstrap';
-import { Translate, ICrudGetAction, TextFormat } from 'react-jhipster';
+import { TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -22,85 +22,85 @@ export const BountyDetail = (props: IBountyDetailProps) => {
     <Row>
       <Col md="8">
         <h2>
-          <Translate contentKey="bountiesApp.bounty.detail.title">Bounty</Translate> [<b>{bountyEntity.id}</b>]
+          Bounty [<b>{bountyEntity.id}</b>]
         </h2>
         <dl className="jh-entity-details">
           <dt>
             <span id="status">
-              <Translate contentKey="bountiesApp.bounty.status">Status</Translate>
+              Status
             </span>
           </dt>
           <dd>{bountyEntity.status}</dd>
           <dt>
             <span id="url">
-              <Translate contentKey="bountiesApp.bounty.url">Url</Translate>
+              Url
             </span>
           </dt>
           <dd>{bountyEntity.url}</dd>
           <dt>
             <span id="amount">
-              <Translate contentKey="bountiesApp.bounty.amount">Amount</Translate>
+              Amount
             </span>
           </dt>
           <dd>{bountyEntity.amount}</dd>
           <dt>
             <span id="experience">
-              <Translate contentKey="bountiesApp.bounty.experience">Experience</Translate>
+              Experience
             </span>
           </dt>
           <dd>{bountyEntity.experience}</dd>
           <dt>
             <span id="commitment">
-              <Translate contentKey="bountiesApp.bounty.commitment">Commitment</Translate>
+              Commitment
             </span>
           </dt>
           <dd>{bountyEntity.commitment}</dd>
           <dt>
             <span id="type">
-              <Translate contentKey="bountiesApp.bounty.type">Type</Translate>
+              Type
             </span>
           </dt>
           <dd>{bountyEntity.type}</dd>
           <dt>
             <span id="category">
-              <Translate contentKey="bountiesApp.bounty.category">Category</Translate>
+              Category
             </span>
           </dt>
           <dd>{bountyEntity.category}</dd>
           <dt>
             <span id="keywords">
-              <Translate contentKey="bountiesApp.bounty.keywords">Keywords</Translate>
+              Keywords
             </span>
           </dt>
           <dd>{bountyEntity.keywords}</dd>
           <dt>
             <span id="permission">
-              <Translate contentKey="bountiesApp.bounty.permission">Permission</Translate>
+              Permission
             </span>
           </dt>
           <dd>{bountyEntity.permission ? 'true' : 'false'}</dd>
           <dt>
             <span id="expires">
-              <Translate contentKey="bountiesApp.bounty.expires">Expires</Translate>
+              Expires
             </span>
           </dt>
           <dd>{bountyEntity.expires ? <TextFormat value={bountyEntity.expires} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
           <dt>
-            <Translate contentKey="bountiesApp.bounty.issue">Issue</Translate>
+            Issue
           </dt>
           <dd>{bountyEntity.issue ? bountyEntity.issue.id : ''}</dd>
         </dl>
         <Button tag={Link} to="/bounty" replace color="info">
           <FontAwesomeIcon icon="arrow-left" />{' '}
           <span className="d-none d-md-inline">
-            <Translate contentKey="entity.action.back">Back</Translate>
+            Back
           </span>
         </Button>
         &nbsp;
         <Button tag={Link} to={`/bounty/${bountyEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" />{' '}
           <span className="d-none d-md-inline">
-            <Translate contentKey="entity.action.edit">Edit</Translate>
+            Edit
           </span>
         </Button>
       </Col>

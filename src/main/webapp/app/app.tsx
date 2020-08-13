@@ -3,7 +3,6 @@ import './app.scss';
 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Card } from 'reactstrap';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { hot } from 'react-hot-loader';
@@ -67,30 +66,6 @@ export const App = (props: IAppProps) => {
         <div className="container-fluid view-container" id="app-view-container">
           <CssBaseline />
           <Container className={classes.paper}>
-            {/* <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Paper className={classes.paper}>xs=12</Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper className={classes.paper}>xs=6</Paper>
-              </Grid>
-              <Grid item xs={6}>
-                <Paper className={classes.paper}>xs=6</Paper>
-              </Grid>
-              <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-              </Grid>
-              <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-              </Grid>
-              <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-              </Grid>
-              <Grid item xs={3}>
-                <Paper className={classes.paper}>xs=3</Paper>
-              </Grid>
-            </Grid> */}
-
             <ErrorBoundary>
               <AppRoutes />
             </ErrorBoundary>

@@ -2,10 +2,8 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { IBounty } from 'app/shared/model/bounty.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './bounty.reducer';
 
@@ -34,23 +32,21 @@ export const BountyDeleteDialog = (props: IBountyDeleteDialogProps) => {
   return (
     <Modal isOpen toggle={handleClose}>
       <ModalHeader toggle={handleClose}>
-        <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
+        Confirm delete operation
       </ModalHeader>
       <ModalBody id="bountiesApp.bounty.delete.question">
-        <Translate contentKey="bountiesApp.bounty.delete.question" interpolate={{ id: bountyEntity.id }}>
           Are you sure you want to delete this Bounty?
-        </Translate>
       </ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
           &nbsp;
-          <Translate contentKey="entity.action.cancel">Cancel</Translate>
+          Cancel
         </Button>
         <Button id="jhi-confirm-delete-bounty" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
           &nbsp;
-          <Translate contentKey="entity.action.delete">Delete</Translate>
+          Delete
         </Button>
       </ModalFooter>
     </Modal>
