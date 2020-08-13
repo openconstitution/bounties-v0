@@ -9,6 +9,7 @@ import PrivateRoute from 'app/shared/auth/private-route';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 import PageNotFound from 'app/shared/error/page-not-found';
 import { AUTHORITIES } from 'app/config/constants';
+import BountyUpdate from 'app/entities/bounty/bounty-update';
 
 const Admin = Loadable({
   loader: () => import(/* webpackChunkName: "administration" */ 'app/modules/administration'),
@@ -21,7 +22,9 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/logout" component={Logout} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
-      <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} />
+      {/* <ErrorBoundaryRoute path="/bounty/new" exact component={BountyUpdate} /> */}
+      {/* <ErrorBoundaryRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} /> */}
+      <ErrorBoundaryRoute path="/" component={Entities} />
       <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>
   </div>

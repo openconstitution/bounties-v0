@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudSearchAction, ICrudGetAllAction, TextFormat } from 'react-jhipster';
+import { TextFormat } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -37,11 +37,11 @@ export const Bounty = (props: IBountyProps) => {
   return (
     <div>
       <h2 id="bounty-heading">
-        <Translate contentKey="bountiesApp.bounty.home.title">Bounties</Translate>
+        Bounties
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
           &nbsp;
-          <Translate contentKey="bountiesApp.bounty.home.createLabel">Create new Bounty</Translate>
+          Create new Bounty
         </Link>
       </h2>
       <Row>
@@ -54,7 +54,7 @@ export const Bounty = (props: IBountyProps) => {
                   name="search"
                   value={search}
                   onChange={handleSearch}
-                  placeholder={translate('bountiesApp.bounty.home.search')}
+                  placeholder="search"
                 />
                 <Button className="input-group-addon">
                   <FontAwesomeIcon icon="search" />
@@ -73,40 +73,40 @@ export const Bounty = (props: IBountyProps) => {
             <thead>
               <tr>
                 <th>
-                  <Translate contentKey="global.field.id">ID</Translate>
+                  ID
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.status">Status</Translate>
+                  Status
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.url">Url</Translate>
+                  Url
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.amount">Amount</Translate>
+                  Amount
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.experience">Experience</Translate>
+                  Experience
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.commitment">Commitment</Translate>
+                  Commitment
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.type">Type</Translate>
+                  Type
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.category">Category</Translate>
+                  Category
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.keywords">Keywords</Translate>
+                  Keywords
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.permission">Permission</Translate>
+                  Permission
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.expires">Expires</Translate>
+                  Expires
                 </th>
                 <th>
-                  <Translate contentKey="bountiesApp.bounty.issue">Issue</Translate>
+                  Issue
                 </th>
                 <th />
               </tr>
@@ -120,19 +120,19 @@ export const Bounty = (props: IBountyProps) => {
                     </Button>
                   </td>
                   <td>
-                    <Translate contentKey={`bountiesApp.Status.${bounty.status}`} />
+                    {bounty.status}
                   </td>
                   <td>{bounty.url}</td>
                   <td>{bounty.amount}</td>
                   <td>
-                    <Translate contentKey={`bountiesApp.Experience.${bounty.experience}`} />
+                    {bounty.experience}
                   </td>
                   <td>{bounty.commitment}</td>
                   <td>
-                    <Translate contentKey={`bountiesApp.Type.${bounty.type}`} />
+                    {bounty.type}
                   </td>
                   <td>
-                    <Translate contentKey={`bountiesApp.Category.${bounty.category}`} />
+                    {bounty.category}
                   </td>
                   <td>{bounty.keywords}</td>
                   <td>{bounty.permission ? 'true' : 'false'}</td>
@@ -143,19 +143,19 @@ export const Bounty = (props: IBountyProps) => {
                       <Button tag={Link} to={`${match.url}/${bounty.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
+                          View
                         </span>
                       </Button>
                       <Button tag={Link} to={`${match.url}/${bounty.id}/edit`} color="primary" size="sm">
                         <FontAwesomeIcon icon="pencil-alt" />{' '}
                         <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
+                          Edit
                         </span>
                       </Button>
                       <Button tag={Link} to={`${match.url}/${bounty.id}/delete`} color="danger" size="sm">
                         <FontAwesomeIcon icon="trash" />{' '}
                         <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
+                          Delete
                         </span>
                       </Button>
                     </div>
@@ -167,7 +167,7 @@ export const Bounty = (props: IBountyProps) => {
         ) : (
           !loading && (
             <div className="alert alert-warning">
-              <Translate contentKey="bountiesApp.bounty.home.notFound">No Bounties found</Translate>
+              No Bounties found
             </div>
           )
         )}
