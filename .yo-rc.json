@@ -34,7 +34,7 @@
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
-    "enableTranslation": true,
+    "enableTranslation": false,
     "nativeLanguage": "en",
     "languages": [
       "en",
