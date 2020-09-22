@@ -1,3 +1,5 @@
+import './bounty.scss';
+
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
@@ -6,9 +8,8 @@ import { IRootState } from 'app/shared/reducers';
 import { getEntities as getIssues } from 'app/entities/issue/issue.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './bounty.reducer';
 import clsx from 'clsx';
-import Check from '@material-ui/icons/Check';
-import { Stepper, Step, StepLabel, Typography, StepConnector, StepIconProps, Container, Paper, FormControl, InputAdornment, FormLabel, RadioGroup, FormControlLabel, Radio, RadioProps, List, ListItem, ListItemText, Collapse, Snackbar, IconButton } from '@material-ui/core';
-import { makeStyles, Theme, createStyles, withStyles } from '@material-ui/core/styles';
+import { Stepper, Step, StepLabel, Typography, Paper, FormControl, InputAdornment, FormLabel, RadioGroup, FormControlLabel, RadioProps, List, ListItem, ListItemText, Collapse, Snackbar, IconButton } from '@material-ui/core';
+import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
 import { SimpleInputField, SelectInputField, InputContent } from 'app/shared/layout/components';
 
 import ReplayIcon from '@material-ui/icons/Replay';
@@ -18,127 +19,13 @@ import { Alert } from '@material-ui/lab';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
-import { Button } from 'reactstrap';
+// import { Button } from 'reactstrap';
+import { Button, Icon, Form, TextArea, Select, Input, Container, Radio, Label, FormTextArea, FormInput, Grid, Segment, Divider, Message } from 'semantic-ui-react'
 import { Status } from 'app/shared/model/enumerations/status.model';
+import { BRadio } from 'app/shared/layout/components/radio';
+import { BToggleRadio } from 'app/shared/layout/components/toggle-radio';
 
 export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
-
-const QontoConnector = withStyles({
-  alternativeLabel: {
-    top: 10,
-    left: 'calc(-50% + 16px)',
-    right: 'calc(50% + 16px)',
-  },
-  active: {
-    '& $line': {
-      borderColor: '#784af4',
-    },
-  },
-  completed: {
-    '& $line': {
-      borderColor: '#784af4',
-    },
-  },
-  line: {
-    borderColor: '#eaeaf0',
-    borderTopWidth: 3,
-    borderRadius: 1,
-  },
-})(StepConnector);
-
-const useQontoStepIconStyles = makeStyles({
-  root: {
-    color: '#eaeaf0',
-    display: 'flex',
-    height: 22,
-    alignItems: 'center',
-  },
-  active: {
-    color: '#784af4',
-  },
-  circle: {
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    backgroundColor: 'currentColor',
-  },
-  completed: {
-    color: '#784af4',
-    zIndex: 1,
-    fontSize: 18,
-  },
-});
-
-function QontoStepIcon(props: StepIconProps) {
-  const classes = useQontoStepIconStyles();
-  const { active, completed } = props;
-
-  return (
-    <div
-      className={clsx(classes.root, {
-        [classes.active]: active,
-      })}
-    >
-      {completed ? <Check className={classes.completed} /> : <div className={classes.circle} />}
-    </div>
-  );
-}
-
-const useRadioStyles = makeStyles({
-  root: {
-    '&:hover': {
-      backgroundColor: 'transparent',
-    },
-  },
-  icon: {
-    borderRadius: '50%',
-    width: 16,
-    height: 16,
-    boxShadow: 'inset 0 0 0 1px rgba(16,22,26,.2), inset 0 -1px 0 rgba(16,22,26,.1)',
-    backgroundColor: '#f5f8fa',
-    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.8),hsla(0,0%,100%,0))',
-    '$root.Mui-focusVisible &': {
-      outline: '2px auto rgba(19,124,189,.6)',
-      outlineOffset: 2,
-    },
-    'input:hover ~ &': {
-      backgroundColor: '#ebf1f5',
-    },
-    'input:disabled ~ &': {
-      boxShadow: 'none',
-      background: 'rgba(206,217,224,.5)',
-    },
-  },
-  checkedIcon: {
-    backgroundColor: '#137cbd',
-    backgroundImage: 'linear-gradient(180deg,hsla(0,0%,100%,.1),hsla(0,0%,100%,0))',
-    '&:before': {
-      display: 'block',
-      width: 16,
-      height: 16,
-      backgroundImage: 'radial-gradient(#fff,#fff 28%,transparent 32%)',
-      content: '""',
-    },
-    'input:hover ~ &': {
-      backgroundColor: '#106ba3',
-    },
-  },
-});
-
-function StyledRadio(props: RadioProps) {
-  const classes = useRadioStyles();
-
-  return (
-    <Radio
-      className={classes.root}
-      disableRipple
-      color="default"
-      checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
-      icon={<span className={classes.icon} />}
-      {...props}
-    />
-  );
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -168,6 +55,9 @@ const useStyles = makeStyles((theme: Theme) =>
     subNested: {
       paddingLeft: theme.spacing(15),
     },
+    error: {
+      backgroundColor: "red"
+    },
   }),
 );
 
@@ -175,14 +65,31 @@ function getSteps() {
   return ['Issue Details', 'Funding Details', 'Bounty Details'];
 }
 
+const fundingFields = (fields: number) => {
+
+}
+
 export const BountyUpdate = (props: IBountyUpdateProps) => {
 
   const classes = useStyles();
   const steps = getSteps();
 
-  const categories = [Category.FRONT_END, Category.BACKEND, Category.THIS];
-  const types = [Type.BUG, Type.FEATURE, Type.IMPROVEMENT, Type.EX];
-  const experiences = [Experience.BEGINNER, Experience.INTERMEDIATE, Experience.ADVANCED];
+  const categories = [
+    { key: 'F', text: 'Frontend', value: Category.FRONT_END },
+    { key: 'B', text: 'Backend', value: Category.BACKEND },
+    { key: 'T', text: 'This', value: Category.THIS }
+  ];
+  const types = [
+    { key: 'B', text: 'Bug', value: Type.BUG },
+    { key: 'F', text: 'Feature', value: Type.FEATURE },
+    { key: 'I', text: 'Improvement', value: Type.IMPROVEMENT },
+    { key: 'E', text: 'Ex', value: Type.EX }
+  ];
+  const experiences = [
+    { key: 'B', text: 'Beginner', value: Experience.BEGINNER },
+    { key: 'I', text: 'Intermediate', value: Experience.INTERMEDIATE },
+    { key: 'A', text: 'Experience', value: Experience.ADVANCED }
+  ];
 
   const [activeStep, setActiveStep] = React.useState(0);
   const [issueUrl, setIssueUrl] = React.useState('');
@@ -193,12 +100,15 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
   const [category, setCategory] = React.useState(null);
   const [type, setType] = React.useState(null);
   const [experience, setExperience] = React.useState(null);
+  const [expiryDate, setExpiryDate] = React.useState('');
+  const [permission, setPermission] = React.useState('');
 
   const [bountyOpen, setBountyOpen] = React.useState(true);
   const [issueOpen, setIssueOpen] = React.useState(true);
   const [fundingOpen, setFundingOpen] = React.useState(true);
-  const [inputValidity, setInputValidity] = React.useState(true);
   const [snackBarOpen, setSnackBarOpen] = React.useState(false);
+
+  const [isEmpty, setIsEmpty] = React.useState(false)
 
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
   const { bountyEntity, loading, updating } = props;
@@ -231,40 +141,44 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
     setMode(event.target.value);
   }
 
-  const handleTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setType(event.target.value);
+  const handleTypeChange = (e, { value }) => {
+    setType(value);
   }
 
-  const handleCategoryChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(event.target.value);
+  const handleCategoryChange = (e, { value }) => {
+    setCategory(value);
   }
 
-  const handleExperienceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setExperience(event.target.value);
+  const handleExperienceChange = (e, { value }) => {
+    setExperience(value);
   }
 
-  const handleBountyUrlChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setBountyUrl(event.target.value);
+  const handleExpiryDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setExpiryDate(event.target.value);
+  }
+
+  const handlePermisssionChange = (event, { value }) => {
+    setPermission(value);
   }
 
   const handleNext = () => {
     if (activeStep === 0) {
-      if (issueUrl === '' || description === '') {
-        setInputValidity(false)
+      if (issueUrl === '') {
+        setIsEmpty(true)
         setSnackBarOpen(true)
       } else {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } else if (activeStep === 1) {
       if (amount === '' || mode === '') {
-        setInputValidity(false)
+        setIsEmpty(true)
         setSnackBarOpen(true)
       } else {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
       }
     } else if (activeStep === 2) {
-      if (bountyUrl === '' || category === null || type === null || experience === null) {
-        setInputValidity(false)
+      if (category === null || type === null || experience === null) {
+        setIsEmpty(true)
         setSnackBarOpen(true)
       } else {
         setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -302,28 +216,30 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
     }
   }, [props.updateSuccess]);
 
-  const submit = (event, errors, values) => {
+  const submit = () => {
     const bounty = {
       amount: Number(amount),
-      category: Category.FRONT_END,
+      category,
       commitment: 0,
-      experience: Experience.BEGINNER,
-      expires: "2020-08-11",
+      experience,
+      expires: expiryDate,
       fundings: [
         {
-          amount: 0,
-          mode: "string",
+          amount: Number(amount),
+          mode,
           paymentAuth: true
         }
       ],
       issue: {
         issueId: "string",
-        url: issueUrl
+        url: issueUrl,
+        description
       },
       keywords: "string",
       status: Status.OPEN,
-      type: type.BUG,
-      url: bountyUrl
+      type,
+      permission: permission === 'true',
+      url: issueUrl
     }
 
     const entity = {
@@ -348,189 +264,282 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
   };
 
   return (
-    <div className={classes.root}>
-      <Snackbar
-        anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'center',
-        }}
-        open={snackBarOpen}
-        autoHideDuration={3000}
-        onClose={handleSnackBarClose}>
-        <Alert onClose={handleSnackBarClose} severity="error">
-          Please fill in the fields with an asterisk(*)!
-        </Alert>
-      </Snackbar>
-      <Stepper alternativeLabel activeStep={activeStep} connector={<QontoConnector />}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel StepIconComponent={QontoStepIcon}>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <Paper square elevation={0} className={classes.contentContainer}>
-            <div className={classes.instructions}>
-              <Container className={classes.instructions} maxWidth="sm">
-                <Typography variant="h3">
-                  <IconButton onClick={handleReset} className={classes.button}>
-                    <ReplayIcon />
-                  </IconButton>
-                  Bounty Summary
-                </Typography>
-                <List
-                  disablePadding
-                  component="nav"
-                  className={classes.instructions}
-                  aria-labelledby="nested-list-subheader"
-                >
-                  <ListItem onClick={handleBountyClick}>
-                    <ListItemText primary="Bounty Details" />
-                    {bountyOpen ? <ExpandLess /> : <ExpandMore />}
-                  </ListItem>
-                  <Collapse in={bountyOpen} timeout="auto" unmountOnExit>
-                    <List component="div" disablePadding>
-                      <ListItem className={classes.nested}>
-                        <ListItemText secondary={"Bounty URL: ".concat(bountyUrl)} />
-                      </ListItem>
-                      <ListItem className={classes.nested}>
-                        <ListItemText secondary={"Type: ".concat(
-                          (type.toLowerCase().replace('_', ' ')).charAt(0).toUpperCase() + (type.toLowerCase().replace('_', ' ')).slice(1)
-                        )} />
-                      </ListItem>
-                      <ListItem className={classes.nested}>
-                        <ListItemText secondary={"Category: ".concat(
-                          (category.toLowerCase().replace('_', ' ')).charAt(0).toUpperCase() + (category.toLowerCase().replace('_', ' ')).slice(1)
-                        )} />
-                      </ListItem>
-                      <ListItem className={classes.nested}>
-                        <ListItemText secondary={"Experience: ".concat(
-                          (experience.toLowerCase().replace('_', ' ')).charAt(0).toUpperCase() + (experience.toLowerCase().replace('_', ' ')).slice(1)
-                        )} />
-                      </ListItem>
+    <Paper square elevation={0} className={classes.contentContainer}>
+      <div className={classes.instructions}>
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+          open={snackBarOpen}
+          autoHideDuration={3000}
+          onClose={handleSnackBarClose}>
+          <Alert onClose={handleSnackBarClose} severity="error">
+            Please fill in the fields with an asterisk(*)!
+          </Alert>
+        </Snackbar>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <div>
+          {activeStep === steps.length ? (
+                <Container text>
+                  <Typography variant="h3">
+                    <IconButton onClick={handleReset} className={classes.button}>
+                      <ReplayIcon />
+                    </IconButton>
+                    Bounty Summary
+                  </Typography>
+                  <List
+                    disablePadding
+                    component="nav"
+                    className={classes.instructions}
+                    aria-labelledby="nested-list-subheader"
+                  >
+                    <ListItem onClick={handleBountyClick}>
+                      <ListItemText primary="Bounty Details" />
+                      {bountyOpen ? <ExpandLess /> : <ExpandMore />}
+                    </ListItem>
+                    <Collapse in={bountyOpen} timeout="auto" unmountOnExit>
+                      <List component="div" disablePadding>
+                        <ListItem className={classes.nested}>
+                          <ListItemText secondary={"Bounty URL: ".concat(bountyUrl)} />
+                        </ListItem>
+                        <ListItem className={classes.nested}>
+                          <ListItemText secondary={"Type: ".concat(
+                            (type.toLowerCase().replace('_', ' ')).charAt(0).toUpperCase() + (type.toLowerCase().replace('_', ' ')).slice(1)
+                          )} />
+                        </ListItem>
+                        <ListItem className={classes.nested}>
+                          <ListItemText secondary={"Category: ".concat(
+                            (category.toLowerCase().replace('_', ' ')).charAt(0).toUpperCase() + (category.toLowerCase().replace('_', ' ')).slice(1)
+                          )} />
+                        </ListItem>
+                        <ListItem className={classes.nested}>
+                          <ListItemText secondary={"Experience: ".concat(
+                            (experience.toLowerCase().replace('_', ' ')).charAt(0).toUpperCase() + (experience.toLowerCase().replace('_', ' ')).slice(1)
+                          )} />
+                        </ListItem>
 
-                      <ListItem className={classes.nested} onClick={handleIssueClick}>
-                        <ListItemText primary="Issue Details" />
-                        {issueOpen ? <ExpandLess /> : <ExpandMore />}
-                      </ListItem>
-                      <Collapse in={issueOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          <ListItem className={classes.subNested}>
-                            <ListItemText secondary={"Issue url: ".concat(issueUrl)} />
-                          </ListItem>
-                          <ListItem className={classes.subNested}>
-                            <ListItemText secondary={"Description: ".concat(description)} />
-                          </ListItem>
-                        </List>
-                      </Collapse>
-                      <ListItem className={classes.nested} onClick={handleFundingClick}>
-                        <ListItemText primary="Fundind Details" />
-                        {fundingOpen ? <ExpandLess /> : <ExpandMore />}
-                      </ListItem>
-                      <Collapse in={fundingOpen} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
-                          <ListItem className={classes.subNested}>
-                            <ListItemText secondary={"Amount: ".concat(amount)} />
-                          </ListItem>
-                          <ListItem className={classes.subNested}>
-                            <ListItemText secondary={"Mode: ".concat(mode)} />
-                          </ListItem>
-                        </List>
-                      </Collapse>
-                    </List>
-                  </Collapse>
-                </List>
-                <Button variant="contained" color="secondary" onClick={handleClose} className={classes.button}>
-                  Cancel
-                </Button>
-                <Button variant="contained" color="primary" onClick={submit} className={classes.button}>
-                  Submit
-                </Button>
-              </Container>
-            </div>
-          </Paper>
-        ) : (
-          <div>
-            <Paper square elevation={0} className={classes.contentContainer}>
-              <div className={classes.instructions}>
-                <Container maxWidth="sm">
-                  {loading ? (
-                    <p>Loading...</p>
-                  ) : (
-                    activeStep === 0 ? (
-                      <InputContent description="Issue Details"
-                        inputs={
-                          <FormControl fullWidth>
-                            <SimpleInputField id="issue_url" type="text" label="Issue URL" placeholder="issue url" isRequired={true}
-                              value={issueUrl} handleChange={handleIssueUrlChange} isValid={inputValidity} />
-                            <SimpleInputField id="issue_description" label="Description" placeholder="description" isRequired={true}
-                              value={description} isValid={inputValidity} handleChange={handleDescriptionChange} multiline />
-                          </FormControl>
-                        }
-                      />
-                    ) : activeStep === 1 ? (
-                      <InputContent description="Funding Details"
-                        inputs={
-                          <FormControl fullWidth>
-                            <SimpleInputField id="amount"
-                              label="Amount"
-                              type="number"
-                              isRequired={true}
-                              placeholder="0.00"
-                              isValid={inputValidity}
-                              value={amount} handleChange={handleAmountChange}
-                              adorment={(<InputAdornment position="start">$</InputAdornment>)}
-                            />
-                            <FormControl>
-                              <FormLabel>Mode</FormLabel>
-                              <RadioGroup aria-required aria-label="mode" name="customized-radios" value={mode} onChange={handleModeChange}>
-                              <FormControlLabel value="a" control={<StyledRadio />} label="Mode A" />
-                                <FormControlLabel value="b" control={<StyledRadio />} label="Mode B" />
-                              </RadioGroup>
-                            </FormControl>
-                          </FormControl>
-                        }
-                      />
-                    ) : activeStep === 2 ? (
-                      <InputContent description="Bounty Details"
-                        inputs={
-                          <FormControl fullWidth>
-                            <SimpleInputField id="bounty_url" type="text" label="Bounty URL" placeholder="bounty url" isRequired={true}
-                              value={bountyUrl} handleChange={handleBountyUrlChange} isValid={inputValidity} />
-                            <SelectInputField id="category" label="Category" items={categories} value={category}
-                              handleChange={handleCategoryChange} />
-                            <SelectInputField id="type" label="Type" items={types} value={type}
-                              handleChange={handleTypeChange} isRequired />
-                            <SelectInputField id="experience" label="Experience" items={experiences} value={experience}
-                              handleChange={handleExperienceChange} isRequired />
-                          </FormControl>
-                        }
-                      />
-                    ) : (
-                      "Unkown stage, How did you manage to get here?"
-                    )
-                  )}
+                        <ListItem className={classes.nested} onClick={handleIssueClick}>
+                          <ListItemText primary="Issue Details" />
+                          {issueOpen ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse in={issueOpen} timeout="auto" unmountOnExit>
+                          <List component="div" disablePadding>
+                            <ListItem className={classes.subNested}>
+                              <ListItemText secondary={"Issue url: ".concat(issueUrl)} />
+                            </ListItem>
+                            <ListItem className={classes.subNested}>
+                              <ListItemText secondary={"Description: ".concat(description)} />
+                            </ListItem>
+                          </List>
+                        </Collapse>
+                        <ListItem className={classes.nested} onClick={handleFundingClick}>
+                          <ListItemText primary="Fundind Details" />
+                          {fundingOpen ? <ExpandLess /> : <ExpandMore />}
+                        </ListItem>
+                        <Collapse in={fundingOpen} timeout="auto" unmountOnExit>
+                          <List component="div" disablePadding>
+                            <ListItem className={classes.subNested}>
+                              <ListItemText secondary={"Amount: ".concat(amount)} />
+                            </ListItem>
+                            <ListItem className={classes.subNested}>
+                              <ListItemText secondary={"Mode: ".concat(mode)} />
+                            </ListItem>
+                          </List>
+                        </Collapse>
+                      </List>
+                    </Collapse>
+                  </List>
+                  <Button variant="contained" secondary onClick={handleClose}>
+                    Cancel
+                  </Button>
+                  <Button variant="contained" primary onClick={submit}>
+                    Submit
+                  </Button>
                 </Container>
-              </div>
+          ) : (
+            <div>
+              <Container text>
+                {activeStep === 0 ? (
+                  <Segment basic>
+                    <Grid columns={2} divided relaxed='very'>
+                      <Grid.Column verticalAlign='middle'>
+                        <p>Issue Details</p>
+                      </Grid.Column>
+                      <Grid.Column textAlign='left' verticalAlign='middle'>
+                        <Form>
+                          <Form.Field
+                            required
+                            control={Input}
+                            name='url'
+                            label='Issue Url'
+                            value={issueUrl}
+                            placeholder='Issue url'
+                            onChange={handleIssueUrlChange}
+                            error={isEmpty ? "Please enter a value" : false}
+                          />
+                          <Form.Field
+                            control={TextArea}
+                            name='description'
+                            label='Description'
+                            value={description}
+                            placeholder='Tell us more about this issue...'
+                            onChange={handleDescriptionChange}
+                          />
+                        </Form>
+                      </Grid.Column>
+                    </Grid>
+                  </Segment>
+                ) : activeStep === 1 ? (
+                  <Segment basic>
+                    <Grid columns={2} divided relaxed='very'>
+                      <Grid.Column verticalAlign='middle'>
+                        <p>Funding Details</p>
+                      </Grid.Column>
+                      <Grid.Column textAlign='left' verticalAlign='middle'>
+                        <Form>
+                          <Form.Field
+                            required
+                            control={Input}
+                            type="number"
+                            icon='dollar'
+                            iconPosition='left'
+                            name='amount'
+                            label='Amount'
+                            value={amount}
+                            placeholder='amount'
+                            onChange={handleAmountChange}
+                            error={isEmpty ? "Please enter a value" : false}
+                          />
+                          <Form.Group inline>
+                            <label>Mode</label>
+                            <Form.Field
+                              control={BRadio}
+                              label='One'
+                              value='1'
+                              checked={mode === '1'}
+                              onChange={handleModeChange}
+                            />
+                            <Form.Field
+                              control={BRadio}
+                              label='Two'
+                              value='2'
+                              checked={mode === '2'}
+                              onChange={handleModeChange}
+                            />
+                            <Form.Field
+                              control={BRadio}
+                              label='Three'
+                              value='3'
+                              checked={mode === '3'}
+                              onChange={handleModeChange}
+                            />
+                          </Form.Group>
+                        </Form>
+                        <br/>
+                      </Grid.Column>
+                    </Grid>
+                  </Segment>
+                ) : activeStep === 2 ? (
+                  <Segment basic>
+                    <Grid columns={2} divided relaxed='very'>
+                      <Grid.Column verticalAlign='middle'>
+                        <p>Bounty Details</p>
+                      </Grid.Column>
+                      <Grid.Column textAlign='left' verticalAlign='middle'>
+                        <Form>
+                          <Form.Select
+                            fluid
+                            required
+                            name='category'
+                            label='Category'
+                            value={category}
+                            options={categories}
+                            placeholder='Category'
+                            onChange={handleCategoryChange}
+                            error={isEmpty ? "Please choose a value" : false}
+                          />
+                          <Form.Select
+                            fluid
+                            required
+                            name='type'
+                            label='Type'
+                            value={type}
+                            options={types}
+                            placeholder='Type'
+                            onChange={handleTypeChange}
+                            error={isEmpty ? "Please choose a value" : false}
+                          />
+                          <Form.Select
+                            fluid
+                            required
+                            name='experience'
+                            label='Experience'
+                            value={experience}
+                            options={experiences}
+                            placeholder='Experience'
+                            onChange={handleExperienceChange}
+                            error={isEmpty ? "Please choose a value" : false}
+                          />
+                          <Form.Radio
+                            required
+                            toggle
+                            type='radio'
+                            label='Permission'
+                            name='permission'
+                            value={permission === 'true' ? 'false' : 'true'}
+                            checked={permission === 'true'}
+                            onChange={handlePermisssionChange}
+                          />
+                          <Form.Field
+                            required
+                            control={Input}
+                            type='date'
+                            name='expires'
+                            label='Expiry Date'
+                            value={expiryDate}
+                            onChange={handleExpiryDateChange}
+                            error={isEmpty ? "Please pick a date" : false}
+                          />
+                        </Form>
+                        <br/>
+                      </Grid.Column>
+                    </Grid>
+                  </Segment>
+                ) : (
+                  "Unkown stage, How did you manage to get here?"
+                )}
+              </Container>
+              <br/>
               <div>
-                <Button disabled={activeStep === 0} onClick={handleBack} className={classes.button}>
-                  Back
+                <Button disabled={activeStep === 0} animated onClick={handleBack}>
+                  <Button.Content visible>Back</Button.Content>
+                  <Button.Content hidden>
+                    <Icon name='arrow left' />
+                  </Button.Content>
                 </Button>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext}
-                  className={classes.button}
-                >
-                  {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
-                </Button>
+                {activeStep === steps.length - 1 ? (
+                  <Button primary onClick={handleNext} content='Finish' />
+                ) : (
+                  <Button primary animated onClick={handleNext}>
+                    <Button.Content visible>Next</Button.Content>
+                    <Button.Content hidden>
+                      <Icon name='arrow right' />
+                    </Button.Content>
+                  </Button>
+                )}
               </div>
-            </Paper>
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </Paper>
   );
 };
 

@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-import './app.scss';
+// import './app.scss';
 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -19,6 +19,7 @@ import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { CssBaseline, Container } from '@material-ui/core';
+import 'semantic-ui-css/semantic.min.css'
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -50,7 +51,7 @@ export const App = (props: IAppProps) => {
     <Router basename={baseHref}>
       {/* <div className="app-container" style={{ paddingTop }}> */}
       <div className={classes.root}>
-        <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
+        {/* <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" /> */}
         <ErrorBoundary>
           <Header
             isAuthenticated={props.isAuthenticated}
@@ -62,7 +63,7 @@ export const App = (props: IAppProps) => {
             isSwaggerEnabled={props.isSwaggerEnabled}
           />
         </ErrorBoundary>
-        <br/>
+        
         <div className="container-fluid view-container" id="app-view-container">
           <CssBaseline />
           <Container className={classes.paper}>
