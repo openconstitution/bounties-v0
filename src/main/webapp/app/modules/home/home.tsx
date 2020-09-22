@@ -7,6 +7,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Skeleton, Alert } from '@material-ui/lab';
 import { Translate } from 'react-jhipster';
 import { getLoginUrl } from 'app/shared/util/url-utils';
+import { Segment, Container } from 'semantic-ui-react';
 
 export type IHomeProp = StateProps;
 
@@ -87,10 +88,8 @@ export const Home = (props: IHomeProp) => {
   }
 
   return (
-    <Grid container spacing={3}>
-      <Grid item xs={12}>
-        <Paper className={classes.paper}>
-
+    <Segment basic>
+      <Container>
           {account && account.login ? (
             <div>
               <Alert color="success">
@@ -128,10 +127,8 @@ export const Home = (props: IHomeProp) => {
             { items }
 
           </Grid>
-        </Paper>
-      </Grid>
-
-    </Grid>
+      </Container>
+    </Segment>
   );
 };
 
