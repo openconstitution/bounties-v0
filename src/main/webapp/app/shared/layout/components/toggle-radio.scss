@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600');
+
+/* VARS */
+$open-sans: 'Open Sans', 'Helvetica', sans-serif;
+
+$darkNavy: #213140;
+$teal1: #2185d0;
+$teal2: #2185d0;
+$charcoal: #555555;
+$gold: #B6985A;
+
+$activeShadow: 0 0 10px rgba($teal1, .5);
+
+/* MIXINS */
+@mixin focusOutline {outline: dotted 1px #CCC; outline-offset: .45rem;}
+@mixin hideInput {width: 0; height: 0; position: absolute; left: -9999px;}
+@mixin breakpoint($point) {
+	@if $point == 1100 {
+		@media (max-width: 1100px) { @content ; }
+	}
+	@else if $point == 800 {
+		@media (max-width: 800px) { @content ; }
+	}
+}
+
+/* STYLE THE HTML ELEMENTS (INCLUDES RESETS FOR THE DEFAULT FIELDSET AND LEGEND STYLES) */
+body, html {
+	margin: 0; padding: 1rem; box-sizing: border-box;
+	width: 100%; height: 100%;
+	font-size: 16px; font-family: $open-sans;
+	-webkit-font-smoothing: antialiased;
+	background-color: #EEE;
+}
+fieldset {
+	margin: 0; padding: 2rem;
+	box-sizing: border-box; display: block;
+	border: none; border: solid 1px #CCC;
+	min-width: 0;
+	background-color: #FFF;
+	legend {
+		margin: 0 0 1.5rem; padding: 0;
+		width: 100%; float: left; display: table;
+		font-size: 1.5rem; line-height: 140%; font-weight: 600; color: #333;
+		+ * {clear: both;}
+	}
+}
+body:not(:-moz-handler-blocked) fieldset {display: table-cell;}
+
+/* TOGGLE STYLING */
+.toggle {
+	margin: 0 0 1.5rem; box-sizing: border-box;
+	font-size: 0;
+	display: flex; flex-flow: row nowrap;
+	justify-content: flex-start; align-items: stretch;
+	input {@include hideInput;}
+	input + label {
+		margin: 0; padding: .5rem 2rem; box-sizing: border-box;
+		position: relative; display: inline-block;
+		border: solid 1px #DDD; background-color: #FFF;
+		font-size: 1rem; line-height: 140%; font-weight: 600; text-align: center;
+		box-shadow: 0 0 0 rgba(255,255,255,0);
+		transition: 	border-color .15s ease-out,
+					color .25s ease-out,
+					background-color .15s ease-out,
+					box-shadow .15s ease-out;
+
+		/* ADD THESE PROPERTIES TO SWITCH FROM AUTO WIDTH TO FULL WIDTH */
+		/*flex: 0 0 50%; display: flex; justify-content: center; align-items: center;*/
+		/* ----- */
+
+		&:first-of-type {border-radius: 6px 0 0 6px; border-right: none;}
+		&:last-of-type {border-radius: 0 6px 6px 0; border-left: none;}
+	}
+	input:hover + label {border-color: $darkNavy; cursor: pointer;}
+	input:checked + label {
+		background-color: $teal2;
+		color: #FFF;
+		box-shadow: $activeShadow;
+		border-color: $teal2;
+		z-index: 1;
+	}
+	// input:focus + label {@include focusOutline;}
+
+	@include breakpoint(800) {
+		input + label {
+			padding: .75rem .25rem;
+			flex: 0 0 50%;
+			display: flex; justify-content: center; align-items: center;
+		}
+	}
+}
+
+/* STYLING FOR THE STATUS HELPER TEXT FOR THE DEMO */
+.status {
+	margin: 0;
+	font-size: 1rem; font-weight: 400;
+	span {
+		font-weight: 600; color: $gold;
+		&:first-of-type {display: inline;}
+		&:last-of-type {display: none;}
+	}
+	@include breakpoint(800) {
+		span {
+			&:first-of-type {display: none;}
+			&:last-of-type {display: inline;}
+		}
+	}
+}
