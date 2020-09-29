@@ -1,11 +1,11 @@
-id;status;url;amount;experience;commitment;type;category;keywords;permission;expires;created_by
-1;FUNDED;http://heloise.info;82175;BEGINNER;94915;EX;FRONT_END;channels Coves Hat;true;2020-08-09;user
-2;OPEN;https://harvey.name;21045;BEGINNER;78464;BUG;FRONT_END;Auto Loan Account;false;2020-08-09;user
-3;CLOSED;https://maritza.com;26909;INTERMEDIATE;2916;FEATURE;FRONT_END;Operative Function-based Mouse;false;2020-08-08;user
-4;CLOSED;http://ida.biz;72187;ADVANCED;69677;BUG;BACKEND;relationships Auto Loan Account;false;2020-08-09;user
-5;INVALID;http://karine.net;57722;INTERMEDIATE;70479;IMPROVEMENT;BACKEND;PNG Tenge;false;2020-08-09;user
-6;FUNDED;http://luigi.biz;90342;INTERMEDIATE;1555;FEATURE;BACKEND;cultivate;false;2020-08-08;user
-7;CLOSED;https://theresa.com;29786;BEGINNER;5034;BUG;BACKEND;West Virginia Soft International;true;2020-08-08;user
-8;INVALID;https://philip.net;44191;INTERMEDIATE;43136;BUG;FRONT_END;Corporate Program;true;2020-08-09;user
-9;CLOSED;http://ashlee.name;82892;ADVANCED;23832;IMPROVEMENT;THIS;cross-media pixel benchmark;false;2020-08-09;user
-10;CLOSED;http://jeanette.biz;83040;INTERMEDIATE;36794;BUG;FRONT_END;green;true;2020-08-09;user
+id;summary;description;status;url;amount;experience;commitment;type;category;keywords;permission;expires;created_by
+1;capacity pixel Baby;Comoro Franc Supervisor;FUNDED;http://heloise.info;82175;BEGINNER;94915;EX;FRONT_END;channels Coves Hat;true;2020-08-09;user
+2;Metal Generic;GB paradigm Licensed;OPEN;https://harvey.name;21045;BEGINNER;78464;BUG;FRONT_END;Auto Loan Account;false;2020-08-09;user
+3;Reduced;orange Investment Account;CLOSED;https://maritza.com;26909;INTERMEDIATE;2916;FEATURE;FRONT_END;Operative Function-based Mouse;false;2020-08-08;user
+4;Car Lek;Gorgeous Iowa Decentralized;CLOSED;http://ida.biz;72187;ADVANCED;69677;BUG;BACKEND;relationships Auto Loan Account;false;2020-08-09;user
+5;Alabama index;copy Business-focused;INVALID;http://karine.net;57722;INTERMEDIATE;70479;IMPROVEMENT;BACKEND;PNG Tenge;false;2020-08-09;user
+6;Customer;frictionless;FUNDED;http://luigi.biz;90342;INTERMEDIATE;1555;FEATURE;BACKEND;cultivate;false;2020-08-08;user
+7;intermediate Tugrik;Infrastructure JSON;CLOSED;https://theresa.com;29786;BEGINNER;5034;BUG;BACKEND;West Virginia Soft International;true;2020-08-08;user
+8;Mobility;syndicate Swedish Krona Division;INVALID;https://philip.net;44191;INTERMEDIATE;43136;BUG;FRONT_END;Corporate Program;true;2020-08-09;user
+9;Creative;Alabama;CLOSED;http://ashlee.name;82892;ADVANCED;23832;IMPROVEMENT;THIS;cross-media pixel benchmark;false;2020-08-09;user
+10;overriding Metrics;Assistant New Israeli Sheqel Handcrafted Metal Ball;CLOSED;http://jeanette.biz;83040;INTERMEDIATE;36794;BUG;FRONT_END;green;true;2020-08-09;user
