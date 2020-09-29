@@ -36,6 +36,10 @@ public class Profile extends AbstractAuditingEntity {
 
     @Column(name = "github_org_name")
     private String githubOrgName;
+    
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -44,6 +48,14 @@ public class Profile extends AbstractAuditingEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Integer getVotes() {
