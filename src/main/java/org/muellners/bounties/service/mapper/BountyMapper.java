@@ -43,6 +43,8 @@ public class BountyMapper {
             bounty.setId(bountyDTO.getId());
             bounty.setStatus(bountyDTO.getStatus());
             bounty.setUrl(bountyDTO.getUrl());
+            bounty.setSummary(bountyDTO.getSummary());
+            bounty.setDescription(bountyDTO.getDescription());
             bounty.setAmount(bountyDTO.getAmount());
             bounty.setExperience(bountyDTO.getExperience());
             bounty.setCommitment(bountyDTO.getCommitment());
