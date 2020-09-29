@@ -26,4 +26,4 @@ sourceSets {
     }
 }
 
-compileJava.dependsOn("openApiGenerate")
+// compileJava.dependsOn("openApiGenerate")
