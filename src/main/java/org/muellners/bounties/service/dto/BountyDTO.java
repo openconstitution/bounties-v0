@@ -20,6 +20,11 @@ public class BountyDTO {
     private Long id;
 
     private Status status;
+    
+    @NotNull
+    private String summary;
+
+    private String description;
 
     @NotNull
     private String url;
@@ -56,6 +61,8 @@ public class BountyDTO {
     public BountyDTO(final Bounty bounty) {
         this.id = bounty.getId();
         this.status = bounty.getStatus();
+        this.summary = bounty.getSummary();
+        this.description = bounty.getDescription();
         this.amount = bounty.getAmount();
         this.type = bounty.getType();
         this.experience = bounty.getExperience();
@@ -76,6 +83,8 @@ public class BountyDTO {
     public String toString() {
         return "BountyDTO{" +
             "id=" + id +
+            ", summary='" + summary + '\'' +
+            ", description='" + description + '\'' +
             ", status='" + status + '\'' +
             ", url='" + url + '\'' +
             ", amount=" + amount +
@@ -98,6 +107,22 @@ public class BountyDTO {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(final String summary) {
+        this.summary = summary;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(final String description) {
+        this.description = description;
     }
 
     public Status getStatus() {
