@@ -16,6 +16,12 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="summary" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="description" type="varchar(510)">
+                <constraints nullable="true" />
+            </column>
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -78,6 +84,8 @@
                   separator=";"
                   tableName="bounty">
             <column name="id" type="numeric"/>
+            <column name="summary" type="string"/>
+            <column name="description" type="string"/>
             <column name="status" type="string"/>
             <column name="url" type="string"/>
             <column name="amount" type="numeric"/>
