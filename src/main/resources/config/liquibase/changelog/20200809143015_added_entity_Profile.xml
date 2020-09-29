@@ -19,6 +19,9 @@
             <column name="votes" type="integer">
                 <constraints nullable="true" />
             </column>
+            <column name="user_id" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
             <column name="profilelink" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -34,6 +37,12 @@
             <column name="github_org_name" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
+            <column name="created_by" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
     </changeSet>
@@ -58,11 +67,13 @@
                   tableName="profile">
             <column name="id" type="numeric"/>
             <column name="votes" type="numeric"/>
+            <column name="user_id" type="numeric"/>
             <column name="profilelink" type="string"/>
             <column name="about" type="string"/>
             <column name="walletaddress" type="string"/>
             <column name="github_email" type="string"/>
             <column name="github_org_name" type="string"/>
+            <column name="created_by" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
