@@ -25,6 +25,12 @@ public class BountyDTO {
     private String url;
 
     @NotNull
+    private String summary;
+    
+    @NotNull
+    private String description;
+
+    @NotNull
     private BigDecimal amount;
 
     private Experience experience;
@@ -57,6 +63,9 @@ public class BountyDTO {
         this.id = bounty.getId();
         this.status = bounty.getStatus();
         this.amount = bounty.getAmount();
+        this.url = bounty.getUrl();
+        this.summary = bounty.getSummary();
+        this.description = bounty.getDescription();
         this.type = bounty.getType();
         this.experience = bounty.getExperience();
         this.commitment = bounty.getCommitment();
@@ -110,6 +119,22 @@ public class BountyDTO {
 
     public String getUrl() {
         return url;
+    }
+    
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public void setUrl(final String url) {
