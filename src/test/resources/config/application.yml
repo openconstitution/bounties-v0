@@ -113,7 +113,7 @@ jhipster:
       enabled: true
       report-frequency: 60 # in seconds
 kafka:
-  bootstrap-servers: kafka.muelleners.tech:9092
+  bootstrap-servers: http://localhost:9092
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer: org.apache.kafka.common.serialization.StringDeserializer
