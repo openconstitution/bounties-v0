@@ -25,11 +25,8 @@ const baseHref = document.querySelector('base').getAttribute('href').replace(/\/
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      flexGrow: 1,
-    },
     paper: {
-      padding: theme.spacing(2),
+      padding: theme.spacing(1),
       textAlign: 'center',
       color: theme.palette.text.secondary,
     },
@@ -49,31 +46,22 @@ export const App = (props: IAppProps) => {
 
   return (
     <Router basename={baseHref}>
-      {/* <div className="app-container" style={{ paddingTop }}> */}
-      <div className={classes.root}>
-        {/* <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" /> */}
+      <ErrorBoundary>
+        <Header
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          ribbonEnv={props.ribbonEnv}
+          isInProduction={props.isInProduction}
+          isSwaggerEnabled={props.isSwaggerEnabled}
+        />
+      </ErrorBoundary>
+      <Container className={classes.paper}>
         <ErrorBoundary>
-          <Header
-            isAuthenticated={props.isAuthenticated}
-            isAdmin={props.isAdmin}
-            currentLocale={props.currentLocale}
-            onLocaleChange={props.setLocale}
-            ribbonEnv={props.ribbonEnv}
-            isInProduction={props.isInProduction}
-            isSwaggerEnabled={props.isSwaggerEnabled}
-          />
+          <AppRoutes />
         </ErrorBoundary>
-        
-        <div className="container-fluid view-container" id="app-view-container">
-          <CssBaseline />
-          <Container className={classes.paper}>
-            <ErrorBoundary>
-              <AppRoutes />
-            </ErrorBoundary>
-          </Container>
-          <Footer />
-        </div>
-      </div>
+      </Container>
+      <br/>
+      <Footer />
     </Router>
   );
 };
