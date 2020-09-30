@@ -139,39 +139,41 @@ export const Bounty = (props: IBountyProps) => {
           </Grid.Row>
         </Grid>
       </Segment>
-      <Table selectable={bountyList.length > 0}>
-        <Table.Header>
-          <Table.Row>
-            <Table.HeaderCell width="10"></Table.HeaderCell>
-            <Table.HeaderCell width="1">Experience</Table.HeaderCell>
-            <Table.HeaderCell width="1">Type</Table.HeaderCell>
-            <Table.HeaderCell width="1">Status</Table.HeaderCell>
-            <Table.HeaderCell width="2">Expires on</Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
+      <Segment padded basic>
+        <Table selectable={bountyList.length > 0}>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell width="10"></Table.HeaderCell>
+              <Table.HeaderCell width="1">Experience</Table.HeaderCell>
+              <Table.HeaderCell width="1">Type</Table.HeaderCell>
+              <Table.HeaderCell width="1">Status</Table.HeaderCell>
+              <Table.HeaderCell width="2">Expires on</Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
 
-        {bountyList && bountyList.length > 0 ? (
-        <>
-          {dispBountyList(bountyList)}
-          {bountyList.length > pageSize && tableFooter(bountyList)}
-        </>
-        ) : (
-          !loading && (
-            <Table.Body>
-              <Table.Row>
-                <Table.Cell textAlign="center">
-                  <Header as='h4' image>
-                    <Header.Content>
-                      No Bounties found
-                    </Header.Content>
-                  </Header>
-                </Table.Cell>
-              </Table.Row>
-          </Table.Body>
-          )
-        )}
-        
-      </Table>
+          {bountyList && bountyList.length > 0 ? (
+          <>
+            {dispBountyList(bountyList)}
+            {bountyList.length > pageSize && tableFooter(bountyList)}
+          </>
+          ) : (
+            !loading && (
+              <Table.Body>
+                <Table.Row>
+                  <Table.Cell textAlign="center">
+                    <Header as='h4' image>
+                      <Header.Content>
+                        No Bounties found
+                      </Header.Content>
+                    </Header>
+                  </Table.Cell>
+                </Table.Row>
+            </Table.Body>
+            )
+          )}
+          
+        </Table>
+      </Segment>
 		</Segment>
   );
 };
