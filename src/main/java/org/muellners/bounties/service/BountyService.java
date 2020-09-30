@@ -1,11 +1,14 @@
 package org.muellners.bounties.service;
 
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.repository.BountyRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.BountyDTO;
+import org.muellners.bounties.service.dto.IssueDTO;
 import org.muellners.bounties.service.mapper.BountyMapper;
+import org.muellners.bounties.service.mapper.IssueMapper;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,12 +42,16 @@ public class BountyService {
     @Autowired
     private final BountyMapper bountyMapper;
 
+    @Autowired
+    private final IssueMapper issueMapper;
+
     public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository,
-                        IssueHelper issueHelper, BountyMapper bountyMapper) {
+                        IssueHelper issueHelper, IssueMapper issueMapper, BountyMapper bountyMapper) {
         this.bountyRepository = bountyRepository;
         this.bountySearchRepository = bountySearchRepository;
         this.issueHelper = issueHelper;
         this.bountyMapper = bountyMapper;
+        this.issueMapper = issueMapper;
     }
 
     /**
@@ -56,8 +63,15 @@ public class BountyService {
     public BountyDTO save(final BountyDTO bountyDTO) {
         log.debug("Request to save Bounty : {}", bountyDTO);
         // Before we go and save the url from git/bitbucket/jira/or anything else
-        issueHelper.createIssue(bountyDTO.getUrl());
         final Bounty bounty = bountyMapper.bountyDTOToBounty(bountyDTO);
+        
+        if (bounty.getId() == null){
+            final Issue issue = issueMapper.issueDTOToIssue(issueHelper.createIssue(bountyDTO.getUrl()));
+            bounty.setIssue(issue);
+        } else {
+            //
+        }
+
         Bounty result = bountyRepository.save(bounty);
         bountySearchRepository.save(result);
         return bountyMapper.bountyToBountyDTO(result);

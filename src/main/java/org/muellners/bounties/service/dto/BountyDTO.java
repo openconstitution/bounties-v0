@@ -12,6 +12,7 @@ import org.muellners.bounties.domain.enumeration.Type;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -52,9 +53,7 @@ public class BountyDTO {
 
     private LocalDate expires;
 
-    private Set<Funding> funding;
-
-    private Issue issue;
+    private Set<Long> fundingIds;
 
     private String createdBy;
 
@@ -70,7 +69,7 @@ public class BountyDTO {
         this.summary = bounty.getSummary();
         this.description = bounty.getDescription();
         this.amount = bounty.getAmount();
-        this.url = bounty.getUrl();
+        this.url = bounty.getIssue().getUrl();
         this.summary = bounty.getSummary();
         this.description = bounty.getDescription();
         this.type = bounty.getType();
@@ -80,8 +79,9 @@ public class BountyDTO {
         this.keywords = bounty.getKeywords();
         this.permission = bounty.getPermission();
         this.expires = bounty.getExpires();
-        this.funding = bounty.getFundings();
-        this.issue = bounty.getIssue();
+        final Set<Long> bFundingIds = new HashSet<Long>();
+        bounty.getFundings().forEach(funding -> bFundingIds.add(funding.getId()));
+        this.fundingIds = bFundingIds;
         this.createdBy = bounty.getCreatedBy();
         this.createdDate = bounty.getCreatedDate();
 
@@ -103,8 +103,7 @@ public class BountyDTO {
             ", keywords='" + keywords + '\'' +
             ", permission=" + permission +
             ", expires=" + expires +
-            ", funding=" + funding +
-            ", issue='" + issue + '\'' +
+            ", funding=" + fundingIds +
             ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +
             '}';
@@ -222,20 +221,12 @@ public class BountyDTO {
         this.expires = expires;
     }
 
-    public Set<Funding> getFunding() {
-        return funding;
+    public Set<Long> getFundingIds() {
+        return fundingIds;
     }
 
-    public void setFunding(final Set<Funding> funding) {
-        this.funding = funding;
-    }
-
-    public Issue getIssue() {
-        return issue;
-    }
-
-    public void setIssue(final Issue issue) {
-        this.issue = issue;
+    public void setFundingIds(final Set<Long> fundingIds) {
+        this.fundingIds = fundingIds;
     }
 
     public String getCreatedBy() {
