@@ -3,6 +3,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "allowSyntheticDefaultImports": false,
-    "types": ["jest", "webpack-env"]
+    "types": [
+      "jest",
+      "webpack-env"
+    ]
   }
 }
