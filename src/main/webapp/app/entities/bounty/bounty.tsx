@@ -7,7 +7,7 @@ import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './bounty.reducer';
 import { IBounty } from 'app/shared/model/bounty.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List } from 'semantic-ui-react';
+import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List, Divider, Button } from 'semantic-ui-react';
 import _ from 'lodash';
 import { TextFormat } from 'react-jhipster';
 import { capitalizeFirst } from 'app/shared/util/string-utils';
@@ -102,32 +102,47 @@ export const Bounty = (props: IBountyProps) => {
 	const { bountyList, match, loading } = props;
   
   return (
-	  <Segment style={{ padding: '8em 0em' }} vertical>
+    <Segment style={{ padding: '8em 0em' }} vertical>
+      <Segment basic>
+        <Grid columns={2} stackable textAlign='center'>
+          <Divider vertical>Or</Divider>
+
+          <Grid.Row verticalAlign='middle'>
+            <Grid.Column>
+              <Header icon>
+                <Icon name='search' />
+                Find Country
+              </Header>
+              <br/>
+              <Input
+                action={{ icon: 'search' }}
+                onChange={handleSearch}
+                onKeyPress={startSearching}
+                value={search}
+                type='text'
+                name="search"
+                placeholder='Search bounties...'
+              />
+            </Grid.Column>
+
+            <Grid.Column>
+              <Header icon>
+                <Icon name='world' />
+                Add New Bounty
+              </Header>
+              <br/>
+              <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+                <Button primary>Create</Button>
+              </Link>
+              
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
       <Table selectable={bountyList.length > 0}>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell width="10">
-              <div className="ui fluid left action input">
-                <button onClick={startSearchingButton} className="ui primary icon left labeled button">
-                  <i aria-hidden="true" className="search icon"></i>Search
-                </button>
-                <input
-                  className='ui fluid'
-                  onChange={handleSearch}
-                  onKeyPress={startSearching}
-                  value={search}
-                  type='text'
-                  name="search"
-                  placeholder='Search bounties...'
-                />
-                &ensp;
-                {search !== "" && (
-                  <button onClick={clear} className="ui negative icon right button">
-                    <i aria-hidden="true" className="trash icon"></i>
-                  </button>
-                )}
-              </div>
-            </Table.HeaderCell>
+            <Table.HeaderCell width="10"></Table.HeaderCell>
             <Table.HeaderCell width="1">Experience</Table.HeaderCell>
             <Table.HeaderCell width="1">Type</Table.HeaderCell>
             <Table.HeaderCell width="1">Status</Table.HeaderCell>
