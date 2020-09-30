@@ -1,26 +1,40 @@
+import './bounty.scss';
+
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
-import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import { TextFormat } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './bounty.reducer';
 import { IBounty } from 'app/shared/model/bounty.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List } from 'semantic-ui-react';
+import _ from 'lodash';
+import { TextFormat } from 'react-jhipster';
+import { capitalizeFirst } from 'app/shared/util/string-utils';
 
 export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Bounty = (props: IBountyProps) => {
-  const [search, setSearch] = useState('');
+
+  const [pageSize, setPageSize] = useState(100);
+	const [search, setSearch] = useState('');
+  const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
 
   useEffect(() => {
     props.getEntities();
   }, []);
 
-  const startSearching = () => {
+  
+  const startSearching = (event) => {
+    const key = event.keyCode || event.which;
+    if (key === 13){
+      if (search) {
+        props.getSearchEntities(search);
+      }
+    }
+  };
+
+  const startSearchingButton = (event) => {
     if (search) {
       props.getSearchEntities(search);
     }
@@ -33,146 +47,117 @@ export const Bounty = (props: IBountyProps) => {
 
   const handleSearch = event => setSearch(event.target.value);
 
-  const { bountyList, match, loading } = props;
+  const tableFooter = (list) => {
+    const numPages = list.length / pageSize
+    const footNumbers = [];
+
+    for (let i = 1; i <= numPages; i++) {
+      footNumbers.push(<Menu.Item as='a'>{i}</Menu.Item>)
+    }
+
+    return (
+      <Table.Body>    
+        <Table.Footer>
+          <Table.Row>
+            <Table.HeaderCell colSpan='3'>
+              <Menu floated='right' pagination>
+                <Menu.Item as='a' icon>
+                  <Icon name='chevron left' />
+                </Menu.Item>
+                {footNumbers}
+                <Menu.Item as='a' icon>
+                  <Icon name='chevron right' />
+                </Menu.Item>
+              </Menu>
+            </Table.HeaderCell>
+          </Table.Row>
+        </Table.Footer>
+      </Table.Body>
+    )
+  }
+
+  const dispBountyList = (list) => {
+    return (
+      list.map((bounty, i) => (
+        <>
+          <Table.Row>
+            <Table.Cell>
+              <Header as='h4' image>
+                <Header.Content>
+                  {bounty.summary}
+                  <Header.Subheader>Created by {bounty.createdBy} on {bounty.createdDate}</Header.Subheader>
+                </Header.Content>
+              </Header>
+            </Table.Cell>
+            <Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
+            <Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
+            <Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
+            <Table.Cell>{new Date(bounty.expires).toLocaleDateString('en-GB', options)}</Table.Cell>
+          </Table.Row>
+        </>
+      ))
+    )
+  }
+
+	const { bountyList, match, loading } = props;
+  
   return (
-    <div>
-      <h2 id="bounty-heading">
-        Bounties
-        <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-          <FontAwesomeIcon icon="plus" />
-          &nbsp;
-          Create new Bounty
-        </Link>
-      </h2>
-      <Row>
-        <Col sm="12">
-          <AvForm onSubmit={startSearching}>
-            <AvGroup>
-              <InputGroup>
-                <AvInput
-                  type="text"
-                  name="search"
-                  value={search}
+	  <Segment style={{ padding: '8em 0em' }} vertical>
+      <Table selectable={bountyList.length > 0}>
+        <Table.Header>
+          <Table.Row>
+            <Table.HeaderCell width="10">
+              <div className="ui fluid left action input">
+                <button onClick={startSearchingButton} className="ui primary icon left labeled button">
+                  <i aria-hidden="true" className="search icon"></i>Search
+                </button>
+                <input
+                  className='ui fluid'
                   onChange={handleSearch}
-                  placeholder="search"
+                  onKeyPress={startSearching}
+                  value={search}
+                  type='text'
+                  name="search"
+                  placeholder='Search bounties...'
                 />
-                <Button className="input-group-addon">
-                  <FontAwesomeIcon icon="search" />
-                </Button>
-                <Button type="reset" className="input-group-addon" onClick={clear}>
-                  <FontAwesomeIcon icon="trash" />
-                </Button>
-              </InputGroup>
-            </AvGroup>
-          </AvForm>
-        </Col>
-      </Row>
-      <div className="table-responsive">
+                &ensp;
+                {search !== "" && (
+                  <button onClick={clear} className="ui negative icon right button">
+                    <i aria-hidden="true" className="trash icon"></i>
+                  </button>
+                )}
+              </div>
+            </Table.HeaderCell>
+            <Table.HeaderCell width="1">Experience</Table.HeaderCell>
+            <Table.HeaderCell width="1">Type</Table.HeaderCell>
+            <Table.HeaderCell width="1">Status</Table.HeaderCell>
+            <Table.HeaderCell width="2">Expires on</Table.HeaderCell>
+          </Table.Row>
+        </Table.Header>
+
         {bountyList && bountyList.length > 0 ? (
-          <Table responsive>
-            <thead>
-              <tr>
-                <th>
-                  ID
-                </th>
-                <th>
-                  Status
-                </th>
-                <th>
-                  Url
-                </th>
-                <th>
-                  Amount
-                </th>
-                <th>
-                  Experience
-                </th>
-                <th>
-                  Commitment
-                </th>
-                <th>
-                  Type
-                </th>
-                <th>
-                  Category
-                </th>
-                <th>
-                  Keywords
-                </th>
-                <th>
-                  Permission
-                </th>
-                <th>
-                  Expires
-                </th>
-                <th>
-                  Issue
-                </th>
-                <th />
-              </tr>
-            </thead>
-            <tbody>
-              {bountyList.map((bounty, i) => (
-                <tr key={`entity-${i}`}>
-                  <td>
-                    <Button tag={Link} to={`${match.url}/${bounty.id}`} color="link" size="sm">
-                      {bounty.id}
-                    </Button>
-                  </td>
-                  <td>
-                    {bounty.status}
-                  </td>
-                  <td>{bounty.url}</td>
-                  <td>{bounty.amount}</td>
-                  <td>
-                    {bounty.experience}
-                  </td>
-                  <td>{bounty.commitment}</td>
-                  <td>
-                    {bounty.type}
-                  </td>
-                  <td>
-                    {bounty.category}
-                  </td>
-                  <td>{bounty.keywords}</td>
-                  <td>{bounty.permission ? 'true' : 'false'}</td>
-                  <td>{bounty.expires ? <TextFormat type="date" value={bounty.expires} format={APP_LOCAL_DATE_FORMAT} /> : null}</td>
-                  <td>{bounty.issue ? <Link to={`issue/${bounty.issue.id}`}>{bounty.issue.id}</Link> : ''}</td>
-                  <td className="text-right">
-                    <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${bounty.id}`} color="info" size="sm">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          View
-                        </span>
-                      </Button>
-                      <Button tag={Link} to={`${match.url}/${bounty.id}/edit`} color="primary" size="sm">
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          Edit
-                        </span>
-                      </Button>
-                      <Button tag={Link} to={`${match.url}/${bounty.id}/delete`} color="danger" size="sm">
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          Delete
-                        </span>
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+        <>
+          {dispBountyList(bountyList)}
+          {bountyList.length > pageSize && tableFooter(bountyList)}
+        </>
         ) : (
           !loading && (
-            <div className="alert alert-warning">
-              No Bounties found
-            </div>
+            <Table.Body>
+              <Table.Row>
+                <Table.Cell textAlign="center">
+                  <Header as='h4' image>
+                    <Header.Content>
+                      No Bounties found
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+              </Table.Row>
+          </Table.Body>
           )
         )}
-      </div>
-    </div>
+        
+      </Table>
+		</Segment>
   );
 };
 
