@@ -24,7 +24,7 @@ export const Bounty = (props: IBountyProps) => {
     props.getEntities();
   }, []);
 
-  
+
   const startSearching = (event) => {
     const key = event.keyCode || event.which;
     if (key === 13){
@@ -56,7 +56,7 @@ export const Bounty = (props: IBountyProps) => {
     }
 
     return (
-      <Table.Body>    
+      <Table.Body>
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan='3'>
@@ -100,7 +100,7 @@ export const Bounty = (props: IBountyProps) => {
   }
 
 	const { bountyList, match, loading } = props;
-  
+
   return (
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Segment basic>
@@ -164,7 +164,7 @@ export const Bounty = (props: IBountyProps) => {
             </Table.Body>
             )
           )}
-          
+
         </Table>
       </Segment>
 		</Segment>

@@ -155,7 +155,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
           <Divider horizontal>
             <Header as='h4'>Funding Details</Header>
           </Divider>
-          
+
           <Grid textAlign='center'>
             <Grid.Column style={{ maxWidth: 450 }} textAlign='left'>
               <Form.Field required control={Input} type="number"

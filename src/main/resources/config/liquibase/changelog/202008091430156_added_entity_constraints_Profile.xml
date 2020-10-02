@@ -7,7 +7,7 @@
         Added the constraints for entity Funding.
     -->
     <changeSet id="202008091430156-2" author="xurror">
-        
+
         <addForeignKeyConstraint baseColumnNames="user_id"
                                  baseTableName="profile"
                                  constraintName="fk_profile_user_id"
