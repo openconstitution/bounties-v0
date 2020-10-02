@@ -31,61 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const Home = (props: IHomeProp) => {
-  const loading = true;
+
   const { account } = props;
-  const classes = useStyles();
-  const numrows = 6;
-
-  const items = [];
-
-  for (let i = 0; i < numrows; i++) {
-    items.push(
-      <Grid item xs={3}>
-        <Card className={classes.root}>
-          <CardActionArea>
-            {loading ? (
-              <Skeleton variant="rect" width="100%">
-                <div style={{ paddingTop: '57%' }} />
-              </Skeleton>
-            ) : (
-              <CardMedia
-              className={classes.media}
-              image="/static/images/cards/contemplative-reptile.jpg"
-              title="Contemplative Reptile"
-            />
-            )}
-            <CardContent>
-              {loading ? (
-                <div>
-                  <Skeleton />
-                  <Skeleton animation={false} />
-                  <Skeleton animation="wave" />
-                </div>
-              ) : (
-                <div>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Bounty ####
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary" component="p">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit quam eligendi beatae. Nam beatae deleniti, est, iusto aperiam temporibus sequi eligendi error maxime quam, neque labore architecto officiis a dolorem!
-                  </Typography>
-                </div>
-              )}
-
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button size="small" color="primary">
-              Share
-            </Button>
-            <Button size="small" color="primary">
-              Learn More...
-            </Button>
-          </CardActions>
-        </Card>
-      </Grid>
-    );
-  }
 
   return (
     <Segment basic>
@@ -93,23 +40,23 @@ export const Home = (props: IHomeProp) => {
           {account && account.login ? (
             <div>
               <Alert color="success">
-                <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
+                <p>
                   You are logged in as user {account.login}.
-                </Translate>
+                </p>
               </Alert>
             </div>
           ) : (
             <div>
               <Alert color="warning">
-                <Translate contentKey="global.messages.info.authenticated.prefix">If you want to </Translate>
+                <p>If you want to </p>
                 <a href={getLoginUrl()} className="alert-link">
-                  <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
+                  <p>sign in</p>
                 </a>
-                <Translate contentKey="global.messages.info.authenticated.suffix">
+                <p>
                   , you can try the default accounts:
                   <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
                   <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-                </Translate>
+                </p>
               </Alert>
             </div>
           )}
@@ -122,11 +69,6 @@ export const Home = (props: IHomeProp) => {
           <br/>
           <h3>Top bounties this week</h3>
 
-          <Grid container spacing={3}>
-
-            { items }
-
-          </Grid>
       </Container>
     </Segment>
   );

@@ -23,6 +23,8 @@ export const Logout = (props: ILogoutProps) => {
 
   return (
     <div className="p-5">
+      <p>{props.idToken}</p>
+      <p>{props.logoutUrl}</p>
       <h4>Logged out successfully!</h4>
     </div>
   );
