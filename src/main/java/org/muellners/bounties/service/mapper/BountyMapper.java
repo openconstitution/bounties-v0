@@ -22,13 +22,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class BountyMapper {
 
-    @Autowired
-    private final FundingRepository fundingRepository;
-
-    public BountyMapper(final FundingRepository fundingRepository) {
-        this.fundingRepository = fundingRepository;
-    }
-
     public List<BountyDTO> bountiesToBountyDTOs(final List<Bounty> bounties) {
         return bounties.stream()
             .filter(Objects::nonNull)
@@ -65,13 +58,7 @@ public class BountyMapper {
             bounty.setKeywords(bountyDTO.getKeywords());
             bounty.setPermission(bountyDTO.getPermission());
             bounty.setExpires(bountyDTO.getExpires());
-            final Set<Funding> bFundings = new HashSet<Funding>();
-            bountyDTO.getFundingIds().forEach(fundingIds ->
-                bFundings.add(fundingRepository.findById(fundingIds)
-                    .orElseThrow(IllegalArgumentException::new)
-                )
-            );
-            bounty.setFundings(bFundings);
+            bounty.setFundings(bounty.getFundings());
             return bounty;
         }
     }

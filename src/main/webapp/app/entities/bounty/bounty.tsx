@@ -109,32 +109,25 @@ export const Bounty = (props: IBountyProps) => {
 
           <Grid.Row verticalAlign='middle'>
             <Grid.Column>
-              <Header icon>
-                <Icon name='search' />
-                Find Country
-              </Header>
-              <br/>
               <Input
-                action={{ icon: 'search' }}
+                action={{ color: 'blue', content: 'Search' }}
+                icon='search'
+                iconPosition='left'
+                placeholder='Search bounties...'
                 onChange={handleSearch}
                 onKeyPress={startSearching}
                 value={search}
-                type='text'
-                name="search"
-                placeholder='Search bounties...'
               />
             </Grid.Column>
-
             <Grid.Column>
-              <Header icon>
-                <Icon name='world' />
-                Add New Bounty
-              </Header>
-              <br/>
               <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
-                <Button primary>Create</Button>
+                <Button
+                  color='teal'
+                  content='Create New Bounty'
+                  icon='add'
+                  labelPosition='left'
+                />
               </Link>
-              
             </Grid.Column>
           </Grid.Row>
         </Grid>

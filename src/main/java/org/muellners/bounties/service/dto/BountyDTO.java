@@ -53,7 +53,7 @@ public class BountyDTO {
 
     private LocalDate expires;
 
-    private Set<Long> fundingIds;
+    private Set<Funding> funding;
 
     private String createdBy;
 
@@ -79,9 +79,7 @@ public class BountyDTO {
         this.keywords = bounty.getKeywords();
         this.permission = bounty.getPermission();
         this.expires = bounty.getExpires();
-        final Set<Long> bFundingIds = new HashSet<Long>();
-        bounty.getFundings().forEach(funding -> bFundingIds.add(funding.getId()));
-        this.fundingIds = bFundingIds;
+        this.funding = bounty.getFundings();
         this.createdBy = bounty.getCreatedBy();
         this.createdDate = bounty.getCreatedDate();
 
@@ -103,7 +101,7 @@ public class BountyDTO {
             ", keywords='" + keywords + '\'' +
             ", permission=" + permission +
             ", expires=" + expires +
-            ", funding=" + fundingIds +
+            ", funding=" + funding +
             ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +
             '}';
@@ -221,12 +219,12 @@ public class BountyDTO {
         this.expires = expires;
     }
 
-    public Set<Long> getFundingIds() {
-        return fundingIds;
+    public Set<Funding> getFunding() {
+        return funding;
     }
 
-    public void setFundingIds(final Set<Long> fundingIds) {
-        this.fundingIds = fundingIds;
+    public void setFundingIds(final Set<Funding> funding) {
+        this.funding = funding;
     }
 
     public String getCreatedBy() {

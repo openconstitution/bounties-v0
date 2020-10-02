@@ -8,6 +8,8 @@ import { Category } from 'app/shared/model/enumerations/category.model';
 
 export interface IBounty {
   id?: number;
+  summary?: string;
+  description?: string;
   status?: Status;
   url?: string;
   amount?: number;
@@ -20,6 +22,8 @@ export interface IBounty {
   expires?: string;
   issue?: IIssue;
   fundings?: IFunding[];
+  createdBy?: string;
+  createdDate?: Date;
 }
 
 export const defaultValue: Readonly<IBounty> = {
