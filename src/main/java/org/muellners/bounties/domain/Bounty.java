@@ -27,17 +27,11 @@ public class Bounty extends AbstractAuditingEntity {
 
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
-    @NotNull
-    @Column(name = "summary")
-    private String summary;
+  @NotNull @Column(name = "summary") private String summary;
 
-    @NotNull
-    @Column(name = "description")
-    private String description;
+  @NotNull @Column(name = "description") private String description;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status status;
+  @Enumerated(EnumType.STRING) @Column(name = "status") private Status status;
 
   @NotNull @Column(name = "url") private String url;
 
@@ -90,35 +84,27 @@ public class Bounty extends AbstractAuditingEntity {
     return this;
   }
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    
-    public String getSummary() {
-        return summary;
-    }
+  public void setUrl(String url) { this.url = url; }
 
-    public Bounty summary(String summary) {
-        this.summary = summary;
-        return this;
-    }
+  public String getSummary() { return summary; }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
+  public Bounty summary(String summary) {
+    this.summary = summary;
+    return this;
+  }
 
-    public Bounty description(String description) {
-        this.description = description;
-        return this;
-    }
+  public void setSummary(String summary) { this.summary = summary; }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
+  public String getDescription() { return description; }
+
+  public Bounty description(String description) {
+    this.description = description;
+    return this;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
 
   public BigDecimal getAmount() { return amount; }
 
