@@ -28,16 +28,17 @@ const Header = (props: IHeaderProps) => {
     ) : null;
 
   return (
-    <div>
-      <Menu borderless inverted pointing>
+    <div style={{ backgroundColor: 'black' }}>
+      <Menu size='small' borderless inverted stackable>
         <Container>
-          {/* <Menu.Item>
-            <Image size='mini' src='/logo.png' />
-          </Menu.Item> */}
-          <Menu.Item header as='a' href='/'>Bounties</Menu.Item>
-          <Menu.Item as='a' fitted>Work</Menu.Item>
+          <Menu.Item as='a' header>
+            <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} />
+            Bounties
+          </Menu.Item>
+          <Menu.Item as='a'>Work</Menu.Item>
           <Menu.Item as='a'>Company</Menu.Item>
           <Menu.Item as='a'>Careers</Menu.Item>
+
           <Menu.Menu position='right'>
             {props.isAdmin && (
               <Dropdown item text='Administration'>
