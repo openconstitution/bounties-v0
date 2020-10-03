@@ -27,7 +27,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
         <dl className="jh-entity-details">
           <dt>
             <span id="status">
-              Status
+              Statuses
             </span>
           </dt>
           <dd>{bountyEntity.status}</dd>
