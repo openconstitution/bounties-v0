@@ -1,2 +1,1 @@
-export * from './inputs';
-export * from './content';
+export * from './radio';

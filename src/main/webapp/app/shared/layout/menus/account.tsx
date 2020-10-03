@@ -1,21 +1,21 @@
 import React from 'react';
-import { Button, IconButton, Badge } from '@material-ui/core';
+import { Button } from 'semantic-ui-react';
 
 const accountMenuItemsAuthenticated = (
   <>
     {/* <MenuItem icon="sign-out-alt" to="/logout">
       <Translate contentKey="global.menu.account.logout">Sign out</Translate>
     </MenuItem> */}
-    <IconButton aria-label="show 4 new mails" color="inherit">
+    {/* <IconButton aria-label="show 4 new mails" color="inherit">
       <Badge badgeContent={4} color="secondary">
-        {/* <MailIcon /> */}
+        <MailIcon />
       </Badge>
     </IconButton>
     <IconButton aria-label="show 17 new notifications" color="inherit">
       <Badge badgeContent={17} color="secondary">
-        {/* <NotificationsIcon /> */}
+        <NotificationsIcon />
       </Badge>
-    </IconButton>
+  </IconButton> */}
     {/* <IconButton
       edge="end"
       aria-label="account of current user"
@@ -30,7 +30,7 @@ const accountMenuItemsAuthenticated = (
 
 const accountMenuItems = (
   <>
-    <Button color="inherit">Sign In</Button>
+    <Button>Sign In</Button>
   </>
 );
 

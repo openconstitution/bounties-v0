@@ -1,7 +1,6 @@
 import './header.scss';
 
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import LoadingBar from 'react-redux-loading-bar';
 import { Translate, Storage } from 'react-jhipster';
 import { SearchItem } from '../menus';
@@ -63,9 +62,6 @@ const Header = (props: IHeaderProps) => {
                   <>
                     <Button as='a' href={getLoginUrl()}>
                       Sign In
-                    </Button>
-                    <Button as='a' href={getRegistrationUrl()}s primary style={{ marginLeft: '0.5em' }}>
-                      Sign Up
                     </Button>
                   </>
                 )

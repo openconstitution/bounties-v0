@@ -17,21 +17,10 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { CssBaseline, Container } from '@material-ui/core';
 import 'semantic-ui-css/semantic.min.css'
+import { Container } from 'semantic-ui-react';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    paper: {
-      padding: theme.spacing(1),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-  }),
-);
 
 export interface IAppProps extends StateProps, DispatchProps {}
 
@@ -42,7 +31,6 @@ export const App = (props: IAppProps) => {
   }, []);
 
   // const paddingTop = '60px';
-  const classes = useStyles();
 
   return (
     <Router basename={baseHref}>
@@ -55,7 +43,7 @@ export const App = (props: IAppProps) => {
           isSwaggerEnabled={props.isSwaggerEnabled}
         />
       </ErrorBoundary>
-      <Container className={classes.paper}>
+      <Container>
         <ErrorBoundary>
           <AppRoutes />
         </ErrorBoundary>

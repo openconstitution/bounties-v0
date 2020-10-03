@@ -2,33 +2,10 @@ import './home.scss';
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { Grid, Paper, Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@material-ui/core';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { Skeleton, Alert } from '@material-ui/lab';
-import { Translate } from 'react-jhipster';
 import { getLoginUrl } from 'app/shared/util/url-utils';
-import { Segment, Container } from 'semantic-ui-react';
+import { Segment, Container, Message } from 'semantic-ui-react';
 
 export type IHomeProp = StateProps;
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    paper: {
-      padding: theme.spacing(2),
-      textAlign: 'center',
-      color: theme.palette.text.secondary,
-    },
-    media: {
-      height: 140,
-    },
-    image: {
-      width: '100%',
-    },
-  }),
-);
 
 export const Home = (props: IHomeProp) => {
 
@@ -39,25 +16,22 @@ export const Home = (props: IHomeProp) => {
       <Container>
           {account && account.login ? (
             <div>
-              <Alert color="success">
+              <Message success>
                 <p>
                   You are logged in as user {account.login}.
                 </p>
-              </Alert>
+              </Message>
             </div>
           ) : (
             <div>
-              <Alert color="warning">
-                <p>If you want to </p>
-                <a href={getLoginUrl()} className="alert-link">
-                  <p>sign in</p>
-                </a>
+              <Message warning>
+                <p>If you want to <a href={getLoginUrl()} className="alert-link">sign in</a></p>
                 <p>
                   , you can try the default accounts:
                   <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
                   <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
                 </p>
-              </Alert>
+              </Message>
             </div>
           )}
 
