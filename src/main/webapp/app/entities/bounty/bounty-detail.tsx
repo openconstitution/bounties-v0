@@ -36,7 +36,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
 
   Object.keys(timeLeft).forEach((interval) => {
     if (!timeLeft[interval]) {
-      return;
+      return null;
     }
     <div className='countdown-wrapper'>
       {timerComponents.push(
