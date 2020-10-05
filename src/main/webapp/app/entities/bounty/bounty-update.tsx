@@ -11,74 +11,58 @@ import { getEntity, updateEntity, createEntity, reset } from './bounty.reducer';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
-import { Form, Container, Image, Segment, Grid, Message, Button, Header, Radio, Divider, Icon, Input, Label, Loader } from 'semantic-ui-react'
-import { BRadio } from 'app/shared/layout/components/radio';
+import { Form, Segment, Grid, Header, Divider, Input, Loader, Message, Icon, Dropdown } from 'semantic-ui-react'
+import _ from 'lodash';
 
 export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const BountyUpdate = (props: IBountyUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
-  const [summary, setSummary] = useState({isEmpty: false, value: ''});
-  const [description, setDescription] = useState({isEmpty: false, value: ''});
-  const [url, setUrl] = useState({isEmpty: false, value: ''});
-  const [category, setCategory] = useState({isEmpty: false, value: ''});
-  const [type, setType] = useState({isEmpty: false, value: ''});
-  const [experience, setExperience] = useState({isEmpty: false, value: ''});
-  const [expiryDate, setExpiryDate] = useState({isEmpty: false, value: ''});
-  const [mode, setMode] = useState({isEmpty: false, value: ''});
-  const [amount, setAmount] = useState({isEmpty: false, value: ''});
+  const [errMessage, setErrMessage] = useState('')
+  const [summary, setSummary] = useState({error: '', value: ''});
+  const [description, setDescription] = useState({error: '', value: ''});
+  const [url, setUrl] = useState({error: '', value: ''});
+  const [category, setCategory] = useState({error: '', value: ''});
+  const [type, setType] = useState({error: '', value: ''});
+  const [experience, setExperience] = useState({error: '', value: ''});
+  const [expiryDate, setExpiryDate] = useState({error: '', value: ''});
+  const [mode, setMode] = useState({error: '', value: ''});
+  const [amount, setAmount] = useState({error: '', value: ''});
 
-  const handleSummaryChange = (e) => setSummary({isEmpty: false, value: e.target.value})
-  const handleDescriptionChange = (e) => setDescription({isEmpty: false, value: e.target.value})
-  const handleUrlChange = (e) => setUrl({isEmpty: false, value: e.target.value})
-  const handleCategoryChange = (e) => setCategory({isEmpty: false, value: e.target.value})
-  const handleTypeChange = (e) => setType({isEmpty: false, value: e.target.value})
-  const handleExperienceChange = (e) => setExperience({isEmpty: false, value: e.target.value})
-  const handleExpiryDateChange = (e) => setExpiryDate({isEmpty: false, value: e.target.value})
-  const handleModeChange = (e) => setMode({isEmpty: false, value: e.target.value})
-  const handleAmountChange = (e) => setAmount({isEmpty: false, value: e.target.value})
+  const handleSummaryChange = (e) => setSummary({error: '', value: e.target.value});
+  const handleDescriptionChange = (e) => setDescription({error: '', value: e.target.value});
+  const handleUrlChange = (e) => setUrl({error: '', value: e.target.value});
+  const handleCategoryChange = (e, { value }) => setCategory({error: '', value});
+  const handleTypeChange = (e, { value }) => setType({error: '', value});
+  const handleExperienceChange = (e, { value }) => setExperience({error: '', value});
+  const handleExpiryDateChange = (e) => setExpiryDate({error: '', value: e.target.value});
+  const handleModeChange = (e, { value }) => setMode({error: '', value});
+  const handleAmountChange = (e) => setAmount({error: '', value: e.target.value});
 
   const { bountyEntity, loading, updating } = props;
 
-  const categories = () => {
-    return (
-      <datalist id='categories'>
-        <option value='Frontend'>{Category.FRONT_END}</option>
-        <option value='Backend'>{Category.BACKEND}</option>
-        <option value='This'>{Category.THIS}</option>
-      </datalist>
-    )
-  }
+  const categories = [
+    { key: 'F', text: 'Frontend', value: Category.FRONT_END },
+    { key: 'B', text: 'Backend', value: Category.BACKEND },
+    { key: 'T', text: 'This', value: Category.THIS }
+  ];
+  const types = [
+    { key: 'B', text: 'Bug', value: Type.BUG },
+    { key: 'F', text: 'Feature', value: Type.FEATURE },
+    { key: 'I', text: 'Improvement', value: Type.IMPROVEMENT },
+    { key: 'E', text: 'Ex', value: Type.EX }
+  ];
+  const experiences = [
+    { key: 'B', text: 'Beginner', value: Experience.BEGINNER },
+    { key: 'I', text: 'Intermediate', value: Experience.INTERMEDIATE },
+    { key: 'A', text: 'Experience', value: Experience.ADVANCED }
+  ];
 
-  const types = () => {
-    return (
-      <datalist id='types'>
-        <option value='Bug'>{Type.BUG}</option>
-        <option value='Feature'>{Type.FEATURE}</option>
-        <option value='Improvement'>{Type.IMPROVEMENT}</option>
-        <option value='Ex'>{Type.EX}</option>
-      </datalist>
-    )
-  }
-  const experiences = () => {
-    return (
-      <datalist id='experiences'>
-        <option value='Beginner'>{Experience.BEGINNER}</option>
-        <option value='Intermediate'>{Experience.INTERMEDIATE}</option>
-        <option value='Advanced'>{Experience.ADVANCED}</option>
-      </datalist>
-    )
-  }
-
-  const modes = () => {
-    return (
-      <datalist id='modes'>
-        <option value='Mode A'>Mode A</option>
-        <option value='Mode B'>Mode B</option>
-        <option value='Mode C'>Mode C</option>
-      </datalist>
-    )
-  }
+  const modes = [
+    { key: 'A', text: 'Mode A', value: 'Mode A' },
+    { key: 'B', text: 'Mode B', value: 'Mode B' },
+    { key: 'C', text: 'Mode C', value: 'Mode C' }
+  ];
 
   const handleClose = () => {
     props.history.push('/bounty');
@@ -99,9 +83,10 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
   }, [props.updateSuccess]);
 
   const handleSubmit = () => {
+    setErrMessage('')
     const ent = {
       summary: summary.value, description: description.value,
-      category: category.value, type: type.value,
+      url: url.value, category: category.value, type: type.value,
       experience: experience.value, expiryDate: expiryDate.value,
       funding: [
         {amount: amount.value, mode: mode.value}
@@ -112,70 +97,87 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
 
   return (
     <Segment style={{ padding: '8em 0em' }} vertical>
-      <Header style={{ padding: '1em 0em' }}>Enter details about this bounty</Header>
       {loading ? (
         <Loader active inline='centered' />
-      ) : (
-        <Form onSubmit={handleSubmit}>
-          <Grid textAlign='center'>
-            <Grid.Column style={{ maxWidth: 450 }} textAlign='left'>
+      ) : ( <>
+        <Message
+          attached
+          header='Get started here!'
+          content='Fill out the form below to post a new bounty'
+        />
+        <Segment fluid attached>
+          <Grid>
+            <Grid.Column width='4'/>
+            <Grid.Column width='8'>
+              <Form onSubmit={handleSubmit}>
               <Form.Input fluid required labelPosition="left" label="Summary" placeholder='Summary'
-                name="summary" value={summary.value} onChange={handleSummaryChange}
-                error={summary.isEmpty && "Please enter bounty summary"}
+                          name="summary" value={summary.value} onChange={handleSummaryChange}
+                          error={summary.error !== '' && summary.error}
               />
               <Form.TextArea fluid label='Description (Optional)' placeholder='Tell us more about this bounty...'
-                name="description" value={description.value} onChange={handleDescriptionChange}
+                              name="description" value={description.value} onChange={handleDescriptionChange}
               />
               <Form.Input required fluid label="Issue URL" placeholder='url'
-                name="url" value={url.value} onChange={handleUrlChange}
-                error={url.isEmpty && "Please enter a valid url"}
+                          name="url" value={url.value} onChange={handleUrlChange}
+                          error={url.error !== '' && url.error}
               />
-              <Form.Input required fluid name='category' label='Category' list='categories'
-                value={category.value} onChange={handleCategoryChange}
-                error={category.isEmpty && "Please choose a value"}
-              />
-              {categories()}
-              <Form.Input required fluid name='type' label='Type' list='types'
-                value={type.value} onChange={handleTypeChange}
-                error={type.isEmpty && "Please choose a value"}
-              />
-              {types()}
-              <Form.Input required fluid name='experience' label='Experience' list='experiences'
-                value={experience.value} onChange={handleExperienceChange}
-                error={experience.isEmpty && "Please choose a value"}
-              />
-              {experiences()}
-              <Form.Input required type='date' name='expires' label='Expiry Date'
-                value={expiryDate.value} onChange={handleExpiryDateChange}
-                error={expiryDate.isEmpty && "Please pick a date"}
-              />
-            </Grid.Column>
-          </Grid>
+              <Form.Field>
+                <label>Category</label>
+                <Dropdown selection name='false' search options={categories}
+                          placeholder='Frontend'
+                          value={category.value} onChange={handleCategoryChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Type</label>
+                <Dropdown selection name='false' search options={types}
+                          placeholder='Bug'
+                          value={type.value} onChange={handleTypeChange}
+                />
+              </Form.Field>
+              <Form.Field>
+                <label>Experience</label>
+                <Dropdown selection name='false' search options={experiences}
+                          placeholder='Beginner'
+                          value={experience.value} onChange={handleExperienceChange}
+                />
+              </Form.Field>
 
-          <Divider horizontal>
-            <Header as='h4'>Funding Details</Header>
-          </Divider>
-          
-          <Grid textAlign='center'>
-            <Grid.Column style={{ maxWidth: 450 }} textAlign='left'>
+              <Form.Input required type='date' name='expires' label='Expiry Date'
+                          value={expiryDate.value} onChange={handleExpiryDateChange}
+                          error={expiryDate.error !== '' && expiryDate.error}
+              />
+
+              <Divider horizontal>
+                <Header as='h4'>Funding Details</Header>
+              </Divider>
+
               <Form.Field required control={Input} type="number"
                 icon='dollar' iconPosition='left' name='amount'
-                label='Amount' placeholder='Amount'
+                label='Amount' placeholder='0.00'
                 value={amount.value}
                 onChange={handleAmountChange}
-                error={amount.isEmpty && "Please enter a value"}
+                error={amount.error !== '' && amount.error}
               />
-              <Form.Input required fluid name='mode' label='Mode' list='modes'
-                value={mode.value} onChange={handleModeChange}
-                error={mode.isEmpty && "Please enter a valid mode"}
-              />
-              {modes()}
+              <Form.Field>
+                <label>Mode</label>
+                <Dropdown selection name='mode' search options={modes}
+                          placeholder='Mode A'
+                          value={mode.value} onChange={handleModeChange}
+                />
+              </Form.Field>
+
+              <Form.Button color='teal' type="submit" disabled={updating}>Post</Form.Button>
+            </Form>
             </Grid.Column>
+            <Grid.Column width='4'/>
           </Grid>
-          <Form.Checkbox label='I agree to the Terms and Conditions' />
-          <Form.Button type="submit" disabled={updating}>Submit</Form.Button>
-        </Form>
-      )}
+        </Segment>
+        <Message attached='bottom' hidden={errMessage === ''} warning>
+          <Icon name='warning' />
+          {errMessage}
+        </Message>
+      </> )}
     </Segment>
   );
 };
