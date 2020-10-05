@@ -24,7 +24,7 @@ export const Bounty = (props: IBountyProps) => {
     props.getEntities();
   }, []);
 
-  
+
   const startSearching = (event) => {
     const key = event.keyCode || event.which;
     if (key === 13){
@@ -56,7 +56,7 @@ export const Bounty = (props: IBountyProps) => {
     }
 
     return (
-      <Table.Body>    
+      <Table.Body>
         <Table.Footer>
           <Table.Row>
             <Table.HeaderCell colSpan='3'>
@@ -100,7 +100,7 @@ export const Bounty = (props: IBountyProps) => {
   }
 
 	const { bountyList, match, loading } = props;
-  
+
   return (
     <Segment style={{ padding: '8em 0em' }} vertical>
       <Segment basic>
@@ -110,7 +110,7 @@ export const Bounty = (props: IBountyProps) => {
           <Grid.Row verticalAlign='middle'>
             <Grid.Column>
               <Input
-                action={{ color: 'blue', content: 'Search' }}
+                action={{ color: 'teal', content: 'Search' }}
                 icon='search'
                 iconPosition='left'
                 placeholder='Search bounties...'
@@ -156,7 +156,7 @@ export const Bounty = (props: IBountyProps) => {
                   <Table.Cell textAlign="center">
                     <Header as='h4' image>
                       <Header.Content>
-                        No Bounties found
+                        No Bounty found
                       </Header.Content>
                     </Header>
                   </Table.Cell>
@@ -164,7 +164,7 @@ export const Bounty = (props: IBountyProps) => {
             </Table.Body>
             )
           )}
-          
+
         </Table>
       </Segment>
 		</Segment>
