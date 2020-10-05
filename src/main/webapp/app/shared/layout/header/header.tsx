@@ -3,7 +3,6 @@ import './header.scss';
 import React from 'react';
 import LoadingBar from 'react-redux-loading-bar';
 import { Translate, Storage } from 'react-jhipster';
-import { SearchItem } from '../menus';
 import appConfig from 'app/config/constants';
 import { AccountMenu } from '../menus';
 import { Dropdown, Menu, Container, Image, Visibility, Segment, Button, Label } from 'semantic-ui-react';
