@@ -1,111 +1,177 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Row, Col } from 'reactstrap';
-import { TextFormat } from 'react-jhipster';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './bounty.reducer';
-import { IBounty } from 'app/shared/model/bounty.model';
-import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
+import { Grid, Segment, Header, Container, Ref, Sticky, Statistic, Rating, List, Button } from 'semantic-ui-react';
+import { calculateTimeLeft } from 'app/shared/util/date-utils';
+import { createRef } from 'react';
+import _ from 'lodash';
+import { circleRadius, describeArc } from 'app/shared/util/component-utils';
 
 export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const BountyDetail = (props: IBountyDetailProps) => {
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft('2021-11-06'));
+
   useEffect(() => {
     props.getEntity(props.match.params.id);
   }, []);
 
-  const { bountyEntity } = props;
-  return (
-    <Row>
-      <Col md="8">
-        <h2>
-          Bounty [<b>{bountyEntity.id}</b>]
-        </h2>
-        <dl className="jh-entity-details">
-          <dt>
-            <span id="status">
-              Statuses
-            </span>
-          </dt>
-          <dd>{bountyEntity.status}</dd>
-          <dt>
-            <span id="url">
-              Url
-            </span>
-          </dt>
-          <dd>{bountyEntity.url}</dd>
-          <dt>
-            <span id="amount">
-              Amount
-            </span>
-          </dt>
-          <dd>{bountyEntity.amount}</dd>
-          <dt>
-            <span id="experience">
-              Experience
-            </span>
-          </dt>
-          <dd>{bountyEntity.experience}</dd>
-          <dt>
-            <span id="commitment">
-              Commitment
-            </span>
-          </dt>
-          <dd>{bountyEntity.commitment}</dd>
-          <dt>
-            <span id="type">
-              Type
-            </span>
-          </dt>
-          <dd>{bountyEntity.type}</dd>
-          <dt>
-            <span id="category">
-              Category
-            </span>
-          </dt>
-          <dd>{bountyEntity.category}</dd>
-          <dt>
-            <span id="keywords">
-              Keywords
-            </span>
-          </dt>
-          <dd>{bountyEntity.keywords}</dd>
-          <dt>
-            <span id="permission">
-              Permission
-            </span>
-          </dt>
-          <dd>{bountyEntity.permission ? 'true' : 'false'}</dd>
-          <dt>
-            <span id="expires">
-              Expires
-            </span>
-          </dt>
-          <dd>{bountyEntity.expires ? <TextFormat value={bountyEntity.expires} type="date" format={APP_LOCAL_DATE_FORMAT} /> : null}</dd>
-          <dt>
-            Issue
-          </dt>
-          <dd>{bountyEntity.issue ? bountyEntity.issue.id : ''}</dd>
-        </dl>
-        <Button tag={Link} to="/bounty" replace color="info">
-          <FontAwesomeIcon icon="arrow-left" />{' '}
-          <span className="d-none d-md-inline">
-            Back
-          </span>
-        </Button>
-        &nbsp;
-        <Button tag={Link} to={`/bounty/${bountyEntity.id}/edit`} replace color="primary">
-          <FontAwesomeIcon icon="pencil-alt" />{' '}
-          <span className="d-none d-md-inline">
-            Edit
-          </span>
-        </Button>
-      </Col>
-    </Row>
+  useEffect(() => {
+    setTimeout(() => {
+        setTimeLeft(calculateTimeLeft('2021-11-06'));
+    }, 1000)
+  });
+
+  const SVGCircle = ({ radius }) => (
+    <svg className='countdown-svg'>
+      <path fill="none" stroke="#333" strokeWidth="4" d={describeArc(50, 50, 48, 0, radius)}/>
+    </svg>
   );
+  
+  const timerComponents = [];
+
+  Object.keys(timeLeft).forEach((interval) => {
+    if (!timeLeft[interval]) {
+      return;
+    }
+    <div className='countdown-wrapper'>
+      {timerComponents.push(
+        timeLeft[interval] && (
+          <div className='countdown-item'>
+            <SVGCircle radius={circleRadius(timeLeft[interval], interval)} />
+            {timeLeft[interval]} 
+            <span>{interval}</span>
+          </div>
+        )
+      )}
+    </div>
+  });
+
+  const contextRef = createRef<HTMLElement>()
+
+  const square = { width: 175, height: 175 }
+
+  const { bountyEntity } = props;
+  return (<>
+    <Ref innerRef={contextRef}>
+      <Grid columns={2} style={{ padding: '8em 0em' }}>
+        <Grid.Column width='14'>
+
+          <Segment vertical>
+            <Grid>
+              <Grid.Row>
+                <Grid.Column width={1}/>
+                <Grid.Column width={10}>
+                  <Container>
+                    <Grid columns={2}>
+                      <Grid.Row>
+                        <Grid.Column>
+                          <Header as='h1' textAlign='left'>
+                            Summary
+                            {/* bountyEntity.summary */}
+                            <Header.Subheader>
+                              Created by {/* bountyEntity.createdBy} on {bountyEntity.createdDate */}
+                            </Header.Subheader>
+                          </Header>
+                        </Grid.Column>
+                      </Grid.Row>
+                    </Grid>
+
+                    <Header as='h4'>
+                      Description
+                    </Header>
+                    <p>
+                      {/* bountyEntity.description */}
+                      Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque enim modi pariatur ut suscipit distinctio mollitia amet, esse optio molestias porro nesciunt iusto voluptas earum culpa doloribus eius error excepturi!
+                    </p>
+
+                  </Container>
+                  
+                  <Grid style={{ padding: '2em 0em' }}>
+                    <Grid.Row>
+                      <Grid.Column width={6}>
+                        <Segment>
+                          <List size='large'>
+                            <List.Item>Category: Frontend{/* bountyEntity.category */}</List.Item>
+                            <List.Item>Type: Bug{/* bountyEntity.type */}</List.Item>
+                          </List>
+                        </Segment>
+                      </Grid.Column>
+                      <Grid.Column width={10}>
+                        <Container>
+                          <Header as='h2'>
+                            {/* bountyEntity.issue.issueId */}
+                          </Header>
+
+                          <Header as='h4'>
+                            Description
+                          </Header>
+          
+                          <p>
+                            {/* bountyEntity.issue.description */}
+                            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque enim modi pariatur ut suscipit distinctio mollitia amet, esse optio molestias porro nesciunt iusto voluptas earum culpa doloribus eius error excepturi!
+                          </p>
+                          
+                        </Container>
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+
+                </Grid.Column>
+                <Grid.Column width={4}>
+                  <Container>
+                    <Statistic horizontal>
+                      <Statistic.Value>$250{/* bountyEntity.amount */}</Statistic.Value>
+                      <Statistic.Label>Bounty</Statistic.Label>
+                    </Statistic>
+                    <Segment circular style={square}>
+                      <Header as='h2'>
+                        Difficulty!
+                        <Rating icon='star' defaultRating={3} maxRating={3} />
+                      </Header>
+                    </Segment>
+                    <Header as='h2'>Sponsors</Header>
+                    <List size='large'>
+                      <List.Item>John: $100</List.Item>
+                      <List.Item>Paul: $75</List.Item>
+                      <List.Item>Jane: $75</List.Item>
+                      {/* bountyEntity.fundings.map((funding, index) => {
+                        <List.Item>{funding.mode}</List.Item>
+                      }) */}
+                    </List>
+                    <Link to={'fund/new'} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+                      <Button
+                        color='teal'
+                        content='Add funds'
+                        icon='add'
+                        labelPosition='right'
+                      />
+                    </Link>
+                  </Container>
+                </Grid.Column>
+                <Grid.Column width={1}/>
+              </Grid.Row>
+            </Grid>
+          </Segment>
+        </Grid.Column>
+
+        <Grid.Column width={2}>
+          <Sticky context={contextRef}>
+            <Header as='h2' textAlign='center'>
+              Expires in:
+              <div>
+                {timerComponents.length ? timerComponents : <span>Time&apos;s up!</span>}
+              </div>
+            </Header>
+          </Sticky>
+        </Grid.Column>
+      </Grid>
+    </Ref>
+  </>);
 };
 
 const mapStateToProps = ({ bounty }: IRootState) => ({
