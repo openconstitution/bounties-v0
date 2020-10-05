@@ -15,9 +15,9 @@ export const calculateTimeLeft = (endDate: string) => {
 
 	const then = moment(endDate)
 	const now = moment()
-	
+
 	const countdown = then.diff(now)
-	
+
 	const days = moment(countdown).format('DDDD');
 	const hours = moment(countdown).format('HH');
 	const minutes = moment(countdown).format('mm');

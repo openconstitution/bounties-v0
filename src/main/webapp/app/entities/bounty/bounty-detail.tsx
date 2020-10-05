@@ -31,7 +31,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
       <path fill="none" stroke="#333" strokeWidth="4" d={describeArc(50, 50, 48, 0, radius)}/>
     </svg>
   );
-  
+
   const timerComponents = [];
 
   Object.keys(timeLeft).forEach((interval) => {
@@ -43,7 +43,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
         timeLeft[interval] && (
           <div className='countdown-item'>
             <SVGCircle radius={circleRadius(timeLeft[interval], interval)} />
-            {timeLeft[interval]} 
+            {timeLeft[interval]}
             <span>{interval}</span>
           </div>
         )
@@ -90,7 +90,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                     </p>
 
                   </Container>
-                  
+
                   <Grid style={{ padding: '2em 0em' }}>
                     <Grid.Row>
                       <Grid.Column width={6}>
@@ -110,12 +110,12 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                           <Header as='h4'>
                             Description
                           </Header>
-          
+
                           <p>
                             {/* bountyEntity.issue.description */}
                             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Itaque enim modi pariatur ut suscipit distinctio mollitia amet, esse optio molestias porro nesciunt iusto voluptas earum culpa doloribus eius error excepturi!
                           </p>
-                          
+
                         </Container>
                       </Grid.Column>
                     </Grid.Row>
