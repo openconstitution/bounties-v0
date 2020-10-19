@@ -7,7 +7,7 @@ import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './bounty.reducer';
 import { IBounty } from 'app/shared/model/bounty.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List, Divider, Button } from 'semantic-ui-react';
+import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List, Divider, Button, Popup, Rating } from 'semantic-ui-react';
 import _ from 'lodash';
 import { TextFormat } from 'react-jhipster';
 import { capitalizeFirst } from 'app/shared/util/string-utils';
@@ -94,6 +94,38 @@ export const Bounty = (props: IBountyProps) => {
             <Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
             <Table.Cell>{new Date(bounty.expires).toLocaleDateString('en-GB', options)}</Table.Cell>
           </Table.Row>
+        </>
+      ))
+    )
+  }
+
+  const dispBountyListAlt = (list) => {
+    return (
+      list.map((bounty, i) => (
+        <>
+          <Popup
+            trigger={
+              <Table.Row>
+                <Table.Cell>
+                  <Header as='h4' image>
+                    <Header.Content>
+                      {bounty.summary}
+                      <Header.Subheader>Created by {bounty.createdBy} on {bounty.createdDate}</Header.Subheader>
+                    </Header.Content>
+                  </Header>
+                </Table.Cell>
+                <Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
+                <Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
+                <Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
+                <Table.Cell>{new Date(bounty.expires).toLocaleDateString('en-GB', options)}</Table.Cell>
+              </Table.Row>
+            }
+          >
+            <Popup.Header>Dificulty</Popup.Header>
+            <Popup.Content>
+              <Rating icon='star' defaultRating={3} maxRating={3} />
+            </Popup.Content>
+          </Popup>
         </>
       ))
     )
