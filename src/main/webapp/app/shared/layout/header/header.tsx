@@ -5,7 +5,7 @@ import LoadingBar from 'react-redux-loading-bar';
 import { Translate, Storage } from 'react-jhipster';
 import appConfig from 'app/config/constants';
 import { AccountMenu } from '../menus';
-import { Dropdown, Menu, Container, Image, Input, Segment, Button, Label } from 'semantic-ui-react';
+import { Dropdown, Menu, Container, Image, Input, Segment, Button, Label, Icon } from 'semantic-ui-react';
 import { getLoginUrl, getRegistrationUrl } from 'app/shared/util/url-utils';
 import { NavLink as Link } from 'react-router-dom';
 
@@ -16,6 +16,13 @@ export interface IHeaderProps {
   isInProduction: boolean;
   isSwaggerEnabled: boolean;
 }
+
+const trigger = (
+  <span>
+    <Image src={'content/images/jhipster_family_member_0_head-192.png' || 'props.account.imageUrl'} circular avatar />
+    <span>Username</span>
+  </span>
+)
 
 const Header = (props: IHeaderProps) => {
 
@@ -28,10 +35,10 @@ const Header = (props: IHeaderProps) => {
 
   return (
     <div style={{ backgroundColor: 'black' }}>
-      <Menu size='small' borderless inverted stackable>
+      <Menu size='large' borderless inverted stackable>
         <Container>
           <Menu.Item as='a' header>
-            <Image size='mini' src='/logo.png' style={{ marginRight: '1.5em' }} />
+            <Image size='mini' src='content/images/logo-jhipster.png' style={{ marginRight: '1.5em' }} circular/>
             Bounties
           </Menu.Item>
           <Menu.Item as='a'>Work</Menu.Item>
@@ -73,6 +80,13 @@ const Header = (props: IHeaderProps) => {
                 )
               }
             </Menu.Item>
+            <Dropdown item trigger={trigger}>
+              <Dropdown.Menu>
+                <Dropdown.Item>Notifications (Beta)</Dropdown.Item>
+                <Dropdown.Item>Settings</Dropdown.Item>
+                <Dropdown.Item>Sign Out</Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
           </Menu.Menu>
         </Container>
       </Menu>
