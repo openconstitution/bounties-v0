@@ -1,5 +1,6 @@
 import 'react-toastify/dist/ReactToastify.css';
-// import './app.scss';
+import './app.scss';
+import 'semantic-ui-css/semantic.min.css'
 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -17,7 +18,6 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
-import 'semantic-ui-css/semantic.min.css'
 import { Container } from 'semantic-ui-react';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');

@@ -1,11 +1,11 @@
-import './header.scss';
+// import './header.scss';
 
 import React from 'react';
 import LoadingBar from 'react-redux-loading-bar';
 import { Translate, Storage } from 'react-jhipster';
 import appConfig from 'app/config/constants';
 import { AccountMenu } from '../menus';
-import { Dropdown, Menu, Container, Image, Visibility, Segment, Button, Label } from 'semantic-ui-react';
+import { Dropdown, Menu, Container, Image, Input, Segment, Button, Label } from 'semantic-ui-react';
 import { getLoginUrl, getRegistrationUrl } from 'app/shared/util/url-utils';
 import { NavLink as Link } from 'react-router-dom';
 
@@ -39,6 +39,14 @@ const Header = (props: IHeaderProps) => {
           <Menu.Item as='a'>Careers</Menu.Item>
 
           <Menu.Menu position='right'>
+            <Menu.Item>
+              <Input
+                inverted
+                transparent
+                icon={{ name: 'search', link: true }}
+                placeholder='Search bounties...'
+              />
+            </Menu.Item>
             {props.isAdmin && (
               <Dropdown item text='Administration'>
                 <Dropdown.Menu>
@@ -59,11 +67,9 @@ const Header = (props: IHeaderProps) => {
                     Sign Out
                   </Button>
                 ) : (
-                  <>
-                    <Button as='a' href={getLoginUrl()}>
-                      Sign In
-                    </Button>
-                  </>
+                  <Button as='a' href={getLoginUrl()}>
+                    Sign In
+                  </Button>
                 )
               }
             </Menu.Item>

@@ -120,7 +120,7 @@ export const Bounty = (props: IBountyProps) => {
               />
             </Grid.Column>
             <Grid.Column>
-              <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
+              <Link to={`${match.url}/new`}>
                 <Button
                   color='teal'
                   content='Create New Bounty'
