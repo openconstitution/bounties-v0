@@ -19,9 +19,6 @@
             <column name="votes" type="integer">
                 <constraints nullable="true" />
             </column>
-            <column name="user_id" type="varchar(100)">
-                <constraints nullable="false"/>
-            </column>
             <column name="profilelink" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
@@ -67,7 +64,6 @@
                   tableName="profile">
             <column name="id" type="numeric"/>
             <column name="votes" type="numeric"/>
-            <column name="user_id" type="numeric"/>
             <column name="profilelink" type="string"/>
             <column name="about" type="string"/>
             <column name="walletaddress" type="string"/>
