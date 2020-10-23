@@ -131,7 +131,7 @@ export const Funding = (props: IFundingProps) => {
         ) : (
           !loading && (
             <div className="alert alert-warning">
-              <Translate contentKey="bountiesApp.funding.home.notFound">No Fundings found</Translate>
+              No Fundings found
             </div>
           )
         )}
