@@ -22,6 +22,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BountyMapper {
 
+    private final FundingMapper fundingMapper;
+
+    public BountyMapper(final FundingMapper fundingMapper) {
+        this.fundingMapper = fundingMapper;
+    }
+
     public List<BountyDTO> bountiesToBountyDTOs(final List<Bounty> bounties) {
         return bounties.stream()
             .filter(Objects::nonNull)
@@ -47,9 +53,8 @@ public class BountyMapper {
             Bounty bounty = new Bounty();
             bounty.setId(bountyDTO.getId());
             bounty.setStatus(bountyDTO.getStatus());
-            bounty.setUrl(bountyDTO.getUrl());
+            bounty.setIssueUrl(bountyDTO.getIssueUrl());
             bounty.setSummary(bountyDTO.getSummary());
-            bounty.setDescription(bountyDTO.getDescription());
             bounty.setAmount(bountyDTO.getAmount());
             bounty.setExperience(bountyDTO.getExperience());
             bounty.setCommitment(bountyDTO.getCommitment());
@@ -57,8 +62,10 @@ public class BountyMapper {
             bounty.setCategory(bountyDTO.getCategory());
             bounty.setKeywords(bountyDTO.getKeywords());
             bounty.setPermission(bountyDTO.getPermission());
-            bounty.setExpires(bountyDTO.getExpires());
-            bounty.setFundings(bounty.getFundings());
+            bounty.setExpiryDate(bountyDTO.getExpiryDate());
+            bounty.setFundings(bountyDTO.getFundings().stream().map(fundingDTO -> {
+                return fundingMapper.fundingDTOToFunding(fundingDTO);
+            }).collect(Collectors.toSet()));
             return bounty;
         }
     }
