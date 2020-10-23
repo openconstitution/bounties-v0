@@ -25,7 +25,7 @@
             <column name="status" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="url" type="varchar(255)">
+            <column name="issue_url" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
             <column name="amount" type="decimal(21,2)">
@@ -49,11 +49,8 @@
             <column name="permission" type="boolean">
                 <constraints nullable="true" />
             </column>
-            <column name="expires" type="date">
+            <column name="expiry_date" type="date">
                 <constraints nullable="true" />
-            </column>
-            <column name="issue_id" type="bigint">
-                <constraints unique="true" nullable="true" uniqueConstraintName="ux_bounty_issue_id" />
             </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
@@ -87,7 +84,7 @@
             <column name="summary" type="string"/>
             <column name="description" type="string"/>
             <column name="status" type="string"/>
-            <column name="url" type="string"/>
+            <column name="issue_url" type="string"/>
             <column name="amount" type="numeric"/>
             <column name="experience" type="string"/>
             <column name="commitment" type="numeric"/>
@@ -95,7 +92,7 @@
             <column name="category" type="string"/>
             <column name="keywords" type="string"/>
             <column name="permission" type="boolean"/>
-            <column name="expires" type="date"/>
+            <column name="expiry_date" type="date"/>
             <column name="created_by" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
