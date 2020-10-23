@@ -33,12 +33,6 @@ entity Funding {
     paymentAuth Boolean
 }
 
-entity Issue {
-    issueId String,
-    url String,
-    description String
-}
-
 entity Profile {
     votes Integer,
     profilelink String,
@@ -46,10 +40,6 @@ entity Profile {
     walletaddress String,
     githubEmail String,
     githubOrgName String
-}
-
-relationship OneToOne {
-  Bounty{issue} to Issue
 }
 
 relationship OneToMany {
