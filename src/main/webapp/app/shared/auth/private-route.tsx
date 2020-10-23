@@ -1,9 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Route, Redirect, RouteProps } from 'react-router-dom';
-import { Translate } from 'react-jhipster';
+
 import { IRootState } from 'app/shared/reducers';
 import ErrorBoundary from 'app/shared/error/error-boundary';
+import { getLoginUrl } from '../util/url-utils';
 
 interface IOwnProps extends RouteProps {
   hasAnyAuthorities?: string[];
@@ -26,9 +27,7 @@ export const PrivateRouteComponent = ({
       </ErrorBoundary>
     ) : (
       <div className="insufficient-authority">
-        <div className="alert alert-danger">
-          <Translate contentKey="error.http.403">You are not authorized to access this page.</Translate>
-        </div>
+        <div className="alert alert-danger">You are not authorized to access this page.</div>
       </div>
     );
 
@@ -41,7 +40,7 @@ export const PrivateRouteComponent = ({
       ) : (
         <Redirect
           to={{
-            pathname: '/login',
+            pathname: '/oauth2/authorization/oidc',
             search: props.location.search,
             state: { from: props.location },
           }}
