@@ -102,7 +102,7 @@ public class BountyResourceIT {
   public static Bounty createEntity(EntityManager em) {
     Bounty bounty = new Bounty()
                         .status(DEFAULT_STATUS)
-                        .url(DEFAULT_URL)
+                        .issueUrl(DEFAULT_URL)
                         .amount(DEFAULT_AMOUNT)
                         .experience(DEFAULT_EXPERIENCE)
                         .commitment(DEFAULT_COMMITMENT)
@@ -110,7 +110,7 @@ public class BountyResourceIT {
                         .category(DEFAULT_CATEGORY)
                         .keywords(DEFAULT_KEYWORDS)
                         .permission(DEFAULT_PERMISSION)
-                        .expires(DEFAULT_EXPIRES);
+                        .expiryDate(DEFAULT_EXPIRES);
     return bounty;
   }
   /**
@@ -122,7 +122,7 @@ public class BountyResourceIT {
   public static Bounty createUpdatedEntity(EntityManager em) {
     Bounty bounty = new Bounty()
                         .status(UPDATED_STATUS)
-                        .url(UPDATED_URL)
+                        .issueUrl(UPDATED_URL)
                         .amount(UPDATED_AMOUNT)
                         .experience(UPDATED_EXPERIENCE)
                         .commitment(UPDATED_COMMITMENT)
@@ -130,7 +130,7 @@ public class BountyResourceIT {
                         .category(UPDATED_CATEGORY)
                         .keywords(UPDATED_KEYWORDS)
                         .permission(UPDATED_PERMISSION)
-                        .expires(UPDATED_EXPIRES);
+                        .expiryDate(UPDATED_EXPIRES);
     return bounty;
   }
 
@@ -273,7 +273,7 @@ public class BountyResourceIT {
     // directly saved in db
     em.detach(updatedBounty);
     updatedBounty.status(UPDATED_STATUS)
-        .url(UPDATED_URL)
+        .issueUrl(UPDATED_URL)
         .amount(UPDATED_AMOUNT)
         .experience(UPDATED_EXPERIENCE)
         .commitment(UPDATED_COMMITMENT)
@@ -281,7 +281,7 @@ public class BountyResourceIT {
         .category(UPDATED_CATEGORY)
         .keywords(UPDATED_KEYWORDS)
         .permission(UPDATED_PERMISSION)
-        .expires(UPDATED_EXPIRES);
+        .expiryDate(UPDATED_EXPIRES);
 
     restBountyMockMvc
         .perform(put("/api/bounties")
@@ -295,7 +295,7 @@ public class BountyResourceIT {
     assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
     Bounty testBounty = bountyList.get(bountyList.size() - 1);
     assertThat(testBounty.getStatus()).isEqualTo(UPDATED_STATUS);
-    assertThat(testBounty.getUrl()).isEqualTo(UPDATED_URL);
+    assertThat(testBounty.getIssueUrl()).isEqualTo(UPDATED_URL);
     assertThat(testBounty.getAmount()).isEqualTo(UPDATED_AMOUNT);
     assertThat(testBounty.getExperience()).isEqualTo(UPDATED_EXPERIENCE);
     assertThat(testBounty.getCommitment()).isEqualTo(UPDATED_COMMITMENT);
@@ -303,7 +303,7 @@ public class BountyResourceIT {
     assertThat(testBounty.getCategory()).isEqualTo(UPDATED_CATEGORY);
     assertThat(testBounty.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
     assertThat(testBounty.isPermission()).isEqualTo(UPDATED_PERMISSION);
-    assertThat(testBounty.getExpires()).isEqualTo(UPDATED_EXPIRES);
+    assertThat(testBounty.getExpiryDate()).isEqualTo(UPDATED_EXPIRES);
 
     // Validate the Bounty in Elasticsearch
     verify(mockBountySearchRepository, times(1)).save(testBounty);
