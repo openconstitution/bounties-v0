@@ -5,64 +5,47 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRootState } from 'app/shared/reducers';
 
-import { getEntities as getIssues } from 'app/entities/issue/issue.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './bounty.reducer';
 
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
-import { Form, Segment, Grid, Header, Divider, Input, Loader, Message, Icon, Dropdown } from 'semantic-ui-react'
+import Select from "react-select";
+import { Form, Segment, Grid, Input, Loader, Message, Divider, Header } from 'semantic-ui-react'
 import _ from 'lodash';
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import { categoryOptions, experienceOptions, modeOptions, typeOptions } from 'app/shared/model/bounty.model';
 
 export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
+interface IBountyFormInput {
+  summary: string;
+  issueUrl: string;
+  category: {label: string, value: Category, message: string};
+  type: {label: string, value: Type, message: string};
+  experience: {label: string, value: Experience, message: string};
+  expiryDate: Date;
+  amount: number;
+  mode: {label: string, value: string, message: string};
+}
+
+const bountyFormSchema = yup.object().shape({
+  summary: yup.string().required("please enter a summary"),
+  issueUrl: yup.string().url("Field must be a url").required("Please enter the issue url"),
+  category: yup.object().required("Please select a category"),
+  type: yup.object().required("Please select a type"),
+  experience: yup.object().required("Please select an experience level"),
+  expiryDate: yup.date().min(new Date()).required("Please pick an expiry date"),
+  amount: yup.number().positive().integer().required(),
+  mode: yup.object().required("Please select a mode"),
+});
+
 export const BountyUpdate = (props: IBountyUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
-  const [errMessage, setErrMessage] = useState('')
-  const [summary, setSummary] = useState({error: '', value: ''});
-  const [description, setDescription] = useState({error: '', value: ''});
-  const [url, setUrl] = useState({error: '', value: ''});
-  const [category, setCategory] = useState({error: '', value: ''});
-  const [type, setType] = useState({error: '', value: ''});
-  const [experience, setExperience] = useState({error: '', value: ''});
-  const [expiryDate, setExpiryDate] = useState({error: '', value: ''});
-  const [mode, setMode] = useState({error: '', value: ''});
-  const [amount, setAmount] = useState({error: '', value: ''});
-
-  const handleSummaryChange = (e) => setSummary({error: '', value: e.target.value});
-  const handleDescriptionChange = (e) => setDescription({error: '', value: e.target.value});
-  const handleUrlChange = (e) => setUrl({error: '', value: e.target.value});
-  const handleCategoryChange = (e, { value }) => setCategory({error: '', value});
-  const handleTypeChange = (e, { value }) => setType({error: '', value});
-  const handleExperienceChange = (e, { value }) => setExperience({error: '', value});
-  const handleExpiryDateChange = (e) => setExpiryDate({error: '', value: e.target.value});
-  const handleModeChange = (e, { value }) => setMode({error: '', value});
-  const handleAmountChange = (e) => setAmount({error: '', value: e.target.value});
 
   const { bountyEntity, loading, updating } = props;
-
-  const categories = [
-    { key: 'F', text: 'Frontend', value: Category.FRONT_END },
-    { key: 'B', text: 'Backend', value: Category.BACKEND },
-    { key: 'T', text: 'This', value: Category.THIS }
-  ];
-  const types = [
-    { key: 'B', text: 'Bug', value: Type.BUG },
-    { key: 'F', text: 'Feature', value: Type.FEATURE },
-    { key: 'I', text: 'Improvement', value: Type.IMPROVEMENT },
-    { key: 'E', text: 'Ex', value: Type.EX }
-  ];
-  const experiences = [
-    { key: 'B', text: 'Beginner', value: Experience.BEGINNER },
-    { key: 'I', text: 'Intermediate', value: Experience.INTERMEDIATE },
-    { key: 'A', text: 'Experience', value: Experience.ADVANCED }
-  ];
-
-  const modes = [
-    { key: 'A', text: 'Mode A', value: 'Mode A' },
-    { key: 'B', text: 'Mode B', value: 'Mode B' },
-    { key: 'C', text: 'Mode C', value: 'Mode C' }
-  ];
 
   const handleClose = () => {
     props.history.push('/bounty');
@@ -81,103 +64,226 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
       handleClose();
     }
   }, [props.updateSuccess]);
+  
+  const { control, errors, handleSubmit } = useForm<IBountyFormInput>({
+    resolver: yupResolver(bountyFormSchema)
+  });
 
-  const handleSubmit = () => {
-    setErrMessage('')
-    const ent = {
-      summary: summary.value, description: description.value,
-      url: url.value, category: category.value, type: type.value,
-      experience: experience.value, expiryDate: expiryDate.value,
-      funding: [
-        {amount: amount.value, mode: mode.value}
-      ]
+  const onSubmit = (data: IBountyFormInput) => {
+    alert(JSON.stringify(data))
+    
+    if (isNew) {
+      const entity = {
+        summary: data.summary,
+        issueUrl: data.issueUrl,
+        expiryDate: data.expiryDate,
+        category: data.category.value,
+        type: data.type.value,
+        experience: data.experience.value,
+        fundings: [
+          {
+            mode: data.mode.value,
+            amount: data.amount,
+          }
+        ]
+      }
+      alert("Saving: " + JSON.stringify(entity))
+      props.createEntity(entity);
+    } else {
+      const entity = {
+        ...bountyEntity,
+        summary: data.summary,
+        issueUrl: data.issueUrl,
+        expiryDate: data.expiryDate,
+        category: data.category.value,
+        type: data.type.value,
+        experience: data.experience.value,
+        fundings: [
+          {
+            ...bountyEntity.fundings[0],
+            mode: data.mode.value,
+            amount: data.amount,
+          }
+        ]
+      }
+      alert("Updating: " + JSON.stringify(entity))
+      props.updateEntity(entity);
     }
-    alert(JSON.stringify(ent))
-  }
+  };
 
   return (
-    <Segment style={{ padding: '8em 0em' }} vertical>
+    <Segment style={{ padding: '4em 0em' }} vertical>
       {loading ? (
         <Loader active inline='centered' />
-      ) : ( <>
-        <Message
-          attached
-          header='Get started here!'
-          content='Fill out the form below to post a new bounty'
-        />
-        <Segment fluid attached>
-          <Grid>
-            <Grid.Column width='4'/>
-            <Grid.Column width='8'>
-              <Form onSubmit={handleSubmit}>
-              <Form.Input fluid required labelPosition="left" label="Summary" placeholder='Summary'
-                          name="summary" value={summary.value} onChange={handleSummaryChange}
-                          error={summary.error !== '' && summary.error}
-              />
-              <Form.TextArea fluid label='Description (Optional)' placeholder='Tell us more about this bounty...'
-                              name="description" value={description.value} onChange={handleDescriptionChange}
-              />
-              <Form.Input required fluid label="Issue URL" placeholder='url'
-                          name="url" value={url.value} onChange={handleUrlChange}
-                          error={url.error !== '' && url.error}
-              />
-              <Form.Field>
-                <label>Category</label>
-                <Dropdown selection name='false' search options={categories}
-                          placeholder='Frontend'
-                          value={category.value} onChange={handleCategoryChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Type</label>
-                <Dropdown selection name='false' search options={types}
-                          placeholder='Bug'
-                          value={type.value} onChange={handleTypeChange}
-                />
-              </Form.Field>
-              <Form.Field>
-                <label>Experience</label>
-                <Dropdown selection name='false' search options={experiences}
-                          placeholder='Beginner'
-                          value={experience.value} onChange={handleExperienceChange}
-                />
-              </Form.Field>
+      ) : (
+        <div>
+          <Message
+            attached
+            header='Get started here!'
+            content='Fill out the form below to post a new bounty'
+          />
+          <Segment fluid attached>
+            <Grid>
+              <Grid.Column width='4'/>
+              <Grid.Column width='8'>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                  <Form.Field
+                    required
+                    error={errors.summary?.message}>
+                    <label>Summary</label>
+                    <Controller
+                      as={Input}
+                      name="summary"
+                      placeholder="Summary"
+                      control={control}
+                      defaultValue={bountyEntity?.summary}
+                    />
+                    {errors.summary && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.summary?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  <Form.Field
+                    required
+                    error={errors.issueUrl?.message}>
+                    <label>Issue url</label>
+                    <Controller
+                      as={Input}
+                      name="issueUrl"
+                      placeholder="Issuer url"
+                      control={control}
+                      defaultValue={bountyEntity.issueUrl}
+                    />
+                    {errors.issueUrl && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.issueUrl?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                              
+                  <Form.Field
+                    required
+                    error={errors.category?.message}>
+                    <label>Category</label>
+                    <Controller
+                      name="category"
+                      placeholder="Category"
+                      as={Select}
+                      control={control}
+                      options={categoryOptions}
+                      defaultValue={bountyEntity.category}
+                      style={errors.category === null ? {background: "#fff6f6", borderColor: "#e0b4b4"} : null}
+                    />
+                    {errors.category && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.category?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  <Form.Field
+                    required
+                    error={errors.type?.message}>
+                    <label>Type</label>
+                    <Controller
+                      name="type"
+                      placeholder="Type"
+                      as={Select}
+                      options={typeOptions}
+                      control={control}
+                      defaultValue={bountyEntity.type}
+                    />
+                    {errors.type && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.type?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  <Form.Field
+                    required
+                    error={errors.experience?.message}>
+                    <label>Experience</label>
+                    <Controller
+                      name="experience"
+                      placeholder="Experience"
+                      as={Select}
+                      options={experienceOptions}
+                      control={control}
+                      defaultValue={bountyEntity.experience}
+                    />
+                    {errors.experience && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.experience?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  
+                  <Form.Field
+                    required
+                    error={errors.expiryDate?.message}>
+                    <label>Expiry date</label>
+                    <Controller
+                      as={Input}
+                      type='date'
+                      name="expiryDate"
+                      placeholder="Expiry date"
+                      control={control}
+                      defaultValue={bountyEntity.expiryDate}
+                    />
+                    {errors.expiryDate && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.expiryDate?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  
+                  <Divider horizontal>
+                    <Header as='h4'>Funding Details</Header>
+                  </Divider>
 
-              <Form.Input required type='date' name='expires' label='Expiry Date'
-                          value={expiryDate.value} onChange={handleExpiryDateChange}
-                          error={expiryDate.error !== '' && expiryDate.error}
-              />
-
-              <Divider horizontal>
-                <Header as='h4'>Funding Details</Header>
-              </Divider>
-
-              <Form.Field required control={Input} type="number"
-                icon='dollar' iconPosition='left' name='amount'
-                label='Amount' placeholder='0.00'
-                value={amount.value}
-                onChange={handleAmountChange}
-                error={amount.error !== '' && amount.error}
-              />
-              <Form.Field>
-                <label>Mode</label>
-                <Dropdown selection name='mode' search options={modes}
-                          placeholder='Mode A'
-                          value={mode.value} onChange={handleModeChange}
-                />
-              </Form.Field>
-
-              <Form.Button color='teal' type="submit" disabled={updating}>Post</Form.Button>
-            </Form>
-            </Grid.Column>
-            <Grid.Column width='4'/>
-          </Grid>
-        </Segment>
-        <Message attached='bottom' hidden={errMessage === ''} warning>
-          <Icon name='warning' />
-          {errMessage}
-        </Message>
-      </> )}
+                  <Form.Field
+                    required
+                    error={errors.amount?.message}>
+                    <label>Amount</label>
+                    <Controller
+                      as={Input}
+                      name="amount"
+                      placeholder="Amount"
+                      control={control}
+                      defaultValue={_.isEmpty(bountyEntity) ? bountyEntity.fundings[0].amount : null}
+                    />
+                    {errors.amount && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.amount?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  <Form.Field
+                    required
+                    error={errors.mode?.message}>
+                    <label>Mode</label>
+                    <Controller
+                      name="mode"
+                      placeholder="Mode"
+                      as={Select}
+                      control={control}
+                      options={modeOptions}
+                      defaultValue={_.isEmpty(bountyEntity) ? bountyEntity.fundings[0].mode : null}
+                    />
+                    {errors.mode && (
+                      <div className={"ui pointing above prompt label"}>
+                        {errors.mode?.message}
+                      </div>
+                    )}
+                  </Form.Field>
+                  <Form.Button color='teal' type="submit" disabled={updating}>Post</Form.Button>
+                </Form>
+              </Grid.Column>
+              <Grid.Column width='4'/>
+            </Grid>
+          </Segment>
+        </div>
+      )}
     </Segment>
   );
 };
@@ -190,7 +296,6 @@ const mapStateToProps = (storeState: IRootState) => ({
 });
 
 const mapDispatchToProps = {
-  getIssues,
   getEntity,
   updateEntity,
   createEntity,
