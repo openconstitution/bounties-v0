@@ -18,6 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
 
+    private ProfileMapper profileMapper;
+
+    public UserMapper() {}
+
+    private UserMapper(ProfileMapper profileMapper) {
+        this.profileMapper = profileMapper;
+    }
+
     public List<UserDTO> usersToUserDTOs(List<User> users) {
         return users.stream()
             .filter(Objects::nonNull)
@@ -26,7 +34,9 @@ public class UserMapper {
     }
 
     public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
+        final UserDTO userDTO = new UserDTO(user);
+        userDTO.setProfile(profileMapper.profileToProfileDTO(user.getProfile()));
+        return userDTO;
     }
 
     public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
@@ -49,6 +59,7 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
+            user.setProfile(profileMapper.profileDTOToProfile(userDTO.getProfile()));
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;

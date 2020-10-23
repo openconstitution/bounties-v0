@@ -44,7 +44,6 @@ public class FundingMapper {
             funding.setAmount(fundingDTO.getAmount());
             funding.setMode(fundingDTO.getMode());
             funding.setPaymentAuth(fundingDTO.getPaymentAuth());
-            funding.setBounty(fundingDTO.getBounty());
             return funding;
         }
     }
