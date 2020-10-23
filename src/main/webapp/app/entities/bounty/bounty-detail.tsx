@@ -21,7 +21,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
   const [bountyListMenu, setBountyListMenu] = useState([]);
 
   const { bountyEntity, bountyList, loading } = props;
-  
+
   const handleItemClick = (e, { id }) => setActiveItem(id);
 
   const hasExpired = (dateString: string) => {
@@ -70,7 +70,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                       >
                         <i>No Bounties found</i>
                       </Menu.Item>
-                    )                    
+                    )
                   ) : (
                     bountyListMenu.map((bounty, index) => {
                       return (
@@ -117,7 +117,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                         <List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
                         <List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
                       </List>
-                      
+
                       <Header as='h2'>
                         Expires in:
                       </Header>

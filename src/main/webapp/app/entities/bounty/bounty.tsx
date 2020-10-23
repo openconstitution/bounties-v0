@@ -20,7 +20,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Bounty = (props: IBountyProps) => {
-  
+
 	const [search, setSearch] = useState('');
   const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
   const [paginationState, setPaginationState] = useState(
@@ -213,7 +213,7 @@ export const Bounty = (props: IBountyProps) => {
         </Grid>
       </Segment>
       <Segment padded basic>
-        
+
         <Table selectable={bountyList.length > 0}>
           <Table.Header>
             <Table.Row>
@@ -247,7 +247,7 @@ export const Bounty = (props: IBountyProps) => {
           )}
 
         </Table>
-      
+
       </Segment>
 		</Segment>
   );

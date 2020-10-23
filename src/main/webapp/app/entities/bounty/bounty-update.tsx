@@ -64,14 +64,14 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
       handleClose();
     }
   }, [props.updateSuccess]);
-  
+
   const { control, errors, handleSubmit } = useForm<IBountyFormInput>({
     resolver: yupResolver(bountyFormSchema)
   });
 
   const onSubmit = (data: IBountyFormInput) => {
     alert(JSON.stringify(data))
-    
+
     if (isNew) {
       const entity = {
         summary: data.summary,
@@ -161,7 +161,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       </div>
                     )}
                   </Form.Field>
-                              
+
                   <Form.Field
                     required
                     error={errors.category?.message}>
@@ -217,7 +217,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       </div>
                     )}
                   </Form.Field>
-                  
+
                   <Form.Field
                     required
                     error={errors.expiryDate?.message}>
@@ -236,7 +236,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       </div>
                     )}
                   </Form.Field>
-                  
+
                   <Divider horizontal>
                     <Header as='h4'>Funding Details</Header>
                   </Divider>

@@ -39,7 +39,7 @@ export const Bounty = (props: IBountyProps) => {
   const { bountyList, match, loading } = props;
   return (
     <div>
-    
+
     {/* <Paper square elevation={0} className={classes.contentContainer}>
       <div className={classes.instructions}>
         <Snackbar

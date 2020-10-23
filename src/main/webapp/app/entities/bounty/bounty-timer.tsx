@@ -15,10 +15,10 @@ interface IStateProps {
 }
 
 class Timer extends Component<ITimerProps> {
-    
+
   countDownId = null;
   state: IStateProps
-  
+
   constructor(props) {
     super(props);
     this.state = {
