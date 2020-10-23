@@ -3,7 +3,6 @@ package org.muellners.bounties.service.dto;
 import com.sun.istack.NotNull;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.domain.Funding;
-import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.domain.enumeration.Category;
 import org.muellners.bounties.domain.enumeration.Experience;
 import org.muellners.bounties.domain.enumeration.Status;
@@ -21,20 +20,12 @@ public class BountyDTO {
     private Long id;
 
     private Status status;
-    
-    @NotNull
-    private String summary;
-
-    private String description;
-
-    @NotNull
-    private String url;
 
     @NotNull
     private String summary;
-    
+
     @NotNull
-    private String description;
+    private String issueUrl;
 
     @NotNull
     private BigDecimal amount;
@@ -51,9 +42,9 @@ public class BountyDTO {
 
     private boolean permission;
 
-    private LocalDate expires;
+    private LocalDate expiryDate;
 
-    private Set<Funding> funding;
+    private Set<FundingDTO> fundings;
 
     private String createdBy;
 
@@ -67,22 +58,17 @@ public class BountyDTO {
         this.id = bounty.getId();
         this.status = bounty.getStatus();
         this.summary = bounty.getSummary();
-        this.description = bounty.getDescription();
         this.amount = bounty.getAmount();
-        this.url = bounty.getIssue().getUrl();
-        this.summary = bounty.getSummary();
-        this.description = bounty.getDescription();
+        this.issueUrl = bounty.getIssueUrl();
         this.type = bounty.getType();
         this.experience = bounty.getExperience();
         this.commitment = bounty.getCommitment();
         this.category = bounty.getCategory();
         this.keywords = bounty.getKeywords();
         this.permission = bounty.getPermission();
-        this.expires = bounty.getExpires();
-        this.funding = bounty.getFundings();
+        this.expiryDate = bounty.getExpiryDate();
         this.createdBy = bounty.getCreatedBy();
         this.createdDate = bounty.getCreatedDate();
-
     }
 
     // prettier-ignore
@@ -91,17 +77,15 @@ public class BountyDTO {
         return "BountyDTO{" +
             "id=" + id +
             ", summary='" + summary + '\'' +
-            ", description='" + description + '\'' +
             ", status='" + status + '\'' +
-            ", url='" + url + '\'' +
+            ", issueUrl='" + issueUrl + '\'' +
             ", amount=" + amount +
             ", experience='" + experience + '\'' +
             ", commitment=" + commitment +
             ", category='" + category + '\'' +
             ", keywords='" + keywords + '\'' +
             ", permission=" + permission +
-            ", expires=" + expires +
-            ", funding=" + funding +
+            ", expiryDate=" + expiryDate +
             ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +
             '}';
@@ -123,14 +107,6 @@ public class BountyDTO {
         this.summary = summary;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(final String description) {
-        this.description = description;
-    }
-
     public Status getStatus() {
         return status;
     }
@@ -139,28 +115,12 @@ public class BountyDTO {
         this.status = status;
     }
 
-    public String getUrl() {
-        return url;
-    }
-    
-    public String getSummary() {
-        return summary;
+    public String getIssueUrl() {
+        return issueUrl;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-    
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setUrl(final String url) {
-        this.url = url;
+    public void setIssueUrl(final String issueUrl) {
+        this.issueUrl = issueUrl;
     }
 
     public BigDecimal getAmount() {
@@ -211,20 +171,30 @@ public class BountyDTO {
         this.permission = permission;
     }
 
-    public LocalDate getExpires() {
-        return expires;
+    public LocalDate getExpiryDate() {
+        return expiryDate;
     }
 
-    public void setExpires(final LocalDate expires) {
-        this.expires = expires;
+    public void setExpiryDate(final LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
-    public Set<Funding> getFunding() {
-        return funding;
+    public Set<FundingDTO> getFundings() {
+        return fundings;
     }
 
-    public void setFundingIds(final Set<Funding> funding) {
-        this.funding = funding;
+    public BountyDTO addFundings(FundingDTO funding) {
+        this.fundings.add(funding);
+        return this;
+    }
+
+    public BountyDTO removeFundings(FundingDTO funding) {
+        this.fundings.remove(funding);
+        return this;
+    }
+
+    public void setFundings(Set<FundingDTO> fundings) {
+        this.fundings = fundings;
     }
 
     public String getCreatedBy() {
@@ -256,8 +226,8 @@ public class BountyDTO {
         return this;
     }
 
-    public BountyDTO url(final String url) {
-        this.url = url;
+    public BountyDTO issueUrl(final String issueUrl) {
+        this.issueUrl = issueUrl;
         return this;
     }
 
@@ -296,8 +266,8 @@ public class BountyDTO {
         return this;
     }
 
-    public BountyDTO expires(final LocalDate expires) {
-        this.expires = expires;
+    public BountyDTO expiryDate(final LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
         return this;
     }
 
