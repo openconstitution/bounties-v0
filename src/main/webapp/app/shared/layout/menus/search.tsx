@@ -49,39 +49,39 @@ import React from 'react';
 // );
 
 
-// export const SearchItem = ({ isAuthenticated = false }) => {
+export const SearchItem = ({ isAuthenticated = false }) => {
 //   const classes = useStyles();
 
-//   const accountMenuItemsAuthenticated = (
-//     <>
-//       <div className={classes.search}>
-//         <div className={classes.searchIcon}>
-//           <SearchIcon />
-//         </div>
-//         <InputBase
-//           placeholder="Search…"
-//           classes={{
-//             root: classes.inputRoot,
-//             input: classes.inputInput,
-//           }}
-//           inputProps={{ 'aria-label': 'search' }}
-//         />
-//       </div>
-//     </>
-//   );
+  const accountMenuItemsAuthenticated = (
+    <>
+      {/* <div className={classes.search}>
+        <div className={classes.searchIcon}>
+          <SearchIcon />
+        </div>
+        <InputBase
+          placeholder="Search…"
+          classes={{
+            root: classes.inputRoot,
+            input: classes.inputInput,
+          }}
+          inputProps={{ 'aria-label': 'search' }}
+        />
+        </div> */}
+    </>
+  );
 
-//   const accountMenuItems = (
-//     <>
-//       <div></div>
-//     </>
-//   );
+  const accountMenuItems = (
+    <>
+      <div></div>
+    </>
+  );
 
-//   return (
-//     <div>
-//       {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
-//     </div>
-//   );
+  return (
+    <div>
+      {isAuthenticated ? accountMenuItemsAuthenticated : accountMenuItems}
+    </div>
+  );
 
-// };
+};
 
-// export default SearchItem;
+export default SearchItem;
