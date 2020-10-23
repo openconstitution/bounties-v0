@@ -1,6 +1,7 @@
 package org.muellners.bounties.service.dto;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.domain.Funding;
@@ -14,14 +15,21 @@ public class FundingDTO {
 
     private Boolean paymentAuth;
 
-    private Bounty bounty;
+    private String createdBy;
+
+    private Instant createdDate;
+
+    public FundingDTO() {
+        //
+    }
 
     public FundingDTO(Funding funding) {
         this.id = funding.getId();
         this.amount = funding.getAmount();
         this.mode = funding.getMode();
         this.paymentAuth = funding.getPaymentAuth();
-        this.bounty = funding.getBounty();
+        this.createdBy = funding.getCreatedBy();
+        this.createdDate = funding.getCreatedDate();
 	}
 
 	public Long getId() {
@@ -75,16 +83,19 @@ public class FundingDTO {
         return this.paymentAuth;
     }
 
-    public Bounty getBounty() {
-        return bounty;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public FundingDTO bounty(Bounty bounty) {
-        this.bounty = bounty;
-        return this;
+    public void setCreatedBy(final String createdBy) {
+        this.createdBy = createdBy;
     }
 
-    public void setBounty(Bounty bounty) {
-        this.bounty = bounty;
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(final Instant createdDate) {
+        this.createdDate = createdDate;
     }
 }
