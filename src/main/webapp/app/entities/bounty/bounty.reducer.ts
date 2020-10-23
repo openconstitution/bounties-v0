@@ -9,6 +9,7 @@ import { IBounty, defaultValue } from 'app/shared/model/bounty.model';
 export const ACTION_TYPES = {
   SEARCH_BOUNTIES: 'bounty/SEARCH_BOUNTIES',
   FETCH_BOUNTY_LIST: 'bounty/FETCH_BOUNTY_LIST',
+  FETCH_BOUNTY_LIST_PER_PAGE: 'bounty/FETCH_BOUNTY_LIST_PER_PAGE',
   FETCH_BOUNTY: 'bounty/FETCH_BOUNTY',
   CREATE_BOUNTY: 'bounty/CREATE_BOUNTY',
   UPDATE_BOUNTY: 'bounty/UPDATE_BOUNTY',
@@ -21,7 +22,9 @@ const initialState = {
   errorMessage: null,
   entities: [] as ReadonlyArray<IBounty>,
   entity: defaultValue,
+  links: { next: 0 },
   updating: false,
+  totalItems: 0,
   updateSuccess: false,
 };
 
@@ -33,6 +36,7 @@ export default (state: BountyState = initialState, action): BountyState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_BOUNTIES):
     case REQUEST(ACTION_TYPES.FETCH_BOUNTY_LIST):
+      case REQUEST(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
     case REQUEST(ACTION_TYPES.FETCH_BOUNTY):
       return {
         ...state,
@@ -51,6 +55,7 @@ export default (state: BountyState = initialState, action): BountyState => {
       };
     case FAILURE(ACTION_TYPES.SEARCH_BOUNTIES):
     case FAILURE(ACTION_TYPES.FETCH_BOUNTY_LIST):
+      case FAILURE(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
     case FAILURE(ACTION_TYPES.FETCH_BOUNTY):
     case FAILURE(ACTION_TYPES.CREATE_BOUNTY):
     case FAILURE(ACTION_TYPES.UPDATE_BOUNTY):
@@ -68,6 +73,13 @@ export default (state: BountyState = initialState, action): BountyState => {
         ...state,
         loading: false,
         entities: action.payload.data,
+      };
+    case SUCCESS(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
+      return {
+        ...state,
+        loading: false,
+        entities: action.payload.data,
+        totalItems: parseInt(action.payload.headers['x-total-count'], 10),
       };
     case SUCCESS(ACTION_TYPES.FETCH_BOUNTY):
       return {
@@ -113,6 +125,15 @@ export const getEntities: ICrudGetAllAction<IBounty> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_BOUNTY_LIST,
   payload: axios.get<IBounty>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
 });
+
+export const getEntitiesPerPage: ICrudGetAllAction<IBounty> = (page, size, sort) => {
+  const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
+  return {
+    type: ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE,
+    payload: axios.get<IBounty>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+  };
+};
+
 
 export const getEntity: ICrudGetAction<IBounty> = id => {
   const requestUrl = `${apiUrl}/${id}`;
