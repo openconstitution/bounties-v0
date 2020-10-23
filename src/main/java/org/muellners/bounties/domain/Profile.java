@@ -14,109 +14,106 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 Document(indexName = "profile")
 public class Profile extends AbstractAuditingEntity {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
-    @Column(name = "votes") private Integer votes;
+  @Column(name = "votes") private Integer votes;
 
-    @Column(name = "profilelink") private String profilelink;
+  @Column(name = "profilelink") private String profilelink;
 
-    @Column(name = "about") private String about;
+  @Column(name = "about") private String about;
 
-    @Column(name = "walletaddress") private String walletaddress;
+  @Column(name = "walletaddress") private String walletaddress;
 
-    @Column(name = "github_email") private String githubEmail;
+  @Column(name = "github_email") private String githubEmail;
 
-    @Column(name = "github_org_name")
-    private String githubOrgName;
+  @Column(name = "github_org_name") private String githubOrgName;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() { return id; }
+  // jhipster-needle-entity-add-field - JHipster will add fields here
+  public Long getId() { return id; }
 
-    public void setId(Long id) { this.id = id; }
+  public void setId(Long id) { this.id = id; }
 
-    public Integer getVotes() {
-        return votes;
-    }
+  public Integer getVotes() { return votes; }
 
-    public Profile votes(Integer votes) {
-        this.votes = votes;
-        return this;
-    }
+  public Profile votes(Integer votes) {
+    this.votes = votes;
+    return this;
+  }
 
-    public void setVotes(Integer votes) { this.votes = votes; }
+  public void setVotes(Integer votes) { this.votes = votes; }
 
-    public String getProfilelink() { return profilelink; }
+  public String getProfilelink() { return profilelink; }
 
-    public Profile profilelink(String profilelink) {
-        this.profilelink = profilelink;
-        return this;
-    }
-
-    public void setProfilelink(String profilelink) {
+  public Profile profilelink(String profilelink) {
     this.profilelink = profilelink;
-    }
+    return this;
+  }
 
-    public String getAbout() { return about; }
+  public void setProfilelink(String profilelink) {
+    this.profilelink = profilelink;
+  }
 
-    public Profile about(String about) {
-        this.about = about;
-        return this;
-    }
+  public String getAbout() { return about; }
 
-    public void setAbout(String about) { this.about = about; }
+  public Profile about(String about) {
+    this.about = about;
+    return this;
+  }
 
-    public String getWalletaddress() { return walletaddress; }
+  public void setAbout(String about) { this.about = about; }
 
-    public Profile walletaddress(String walletaddress) {
-        this.walletaddress = walletaddress;
-        return this;
-    }
+  public String getWalletaddress() { return walletaddress; }
 
-    public void setWalletaddress(String walletaddress) {
+  public Profile walletaddress(String walletaddress) {
     this.walletaddress = walletaddress;
-    }
+    return this;
+  }
 
-    public String getGithubEmail() { return githubEmail; }
+  public void setWalletaddress(String walletaddress) {
+    this.walletaddress = walletaddress;
+  }
 
-    public Profile githubEmail(String githubEmail) {
-        this.githubEmail = githubEmail;
-        return this;
-    }
+  public String getGithubEmail() { return githubEmail; }
 
-    public void setGithubEmail(String githubEmail) {
+  public Profile githubEmail(String githubEmail) {
     this.githubEmail = githubEmail;
-    }
+    return this;
+  }
 
-    public String getGithubOrgName() { return githubOrgName; }
+  public void setGithubEmail(String githubEmail) {
+    this.githubEmail = githubEmail;
+  }
 
-    public Profile githubOrgName(String githubOrgName) {
-        this.githubOrgName = githubOrgName;
-        return this;
-    }
+  public String getGithubOrgName() { return githubOrgName; }
 
-    public void setGithubOrgName(String githubOrgName) {
+  public Profile githubOrgName(String githubOrgName) {
     this.githubOrgName = githubOrgName;
-    }
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
-    // setters here
+    return this;
+  }
 
-    @Override
-    public boolean equals(Object o) {
+  public void setGithubOrgName(String githubOrgName) {
+    this.githubOrgName = githubOrgName;
+  }
+  // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+  // setters here
+
+  @Override
+  public boolean equals(Object o) {
     if (this == o) {
-        return true;
+      return true;
     }
     if (!(o instanceof Profile)) {
-        return false;
+      return false;
     }
-        return id != null && id.equals(((Profile)o).id);
-    }
+    return id != null && id.equals(((Profile)o).id);
+  }
 
-    @Override
-    public int hashCode() {
+  @Override
+  public int hashCode() {
     return 31;
-    }
+  }
 
   // prettier-ignore
   @Override

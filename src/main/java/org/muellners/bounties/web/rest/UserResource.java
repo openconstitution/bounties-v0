@@ -53,72 +53,72 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping("/api")
 public class UserResource {
 
-	private final Logger log = LoggerFactory.getLogger(UserResource.class);
+  private final Logger log = LoggerFactory.getLogger(UserResource.class);
 
-	@Value("${jhipster.clientApp.name}") private String applicationName;
+  @Value("${jhipster.clientApp.name}") private String applicationName;
 
-	private final UserService userService;
+  private final UserService userService;
 
-	private final UserSearchRepository userSearchRepository;
+  private final UserSearchRepository userSearchRepository;
 
-	public UserResource(UserService userService,
-	                    UserSearchRepository userSearchRepository) {
-		this.userService = userService;
-		this.userSearchRepository = userSearchRepository;
-	}
+  public UserResource(UserService userService,
+                      UserSearchRepository userSearchRepository) {
+    this.userService = userService;
+    this.userSearchRepository = userSearchRepository;
+  }
 
-	/**
-	 * {@code GET /users} : get all users.
-	 *
-	 * @param pageable the pagination information.
-	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-	 *     body all users.
-	 */
-	@GetMapping("/users")
-	public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
-		final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
-				ServletUriComponentsBuilder.fromCurrentRequest(), page);
-		return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
-	}
+  /**
+   * {@code GET /users} : get all users.
+   *
+   * @param pageable the pagination information.
+   * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+   *     body all users.
+   */
+  @GetMapping("/users")
+  public ResponseEntity<List<UserDTO>> getAllUsers(Pageable pageable) {
+    final Page<UserDTO> page = userService.getAllManagedUsers(pageable);
+    HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(
+        ServletUriComponentsBuilder.fromCurrentRequest(), page);
+    return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+  }
 
-	/**
-	 * Gets a list of all roles.
-	 * @return a string list of all roles.
-	 */
-	@GetMapping("/users/authorities")
-	@PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
-	public List<String> getAuthorities() {
-		return userService.getAuthorities();
-	}
+  /**
+   * Gets a list of all roles.
+   * @return a string list of all roles.
+   */
+  @GetMapping("/users/authorities")
+  @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
+  public List<String> getAuthorities() {
+    return userService.getAuthorities();
+  }
 
-	/**
-	 * {@code GET /users/:login} : get the "login" user.
-	 *
-	 * @param login the login of the user to find.
-	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
-	 *     body the "login" user, or with status {@code 404 (Not Found)}.
-	 */
-	@GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
-	public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
-		log.debug("REST request to get User : {}", login);
-		return ResponseUtil.wrapOrNotFound(
-				userService.getUserWithAuthoritiesByLogin(login).map(UserDTO::new));
-	}
+  /**
+   * {@code GET /users/:login} : get the "login" user.
+   *
+   * @param login the login of the user to find.
+   * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with
+   *     body the "login" user, or with status {@code 404 (Not Found)}.
+   */
+  @GetMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
+  public ResponseEntity<UserDTO> getUser(@PathVariable String login) {
+    log.debug("REST request to get User : {}", login);
+    return ResponseUtil.wrapOrNotFound(
+        userService.getUserWithAuthoritiesByLogin(login).map(UserDTO::new));
+  }
 
-	/**
-	 * {@code SEARCH /_search/users/:query} : search for the User corresponding to
-	 * the query.
-	 *
-	 * @param query the query to search.
-	 * @return the result of the search.
-	 */
-	@GetMapping("/_search/users/{query}")
-	public List<User> search(@PathVariable String query) {
-		return StreamSupport
-				.stream(
-						userSearchRepository.search(queryStringQuery(query)).spliterator(),
-						false)
-				.collect(Collectors.toList());
-	}
+  /**
+   * {@code SEARCH /_search/users/:query} : search for the User corresponding to
+   * the query.
+   *
+   * @param query the query to search.
+   * @return the result of the search.
+   */
+  @GetMapping("/_search/users/{query}")
+  public List<User> search(@PathVariable String query) {
+    return StreamSupport
+        .stream(
+            userSearchRepository.search(queryStringQuery(query)).spliterator(),
+            false)
+        .collect(Collectors.toList());
+  }
 }

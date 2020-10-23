@@ -16,79 +16,78 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 Document(indexName = "funding")
 public class Funding extends AbstractAuditingEntity {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+  @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
 
-    @Column(name = "amount", precision = 21, scale = 2) private BigDecimal amount;
+  @Column(name = "amount", precision = 21, scale = 2) private BigDecimal amount;
 
-    @Column(name = "mode") private String mode;
+  @Column(name = "mode") private String mode;
 
-    @Column(name = "payment_auth") private Boolean paymentAuth;
+  @Column(name = "payment_auth") private Boolean paymentAuth;
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here
-    public Long getId() { return id; }
+  // jhipster-needle-entity-add-field - JHipster will add fields here
+  public Long getId() { return id; }
 
-    public void setId(Long id) { this.id = id; }
+  public void setId(Long id) { this.id = id; }
 
-    public BigDecimal getAmount() { return amount; }
+  public BigDecimal getAmount() { return amount; }
 
-    public Funding amount(BigDecimal amount) {
-        this.amount = amount;
-        return this;
-    }
+  public Funding amount(BigDecimal amount) {
+    this.amount = amount;
+    return this;
+  }
 
-    public void setAmount(BigDecimal amount) { this.amount = amount; }
+  public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public String getMode() { return mode; }
+  public String getMode() { return mode; }
 
-    public Funding mode(String mode) {
-        this.mode = mode;
-        return this;
-    }
+  public Funding mode(String mode) {
+    this.mode = mode;
+    return this;
+  }
 
-    public void setMode(String mode) { this.mode = mode; }
+  public void setMode(String mode) { this.mode = mode; }
 
-    public Boolean isPaymentAuth() { return paymentAuth; }
+  public Boolean isPaymentAuth() { return paymentAuth; }
 
-    public Funding paymentAuth(Boolean paymentAuth) {
-        this.paymentAuth = paymentAuth;
-        return this;
-    }
-
-    public void setPaymentAuth(Boolean paymentAuth) {
+  public Funding paymentAuth(Boolean paymentAuth) {
     this.paymentAuth = paymentAuth;
+    return this;
+  }
+
+  public void setPaymentAuth(Boolean paymentAuth) {
+    this.paymentAuth = paymentAuth;
+  }
+
+  public Boolean getPaymentAuth() { return this.paymentAuth; }
+
+  // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
+  // setters here
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
     }
-
-    public Boolean getPaymentAuth() { return this.paymentAuth; }
-
-    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
-    // setters here
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (!(o instanceof Funding)) {
-            return false;
-        }
-        return id != null && id.equals(((Funding)o).id);
+    if (!(o instanceof Funding)) {
+      return false;
     }
+    return id != null && id.equals(((Funding)o).id);
+  }
 
-    @Override
-    public int hashCode() {
+  @Override
+  public int hashCode() {
     return 31;
-    }
+  }
 
-    // prettier-ignore
-    @Override
-    public String toString() {
-        return "Funding{"
-            + "id=" + getId()
-            + ", amount=" + getAmount()
-            + ", mode='" + getMode() + "'"
-            + ", paymentAuth='" + isPaymentAuth() + "'"
-            + "}";
-    }
+  // prettier-ignore
+  @Override
+  public String toString() {
+    return "Funding{"
+        + "id=" + getId() + ", amount=" + getAmount() + ", mode='" + getMode() +
+        "'"
+        + ", paymentAuth='" + isPaymentAuth() + "'"
+        + "}";
+  }
 }
