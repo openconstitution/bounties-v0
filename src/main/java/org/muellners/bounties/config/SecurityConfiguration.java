@@ -90,6 +90,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers("/api/auth-info")
         .permitAll()
+
+        .antMatchers("/api/bounties")
+        .permitAll()
+        .antMatchers("/api/bounties/{id}")
+        .permitAll()
+
+        .antMatchers("/api/profile")
+        .permitAll()
+        .antMatchers("/api/profile/{id}")
+        .permitAll()
+
         .antMatchers("/api/**")
         .authenticated()
         .antMatchers("/websocket/tracker")
