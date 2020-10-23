@@ -126,8 +126,6 @@ public class CacheConfiguration {
                   jcacheConfiguration);
       createCache(cm, org.muellners.bounties.domain.Funding.class.getName(),
                   jcacheConfiguration);
-      createCache(cm, org.muellners.bounties.domain.Issue.class.getName(),
-                  jcacheConfiguration);
       createCache(cm, org.muellners.bounties.domain.Profile.class.getName(),
                   jcacheConfiguration);
       // jhipster-needle-redis-add-entry
