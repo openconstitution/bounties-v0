@@ -17,34 +17,34 @@ import reactor.core.publisher.Flux;
 @Configuration
 public class JiraListener {
 
-  @Autowired private Environment environment;
+	@Autowired private Environment environment;
 
-  @SuppressWarnings("unused")
-  private static final Logger log = LoggerFactory.getLogger(BountiesApp.class);
+	@SuppressWarnings("unused")
+	private static final Logger log = LoggerFactory.getLogger(BountiesApp.class);
 
-  @Bean
-  WebClient getWebClient() {
-    return WebClient.create(getClientAddress());
-  }
+	@Bean
+	WebClient getWebClient() {
+		return WebClient.create(getClientAddress());
+	}
 
-  @Bean
-  CommandLineRunner listen(WebClient web) {
-    return args -> {
-      web.get()
-          .uri(getUri())
-          .accept(MediaType.TEXT_EVENT_STREAM)
-          .retrieve()
-          .bodyToFlux(String.class)
-          .map(s -> String.valueOf(s))
-          .subscribe(msg -> { log.debug(msg); });
-    };
-  }
+	@Bean
+	CommandLineRunner listen(WebClient web) {
+		return args -> {
+			web.get()
+					.uri(getUri())
+					.accept(MediaType.TEXT_EVENT_STREAM)
+					.retrieve()
+					.bodyToFlux(String.class)
+					.map(s -> String.valueOf(s))
+					.subscribe(msg -> { log.debug(msg); });
+		};
+	}
 
-  private String getClientAddress() {
-    return environment.getProperty("application.listeners.url");
-  }
+	private String getClientAddress() {
+		return environment.getProperty("application.listeners.url");
+	}
 
-  private String getUri() {
-    return environment.getProperty("application.listeners.path");
-  }
+	private String getUri() {
+		return environment.getProperty("application.listeners.path");
+	}
 }
