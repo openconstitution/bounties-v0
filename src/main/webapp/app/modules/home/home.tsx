@@ -38,6 +38,7 @@ export const Home = (props: IHomeProp) => {
           <h2>
             Grow OpenSource - Bounties Platform!
           </h2>
+          <p>{getLoginUrl()}</p>
           <p className="lead">Social Network for developers</p>
           <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugit quam eligendi beatae. Nam beatae deleniti, est, iusto aperiam temporibus sequi eligendi error maxime quam, neque labore architecto officiis a dolorem!</p>
           <br/>
