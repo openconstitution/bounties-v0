@@ -12,7 +12,6 @@ import { isRTL } from 'app/config/translation';
 
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
-import { SearchItem } from '../menus';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -55,7 +54,6 @@ const Header12 = (props: IHeaderProps) => {
       <Navbar dark expand="sm" fixed="top" className="bg-dark">
         <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
         <Brand />
-        <SearchItem />
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />

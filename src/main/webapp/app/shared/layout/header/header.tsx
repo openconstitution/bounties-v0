@@ -2,12 +2,9 @@
 
 import React from 'react';
 import LoadingBar from 'react-redux-loading-bar';
-import { Translate, Storage } from 'react-jhipster';
-import appConfig from 'app/config/constants';
-import { AccountMenu } from '../menus';
-import { Dropdown, Menu, Container, Image, Input, Segment, Button, Label, Icon } from 'semantic-ui-react';
-import { getLoginUrl, getRegistrationUrl } from 'app/shared/util/url-utils';
+import { Dropdown, Menu, Container, Image, Input, Button, Label } from 'semantic-ui-react';
 import { NavLink as Link } from 'react-router-dom';
+import { getLoginUrl } from 'app/shared/util/url-utils';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -28,32 +25,30 @@ const Header = (props: IHeaderProps) => {
 
   const renderDevRibbon = () =>
     props.isInProduction === false ? (
-      <Label as='a' color='blue' ribbon>
-        Community
-      </Label>
+      <div className="ribbon dev">
+        <a href="">Development</a>
+      </div>
     ) : null;
 
   return (
     <div style={{ backgroundColor: 'black' }}>
+      <LoadingBar className="loading-bar" />
       <Menu size='large' borderless inverted stackable>
         <Container>
-          <Menu.Item as='a' header>
+          <Menu.Item as={Link} to='/' header>
             <Image size='mini' src='content/images/logo-jhipster.png' style={{ marginRight: '1.5em' }} circular/>
             Bounties
           </Menu.Item>
-          <Menu.Item as='a'>Work</Menu.Item>
-          <Menu.Item as='a'>Company</Menu.Item>
-          <Menu.Item as='a'>Careers</Menu.Item>
+          <Menu.Item position={props.isAdmin ? 'left' : 'right'}>
+            <Input
+              inverted
+              transparent
+              icon={{ name: 'search', link: true }}
+              placeholder='Search bounties...'
+            />
+          </Menu.Item>
 
           <Menu.Menu position='right'>
-            <Menu.Item>
-              <Input
-                inverted
-                transparent
-                icon={{ name: 'search', link: true }}
-                placeholder='Search bounties...'
-              />
-            </Menu.Item>
             {props.isAdmin && (
               <Dropdown item text='Administration'>
                 <Dropdown.Menu>
@@ -68,25 +63,23 @@ const Header = (props: IHeaderProps) => {
               </Dropdown>
 
             )}
-            <Menu.Item>
-              {props.isAuthenticated ? (
-                  <Button negative as={Link} to='/logout'>
-                    Sign Out
-                  </Button>
-                ) : (
-                  <Button as='a' href={getLoginUrl()}>
-                    Sign In
-                  </Button>
-                )
-              }
-            </Menu.Item>
-            <Dropdown item trigger={trigger}>
-              <Dropdown.Menu>
-                <Dropdown.Item>Notifications (Beta)</Dropdown.Item>
-                <Dropdown.Item>Settings</Dropdown.Item>
-                <Dropdown.Item>Sign Out</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+
+            {props.isAuthenticated ? (
+              <Dropdown item trigger={trigger}>
+                <Dropdown.Menu>
+                  <Dropdown.Item>Notifications (Beta)</Dropdown.Item>
+                  <Dropdown.Item>Settings</Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Menu.Item>
+                <Button as='a' href='/oauth2/authorization/oidc'>
+                  Sign In
+                </Button>
+              </Menu.Item>
+            )}
+            
           </Menu.Menu>
         </Container>
       </Menu>
