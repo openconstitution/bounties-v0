@@ -1,28 +1,85 @@
 import './bounty.scss';
 
 import React, { useState, useEffect } from 'react';
+import InfiniteScroll from 'react-infinite-scroller';
 import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './bounty.reducer';
+import { getSearchEntities, getEntitiesPerPage as getEntities, reset } from './bounty.reducer';
 import { IBounty } from 'app/shared/model/bounty.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List, Divider, Button, Popup, Rating } from 'semantic-ui-react';
+import { Segment, Grid, Header, Search, Table, Container, Input, Menu, Icon, Loader, Message, List, Divider, Button, Popup, Rating, Pagination } from 'semantic-ui-react';
 import _ from 'lodash';
-import { TextFormat } from 'react-jhipster';
+import { TextFormat, getSortState, JhiItemCount, JhiPagination } from 'react-jhipster';
 import { capitalizeFirst } from 'app/shared/util/string-utils';
+import { Experience } from 'app/shared/model/enumerations/experience.model';
+import { Category } from 'app/shared/model/enumerations/category.model';
+import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 
 export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Bounty = (props: IBountyProps) => {
-
-  const [pageSize, setPageSize] = useState(100);
+  
 	const [search, setSearch] = useState('');
   const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+  const [paginationState, setPaginationState] = useState(
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
+  );
+  const [bountyActivePage, setBountyActivePage] = useState(paginationState.activePage);
+
+  const getAllEntities = () => {
+    props.getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+  };
+
+  const sortEntities = () => {
+    getAllEntities();
+    const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
+    if (props.location.search !== endURL) {
+      props.history.push(`${props.location.pathname}${endURL}`);
+    }
+  };
 
   useEffect(() => {
-    props.getEntities();
-  }, []);
+    sortEntities();
+  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
+
+  useEffect(() => {
+    const params = new URLSearchParams(props.location.search);
+    const page = params.get('page');
+    const sort = params.get('sort');
+    if (page && sort) {
+      const sortSplit = sort.split(',');
+      setPaginationState({
+        ...paginationState,
+        activePage: +page,
+        sort: sortSplit[0],
+        order: sortSplit[1],
+      });
+    }
+  }, [props.location.search]);
+
+  const sort = p => () => {
+    setPaginationState({
+      ...paginationState,
+      order: paginationState.order === 'asc' ? 'desc' : 'asc',
+      sort: p,
+    });
+  };
+
+  const handlePagination = (event, { activePage }) => {
+    setBountyActivePage(activePage);
+    setPaginationState({
+      ...paginationState,
+      activePage
+    });
+  }
+
+
+
+  // useEffect(() => {
+  //   props.getEntities();
+  // }, []);
 
 
   const startSearching = (event) => {
@@ -47,55 +104,39 @@ export const Bounty = (props: IBountyProps) => {
 
   const handleSearch = event => setSearch(event.target.value);
 
-  const tableFooter = (list) => {
-    const numPages = list.length / pageSize
-    const footNumbers = [];
-
-    for (let i = 1; i <= numPages; i++) {
-      footNumbers.push(<Menu.Item as='a'>{i}</Menu.Item>)
+  const getDifficulty = (experience: Experience) => {
+    if (experience === Experience.ADVANCED) {
+      return 3
+    } else if (experience === Experience.INTERMEDIATE) {
+      return 2
+    } else if (experience === Experience.BEGINNER) {
+      return 1
+    } else {
+      return 0
     }
-
-    return (
-      <Table.Body>
-        <Table.Footer>
-          <Table.Row>
-            <Table.HeaderCell colSpan='3'>
-              <Menu floated='right' pagination>
-                <Menu.Item as='a' icon>
-                  <Icon name='chevron left' />
-                </Menu.Item>
-                {footNumbers}
-                <Menu.Item as='a' icon>
-                  <Icon name='chevron right' />
-                </Menu.Item>
-              </Menu>
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Footer>
-      </Table.Body>
-    )
   }
 
-  const dispBountyList = (list) => {
+  const tableFooter = () => {
     return (
-      list.map((bounty, i) => (
-        <>
-          <Table.Row>
-            <Table.Cell>
-              <Header as='h4' image>
-                <Header.Content>
-                  {bounty.summary}
-                  <Header.Subheader>Created by {bounty.createdBy} on {bounty.createdDate}</Header.Subheader>
-                </Header.Content>
-              </Header>
-            </Table.Cell>
-            <Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
-            <Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
-            <Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
-            <Table.Cell>{new Date(bounty.expires).toLocaleDateString('en-GB', options)}</Table.Cell>
-          </Table.Row>
-        </>
-      ))
+      <Table.Footer fullWidth>
+        <Table.Row>
+          <Table.HeaderCell textAlign='center' colSpan='5'>
+            <Pagination
+              size='mini'
+              boundaryRange={0}
+              activePage={bountyActivePage}
+              ellipsisItem={null}
+              firstItem={null}
+              lastItem={null}
+              siblingRange={1}
+              onPageChange={handlePagination}
+              totalPages={Math.round(props.totalItems / paginationState.itemsPerPage)}
+            />
+            <br/>
+            <JhiItemCount page={paginationState.activePage} total={props.totalItems} itemsPerPage={paginationState.itemsPerPage} />
+          </Table.HeaderCell>
+        </Table.Row>
+      </Table.Footer>
     )
   }
 
@@ -104,27 +145,34 @@ export const Bounty = (props: IBountyProps) => {
       list.map((bounty, i) => (
         <>
           <Popup
+            wide='very'
+            position='top center'
+            mouseEnterDelay={500}
+            mouseLeaveDelay={500}
             trigger={
               <Table.Row>
                 <Table.Cell>
-                  <Header as='h4' image>
-                    <Header.Content>
-                      {bounty.summary}
-                      <Header.Subheader>Created by {bounty.createdBy} on {bounty.createdDate}</Header.Subheader>
-                    </Header.Content>
-                  </Header>
+                  <a href={`/bounty/${bounty.id}`}>
+                    <Header as='h4'>
+                      <Header.Content>
+                        #BOUNTY-{bounty.id} - {bounty.summary}
+                        <Header.Subheader>Created by {bounty.createdBy} {bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}</Header.Subheader>
+                      </Header.Content>
+                    </Header>
+                  </a>
                 </Table.Cell>
                 <Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
                 <Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
                 <Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
-                <Table.Cell>{new Date(bounty.expires).toLocaleDateString('en-GB', options)}</Table.Cell>
+                <Table.Cell>{new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}</Table.Cell>
               </Table.Row>
             }
           >
-            <Popup.Header>Dificulty</Popup.Header>
-            <Popup.Content>
-              <Rating icon='star' defaultRating={3} maxRating={3} />
-            </Popup.Content>
+            <Header as='h3' content={bounty.summary} />
+            <p>{bounty.description !== null ? <i>No description available</i> : bounty.description}</p>
+            <span><small>Difficulty: <Rating icon='star' rating={getDifficulty(bounty.experience)} maxRating={3} /></small></span>
+            <br/>
+            <span><small>Category: {bounty.category === Category.FRONT_END && 'Front End' || bounty.category === Category.BACKEND && 'Backend' || bounty.category === Category.THIS && 'This'}</small></span>
           </Popup>
         </>
       ))
@@ -140,7 +188,7 @@ export const Bounty = (props: IBountyProps) => {
           <Divider vertical>Or</Divider>
 
           <Grid.Row verticalAlign='middle'>
-            <Grid.Column>
+            <Grid.Column textAlign='center'>
               <Input
                 action={{ color: 'teal', content: 'Search' }}
                 icon='search'
@@ -151,7 +199,7 @@ export const Bounty = (props: IBountyProps) => {
                 value={search}
               />
             </Grid.Column>
-            <Grid.Column>
+            <Grid.Column textAlign='center'>
               <Link to={`${match.url}/new`}>
                 <Button
                   color='teal'
@@ -165,6 +213,7 @@ export const Bounty = (props: IBountyProps) => {
         </Grid>
       </Segment>
       <Segment padded basic>
+        
         <Table selectable={bountyList.length > 0}>
           <Table.Header>
             <Table.Row>
@@ -178,8 +227,8 @@ export const Bounty = (props: IBountyProps) => {
 
           {bountyList && bountyList.length > 0 ? (
           <>
-            {dispBountyList(bountyList)}
-            {bountyList.length > pageSize && tableFooter(bountyList)}
+            {dispBountyListAlt(bountyList)}
+            {tableFooter()}
           </>
           ) : (
             !loading && (
@@ -198,6 +247,7 @@ export const Bounty = (props: IBountyProps) => {
           )}
 
         </Table>
+      
       </Segment>
 		</Segment>
   );
@@ -206,11 +256,15 @@ export const Bounty = (props: IBountyProps) => {
 const mapStateToProps = ({ bounty }: IRootState) => ({
   bountyList: bounty.entities,
   loading: bounty.loading,
+  links: bounty.links,
+  totalItems: bounty.totalItems,
+  updateSuccess: bounty.updateSuccess,
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getEntities,
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

@@ -1,18 +1,19 @@
 package org.muellners.bounties.service;
 
+import org.muellners.bounties.config.JiraListener;
 import org.muellners.bounties.domain.Bounty;
-import org.muellners.bounties.domain.Issue;
+import org.muellners.bounties.domain.enumeration.Status;
 import org.muellners.bounties.repository.BountyRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.BountyDTO;
-import org.muellners.bounties.service.dto.IssueDTO;
 import org.muellners.bounties.service.mapper.BountyMapper;
-import org.muellners.bounties.service.mapper.IssueMapper;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,25 +34,21 @@ public class BountyService {
 
     private final Logger log = LoggerFactory.getLogger(BountyService.class);
 
+    private final JiraListener jiraListener;
+
     private final BountyRepository bountyRepository;
 
     private final BountySearchRepository bountySearchRepository;
 
-    private final IssueHelper issueHelper;
-
     @Autowired
     private final BountyMapper bountyMapper;
 
-    @Autowired
-    private final IssueMapper issueMapper;
-
     public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository,
-                        IssueHelper issueHelper, IssueMapper issueMapper, BountyMapper bountyMapper) {
+                         BountyMapper bountyMapper, JiraListener jiraListener) {
         this.bountyRepository = bountyRepository;
         this.bountySearchRepository = bountySearchRepository;
-        this.issueHelper = issueHelper;
         this.bountyMapper = bountyMapper;
-        this.issueMapper = issueMapper;
+        this.jiraListener = jiraListener;
     }
 
     /**
@@ -66,12 +63,13 @@ public class BountyService {
         final Bounty bounty = bountyMapper.bountyDTOToBounty(bountyDTO);
         
         if (bounty.getId() == null){
-            final Issue issue = issueMapper.issueDTOToIssue(issueHelper.createIssue(bountyDTO.getUrl()));
-            bounty.setIssue(issue);
+//             jiraListener.listen(bounty.issueUrl());
+            bounty.setStatus(Status.OPEN);
         } else {
             //
         }
 
+        log.debug("Updated Bounty : {}", bounty);
         Bounty result = bountyRepository.save(bounty);
         bountySearchRepository.save(result);
         return bountyMapper.bountyToBountyDTO(result);
@@ -93,6 +91,17 @@ public class BountyService {
         log.debug("Request to get all Bounty");
         return bountyMapper.bountiesToBountyDTOs(bountyRepository.findAll());
     }
+
+	/**
+	 * Get all the bounty per page.
+	 *
+	 * @return the list of entities.
+	 */
+	@Transactional(readOnly = true)
+	public Page<BountyDTO> findAll(Pageable pageable) {
+		log.debug("Request to get all Bounty");
+		return bountyRepository.findAll(pageable).map(bountyMapper::bountyToBountyDTO);
+	}
 
     /**
      * Get one bounty by id.
