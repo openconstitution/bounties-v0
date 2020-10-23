@@ -341,7 +341,7 @@ export const Bounty = (props: IBountyProps) => {
             </Grid.Column>
           </Grid.Row>
         </Grid>
-      </Segment> */}
+      </Segment>
       <Row>
         <Col sm="12">
           <AvForm onSubmit={startSearching}>
@@ -413,9 +413,9 @@ export const Bounty = (props: IBountyProps) => {
               {bountyList.map((bounty, i) => (
                 <tr key={`entity-${i}`}>
                   <td>
-                    {/* <Button tag={Link} to={`${match.url}/${bounty.id}`} color="link" size="sm">
+                     */}{/* <Button tag={Link} to={`${match.url}/${bounty.id}`} color="link" size="sm">
                       {bounty.id}
-                    </Button> */}
+                    </Button>
                   </td>
                   <td>
                     {bounty.status}
@@ -438,7 +438,7 @@ export const Bounty = (props: IBountyProps) => {
                   <td>{bounty.issue ? <Link to={`issue/${bounty.issue.id}`}>{bounty.issue.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      {/* <Button tag={Link} to={`${match.url}/${bounty.id}`} color="info" size="sm">
+                       */}{/* <Button tag={Link} to={`${match.url}/${bounty.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" />{' '}
                         <span className="d-none d-md-inline">
                           View
@@ -455,7 +455,7 @@ export const Bounty = (props: IBountyProps) => {
                         <span className="d-none d-md-inline">
                           Delete
                         </span>
-                      </Button> */}
+                      </Button>
                     </div>
                   </td>
                 </tr>
@@ -469,7 +469,7 @@ export const Bounty = (props: IBountyProps) => {
             </div>
           )
         )}
-      </div>
+      </div> */}
     </div>
   );
 };
