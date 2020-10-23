@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { IIssue } from 'app/shared/model/issue.model';
 import { IFunding } from 'app/shared/model/funding.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
@@ -11,7 +10,7 @@ export interface IBounty {
   summary?: string;
   description?: string;
   status?: Status;
-  url?: string;
+  issueUrl?: string;
   amount?: number;
   experience?: Experience;
   commitment?: number;
@@ -19,12 +18,33 @@ export interface IBounty {
   category?: Category;
   keywords?: string;
   permission?: boolean;
-  expires?: string;
-  issue?: IIssue;
+  expiryDate?: Date;
   fundings?: IFunding[];
   createdBy?: string;
   createdDate?: Date;
 }
+
+export const categoryOptions = [
+  { label: 'Frontend', value: Category.FRONT_END },
+  { label: 'Backend', value: Category.BACKEND },
+  { label: 'This', value: Category.THIS }
+];
+export const typeOptions = [
+  { label: 'Bug', value: Type.BUG },
+  { label: 'Feature', value: Type.FEATURE },
+  { label: 'Improvement', value: Type.IMPROVEMENT },
+  { label: 'Ex', value: Type.EX }
+];
+export const experienceOptions = [
+  { label: 'Beginner', value: Experience.BEGINNER },
+  { label: 'Intermediate', value: Experience.INTERMEDIATE },
+  { label: 'Experience', value: Experience.ADVANCED }
+];
+export const modeOptions = [
+  { label: 'Mode A', value: 'Mode A' },
+  { label: 'Mode B', value: 'Mode B' },
+  { label: 'Mode C', value: 'Mode C' }
+];
 
 export const defaultValue: Readonly<IBounty> = {
   permission: false,
