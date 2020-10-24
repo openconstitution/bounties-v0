@@ -76,12 +76,6 @@ export const Bounty = (props: IBountyProps) => {
   }
 
 
-
-  // useEffect(() => {
-  //   props.getEntities();
-  // }, []);
-
-
   const startSearching = (event) => {
     const key = event.keyCode || event.which;
     if (key === 13){
@@ -93,6 +87,7 @@ export const Bounty = (props: IBountyProps) => {
 
   const startSearchingButton = (event) => {
     if (search) {
+      alert(search);
       props.getSearchEntities(search);
     }
   };
@@ -132,7 +127,7 @@ export const Bounty = (props: IBountyProps) => {
               onPageChange={handlePagination}
               totalPages={Math.round(props.totalItems / paginationState.itemsPerPage)}
             />
-            <br/>
+            <br/><br/>
             <JhiItemCount page={paginationState.activePage} total={props.totalItems} itemsPerPage={paginationState.itemsPerPage} />
           </Table.HeaderCell>
         </Table.Row>
@@ -155,7 +150,7 @@ export const Bounty = (props: IBountyProps) => {
                   <a href={`/bounty/${bounty.id}`}>
                     <Header as='h4'>
                       <Header.Content>
-                        #BOUNTY-{bounty.id} - {bounty.summary}
+                        #{bounty.id} - {bounty.summary}
                         <Header.Subheader>Created by {bounty.createdBy} {bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}</Header.Subheader>
                       </Header.Content>
                     </Header>
@@ -190,7 +185,7 @@ export const Bounty = (props: IBountyProps) => {
           <Grid.Row verticalAlign='middle'>
             <Grid.Column textAlign='center'>
               <Input
-                action={{ color: 'teal', content: 'Search' }}
+                action={<Button color='teal' content='search' onClick={startSearchingButton} />}
                 icon='search'
                 iconPosition='left'
                 placeholder='Search bounties...'
