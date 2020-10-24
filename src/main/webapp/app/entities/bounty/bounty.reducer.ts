@@ -123,7 +123,7 @@ export const getSearchEntities: ICrudSearchAction<IBounty> = (query, page, size,
 
 export const getEntities: ICrudGetAllAction<IBounty> = (page, size, sort) => ({
   type: ACTION_TYPES.FETCH_BOUNTY_LIST,
-  payload: axios.get<IBounty>(`${apiUrl}?cacheBuster=${new Date().getTime()}`),
+  payload: axios.get<IBounty>(`${apiUrl}/all?cacheBuster=${new Date().getTime()}`),
 });
 
 export const getEntitiesPerPage: ICrudGetAllAction<IBounty> = (page, size, sort) => {

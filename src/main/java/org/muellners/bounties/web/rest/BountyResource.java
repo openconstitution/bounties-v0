@@ -121,18 +121,18 @@ public class BountyResource {
                 HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, bountyDTO.getId().toString()))
                 .body(result);
     }
-//
-//    /**
-//     * {@code GET  /bounties} : get all the bounties.
-//     *
-//     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-//     *         of bounties in body.
-//     */
-//    @GetMapping("/bounties")
-//    public ResponseEntity<List<BountyDTO>> getAllBounties() {
-//        log.debug("REST request to get all Bounties");
-//        return ResponseEntity.ok().body(bountyService.findAll());
-//    }
+
+    /**
+     * {@code GET  /bounties/all} : get all the bounties.
+     *
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
+     *         of bounties in body.
+     */
+    @GetMapping("/bounties/all")
+    public ResponseEntity<List<BountyDTO>> getAllBounties() {
+        log.debug("REST request to get all Bounties");
+        return ResponseEntity.ok().body(bountyService.findAll());
+    }
 
 	/**
 	 * {@code GET  /bounties} : get all the bounties per page.
@@ -141,7 +141,7 @@ public class BountyResource {
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
 	 */
 	@GetMapping("/bounties")
-	public ResponseEntity<List<BountyDTO>> getAllBounties(Pageable pageable) {
+	public ResponseEntity<List<BountyDTO>> getAllBountiesPageable(Pageable pageable) {
 		log.debug("REST request to get a page of Bounty");
 		Page<BountyDTO> page = bountyService.findAll(pageable);
 		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);

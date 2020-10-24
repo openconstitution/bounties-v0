@@ -18,7 +18,6 @@ export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComp
 export const BountyDetail = (props: IBountyDetailProps) => {
   const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
   const [activeItem, setActiveItem] = useState(props.match.params.id);
-  const [bountyListMenu, setBountyListMenu] = useState([]);
 
   const { bountyEntity, bountyList, loading } = props;
   
@@ -33,15 +32,16 @@ export const BountyDetail = (props: IBountyDetailProps) => {
     props.getEntities();
   }, []);
 
-  useEffect(() => {
-    const myIndex = bountyList.indexOf(bountyList.map((bounty, i) => {
-        if (bounty.id === props.match.params.id) {
-          return bounty;
-        }
-      })
-    )
-    setBountyListMenu(bountyList.slice(myIndex-5, myIndex+5));
-  }, []);
+  const bountySlice = () => {
+    let myBounty
+    bountyList.forEach(bounty => {
+      if (bounty.id.toString() === props.match.params.id) {
+        myBounty = bounty;
+      }
+    })
+    const myIndex = bountyList.indexOf(myBounty);
+    return bountyList.slice(myIndex-5, myIndex+5);
+  }
 
   const getDifficulty = (experience: Experience) => {
     if (experience === Experience.ADVANCED) {
@@ -63,23 +63,21 @@ export const BountyDetail = (props: IBountyDetailProps) => {
             <Grid.Row>
               <Grid.Column fluid width={4}>
                 <Menu vertical>
-                  {_.isEmpty(bountyListMenu) ? (
+                  {_.isEmpty(bountySlice()) ? (
                     !loading && (
-                      <Menu.Item
-                        onClick={handleItemClick}
-                      >
+                      <Menu.Item>
                         <i>No Bounties found</i>
                       </Menu.Item>
                     )                    
                   ) : (
-                    bountyListMenu.map((bounty, index) => {
+                    bountySlice().map((bounty, index) => {
                       return (
                         <>
                           <Menu.Item
                             id={bounty.id?.toString()}
                             name={bounty.summary}
                             active={activeItem === bounty.id?.toString()}
-                            onClick={handleItemClick}
+                            as='a' href={`/bounty/${bounty.id}`}
                           >
                             <Header as='h3'>
                               <Header.Content>
@@ -95,7 +93,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                   <Menu.Item>
                     <Input icon='search' placeholder='Search mail...' />
                   </Menu.Item>
-                </Menu>
+                  </Menu>
               </Grid.Column>
 
               <Grid.Column width={12}>
