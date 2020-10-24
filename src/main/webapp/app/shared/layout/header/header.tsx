@@ -31,21 +31,12 @@ const Header = (props: IHeaderProps) => {
     ) : null;
 
   return (
-    <div style={{ backgroundColor: 'black' }}>
-      <LoadingBar className="loading-bar" />
-      <Menu size='large' borderless inverted stackable>
+    <div>
+      <Menu size='large' borderless inverted stackable fixed='top'>
         <Container>
           <Menu.Item as={Link} to='/' header>
             <Image size='mini' src='content/images/logo-jhipster.png' style={{ marginRight: '1.5em' }} circular/>
             Bounties
-          </Menu.Item>
-          <Menu.Item position={props.isAdmin ? 'left' : 'right'}>
-            <Input
-              inverted
-              transparent
-              icon={{ name: 'search', link: true }}
-              placeholder='Search bounties...'
-            />
           </Menu.Item>
 
           <Menu.Menu position='right'>
