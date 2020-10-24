@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, getEntities } from './bounty.reducer';
+import { getEntity, getSearchEntities, getEntities } from './bounty.reducer';
 import { Grid, Segment, Header, Container, Image, Label, Statistic, Rating, List, Button, Menu, Input, Ref, Sticky, Rail, Placeholder, Popup } from 'semantic-ui-react';
 import { createRef } from 'react';
 import _ from 'lodash';
@@ -16,6 +16,7 @@ import { Status } from 'app/shared/model/enumerations/status.model';
 export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
 export const BountyDetail = (props: IBountyDetailProps) => {
+	const [search, setSearch] = useState('');
   const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
   const [activeItem, setActiveItem] = useState(props.match.params.id);
 
@@ -31,6 +32,15 @@ export const BountyDetail = (props: IBountyDetailProps) => {
     props.getEntity(props.match.params.id);
     props.getEntities();
   }, []);
+
+  const startSearching = (event) => {
+    const key = event.keyCode || event.which;
+    if (key === 13){
+      if (search) {
+        props.getSearchEntities(search);
+      }
+    }
+  };
 
   const bountySlice = () => {
     let myBounty
@@ -180,7 +190,13 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                       })
                     )}
                     <Menu.Item>
-                      <Input icon='search' placeholder='Search mail...' />
+                      <Input
+                        icon='search'
+                        placeholder='Search bounties...'
+                        onChange={(e, { value }) => setSearch(value)}
+                        onKeyPress={startSearching}
+                        value={search}
+                      />
                     </Menu.Item>
                   </Menu>
                 </Sticky>
@@ -199,7 +215,11 @@ const mapStateToProps = ({ bounty }: IRootState) => ({
   loading: bounty.loading,
 });
 
-const mapDispatchToProps = { getEntity, getEntities };
+const mapDispatchToProps = {
+  getEntity,
+  getEntities,
+  getSearchEntities,
+};
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
