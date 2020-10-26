@@ -25,27 +25,25 @@ export interface IBounty {
 }
 
 export const categoryOptions = [
-  { label: 'Frontend', value: Category.FRONT_END },
-  { label: 'Backend', value: Category.BACKEND },
-  { label: 'This', value: Category.THIS }
+  { key: 'F', text: 'Frontend', value: Category.FRONT_END },
+  { key: 'B', text: 'Backend', value: Category.BACKEND },
+  { key: 'T', text: 'This', value: Category.THIS }
 ];
 export const typeOptions = [
-  { label: 'Bug', value: Type.BUG },
-  { label: 'Feature', value: Type.FEATURE },
-  { label: 'Improvement', value: Type.IMPROVEMENT },
-  { label: 'Ex', value: Type.EX }
+  { key: 'B', text: 'Bug', value: Type.BUG },
+  { key: 'F', text: 'Feature', value: Type.FEATURE },
+  { key: 'I', text: 'Improvement', value: Type.IMPROVEMENT },
+  { key: 'E', text: 'Ex', value: Type.EX }
 ];
 export const experienceOptions = [
-  { label: 'Beginner', value: Experience.BEGINNER },
-  { label: 'Intermediate', value: Experience.INTERMEDIATE },
-  { label: 'Experience', value: Experience.ADVANCED }
+  { key: 'B', text: 'Beginner', value: Experience.BEGINNER },
+  { key: 'I', text: 'Intermediate', value: Experience.INTERMEDIATE },
+  { key: 'E', text: 'Experience', value: Experience.ADVANCED }
 ];
 export const modeOptions = [
-  { label: 'Mode A', value: 'Mode A' },
-  { label: 'Mode B', value: 'Mode B' },
-  { label: 'Mode C', value: 'Mode C' }
+  { key: 'A', text: 'Mode A', value: 'Mode A' },
+  { key: 'B', text: 'Mode B', value: 'Mode B' },
+  { key: 'C', text: 'Mode C', value: 'Mode C' }
 ];
 
-export const defaultValue: Readonly<IBounty> = {
-  permission: false,
-};
+export const defaultValue: Readonly<IBounty> = {};

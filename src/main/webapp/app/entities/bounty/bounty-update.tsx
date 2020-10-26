@@ -10,8 +10,8 @@ import { getEntity, updateEntity, createEntity, reset } from './bounty.reducer';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
-import Select from "react-select";
-import { Form, Segment, Grid, Input, Loader, Message, Divider, Header } from 'semantic-ui-react'
+// import Select from "react-select";
+import { Form, Segment, Dropdown as Select, Grid, Input, Loader, Message, Divider, Header } from 'semantic-ui-react'
 import _ from 'lodash';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,30 +20,32 @@ import { categoryOptions, experienceOptions, modeOptions, typeOptions } from 'ap
 
 export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
+interface IOpts {text: string, value: Type, message: string}
 interface IBountyFormInput {
   summary: string;
   issueUrl: string;
-  category: {label: string, value: Category, message: string};
-  type: {label: string, value: Type, message: string};
-  experience: {label: string, value: Experience, message: string};
+  category: string;
+  type: string;
+  experience: string;
   expiryDate: Date;
   amount: number;
-  mode: {label: string, value: string, message: string};
+  mode: string;
 }
 
 const bountyFormSchema = yup.object().shape({
   summary: yup.string().required("please enter a summary"),
   issueUrl: yup.string().url("Field must be a url").required("Please enter the issue url"),
-  category: yup.object().required("Please select a category"),
-  type: yup.object().required("Please select a type"),
-  experience: yup.object().required("Please select an experience level"),
+  // category: yup.string().required("Please select a category"),
+  // type: yup.string().required("Please select a type"),
+  // experience: yup.string().required("Please select an experience level"),
   expiryDate: yup.date().min(new Date()).required("Please pick an expiry date"),
-  amount: yup.number().positive().integer().required(),
-  mode: yup.object().required("Please select a mode"),
+  amount: yup.number().positive().required(),
+  // mode: yup.string().required("Please select a mode"),
 });
 
 export const BountyUpdate = (props: IBountyUpdateProps) => {
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [category, setCategory] = useState('');
 
   const { bountyEntity, loading, updating } = props;
 
@@ -70,49 +72,49 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
   });
 
   const onSubmit = (data: IBountyFormInput) => {
-    alert(JSON.stringify(data))
+    // alert(JSON.stringify(data))
     
     if (isNew) {
       const entity = {
         summary: data.summary,
         issueUrl: data.issueUrl,
         expiryDate: data.expiryDate,
-        category: data.category.value,
-        type: data.type.value,
-        experience: data.experience.value,
+        category,
+        type: data.type,
+        experience: data.experience,
         fundings: [
           {
-            mode: data.mode.value,
+            mode: data.mode,
             amount: data.amount,
           }
         ]
       }
       alert("Saving: " + JSON.stringify(entity))
-      props.createEntity(entity);
+      // props.createEntity(entity);
     } else {
       const entity = {
         ...bountyEntity,
         summary: data.summary,
         issueUrl: data.issueUrl,
         expiryDate: data.expiryDate,
-        category: data.category.value,
-        type: data.type.value,
-        experience: data.experience.value,
+        category,
+        type: data.type,
+        experience: data.experience,
         fundings: [
           {
             ...bountyEntity.fundings[0],
-            mode: data.mode.value,
+            mode: data.mode,
             amount: data.amount,
           }
         ]
       }
       alert("Updating: " + JSON.stringify(entity))
-      props.updateEntity(entity);
+      // props.updateEntity(entity);
     }
   };
 
   return (
-    <Segment style={{ padding: '4em 0em' }} vertical>
+    <Segment style={{ padding: '8em 0em' }} vertical>
       {loading ? (
         <Loader active inline='centered' />
       ) : (
@@ -161,7 +163,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       </div>
                     )}
                   </Form.Field>
-                              
+
                   <Form.Field
                     required
                     error={errors.category?.message}>
@@ -169,7 +171,10 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                     <Controller
                       name="category"
                       placeholder="Category"
-                      as={Select}
+                      as={<Select />}
+                      selection
+                      value={category}
+                      onChange={(e, { value }) => setCategory(value)}
                       control={control}
                       options={categoryOptions}
                       defaultValue={bountyEntity.category}
@@ -189,9 +194,10 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       name="type"
                       placeholder="Type"
                       as={Select}
-                      options={typeOptions}
-                      control={control}
+                      selection
                       defaultValue={bountyEntity.type}
+                      control={control}
+                      options={typeOptions}
                     />
                     {errors.type && (
                       <div className={"ui pointing above prompt label"}>
@@ -207,9 +213,10 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       name="experience"
                       placeholder="Experience"
                       as={Select}
+                      selection
+                      defaultValue={bountyEntity.experience}
                       options={experienceOptions}
                       control={control}
-                      defaultValue={bountyEntity.experience}
                     />
                     {errors.experience && (
                       <div className={"ui pointing above prompt label"}>
@@ -250,7 +257,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       name="amount"
                       placeholder="Amount"
                       control={control}
-                      defaultValue={_.isEmpty(bountyEntity) ? bountyEntity.fundings[0].amount : null}
+                      defaultValue={_.isEmpty(bountyEntity.fundings) ? null : bountyEntity.fundings[0].amount}
                     />
                     {errors.amount && (
                       <div className={"ui pointing above prompt label"}>
@@ -266,9 +273,10 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
                       name="mode"
                       placeholder="Mode"
                       as={Select}
+                      selection
                       control={control}
                       options={modeOptions}
-                      defaultValue={_.isEmpty(bountyEntity) ? bountyEntity.fundings[0].mode : null}
+                      defaultValue={_.isEmpty(bountyEntity.fundings) ? null : bountyEntity.fundings[0].mode}
                     />
                     {errors.mode && (
                       <div className={"ui pointing above prompt label"}>
