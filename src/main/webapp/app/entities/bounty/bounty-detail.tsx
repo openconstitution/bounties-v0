@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntity, getSearchEntities, getEntities } from './bounty.reducer';
-import { Grid, Segment, Header, Container, Image, Label, Statistic, Rating, List, Button, Menu, Input, Ref, Sticky, Rail, Placeholder, Popup } from 'semantic-ui-react';
+import Select from "react-select";
+import { getEntity as getFunding, updateEntity as updateFunding, createEntity as createFunding, reset as resetFunding } from 'app/entities/funding/funding.reducer';
+import { addFunds, removeFunds, getEntity, getSearchEntities, getEntities } from './bounty.reducer';
+import { Grid, Segment, Header, Container, Image, Label, Statistic, Rating, List, Button, Menu, Input, Ref, Sticky, Rail, Placeholder, Popup, Modal, Form, Icon, Divider } from 'semantic-ui-react';
 import { createRef } from 'react';
 import _ from 'lodash';
 import Timer from './bounty-timer';
@@ -12,15 +14,31 @@ import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { capitalizeFirst } from 'app/shared/util/string-utils';
 import { Status } from 'app/shared/model/enumerations/status.model';
+import * as yup from "yup";
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Controller, useForm } from 'react-hook-form';
+import { modeOptions } from 'app/shared/model/bounty.model';
 
 export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
+interface IBountyFormInput {
+  amount: number;
+  mode: {label: string, value: string, message: string};
+}
+
+const bountyFormSchema = yup.object().shape({
+  amount: yup.number().positive().integer().required(),
+  mode: yup.object().required("Please select a mode"),
+});
+
 export const BountyDetail = (props: IBountyDetailProps) => {
-	const [search, setSearch] = useState('');
+  const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
+  const [search, setSearch] = useState('');
+  const [open, setOpen] = useState(false);
   const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
   const [activeItem, setActiveItem] = useState(props.match.params.id);
 
-  const { bountyEntity, bountyList, loading } = props;
+  const { bountyEntity, bountyList, loading, isAuthenticated, account } = props;
   
   const contextRef = createRef<HTMLElement>()
 
@@ -51,17 +69,21 @@ export const BountyDetail = (props: IBountyDetailProps) => {
     })
     const myIndex = bountyList.indexOf(myBounty);
 
-    if (bountyList.slice(myIndex-2, myIndex+3).length >= 5) {
-      return bountyList.slice(myIndex-2, myIndex+3);
-    } else if (bountyList.slice(myIndex+2, myIndex-3).length >= 5) {
-      return bountyList.slice(myIndex+2, myIndex-3);
+    if (bountyList.slice(myIndex, myIndex+5).length >= 5) {
+      return bountyList.slice(myIndex, myIndex+5);
     } else if (bountyList.slice(myIndex-4, myIndex+1).length >= 5) {
       return bountyList.slice(myIndex-4, myIndex+1);
-    } else if (bountyList.slice(myIndex, myIndex+5).length >= 5) {
-      return bountyList.slice(myIndex, myIndex+5);
-    } else {
-      return bountyList;
-    }
+    } else
+    
+      if (bountyList.slice(myIndex-2, myIndex+3).length >= 5) {
+        return bountyList.slice(myIndex-2, myIndex+3);
+      } else if (bountyList.slice(myIndex+2, myIndex-3).length >= 5) {
+        return bountyList.slice(myIndex+2, myIndex-3);
+      }
+      
+        else {
+          return bountyList;
+        }
   }
 
   const getDifficulty = (experience: Experience) => {
@@ -75,6 +97,28 @@ export const BountyDetail = (props: IBountyDetailProps) => {
       return 0
     }
   }
+
+  const { control, errors, handleSubmit } = useForm<IBountyFormInput>({
+    resolver: yupResolver(bountyFormSchema)
+  });
+
+  const onSubmit = (data: IBountyFormInput) => {
+    alert(JSON.stringify(data));
+    const entity = {
+      mode: data.mode.value,
+      amount: data.amount,
+    }
+    window.location.reload(false)
+
+    setOpen(false);
+
+    
+    // if (isNew) {
+    //   props.createFunding(entity);
+    // } else {
+    //   props.createFunding(entity);
+    // }
+  };
 
   return (
     <div style={{ padding: '8em 0em 8em 0em' }}>    
@@ -91,11 +135,16 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                     </Header.Subheader>
                   </Header>
 
-                  <Header as='h3'>
+                  <Header as='h2'>
                     Description
                   </Header>
                   <p>{bountyEntity.description !== null ? <i>No description available</i> : bountyEntity.description}</p>
                   <List size='large'>
+                    <List.Item>
+                      <Header as='h3'>
+                        Difficulty: <Rating icon='star' rating={getDifficulty(bountyEntity.experience)} maxRating={3} />
+                      </Header>
+                    </List.Item>
                     <List.Item>Category: {bountyEntity.category === Category.FRONT_END && 'Front End' || bountyEntity.category === Category.BACKEND && 'Backend' || bountyEntity.category === Category.THIS && 'This'}</List.Item>
                     <List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
                     <List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
@@ -119,31 +168,137 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                     || bountyEntity?.status === Status.CLOSED && <Label as='a' color='red' ribbon='right'>Claimed</Label>
                     || bountyEntity?.status === Status.FUNDED && <Label as='a' color='red' ribbon='right'>Funded</Label>
                   }
-                  <Container textAlign='center'>
+                  <Container>
                     <Statistic horizontal>
-                      <Statistic.Value>$250{/* bountyEntity.amount */}</Statistic.Value>
+                      <Statistic.Value>${bountyEntity.amount}</Statistic.Value>
                       <Statistic.Label>Bounty</Statistic.Label>
                     </Statistic>
-                      <Header as='h2'>
-                        Difficulty: <Rating icon='star' rating={getDifficulty(bountyEntity.experience)} maxRating={3} />
-                      </Header>
+
                     <Header as='h2'>Sponsors</Header>
-                    <List size='large'>
+
+                    <List size='large' ordered divided animated verticalAlign='middle' >
                       {bountyEntity.fundings?.map((funding, index) => {
-                        <List.Item key={index}>{`${funding.createdBy}: ${funding.amount}`}</List.Item>
+                        return (
+                          <List.Item key={index}>
+                            {`${funding.createdBy}: $${funding.amount}`}
+                            {isAuthenticated && account.login === bountyEntity.createdBy ? (
+                              <List.Content floated='right'>
+                                <Icon name='edit' color='teal' />
+                                <Icon name='trash' color='red' />
+                              </List.Content>
+                            ) : (
+                              null
+                            )}
+                          </List.Item>
+                        )
                       })}
                     </List>
-                    <Link to={'fund/new'}>
-                      <Button
-                        color='teal'
-                        content='Add funds'
-                        icon='add'
-                        labelPosition='right'
-                      />
-                    </Link>
+                    
+                    <Modal
+                      size={'small'}
+                      open={open}
+                      onOpen={() => setOpen(true)}
+                      onClose={() => setOpen(false)}
+                      trigger={
+                        <Popup
+                          size='small'
+                          position='top center'
+                          content='You need to be signed in to add funds'
+                          disabled={isAuthenticated}
+                          trigger={
+                            <div>
+                              <Button
+                                color='teal'
+                                content='Add funds'
+                                icon='add'
+                                labelPosition='right'
+                                disabled={!isAuthenticated}
+                              />
+                            </div>
+                          }
+                        />
+                      }
+                    >
+                      <Modal.Header>Add Funds</Modal.Header>
+                      <Modal.Content>
+                        <Form onSubmit={handleSubmit(onSubmit)}>
+                          <Segment basic fluid attached>
+                            <Grid>
+                              <Grid.Column width='4'/>
+                              <Grid.Column width='8'>
+                                <Header>Add funds</Header>
+                                <Form.Field
+                                  required
+                                  error={errors.amount?.message}>
+                                  <label>Amount</label>
+                                  <Controller
+                                    as={Input}
+                                    name="amount"
+                                    placeholder="Amount"
+                                    control={control}
+                                    defaultValue={_.isEmpty(bountyEntity) ? bountyEntity.fundings[0].amount : null}
+                                  />
+                                  {errors.amount && (
+                                    <div className={"ui pointing above prompt label"}>
+                                      {errors.amount?.message}
+                                    </div>
+                                  )}
+                                </Form.Field>
+                                <Form.Field
+                                  required
+                                  error={errors.mode?.message}>
+                                  <label>Mode</label>
+                                  <Controller
+                                    name="mode"
+                                    placeholder="Mode"
+                                    as={Select}
+                                    control={control}
+                                    options={modeOptions}
+                                    defaultValue={_.isEmpty(bountyEntity) ? bountyEntity.fundings[0].mode : null}
+                                  />
+                                  {errors.mode && (
+                                    <div className={"ui pointing above prompt label"}>
+                                      {errors.mode?.message}
+                                    </div>
+                                  )}
+                                </Form.Field>
+
+                                <div>
+                                  <Button color='black' onClick={() => setOpen(false)}>
+                                    Cancel
+                                  </Button>
+                                  <Button
+                                    color='teal'
+                                    type="submit"
+                                    disabled={props.fundingUpdating}
+                                  >
+                                    Add funds
+                                  </Button>
+                                </div>
+                              </Grid.Column>
+                              <Grid.Column width='4'/>
+                            </Grid>
+                          </Segment>
+                        </Form>
+                      </Modal.Content>
+                    </Modal>
+
                   </Container>
                 </Grid.Column>
               </Grid>
+              <br/>
+              {isAuthenticated && account.login === bountyEntity.createdBy ? (
+                <div>
+                  <Divider />
+                  <Segment textAlign='center' basic>
+
+                    <Button color='teal'>Edit</Button>
+                    <Button negative>Close</Button>
+                  </Segment>
+                </div>
+              ) : (
+                null
+              )}
 
               <Rail position='left' attached>
                 <Sticky context={contextRef} pushing>
@@ -209,16 +364,27 @@ export const BountyDetail = (props: IBountyDetailProps) => {
   );
 };
 
-const mapStateToProps = ({ bounty }: IRootState) => ({
+const mapStateToProps = ({ authentication, bounty, funding }: IRootState) => ({
   bountyEntity: bounty.entity,
   bountyList: bounty.entities,
   loading: bounty.loading,
+  fundingUpdating: funding.updating,
+  isAuthenticated: authentication.isAuthenticated,
+  account: authentication.account
 });
 
 const mapDispatchToProps = {
   getEntity,
   getEntities,
   getSearchEntities,
+
+  addFunds,
+  removeFunds,
+
+  getFunding,
+  resetFunding,
+  updateFunding,
+  createFunding,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

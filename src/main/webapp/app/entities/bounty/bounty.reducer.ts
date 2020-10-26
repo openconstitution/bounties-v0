@@ -5,6 +5,7 @@ import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IBounty, defaultValue } from 'app/shared/model/bounty.model';
+import { IFunding } from 'app/shared/model/funding.model';
 
 export const ACTION_TYPES = {
   SEARCH_BOUNTIES: 'bounty/SEARCH_BOUNTIES',
@@ -12,8 +13,10 @@ export const ACTION_TYPES = {
   FETCH_BOUNTY_LIST_PER_PAGE: 'bounty/FETCH_BOUNTY_LIST_PER_PAGE',
   FETCH_BOUNTY: 'bounty/FETCH_BOUNTY',
   CREATE_BOUNTY: 'bounty/CREATE_BOUNTY',
+  ADD_FUNDS: 'bounty/ADD_FUNDS',
   UPDATE_BOUNTY: 'bounty/UPDATE_BOUNTY',
   DELETE_BOUNTY: 'bounty/DELETE_BOUNTY',
+  REMOVE_FUNDS: 'bounty/REMOVE_FUNDS',
   RESET: 'bounty/RESET',
 };
 
@@ -45,8 +48,16 @@ export default (state: BountyState = initialState, action): BountyState => {
         loading: true,
       };
     case REQUEST(ACTION_TYPES.CREATE_BOUNTY):
+    case REQUEST(ACTION_TYPES.ADD_FUNDS):
     case REQUEST(ACTION_TYPES.UPDATE_BOUNTY):
     case REQUEST(ACTION_TYPES.DELETE_BOUNTY):
+      return {
+        ...state,
+        errorMessage: null,
+        updateSuccess: false,
+        updating: true,
+      };
+    case REQUEST(ACTION_TYPES.REMOVE_FUNDS):
       return {
         ...state,
         errorMessage: null,
@@ -58,8 +69,17 @@ export default (state: BountyState = initialState, action): BountyState => {
       case FAILURE(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
     case FAILURE(ACTION_TYPES.FETCH_BOUNTY):
     case FAILURE(ACTION_TYPES.CREATE_BOUNTY):
+    case FAILURE(ACTION_TYPES.ADD_FUNDS):
     case FAILURE(ACTION_TYPES.UPDATE_BOUNTY):
     case FAILURE(ACTION_TYPES.DELETE_BOUNTY):
+      return {
+        ...state,
+        loading: false,
+        updating: false,
+        updateSuccess: false,
+        errorMessage: action.payload,
+      };
+    case FAILURE(ACTION_TYPES.REMOVE_FUNDS):
       return {
         ...state,
         loading: false,
@@ -88,6 +108,7 @@ export default (state: BountyState = initialState, action): BountyState => {
         entity: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.CREATE_BOUNTY):
+    case SUCCESS(ACTION_TYPES.ADD_FUNDS):
     case SUCCESS(ACTION_TYPES.UPDATE_BOUNTY):
       return {
         ...state,
@@ -96,6 +117,13 @@ export default (state: BountyState = initialState, action): BountyState => {
         entity: action.payload.data,
       };
     case SUCCESS(ACTION_TYPES.DELETE_BOUNTY):
+      return {
+        ...state,
+        updating: false,
+        updateSuccess: true,
+        entity: {},
+      };
+    case SUCCESS(ACTION_TYPES.REMOVE_FUNDS):
       return {
         ...state,
         updating: false,
@@ -134,7 +162,6 @@ export const getEntitiesPerPage: ICrudGetAllAction<IBounty> = (page, size, sort)
   };
 };
 
-
 export const getEntity: ICrudGetAction<IBounty> = id => {
   const requestUrl = `${apiUrl}/${id}`;
   return {
@@ -147,6 +174,31 @@ export const createEntity: ICrudPutAction<IBounty> = entity => async dispatch =>
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_BOUNTY,
     payload: axios.post(apiUrl, cleanEntity(entity)),
+  });
+  dispatch(getEntities());
+  return result;
+};
+
+interface IBountyFunding {
+  entity: IFunding,
+  id: number
+}
+
+export const addFunds: ICrudPutAction<IBountyFunding> = (bountyFunding: any) => async dispatch => {
+  const requestUrl = `${apiUrl}/${bountyFunding.id}/fundings`;
+  const result = await dispatch({
+    type: ACTION_TYPES.ADD_FUNDS,
+    payload: axios.post(requestUrl, cleanEntity(bountyFunding.entity)),
+  })
+  dispatch(getEntities());
+  return result;
+}
+
+export const removeFunds: ICrudDeleteAction<IBountyFunding> = (bountyFunding: any) => async dispatch => {
+  const requestUrl = `${apiUrl}/${bountyFunding.id}/fundings/${bountyFunding.entity.id}`;
+  const result = await dispatch({
+    type: ACTION_TYPES.REMOVE_FUNDS,
+    payload: axios.delete(requestUrl),
   });
   dispatch(getEntities());
   return result;
