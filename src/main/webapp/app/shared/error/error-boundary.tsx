@@ -31,7 +31,7 @@ class ErrorBoundary extends React.Component<IErrorBoundaryProps, IErrorBoundaryS
           </details>
         ) : undefined;
       return (
-        <div>
+        <div style={{ padding: '8em 0em'}}>
           <h2 className="error">An unexpected error has occurred.</h2>
           {errorDetails}
         </div>
