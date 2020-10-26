@@ -39,7 +39,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
   const [activeItem, setActiveItem] = useState(props.match.params.id);
 
   const { bountyEntity, bountyList, loading, isAuthenticated, account } = props;
-  
+
   const contextRef = createRef<HTMLElement>()
 
   const hasExpired = (dateString: string) => {
@@ -74,13 +74,13 @@ export const BountyDetail = (props: IBountyDetailProps) => {
     } else if (bountyList.slice(myIndex-4, myIndex+1).length >= 5) {
       return bountyList.slice(myIndex-4, myIndex+1);
     } else
-    
+
       if (bountyList.slice(myIndex-2, myIndex+3).length >= 5) {
         return bountyList.slice(myIndex-2, myIndex+3);
       } else if (bountyList.slice(myIndex+2, myIndex-3).length >= 5) {
         return bountyList.slice(myIndex+2, myIndex-3);
       }
-      
+
         else {
           return bountyList;
         }
@@ -112,7 +112,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
 
     setOpen(false);
 
-    
+
     // if (isNew) {
     //   props.createFunding(entity);
     // } else {
@@ -121,7 +121,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
   };
 
   return (
-    <div style={{ padding: '8em 0em 8em 0em' }}>    
+    <div style={{ padding: '8em 0em 8em 0em' }}>
       <Ref innerRef={contextRef}>
         <Grid centered columns='2'>
           <Grid.Column width={12}>
@@ -149,7 +149,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                     <List.Item>Type: {capitalizeFirst(bountyEntity.type)}</List.Item>
                     <List.Item as='a' href={bountyEntity.issueUrl}>Issue url</List.Item>
                   </List>
-                  
+
                   <Header as='h2'>
                     Expires in:
                   </Header>
@@ -193,7 +193,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                         )
                       })}
                     </List>
-                    
+
                     <Modal
                       size={'small'}
                       open={open}
@@ -308,7 +308,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
                         <Menu.Item>
                           <i>No Bounties found</i>
                         </Menu.Item>
-                      )                    
+                      )
                     ) : (
                       bountySlice().map((bounty, index) => {
                         return (
