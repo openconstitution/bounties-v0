@@ -15,16 +15,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
 
 /**
  * REST controller for managing {@link org.muellners.bounties.domain.Bounty}.
@@ -179,22 +182,27 @@ public class BountyResource {
     }
 
     /**
-     * {@code DELETE  /bounties/:id/fundings} : Remove funds to bounty.
+     * {@code DELETE  /bounties/:id/{fundings}} : Remove funds to bounty.
      *
-     * @param fundingDTO the fund to add to the bounty.
+     * @param fundingId the fund to add to the bounty.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
      *         body the new bounty, or with status {@code 400 (Bad Request)} if the
      *         bounty has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @DeleteMapping("/bounties/{id}/fundings")
+    @DeleteMapping("/bounties/{id}/fundings/{fundingId}")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
-    public ResponseEntity<BountyDTO> removeFunding(@PathVariable final Long id, @RequestBody final FundingDTO fundingDTO) throws URISyntaxException {
-        log.debug("REST request to remove funding from Bounty : {}", fundingDTO);
-        if (fundingDTO.getId() != null) {
-            throw new BadRequestAlertException("Invalid id", "funding", "idexists");
-        }
+    public ResponseEntity<BountyDTO> removeFunding(@PathVariable("id") final Long id, @PathVariable("fundingId") final Long fundingId) throws URISyntaxException {
+        log.debug("REST request to remove funding from Bounty : {}", id);
+
         final BountyDTO bountyDTO = bountyService.findOne(id);
+        final FundingDTO fundingDTO = (FundingDTO) bountyDTO.getFundings().stream().map(fundingDto -> {
+            if (fundingDto.getId() == fundingId) {
+                return fundingDto;
+            } else {
+                throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+            }
+        });
         bountyDTO.removeFundings(fundingDTO);
         fundingService.delete(fundingDTO.getId());
         final BountyDTO result = bountyService.save(bountyDTO);

@@ -36,7 +36,12 @@ public class BountyMapper {
     }
     
     public BountyDTO bountyToBountyDTO(final Bounty bounty) {
-        return new BountyDTO(bounty);
+        final BountyDTO bountyDTO = new BountyDTO(bounty);
+        bountyDTO.setFundings(
+                bounty.getFundings().stream().map(funding -> {
+                    return fundingMapper.fundingToFundingDTO(funding);
+                }).collect(Collectors.toSet()));
+        return bountyDTO;
     }
 
     public List<Bounty> bountyDTOsToBounties(final List<BountyDTO> bountyDTOs) {
