@@ -8,6 +8,7 @@ import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.UserDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;

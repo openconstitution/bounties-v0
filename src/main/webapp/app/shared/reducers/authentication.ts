@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { Storage } from 'react-jhipster';
 
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
@@ -74,8 +73,8 @@ export default (state: AuthenticationState = initialState, action): Authenticati
 
 export const displayAuthError = message => ({ type: ACTION_TYPES.ERROR_MESSAGE, message });
 
-export const getSession: () => void = () => async (dispatch, getState) => {
-  await dispatch({
+export const getSession: () => void = () => (dispatch, getState) => {
+  dispatch({
     type: ACTION_TYPES.GET_SESSION,
     payload: axios.get('api/account'),
   });

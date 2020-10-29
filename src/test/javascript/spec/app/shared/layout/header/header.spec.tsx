@@ -51,17 +51,16 @@ describe('Header', () => {
     // the created snapshot must be committed to source control
     expect(component).toMatchSnapshot();
     expect(component.find(LoadingBar).length).toEqual(1);
-    // const navbar = component.find(Navbar);
-    // expect(navbar.length).toEqual(1);
-    // expect(navbar.find(Brand).length).toEqual(1);
-    // const nav = component.find(Nav);
-    // expect(nav.length).toEqual(1);
-    // expect(nav.find(Home).length).toEqual(1);
-    // expect(nav.find(AdminMenu).length).toEqual(1);
-    // expect(nav.find(EntitiesMenu).length).toEqual(1);
-    // expect(nav.find(LocaleMenu).length).toEqual(1);
+    const navbar = component.find(Navbar);
+    expect(navbar.length).toEqual(1);
+    expect(navbar.find(Brand).length).toEqual(1);
+    const nav = component.find(Nav);
+    expect(nav.length).toEqual(1);
+    expect(nav.find(Home).length).toEqual(1);
+    expect(nav.find(AdminMenu).length).toEqual(1);
+    expect(nav.find(EntitiesMenu).length).toEqual(1);
 
-    // expect(nav.find(AccountMenu).length).toEqual(1);
+    expect(nav.find(AccountMenu).length).toEqual(1);
     const ribbon = component.find('.ribbon.dev');
     expect(ribbon.length).toEqual(1);
   });
@@ -70,35 +69,34 @@ describe('Header', () => {
     const component = wrapper(prodProps);
     // the created snapshot must be committed to source control
     expect(component).toMatchSnapshot();
-    // const navbar = component.find(Navbar);
-    // expect(navbar.length).toEqual(1);
-    // expect(navbar.find(Brand).length).toEqual(1);
-    // const nav = component.find(Nav);
-    // expect(nav.length).toEqual(1);
-    // expect(nav.find(Home).length).toEqual(1);
-    // expect(nav.find(AdminMenu).length).toEqual(1);
-    // expect(nav.find(EntitiesMenu).length).toEqual(1);
-    // expect(nav.find(LocaleMenu).length).toEqual(1);
+    const navbar = component.find(Navbar);
+    expect(navbar.length).toEqual(1);
+    expect(navbar.find(Brand).length).toEqual(1);
+    const nav = component.find(Nav);
+    expect(nav.length).toEqual(1);
+    expect(nav.find(Home).length).toEqual(1);
+    expect(nav.find(AdminMenu).length).toEqual(1);
+    expect(nav.find(EntitiesMenu).length).toEqual(1);
 
-    // expect(nav.find(AccountMenu).length).toEqual(1);
+    expect(nav.find(AccountMenu).length).toEqual(1);
     const ribbon = component.find('.ribbon.dev');
     expect(ribbon.length).toEqual(0);
   });
 
-  // it('Renders a Header component in prod profile with logged in User', () => {
-  //   const nav = wrapper(userProps).find(Nav);
-  //   expect(nav.find(AdminMenu).length).toEqual(0);
-  //   expect(nav.find(EntitiesMenu).length).toEqual(1);
-  //   const account = nav.find(AccountMenu);
-  //   expect(account.first().props().isAuthenticated).toEqual(true);
-  // });
+  it('Renders a Header component in prod profile with logged in User', () => {
+    const nav = wrapper(userProps).find(Nav);
+    expect(nav.find(AdminMenu).length).toEqual(0);
+    expect(nav.find(EntitiesMenu).length).toEqual(1);
+    const account = nav.find(AccountMenu);
+    expect(account.first().props().isAuthenticated).toEqual(true);
+  });
 
-  // it('Renders a Header component in prod profile with no logged in User', () => {
-  //   const nav = wrapper(guestProps).find(Nav);
-  //   expect(nav.find(AdminMenu).length).toEqual(0);
-  //   expect(nav.find(EntitiesMenu).length).toEqual(0);
-  //   const account = nav.find(AccountMenu);
-  //   expect(account.length).toEqual(1);
-  //   expect(account.first().props().isAuthenticated).toEqual(false);
-  // });
+  it('Renders a Header component in prod profile with no logged in User', () => {
+    const nav = wrapper(guestProps).find(Nav);
+    expect(nav.find(AdminMenu).length).toEqual(0);
+    expect(nav.find(EntitiesMenu).length).toEqual(0);
+    const account = nav.find(AccountMenu);
+    expect(account.length).toEqual(1);
+    expect(account.first().props().isAuthenticated).toEqual(false);
+  });
 });

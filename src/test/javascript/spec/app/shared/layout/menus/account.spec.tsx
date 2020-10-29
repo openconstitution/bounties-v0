@@ -29,15 +29,15 @@ describe('AccountMenu', () => {
 
   it('Renders a authenticated AccountMenu component', () => {
     const dropdown = authenticatedWrapper().find(NavDropdown);
-    expect(dropdown).toHaveLength(0);
-    // expect(dropdown.find({ to: '/login' })).toHaveLength(0);
-    // expect(dropdown.find({ to: '/logout' })).toHaveLength(1);
+    expect(dropdown).toHaveLength(1);
+    expect(dropdown.find({ to: '/login' })).toHaveLength(0);
+    expect(dropdown.find({ to: '/logout' })).toHaveLength(1);
   });
 
   it('Renders a guest AccountMenu component', () => {
     const dropdown = guestWrapper().find(NavDropdown);
-    expect(dropdown).toHaveLength(0);
-    // expect(dropdown.find({ href: getLoginUrl() })).toHaveLength(1);
-    // expect(dropdown.find({ to: '/logout' })).toHaveLength(0);
+    expect(dropdown).toHaveLength(1);
+    expect(dropdown.find({ href: getLoginUrl() })).toHaveLength(1);
+    expect(dropdown.find({ to: '/logout' })).toHaveLength(0);
   });
 });
