@@ -1,4 +1,4 @@
-export enum Experience {
+export const enum Experience {
   BEGINNER = 'BEGINNER',
 
   INTERMEDIATE = 'INTERMEDIATE',

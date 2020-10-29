@@ -78,8 +78,6 @@ export const getSession: () => void = () => (dispatch, getState) => {
     type: ACTION_TYPES.GET_SESSION,
     payload: axios.get('api/account'),
   });
-
-  const { account } = getState().authentication;
 };
 
 export const logout: () => void = () => async dispatch => {

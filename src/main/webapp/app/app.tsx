@@ -1,9 +1,9 @@
 import 'react-toastify/dist/ReactToastify.css';
-// import './app.scss';
-import 'semantic-ui-css/semantic.min.css'
+import './app.scss';
 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Card } from 'reactstrap';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import { hot } from 'react-hot-loader';
@@ -17,7 +17,6 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
-import { Container } from 'semantic-ui-react';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
@@ -29,26 +28,29 @@ export const App = (props: IAppProps) => {
     props.getProfile();
   }, []);
 
-  // const paddingTop = '60px';
-
+  const paddingTop = '60px';
   return (
     <Router basename={baseHref}>
-      <ErrorBoundary>
-        <Header
-          isAuthenticated={props.isAuthenticated}
-          isAdmin={props.isAdmin}
-          ribbonEnv={props.ribbonEnv}
-          isInProduction={props.isInProduction}
-          isSwaggerEnabled={props.isSwaggerEnabled}
-        />
-      </ErrorBoundary>
-      <Container>
+      <div className="app-container" style={{ paddingTop }}>
+        <ToastContainer position={toast.POSITION.TOP_LEFT} className="toastify-container" toastClassName="toastify-toast" />
         <ErrorBoundary>
-          <AppRoutes />
+          <Header
+            isAuthenticated={props.isAuthenticated}
+            isAdmin={props.isAdmin}
+            ribbonEnv={props.ribbonEnv}
+            isInProduction={props.isInProduction}
+            isSwaggerEnabled={props.isSwaggerEnabled}
+          />
         </ErrorBoundary>
-      </Container>
-      <br/>
-      <Footer />
+        <div className="container-fluid view-container" id="app-view-container">
+          <Card className="jh-card">
+            <ErrorBoundary>
+              <AppRoutes />
+            </ErrorBoundary>
+          </Card>
+          <Footer />
+        </div>
+      </div>
     </Router>
   );
 };

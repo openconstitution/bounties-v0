@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Bounties.
+    -->
+    <changeSet id="20200524132743-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="issue_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_issue_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="issue"/>
+
+    </changeSet>
+</databaseChangeLog>

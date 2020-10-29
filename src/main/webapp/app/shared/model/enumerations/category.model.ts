@@ -1,4 +1,4 @@
-export enum Category {
+export const enum Category {
   FRONT_END = 'FRONT_END',
 
   BACKEND = 'BACKEND',

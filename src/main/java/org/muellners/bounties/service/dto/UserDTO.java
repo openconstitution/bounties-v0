@@ -40,8 +40,6 @@ public class UserDTO {
     @Size(min = 2, max = 10)
     private String langKey;
 
-    private ProfileDTO profile;
-
     private String createdBy;
 
     private Instant createdDate;
@@ -128,14 +126,6 @@ public class UserDTO {
 
     public void setActivated(boolean activated) {
         this.activated = activated;
-    }
-
-    public ProfileDTO getProfile() {
-        return profile;
-    }
-
-    public void setProfile(ProfileDTO profile) {
-        this.profile = profile;
     }
 
     public String getLangKey() {
