@@ -3,7 +3,6 @@
 // Import Bootstrap source files from node_modules
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import '~bootswatch/dist/materia/bootswatch';
-@import 'rtl.scss';
 body {
   margin: 0;
 }
@@ -110,10 +109,10 @@ Generic styles
   border-radius: 2px;
 }
 
-// .error {
-//   color: white;
-//   background-color: red;
-// }
+.error {
+  color: white;
+  background-color: red;
+}
 
 .break {
   white-space: normal;

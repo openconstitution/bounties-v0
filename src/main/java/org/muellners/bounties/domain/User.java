@@ -65,7 +65,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-	@OneToOne @JoinColumn(name = "profile_id")
+    @OneToOne @JoinColumn(name = "profile_id")	
 	private Profile profile;
 
     @JsonIgnore
@@ -78,49 +78,86 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
 
-    public Profile getProfile() { return profile; }
 
-    public void setProfile(Profile profile) { this.profile = profile; }
+    public String getId() {
+        return id;
+    }
 
-    public String getId() { return id; }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public void setId(String id) { this.id = id; }
-
-    public String getLogin() { return login; }
+    public String getLogin() {
+        return login;
+    }
 
     // Lowercase the login before saving it in database
     public void setLogin(String login) {
-      	this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
+        this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
 
-    public String getFirstName() { return firstName; }
+    public String getFirstName() {
+        return firstName;
+    }
 
-    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-    public String getLastName() { return lastName; }
+    public String getLastName() {
+        return lastName;
+    }
 
-    public void setLastName(String lastName) { this.lastName = lastName; }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-    public String getEmail() { return email; }
+    public String getEmail() {
+        return email;
+    }
 
-    public void setEmail(String email) { this.email = email; }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-    public String getImageUrl() { return imageUrl; }
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
-    public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
-    public boolean getActivated() { return activated; }
+    public boolean getActivated() {
+        return activated;
+    }
 
-    public void setActivated(boolean activated) { this.activated = activated; }
+    public void setActivated(boolean activated) {
+        this.activated = activated;
+    }
 
-    public String getLangKey() { return langKey; }
+    public String getLangKey() {
+        return langKey;
+    }
 
-    public void setLangKey(String langKey) { this.langKey = langKey; }
+    public void setLangKey(String langKey) {
+        this.langKey = langKey;
+    }
 
-    public Set<Authority> getAuthorities() { return authorities; }
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
 
     public void setAuthorities(Set<Authority> authorities) {
-      	this.authorities = authorities;
+        this.authorities = authorities;
     }
 
     @Override
