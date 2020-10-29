@@ -1,20 +1,23 @@
 package org.muellners.bounties.domain;
 
+import org.muellners.bounties.config.Constants;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.springframework.data.elasticsearch.annotations.FieldType;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import org.apache.commons.lang3.StringUtils;
-import org.hibernate.annotations.BatchSize;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.muellners.bounties.config.Constants;
-import org.springframework.data.elasticsearch.annotations.FieldType;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * A user.
@@ -23,13 +26,12 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Table(name = "jhi_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "user")
-public class User extends AbstractAuditingEntity {
+public class User extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @org.springframework.data.elasticsearch.annotations.
-    Field(type = FieldType.Keyword)
+    @org.springframework.data.elasticsearch.annotations.Field(type = FieldType.Keyword)
     private String id;
 
     @NotNull
@@ -51,8 +53,9 @@ public class User extends AbstractAuditingEntity {
     @Column(length = 254, unique = true)
     private String email;
 
-	@NotNull @Column(nullable = false)
-	private boolean activated = false;
+    @NotNull
+    @Column(nullable = false)
+    private boolean activated = false;
 
     @Size(min = 2, max = 10)
     @Column(name = "lang_key", length = 10)
@@ -69,10 +72,8 @@ public class User extends AbstractAuditingEntity {
     @ManyToMany
     @JoinTable(
         name = "jhi_user_authority",
-        joinColumns =
-        { @JoinColumn(name = "user_id", referencedColumnName = "id") },
-        inverseJoinColumns =
-        { @JoinColumn(name = "authority_name", referencedColumnName = "name") })
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @BatchSize(size = 20)
     private Set<Authority> authorities = new HashSet<>();
@@ -124,27 +125,31 @@ public class User extends AbstractAuditingEntity {
 
     @Override
     public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof User)) {
-			return false;
-		}
-		return id != null && id.equals(((User)o).id);
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        return id != null && id.equals(((User) o).id);
     }
 
     @Override
     public int hashCode() {
-      return 31;
+        return 31;
     }
 
     // prettier-ignore
     @Override
     public String toString() {
-      return "User{"
-          + "login='" + login + '\'' + ", firstName='" + firstName + '\'' +
-          ", lastName='" + lastName + '\'' + ", email='" + email + '\'' +
-          ", imageUrl='" + imageUrl + '\'' + ", activated='" + activated + '\'' +
-          ", langKey='" + langKey + '\'' + "}";
+        return "User{" +
+            "login='" + login + '\'' +
+            ", firstName='" + firstName + '\'' +
+            ", lastName='" + lastName + '\'' +
+            ", email='" + email + '\'' +
+            ", imageUrl='" + imageUrl + '\'' +
+            ", activated='" + activated + '\'' +
+            ", langKey='" + langKey + '\'' +
+            "}";
     }
 }

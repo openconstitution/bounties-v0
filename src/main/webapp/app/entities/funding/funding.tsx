@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, InputGroup, Col, Row, Table } from 'reactstrap';
 import { AvForm, AvGroup, AvInput } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudSearchAction, ICrudGetAllAction } from 'react-jhipster';
+import { ICrudSearchAction, ICrudGetAllAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
@@ -37,11 +37,10 @@ export const Funding = (props: IFundingProps) => {
   return (
     <div>
       <h2 id="funding-heading">
-        <Translate contentKey="bountiesApp.funding.home.title">Fundings</Translate>
+        Fundings
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
-          &nbsp;
-          <Translate contentKey="bountiesApp.funding.home.createLabel">Create new Funding</Translate>
+          &nbsp; Create new Funding
         </Link>
       </h2>
       <Row>
@@ -49,13 +48,7 @@ export const Funding = (props: IFundingProps) => {
           <AvForm onSubmit={startSearching}>
             <AvGroup>
               <InputGroup>
-                <AvInput
-                  type="text"
-                  name="search"
-                  value={search}
-                  onChange={handleSearch}
-                  placeholder={translate('bountiesApp.funding.home.search')}
-                />
+                <AvInput type="text" name="search" value={search} onChange={handleSearch} placeholder="Search" />
                 <Button className="input-group-addon">
                   <FontAwesomeIcon icon="search" />
                 </Button>
@@ -72,21 +65,11 @@ export const Funding = (props: IFundingProps) => {
           <Table responsive>
             <thead>
               <tr>
-                <th>
-                  <Translate contentKey="global.field.id">ID</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="bountiesApp.funding.amount">Amount</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="bountiesApp.funding.mode">Mode</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="bountiesApp.funding.paymentAuth">Payment Auth</Translate>
-                </th>
-                <th>
-                  <Translate contentKey="bountiesApp.funding.bounty">Bounty</Translate>
-                </th>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Mode</th>
+                <th>Payment Auth</th>
+                <th>Bounty</th>
                 <th />
               </tr>
             </thead>
@@ -105,22 +88,13 @@ export const Funding = (props: IFundingProps) => {
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`${match.url}/${funding.id}`} color="info" size="sm">
-                        <FontAwesomeIcon icon="eye" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.view">View</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
                       </Button>
                       <Button tag={Link} to={`${match.url}/${funding.id}/edit`} color="primary" size="sm">
-                        <FontAwesomeIcon icon="pencil-alt" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.edit">Edit</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
                       </Button>
                       <Button tag={Link} to={`${match.url}/${funding.id}/delete`} color="danger" size="sm">
-                        <FontAwesomeIcon icon="trash" />{' '}
-                        <span className="d-none d-md-inline">
-                          <Translate contentKey="entity.action.delete">Delete</Translate>
-                        </span>
+                        <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
                       </Button>
                     </div>
                   </td>
@@ -129,11 +103,7 @@ export const Funding = (props: IFundingProps) => {
             </tbody>
           </Table>
         ) : (
-          !loading && (
-            <div className="alert alert-warning">
-              No Fundings found
-            </div>
-          )
+          !loading && <div className="alert alert-warning">No Fundings found</div>
         )}
       </div>
     </div>

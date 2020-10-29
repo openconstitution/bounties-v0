@@ -1,17 +1,23 @@
 package org.muellners.bounties.domain;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+
+import javax.persistence.*;
+
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.muellners.bounties.domain.enumeration.Category;
-import org.muellners.bounties.domain.enumeration.Experience;
+
 import org.muellners.bounties.domain.enumeration.Status;
+
+import org.muellners.bounties.domain.enumeration.Experience;
+
 import org.muellners.bounties.domain.enumeration.Type;
+
+import org.muellners.bounties.domain.enumeration.Category;
 
 /**
  * A Bounty.
@@ -19,218 +25,249 @@ import org.muellners.bounties.domain.enumeration.Type;
 @Entity
 @Table(name = "bounty")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.
-		Document(indexName = "bounty")
-public class Bounty extends AbstractAuditingEntity {
+@org.springframework.data.elasticsearch.annotations.Document(indexName = "bounty")
+public class Bounty implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@NotNull
-	@Column(name = "summary")
-	private String summary;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private Status status;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "status")
-	private Status status;
+    @Column(name = "url")
+    private String url;
 
-	@NotNull @Column(name = "issue_url") private String issueUrl;
+    @Column(name = "amount", precision = 21, scale = 2)
+    private BigDecimal amount;
 
-	@Column(name = "amount", precision = 21, scale = 2) private BigDecimal amount;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "experience")
+    private Experience experience;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "experience")
-	private Experience experience;
+    @Column(name = "commitment")
+    private Integer commitment;
 
-	@Column(name = "commitment") private Integer commitment;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private Type type;
 
-	@Enumerated(EnumType.STRING) @Column(name = "type") private Type type;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private Category category;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "category")
-	private Category category;
+    @Column(name = "keywords")
+    private String keywords;
 
-	@Column(name = "keywords") private String keywords;
+    @Column(name = "permission")
+    private Boolean permission;
 
-	@Column(name = "permission") private Boolean permission;
+    @Column(name = "expires")
+    private LocalDate expires;
 
-	@Column(name = "expiry_date") private LocalDate expiryDate;
+    @OneToMany(mappedBy = "bounty")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Funding> fundings = new HashSet<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "bounty_id", referencedColumnName = "id")
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-	private Set<Funding> fundings = new HashSet<>();
+    // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Long getId() {
+        return id;
+    }
 
-	// jhipster-needle-entity-add-field - JHipster will add fields here
-	public Long getId() { return id; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setId(Long id) { this.id = id; }
+    public Status getStatus() {
+        return status;
+    }
 
-	public Status getStatus() { return status; }
+    public Bounty status(Status status) {
+        this.status = status;
+        return this;
+    }
 
-	public Bounty status(Status status) {
-		this.status = status;
-		return this;
-	}
+    public void setStatus(Status status) {
+        this.status = status;
+    }
 
-	public void setStatus(Status status) { this.status = status; }
+    public String getUrl() {
+        return url;
+    }
 
-	public String getIssueUrl() {
-		return issueUrl;
-	}
+    public Bounty url(String url) {
+        this.url = url;
+        return this;
+    }
 
-	public Bounty issueUrl(String issueUrl) {
-		this.issueUrl = issueUrl;
-		return this;
-	}
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
-	public void setIssueUrl(String issueUrl) {
-		this.issueUrl = issueUrl;
-	}
+    public BigDecimal getAmount() {
+        return amount;
+    }
 
-	public String getSummary() {
-		return summary;
-	}
+    public Bounty amount(BigDecimal amount) {
+        this.amount = amount;
+        return this;
+    }
 
-	public Bounty summary(String summary) {
-		this.summary = summary;
-		return this;
-	}
+    public void setAmount(BigDecimal amount) {
+        this.amount = amount;
+    }
 
-	public void setSummary(String summary) {
-		this.summary = summary;
-	}
+    public Experience getExperience() {
+        return experience;
+    }
 
-	public BigDecimal getAmount() { return amount; }
+    public Bounty experience(Experience experience) {
+        this.experience = experience;
+        return this;
+    }
 
-	public Bounty amount(BigDecimal amount) {
-		this.amount = amount;
-		return this;
-	}
+    public void setExperience(Experience experience) {
+        this.experience = experience;
+    }
 
-	public void setAmount(BigDecimal amount) { this.amount = amount; }
+    public Integer getCommitment() {
+        return commitment;
+    }
 
-	public Experience getExperience() { return experience; }
+    public Bounty commitment(Integer commitment) {
+        this.commitment = commitment;
+        return this;
+    }
 
-	public Bounty experience(Experience experience) {
-		this.experience = experience;
-		return this;
-	}
+    public void setCommitment(Integer commitment) {
+        this.commitment = commitment;
+    }
 
-	public void setExperience(Experience experience) {
-		this.experience = experience;
-	}
+    public Type getType() {
+        return type;
+    }
 
-	public Integer getCommitment() { return commitment; }
+    public Bounty type(Type type) {
+        this.type = type;
+        return this;
+    }
 
-	public Bounty commitment(Integer commitment) {
-		this.commitment = commitment;
-		return this;
-	}
+    public void setType(Type type) {
+        this.type = type;
+    }
 
-	public void setCommitment(Integer commitment) {
-		this.commitment = commitment;
-	}
+    public Category getCategory() {
+        return category;
+    }
 
-	public Type getType() { return type; }
+    public Bounty category(Category category) {
+        this.category = category;
+        return this;
+    }
 
-	public Bounty type(Type type) {
-		this.type = type;
-		return this;
-	}
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
-	public void setType(Type type) { this.type = type; }
+    public String getKeywords() {
+        return keywords;
+    }
 
-	public Category getCategory() { return category; }
+    public Bounty keywords(String keywords) {
+        this.keywords = keywords;
+        return this;
+    }
 
-	public Bounty category(Category category) {
-		this.category = category;
-		return this;
-	}
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
 
-	public void setCategory(Category category) { this.category = category; }
+    public Boolean isPermission() {
+        return permission;
+    }
 
-	public String getKeywords() { return keywords; }
+    public Bounty permission(Boolean permission) {
+        this.permission = permission;
+        return this;
+    }
 
-	public Bounty keywords(String keywords) {
-		this.keywords = keywords;
-		return this;
-	}
+    public void setPermission(Boolean permission) {
+        this.permission = permission;
+    }
 
-	public void setKeywords(String keywords) { this.keywords = keywords; }
+    public LocalDate getExpires() {
+        return expires;
+    }
 
-	public Boolean isPermission() { return permission; }
+    public Bounty expires(LocalDate expires) {
+        this.expires = expires;
+        return this;
+    }
 
-	public Bounty permission(Boolean permission) {
-		this.permission = permission;
-		return this;
-	}
+    public void setExpires(LocalDate expires) {
+        this.expires = expires;
+    }
 
-	public Boolean getPermission() { return this.permission; }
+    public Set<Funding> getFundings() {
+        return fundings;
+    }
 
-	public void setPermission(Boolean permission) {
-		this.permission = permission;
-	}
+    public Bounty fundings(Set<Funding> fundings) {
+        this.fundings = fundings;
+        return this;
+    }
 
-	public LocalDate getExpiryDate() { return expiryDate; }
+    public Bounty addFundings(Funding funding) {
+        this.fundings.add(funding);
+        funding.setBounty(this);
+        return this;
+    }
 
-	public Bounty expiryDate(LocalDate expiryDate) {
-		this.expiryDate = expiryDate;
-		return this;
-	}
+    public Bounty removeFundings(Funding funding) {
+        this.fundings.remove(funding);
+        funding.setBounty(null);
+        return this;
+    }
 
-	public void setExpiryDate(LocalDate expiryDate) { this.expiryDate = expiryDate; }
+    public void setFundings(Set<Funding> fundings) {
+        this.fundings = fundings;
+    }
+    // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
-	public Set<Funding> getFundings() { return fundings; }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Bounty)) {
+            return false;
+        }
+        return id != null && id.equals(((Bounty) o).id);
+    }
 
-	public Bounty fundings(Set<Funding> fundings) {
-		this.fundings = fundings;
-		return this;
-	}
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 
-	public Bounty addFundings(Funding funding) {
-		this.fundings.add(funding);
-		return this;
-	}
-
-	public Bounty removeFundings(Funding funding) {
-		this.fundings.remove(funding);
-		return this;
-	}
-
-	public void setFundings(Set<Funding> fundings) { this.fundings = fundings; }
-	// jhipster-needle-entity-add-getters-setters - JHipster will add getters and
-	// setters here
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) {
-			return true;
-		}
-		if (!(o instanceof Bounty)) {
-			return false;
-		}
-		return id != null && id.equals(((Bounty)o).id);
-	}
-
-	@Override
-	public int hashCode() {
-		return 31;
-	}
-
-	// prettier-ignore
-	@Override
-	public String toString() {
-		return "Bounty{"
-				+ "id=" + getId() + ", status='" + getStatus() + "'"
-				+ ", issueUrl='" + getIssueUrl() + "'"
-				+ ", amount=" + getAmount() + ", experience='" + getExperience() + "'"
-				+ ", commitment=" + getCommitment() + ", type='" + getType() + "'"
-				+ ", category='" + getCategory() + "'"
-				+ ", keywords='" + getKeywords() + "'"
-				+ ", permission='" + isPermission() + "'"
-				+ ", expiryDate='" + getExpiryDate() + "'"
-				+ "}";
-	}
+    // prettier-ignore
+    @Override
+    public String toString() {
+        return "Bounty{" +
+            "id=" + getId() +
+            ", status='" + getStatus() + "'" +
+            ", url='" + getUrl() + "'" +
+            ", amount=" + getAmount() +
+            ", experience='" + getExperience() + "'" +
+            ", commitment=" + getCommitment() +
+            ", type='" + getType() + "'" +
+            ", category='" + getCategory() + "'" +
+            ", keywords='" + getKeywords() + "'" +
+            ", permission='" + isPermission() + "'" +
+            ", expires='" + getExpires() + "'" +
+            "}";
+    }
 }

@@ -1,12 +1,14 @@
 package org.muellners.bounties.service.dto;
 
+import org.muellners.bounties.config.Constants;
+
+import org.muellners.bounties.domain.Authority;
+import org.muellners.bounties.domain.User;
+
+import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
-import javax.validation.constraints.*;
-import org.muellners.bounties.config.Constants;
-import org.muellners.bounties.domain.Authority;
-import org.muellners.bounties.domain.User;
 
 /**
  * A DTO representing a user, with his authorities.
@@ -138,13 +140,19 @@ public class UserDTO {
   // prettier-ignore
   @Override
   public String toString() {
-    return "UserDTO{"
-        + "login='" + login + '\'' + ", firstName='" + firstName + '\'' +
-        ", lastName='" + lastName + '\'' + ", email='" + email + '\'' +
-        ", imageUrl='" + imageUrl + '\'' + ", activated=" + activated +
-        ", langKey='" + langKey + '\'' + ", createdBy=" + createdBy +
-        ", createdDate=" + createdDate + ", lastModifiedBy='" + lastModifiedBy +
-        '\'' + ", lastModifiedDate=" + lastModifiedDate +
-        ", authorities=" + authorities + "}";
+      return "UserDTO{" +
+          "login='" + login + '\'' +
+          ", firstName='" + firstName + '\'' +
+          ", lastName='" + lastName + '\'' +
+          ", email='" + email + '\'' +
+          ", imageUrl='" + imageUrl + '\'' +
+          ", activated=" + activated +
+          ", langKey='" + langKey + '\'' +
+          ", createdBy=" + createdBy +
+          ", createdDate=" + createdDate +
+          ", lastModifiedBy='" + lastModifiedBy + '\'' +
+          ", lastModifiedDate=" + lastModifiedDate +
+          ", authorities=" + authorities +
+          "}";
   }
 }

@@ -1,14 +1,11 @@
 package org.muellners.bounties.service;
 
-import org.muellners.bounties.config.JiraListener;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.domain.enumeration.Status;
 import org.muellners.bounties.repository.BountyRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
-import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.mapper.BountyMapper;
-import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +14,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.PreUpdate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,8 +30,6 @@ public class BountyService {
 
     private final Logger log = LoggerFactory.getLogger(BountyService.class);
 
-    private final JiraListener jiraListener;
-
     private final BountyRepository bountyRepository;
 
     private final BountySearchRepository bountySearchRepository;
@@ -44,11 +38,10 @@ public class BountyService {
     private final BountyMapper bountyMapper;
 
     public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository,
-                         BountyMapper bountyMapper, JiraListener jiraListener) {
+                         BountyMapper bountyMapper) {
         this.bountyRepository = bountyRepository;
         this.bountySearchRepository = bountySearchRepository;
         this.bountyMapper = bountyMapper;
-        this.jiraListener = jiraListener;
     }
 
     /**

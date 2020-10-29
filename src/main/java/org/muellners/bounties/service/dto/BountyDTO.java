@@ -2,7 +2,6 @@ package org.muellners.bounties.service.dto;
 
 import com.sun.istack.NotNull;
 import org.muellners.bounties.domain.Bounty;
-import org.muellners.bounties.domain.Funding;
 import org.muellners.bounties.domain.enumeration.Category;
 import org.muellners.bounties.domain.enumeration.Experience;
 import org.muellners.bounties.domain.enumeration.Status;
@@ -11,9 +10,7 @@ import org.muellners.bounties.domain.enumeration.Type;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class BountyDTO {
 

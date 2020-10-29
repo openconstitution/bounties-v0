@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
+import { IFunding } from 'app/shared/model/funding.model';
 import { IRootState } from 'app/shared/reducers';
 import { getEntity, deleteEntity } from './funding.reducer';
 
@@ -31,23 +33,16 @@ export const FundingDeleteDialog = (props: IFundingDeleteDialogProps) => {
   const { fundingEntity } = props;
   return (
     <Modal isOpen toggle={handleClose}>
-      <ModalHeader toggle={handleClose}>
-        Confirm delete operation
-      </ModalHeader>
-      <ModalBody id="bountiesApp.funding.delete.question">
-        {/* <Translate contentKey="bountiesApp.funding.delete.question" interpolate={{ id: fundingEntity.id }}> */}
-          Are you sure you want to delete this Funding?
-      </ModalBody>
+      <ModalHeader toggle={handleClose}>Confirm delete operation</ModalHeader>
+      <ModalBody id="bountiesApp.funding.delete.question">Are you sure you want to delete this Funding?</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp;
-          Cancel
+          &nbsp; Cancel
         </Button>
         <Button id="jhi-confirm-delete-funding" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp;
-          Delete
+          &nbsp; Delete
         </Button>
       </ModalFooter>
     </Modal>

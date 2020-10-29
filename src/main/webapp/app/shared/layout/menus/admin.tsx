@@ -4,50 +4,41 @@ import { DropdownItem } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { NavLink as Link } from 'react-router-dom';
 import { NavDropdown } from './menu-components';
-import { Translate, translate } from 'react-jhipster';
 
 const adminMenuItems = (
   <>
     <MenuItem icon="eye" to="/admin/tracker">
-      <Translate contentKey="global.menu.admin.tracker">User tracker</Translate>
+      User tracker
     </MenuItem>
     <MenuItem icon="tachometer-alt" to="/admin/metrics">
-      <Translate contentKey="global.menu.admin.metrics">Metrics</Translate>
+      Metrics
     </MenuItem>
     <MenuItem icon="heart" to="/admin/health">
-      <Translate contentKey="global.menu.admin.health">Health</Translate>
+      Health
     </MenuItem>
     <MenuItem icon="list" to="/admin/configuration">
-      <Translate contentKey="global.menu.admin.configuration">Configuration</Translate>
+      Configuration
     </MenuItem>
     <MenuItem icon="bell" to="/admin/audits">
-      <Translate contentKey="global.menu.admin.audits">Audits</Translate>
+      Audits
     </MenuItem>
     {/* jhipster-needle-add-element-to-admin-menu - JHipster will add entities to the admin menu here */}
     <MenuItem icon="tasks" to="/admin/logs">
-      <Translate contentKey="global.menu.admin.logs">Logs</Translate>
+      Logs
     </MenuItem>
   </>
 );
 
 const swaggerItem = (
   <MenuItem icon="book" to="/admin/docs">
-    <Translate contentKey="global.menu.admin.apidocs">API</Translate>
+    API
   </MenuItem>
 );
 
-const databaseItem = (
-  <DropdownItem tag="a" href="./h2-console" target="_tab">
-    <FontAwesomeIcon icon="hdd" fixedWidth /> <Translate contentKey="global.menu.admin.database">Database</Translate>
-  </DropdownItem>
-);
-
-export const AdminMenu = ({ showSwagger, showDatabase }) => (
-  <NavDropdown icon="user-plus" name={translate('global.menu.admin.main')} style={{ width: '140%' }} id="admin-menu">
+export const AdminMenu = ({ showSwagger }) => (
+  <NavDropdown icon="user-plus" name="Administration" style={{ width: '140%' }} id="admin-menu">
     {adminMenuItems}
     {showSwagger && swaggerItem}
-
-    {showDatabase && databaseItem}
   </NavDropdown>
 );
 

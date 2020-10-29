@@ -84,10 +84,6 @@ eclipse {
 
 defaultTasks "bootRun"
 
-bootRun {
-    jvmArgs = ["-Des.set.netty.runtime.available.processors=false"]
-}
-
 springBoot {
     mainClassName = "org.muellners.bounties.BountiesApp"
 }
@@ -164,24 +160,23 @@ project.ext.diffChangelogFile = "src/main/resources/config/liquibase/changelog/"
 liquibase {
     activities {
         main {
-            driver "com.mysql.jdbc.Driver"
-            url "jdbc:mysql://localhost:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
+            driver "com.mysql.cj.jdbc.Driver"
+            url "jdbc:mysql://localhost:3306/bounties"
             username "root"
-            password "mysql"
+            password ""
             changeLogFile "src/main/resources/config/liquibase/master.xml"
-            defaultSchemaName ""
-            // referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.H2Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+            defaultSchemaName "bounties"
             logLevel "debug"
             classpath "src/main/resources/"
         }
         diffLog {
-            driver "com.mysql.jdbc.Driver"
-            url "jdbc:mysql://localhost:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
+            driver "com.mysql.cj.jdbc.Driver"
+            url "jdbc:mysql://localhost:3306/bounties"
             username "root"
-            password "mysql"
+            password ""
             changeLogFile project.ext.diffChangelogFile
-            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
-            defaultSchemaName ""
+            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+            defaultSchemaName "bounties"
             logLevel "debug"
             classpath "$buildDir/classes/java/main"
             excludeObjects "oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token"
@@ -265,7 +260,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch"
     implementation "org.springframework.boot:spring-boot-starter-webflux"
-    implementation "com.konghq:unirest-java:3.7.02"
     // Spring Data Jest dependencies for Elasticsearch
     implementation ("com.github.vanroy:spring-boot-starter-data-jest") {
         exclude module: "commons-logging"
@@ -310,7 +304,6 @@ dependencies {
     testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunit_junit5_version}"
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunit_junit5_version}"
     testImplementation "com.h2database:h2"
-    liquibaseRuntime "com.h2database:h2"
     testImplementation "org.testcontainers:kafka"
 
     testImplementation "org.testcontainers:testcontainers"
