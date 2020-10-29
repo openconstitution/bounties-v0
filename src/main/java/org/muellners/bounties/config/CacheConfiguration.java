@@ -81,11 +81,14 @@ public class CacheConfiguration {
             createCache(cm, org.muellners.bounties.domain.User.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Authority.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.User.class.getName() + ".authorities", jcacheConfiguration);
-            // jhipster-needle-redis-add-entry
+            createCache(cm, org.muellners.bounties.domain.Bounties.class.getName(), jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Bounties.class.getName() + ".fundings", jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Bounty.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Bounty.class.getName() + ".fundings", jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Funding.class.getName(), jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Issue.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Profile.class.getName(), jcacheConfiguration);
+            // jhipster-needle-redis-add-entry
         };
     }
 

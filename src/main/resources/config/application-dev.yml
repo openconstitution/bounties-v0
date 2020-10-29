@@ -44,7 +44,7 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
-    password: mysql
+    password:
     hikari:
       poolName: Hikari
       auto-commit: false
@@ -53,7 +53,6 @@ spring:
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
-        connectionTimeout: 600000
   jpa:
     show-sql: true
   data:
@@ -124,7 +123,4 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
-  listeners:
-    url: https://pubsub.apache.org:2070/
-    path: /jira/FINERACT
+# application:

@@ -32,11 +32,7 @@ plugins {
 group = "org.muellners.bounties"
 version = "0.0.1-SNAPSHOT"
 
-description = "Bounties platform to grow open source"
-
-bootRun {
-    jvmArgs = ["-Des.set.netty.runtime.available.processors=false"]
-}
+description = ""
 
 sourceCompatibility=1.8
 targetCompatibility=1.8
@@ -168,9 +164,9 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/bounties"
             username "root"
-            password "mysql"
+            password ""
             changeLogFile "src/main/resources/config/liquibase/master.xml"
-            defaultSchemaName ""
+            defaultSchemaName "bounties"
             logLevel "debug"
             classpath "src/main/resources/"
         }
@@ -178,10 +174,10 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/bounties"
             username "root"
-            password "mysql"
+            password ""
             changeLogFile project.ext.diffChangelogFile
-            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
-            defaultSchemaName ""
+            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+            defaultSchemaName "bounties"
             logLevel "debug"
             classpath "$buildDir/classes/java/main"
             excludeObjects "oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token"
@@ -264,7 +260,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
     implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch"
-    implementation "org.springframework.boot:spring-boot-starter-webflux"
     // Spring Data Jest dependencies for Elasticsearch
     implementation ("com.github.vanroy:spring-boot-starter-data-jest") {
         exclude module: "commons-logging"
@@ -281,7 +276,6 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-undertow"
     implementation "org.springframework.boot:spring-boot-starter-websocket"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
-    implementation "org.springframework.boot:spring-boot-starter-webflux"
     implementation "org.zalando:problem-spring-web"
     implementation "org.springframework.boot:spring-boot-starter-cloud-connectors"
     implementation "org.springframework.security:spring-security-config"
@@ -310,7 +304,6 @@ dependencies {
     testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunit_junit5_version}"
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunit_junit5_version}"
     testImplementation "com.h2database:h2"
-//    liquibaseRuntime "com.h2database:h2"
     testImplementation "org.testcontainers:kafka"
 
     testImplementation "org.testcontainers:testcontainers"
