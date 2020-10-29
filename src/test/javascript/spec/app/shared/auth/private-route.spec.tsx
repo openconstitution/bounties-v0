@@ -1,7 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import { shallow } from 'enzyme';
-import { TranslatorContext } from 'react-jhipster';
 
 import { AUTHORITIES } from 'app/config/constants';
 import { PrivateRouteComponent, hasAnyAuthority } from 'app/shared/auth/private-route';
@@ -9,10 +8,6 @@ import { PrivateRouteComponent, hasAnyAuthority } from 'app/shared/auth/private-
 const TestComp = () => <div>Test</div>;
 
 describe('private-route component', () => {
-  beforeAll(() => {
-    TranslatorContext.registerTranslations('en', {});
-  });
-
   // All tests will go here
   it('Should throw error when no component is provided', () => {
     expect(() => shallow(<PrivateRouteComponent component={null} isAuthenticated sessionHasBeenFetched isAuthorized />)).toThrow(Error);
@@ -33,9 +28,7 @@ describe('private-route component', () => {
     expect(comp.length).toEqual(1);
     const error = comp.find('div.insufficient-authority');
     expect(error.length).toEqual(1);
-    expect(error.find('.alert-danger').html()).toEqual(
-      '<div class="alert alert-danger"><span>You are not authorized to access this page.</span></div>'
-    );
+    expect(error.find('.alert-danger').html()).toEqual('<div class="alert alert-danger">You are not authorized to access this page.</div>');
   });
 
   it('Should render a route for the component provided when authenticated', () => {

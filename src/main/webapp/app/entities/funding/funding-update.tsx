@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -61,9 +61,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="bountiesApp.funding.home.createOrEditLabel">
-            <Translate contentKey="bountiesApp.funding.home.createOrEditLabel">Create or edit a Funding</Translate>
-          </h2>
+          <h2 id="bountiesApp.funding.home.createOrEditLabel">Create or edit a Funding</h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
@@ -74,34 +72,30 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
             <AvForm model={isNew ? {} : fundingEntity} onSubmit={saveEntity}>
               {!isNew ? (
                 <AvGroup>
-                  <Label for="funding-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </Label>
+                  <Label for="funding-id">ID</Label>
                   <AvInput id="funding-id" type="text" className="form-control" name="id" required readOnly />
                 </AvGroup>
               ) : null}
               <AvGroup>
                 <Label id="amountLabel" for="funding-amount">
-                  <Translate contentKey="bountiesApp.funding.amount">Amount</Translate>
+                  Amount
                 </Label>
                 <AvField id="funding-amount" type="text" name="amount" />
               </AvGroup>
               <AvGroup>
                 <Label id="modeLabel" for="funding-mode">
-                  <Translate contentKey="bountiesApp.funding.mode">Mode</Translate>
+                  Mode
                 </Label>
                 <AvField id="funding-mode" type="text" name="mode" />
               </AvGroup>
               <AvGroup check>
                 <Label id="paymentAuthLabel">
                   <AvInput id="funding-paymentAuth" type="checkbox" className="form-check-input" name="paymentAuth" />
-                  <Translate contentKey="bountiesApp.funding.paymentAuth">Payment Auth</Translate>
+                  Payment Auth
                 </Label>
               </AvGroup>
               <AvGroup>
-                <Label for="funding-bounty">
-                  <Translate contentKey="bountiesApp.funding.bounty">Bounty</Translate>
-                </Label>
+                <Label for="funding-bounty">Bounty</Label>
                 <AvInput id="funding-bounty" type="select" className="form-control" name="bounty.id">
                   <option value="" key="0" />
                   {bounties
@@ -116,15 +110,12 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
               <Button tag={Link} id="cancel-save" to="/funding" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
+                <span className="d-none d-md-inline">Back</span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
+                &nbsp; Save
               </Button>
             </AvForm>
           )}

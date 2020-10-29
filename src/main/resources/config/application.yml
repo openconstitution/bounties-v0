@@ -22,7 +22,7 @@ management:
         include: ['configprops', 'env', 'health', 'info', 'jhimetrics', 'logfile', 'loggers', 'prometheus', 'threaddump']
   endpoint:
     health:
-      show-details: when-authorized
+      show-details: when_authorized
       roles: 'ROLE_ADMIN'
     jhimetrics:
       enabled: true
@@ -171,7 +171,7 @@ jhipster:
         - account
         - api://default
 kafka:
-  bootstrap-servers: http://localhost:9092
+  bootstrap-servers: localhost:9092
   consumer:
     key.deserializer: org.apache.kafka.common.serialization.StringDeserializer
     value.deserializer: org.apache.kafka.common.serialization.StringDeserializer

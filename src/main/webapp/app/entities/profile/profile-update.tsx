@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { Button, Row, Col, Label } from 'reactstrap';
 import { AvFeedback, AvForm, AvGroup, AvInput, AvField } from 'availity-reactstrap-validation';
-import { Translate, translate, ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudGetAllAction, ICrudPutAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IRootState } from 'app/shared/reducers';
 
@@ -56,9 +56,7 @@ export const ProfileUpdate = (props: IProfileUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="bountiesApp.profile.home.createOrEditLabel">
-            <Translate contentKey="bountiesApp.profile.home.createOrEditLabel">Create or edit a Profile</Translate>
-          </h2>
+          <h2 id="bountiesApp.profile.home.createOrEditLabel">Create or edit a Profile</h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
@@ -69,60 +67,55 @@ export const ProfileUpdate = (props: IProfileUpdateProps) => {
             <AvForm model={isNew ? {} : profileEntity} onSubmit={saveEntity}>
               {!isNew ? (
                 <AvGroup>
-                  <Label for="profile-id">
-                    <Translate contentKey="global.field.id">ID</Translate>
-                  </Label>
+                  <Label for="profile-id">ID</Label>
                   <AvInput id="profile-id" type="text" className="form-control" name="id" required readOnly />
                 </AvGroup>
               ) : null}
               <AvGroup>
                 <Label id="votesLabel" for="profile-votes">
-                  <Translate contentKey="bountiesApp.profile.votes">Votes</Translate>
+                  Votes
                 </Label>
                 <AvField id="profile-votes" type="string" className="form-control" name="votes" />
               </AvGroup>
               <AvGroup>
                 <Label id="profilelinkLabel" for="profile-profilelink">
-                  <Translate contentKey="bountiesApp.profile.profilelink">Profilelink</Translate>
+                  Profilelink
                 </Label>
                 <AvField id="profile-profilelink" type="text" name="profilelink" />
               </AvGroup>
               <AvGroup>
                 <Label id="aboutLabel" for="profile-about">
-                  <Translate contentKey="bountiesApp.profile.about">About</Translate>
+                  About
                 </Label>
                 <AvField id="profile-about" type="text" name="about" />
               </AvGroup>
               <AvGroup>
                 <Label id="walletaddressLabel" for="profile-walletaddress">
-                  <Translate contentKey="bountiesApp.profile.walletaddress">Walletaddress</Translate>
+                  Walletaddress
                 </Label>
                 <AvField id="profile-walletaddress" type="text" name="walletaddress" />
               </AvGroup>
               <AvGroup>
                 <Label id="githubEmailLabel" for="profile-githubEmail">
-                  <Translate contentKey="bountiesApp.profile.githubEmail">Github Email</Translate>
+                  Github Email
                 </Label>
                 <AvField id="profile-githubEmail" type="text" name="githubEmail" />
               </AvGroup>
               <AvGroup>
                 <Label id="githubOrgNameLabel" for="profile-githubOrgName">
-                  <Translate contentKey="bountiesApp.profile.githubOrgName">Github Org Name</Translate>
+                  Github Org Name
                 </Label>
                 <AvField id="profile-githubOrgName" type="text" name="githubOrgName" />
               </AvGroup>
               <Button tag={Link} id="cancel-save" to="/profile" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
-                <span className="d-none d-md-inline">
-                  <Translate contentKey="entity.action.back">Back</Translate>
-                </span>
+                <span className="d-none d-md-inline">Back</span>
               </Button>
               &nbsp;
               <Button color="primary" id="save-entity" type="submit" disabled={updating}>
                 <FontAwesomeIcon icon="save" />
-                &nbsp;
-                <Translate contentKey="entity.action.save">Save</Translate>
+                &nbsp; Save
               </Button>
             </AvForm>
           )}

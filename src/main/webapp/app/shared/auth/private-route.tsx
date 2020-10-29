@@ -4,7 +4,6 @@ import { Route, Redirect, RouteProps } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
 import ErrorBoundary from 'app/shared/error/error-boundary';
-import { getLoginUrl } from '../util/url-utils';
 
 interface IOwnProps extends RouteProps {
   hasAnyAuthorities?: string[];
@@ -40,7 +39,7 @@ export const PrivateRouteComponent = ({
       ) : (
         <Redirect
           to={{
-            pathname: '/oauth2/authorization/oidc',
+            pathname: '/login',
             search: props.location.search,
             state: { from: props.location },
           }}

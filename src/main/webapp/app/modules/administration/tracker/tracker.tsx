@@ -1,5 +1,4 @@
 import React from 'react';
-import { Translate } from 'react-jhipster';
 import { connect } from 'react-redux';
 
 export interface ITrackerPageProps {
@@ -8,31 +7,21 @@ export interface ITrackerPageProps {
 
 export const TrackerPage = ({ activities }: ITrackerPageProps) => (
   <div>
-    <h2>
-      <Translate contentKey="tracker.title">Real-time user activities</Translate>
-    </h2>
+    <h2>Real-time user activities</h2>
     <table className="table table-sm table-striped table-bordered">
       <thead>
         <tr>
           <th>
-            <span>
-              <Translate contentKey="tracker.table.userlogin">User</Translate>
-            </span>
+            <span>User</span>
           </th>
           <th>
-            <span>
-              <Translate contentKey="tracker.table.ipaddress">IP Address</Translate>
-            </span>
+            <span>IP Address</span>
           </th>
           <th>
-            <span>
-              <Translate contentKey="tracker.table.page">Current page</Translate>
-            </span>
+            <span>Current page</span>
           </th>
           <th>
-            <span>
-              <Translate contentKey="tracker.table.time">Time</Translate>
-            </span>
+            <span>Time</span>
           </th>
         </tr>
       </thead>

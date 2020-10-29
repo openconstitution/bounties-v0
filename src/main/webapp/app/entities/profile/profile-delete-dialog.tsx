@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { Modal, ModalHeader, ModalBody, ModalFooter, Button } from 'reactstrap';
-import { Translate, ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
+import { ICrudGetAction, ICrudDeleteAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IProfile } from 'app/shared/model/profile.model';
@@ -33,24 +33,16 @@ export const ProfileDeleteDialog = (props: IProfileDeleteDialogProps) => {
   const { profileEntity } = props;
   return (
     <Modal isOpen toggle={handleClose}>
-      <ModalHeader toggle={handleClose}>
-        <Translate contentKey="entity.delete.title">Confirm delete operation</Translate>
-      </ModalHeader>
-      <ModalBody id="bountiesApp.profile.delete.question">
-        <Translate contentKey="bountiesApp.profile.delete.question" interpolate={{ id: profileEntity.id }}>
-          Are you sure you want to delete this Profile?
-        </Translate>
-      </ModalBody>
+      <ModalHeader toggle={handleClose}>Confirm delete operation</ModalHeader>
+      <ModalBody id="bountiesApp.profile.delete.question">Are you sure you want to delete this Profile?</ModalBody>
       <ModalFooter>
         <Button color="secondary" onClick={handleClose}>
           <FontAwesomeIcon icon="ban" />
-          &nbsp;
-          <Translate contentKey="entity.action.cancel">Cancel</Translate>
+          &nbsp; Cancel
         </Button>
         <Button id="jhi-confirm-delete-profile" color="danger" onClick={confirmDelete}>
           <FontAwesomeIcon icon="trash" />
-          &nbsp;
-          <Translate contentKey="entity.action.delete">Delete</Translate>
+          &nbsp; Delete
         </Button>
       </ModalFooter>
     </Modal>

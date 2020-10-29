@@ -1,21 +1,18 @@
 package org.muellners.bounties.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.User;
-import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.repository.search.UserSearchRepository;
+import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.dto.UserDTO;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -28,168 +25,163 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
 /**
  * Integration tests for {@link UserService}.
  */
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
+@ExtendWith(RedisTestContainerExtension.class)
 @Transactional
 public class UserServiceIT {
 
-  private static final String DEFAULT_LOGIN = "johndoe";
+    private static final String DEFAULT_LOGIN = "johndoe";
 
-  private static final String DEFAULT_EMAIL = "johndoe@localhost";
+    private static final String DEFAULT_EMAIL = "johndoe@localhost";
 
-  private static final String DEFAULT_FIRSTNAME = "john";
+    private static final String DEFAULT_FIRSTNAME = "john";
 
-  private static final String DEFAULT_LASTNAME = "doe";
+    private static final String DEFAULT_LASTNAME = "doe";
 
-  private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
+    private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
 
-  private static final String DEFAULT_LANGKEY = "dummy";
+    private static final String DEFAULT_LANGKEY = "dummy";
 
-  @Autowired private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-  @Autowired private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  /**
-   * This repository is mocked in the org.muellners.bounties.repository.search
-   * test package.
-   *
-   * @see
-   *     org.muellners.bounties.repository.search.UserSearchRepositoryMockConfiguration
-   */
-  @SuppressWarnings("unused")
-  @Autowired
-  private UserSearchRepository mockUserSearchRepository;
+    /**
+     * This repository is mocked in the org.muellners.bounties.repository.search test package.
+     *
+     * @see org.muellners.bounties.repository.search.UserSearchRepositoryMockConfiguration
+     */
+    @Autowired
+    private UserSearchRepository mockUserSearchRepository;
 
-  private User user;
+    private User user;
 
-  private Map<String, Object> userDetails;
+    private Map<String, Object> userDetails;
 
-  @BeforeEach
-  public void init() {
-    user = new User();
-    user.setLogin(DEFAULT_LOGIN);
-    user.setActivated(true);
-    user.setEmail(DEFAULT_EMAIL);
-    user.setFirstName(DEFAULT_FIRSTNAME);
-    user.setLastName(DEFAULT_LASTNAME);
-    user.setImageUrl(DEFAULT_IMAGEURL);
-    user.setLangKey(DEFAULT_LANGKEY);
+    @BeforeEach
+    public void init() {
+        user = new User();
+        user.setLogin(DEFAULT_LOGIN);
+        user.setActivated(true);
+        user.setEmail(DEFAULT_EMAIL);
+        user.setFirstName(DEFAULT_FIRSTNAME);
+        user.setLastName(DEFAULT_LASTNAME);
+        user.setImageUrl(DEFAULT_IMAGEURL);
+        user.setLangKey(DEFAULT_LANGKEY);
 
-    userDetails = new HashMap<>();
-    userDetails.put("sub", DEFAULT_LOGIN);
-    userDetails.put("email", DEFAULT_EMAIL);
-    userDetails.put("given_name", DEFAULT_FIRSTNAME);
-    userDetails.put("family_name", DEFAULT_LASTNAME);
-    userDetails.put("picture", DEFAULT_IMAGEURL);
-  }
-
-  @Test
-  @Transactional
-  public void assertThatAnonymousUserIsNotGet() {
-    user.setId(Constants.ANONYMOUS_USER);
-    user.setLogin(Constants.ANONYMOUS_USER);
-    if (!userRepository.findOneByLogin(Constants.ANONYMOUS_USER).isPresent()) {
-      userRepository.saveAndFlush(user);
+        userDetails = new HashMap<>();
+        userDetails.put("sub", DEFAULT_LOGIN);
+        userDetails.put("email", DEFAULT_EMAIL);
+        userDetails.put("given_name", DEFAULT_FIRSTNAME);
+        userDetails.put("family_name", DEFAULT_LASTNAME);
+        userDetails.put("picture", DEFAULT_IMAGEURL);
     }
-    final PageRequest pageable = PageRequest.of(0, (int)userRepository.count());
-    final Page<UserDTO> allManagedUsers =
-        userService.getAllManagedUsers(pageable);
-    assertThat(allManagedUsers.getContent().stream().noneMatch(
-                   user -> Constants.ANONYMOUS_USER.equals(user.getLogin())))
-        .isTrue();
-  }
 
-  @Test
-  @Transactional
-  public void testDefaultUserDetails() {
-    OAuth2AuthenticationToken authentication =
-        createMockOAuth2AuthenticationToken(userDetails);
-    UserDTO userDTO = userService.getUserFromAuthentication(authentication);
+    @Test
+    @Transactional
+    public void assertThatAnonymousUserIsNotGet() {
+        user.setId(Constants.ANONYMOUS_USER);
+        user.setLogin(Constants.ANONYMOUS_USER);
+        if (!userRepository.findOneByLogin(Constants.ANONYMOUS_USER).isPresent()) {
+            userRepository.saveAndFlush(user);
+        }
+        final PageRequest pageable = PageRequest.of(0, (int) userRepository.count());
+        final Page<UserDTO> allManagedUsers = userService.getAllManagedUsers(pageable);
+        assertThat(allManagedUsers.getContent().stream()
+            .noneMatch(user -> Constants.ANONYMOUS_USER.equals(user.getLogin())))
+            .isTrue();
+    }
 
-    assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
-    assertThat(userDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-    assertThat(userDTO.getLastName()).isEqualTo(DEFAULT_LASTNAME);
-    assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-    assertThat(userDTO.isActivated()).isTrue();
-    assertThat(userDTO.getLangKey()).isEqualTo(Constants.DEFAULT_LANGUAGE);
-    assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
-    assertThat(userDTO.getAuthorities())
-        .contains(AuthoritiesConstants.ANONYMOUS);
-  }
+    @Test
+    @Transactional
+    public void testDefaultUserDetails() {
+        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
+        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
-  @Test
-  @Transactional
-  public void testUserDetailsWithUsername() {
-    userDetails.put("preferred_username", "TEST");
+        assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
+        assertThat(userDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
+        assertThat(userDTO.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+        assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
+        assertThat(userDTO.isActivated()).isTrue();
+        assertThat(userDTO.getLangKey()).isEqualTo(Constants.DEFAULT_LANGUAGE);
+        assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
+        assertThat(userDTO.getAuthorities()).contains(AuthoritiesConstants.ANONYMOUS);
+    }
 
-    OAuth2AuthenticationToken authentication =
-        createMockOAuth2AuthenticationToken(userDetails);
-    UserDTO userDTO = userService.getUserFromAuthentication(authentication);
+    @Test
+    @Transactional
+    public void testUserDetailsWithUsername() {
+        userDetails.put("preferred_username", "TEST");
 
-    assertThat(userDTO.getLogin()).isEqualTo("test");
-  }
+        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
+        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
-  @Test
-  @Transactional
-  public void testUserDetailsWithLangKey() {
-    userDetails.put("langKey", DEFAULT_LANGKEY);
-    userDetails.put("locale", "en-US");
+        assertThat(userDTO.getLogin()).isEqualTo("test");
+    }
 
-    OAuth2AuthenticationToken authentication =
-        createMockOAuth2AuthenticationToken(userDetails);
-    UserDTO userDTO = userService.getUserFromAuthentication(authentication);
+    @Test
+    @Transactional
+    public void testUserDetailsWithLangKey() {
+        userDetails.put("langKey", DEFAULT_LANGKEY);
+        userDetails.put("locale", "en-US");
 
-    assertThat(userDTO.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
-  }
+        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
+        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
-  @Test
-  @Transactional
-  public void testUserDetailsWithLocale() {
-    userDetails.put("locale", "it-IT");
+        assertThat(userDTO.getLangKey()).isEqualTo(DEFAULT_LANGKEY);
+    }
 
-    OAuth2AuthenticationToken authentication =
-        createMockOAuth2AuthenticationToken(userDetails);
-    UserDTO userDTO = userService.getUserFromAuthentication(authentication);
+    @Test
+    @Transactional
+    public void testUserDetailsWithLocale() {
+        userDetails.put("locale", "it-IT");
 
-    assertThat(userDTO.getLangKey()).isEqualTo("it");
-  }
+        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
+        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
-  @Test
-  @Transactional
-  public void testUserDetailsWithUSLocaleUnderscore() {
-    userDetails.put("locale", "en_US");
+        assertThat(userDTO.getLangKey()).isEqualTo("it");
+    }
 
-    OAuth2AuthenticationToken authentication =
-        createMockOAuth2AuthenticationToken(userDetails);
-    UserDTO userDTO = userService.getUserFromAuthentication(authentication);
+    @Test
+    @Transactional
+    public void testUserDetailsWithUSLocaleUnderscore() {
+        userDetails.put("locale", "en_US");
 
-    assertThat(userDTO.getLangKey()).isEqualTo("en");
-  }
+        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
+        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
-  @Test
-  @Transactional
-  public void testUserDetailsWithUSLocaleDash() {
-    userDetails.put("locale", "en-US");
+        assertThat(userDTO.getLangKey()).isEqualTo("en");
+    }
 
-    OAuth2AuthenticationToken authentication =
-        createMockOAuth2AuthenticationToken(userDetails);
-    UserDTO userDTO = userService.getUserFromAuthentication(authentication);
+    @Test
+    @Transactional
+    public void testUserDetailsWithUSLocaleDash() {
+        userDetails.put("locale", "en-US");
 
-    assertThat(userDTO.getLangKey()).isEqualTo("en");
-  }
+        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
+        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
-  private OAuth2AuthenticationToken
-  createMockOAuth2AuthenticationToken(Map<String, Object> userDetails) {
-    Collection<GrantedAuthority> authorities = Collections.singletonList(
-        new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-        new UsernamePasswordAuthenticationToken(
-            Constants.ANONYMOUS_USER, Constants.ANONYMOUS_USER, authorities);
-    usernamePasswordAuthenticationToken.setDetails(userDetails);
-    OAuth2User user = new DefaultOAuth2User(authorities, userDetails, "sub");
+        assertThat(userDTO.getLangKey()).isEqualTo("en");
+    }
 
-    return new OAuth2AuthenticationToken(user, authorities, "oidc");
-  }
+    private OAuth2AuthenticationToken createMockOAuth2AuthenticationToken(Map<String, Object> userDetails) {
+        Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(Constants.ANONYMOUS_USER, Constants.ANONYMOUS_USER, authorities);
+        usernamePasswordAuthenticationToken.setDetails(userDetails);
+        OAuth2User user = new DefaultOAuth2User(authorities, userDetails, "sub");
+
+        return new OAuth2AuthenticationToken(user, authorities, "oidc");
+    }
 }
