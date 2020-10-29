@@ -127,21 +127,11 @@ export const Bounty = (props: IBountyProps) => {
 const mapStateToProps = ({ bounty }: IRootState) => ({
   bountyList: bounty.entities,
   loading: bounty.loading,
-<<<<<<< HEAD
-  links: bounty.links,
-  totalItems: bounty.totalItems,
-  updateSuccess: bounty.updateSuccess,
-=======
->>>>>>> Generated with JHipster 6.10.3
 });
 
 const mapDispatchToProps = {
   getSearchEntities,
   getEntities,
-<<<<<<< HEAD
-  reset,
-=======
->>>>>>> Generated with JHipster 6.10.3
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

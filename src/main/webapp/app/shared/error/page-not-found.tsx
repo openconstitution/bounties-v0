@@ -1,4 +1,8 @@
 import React from 'react';
+<<<<<<< HEAD
+=======
+
+>>>>>>> app regen revamp
 import { Row, Col, Alert } from 'reactstrap';
 
 class PageNotFound extends React.Component {
