@@ -58,7 +58,7 @@ const Header = (props: IHeaderProps) => {
             {props.isAuthenticated ? (
               <Dropdown item trigger={trigger}>
                 <Dropdown.Menu>
-                  <Dropdown.Item>Notifications (Beta)</Dropdown.Item>
+                  <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
                   <Dropdown.Item>Settings</Dropdown.Item>
                   <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
                 </Dropdown.Menu>
