@@ -21,6 +21,12 @@ export interface IHeaderProps {
 
 const Header = (props: IHeaderProps) => {
   const [menuOpen, setMenuOpen] = useState(false);
+  // useEffect(() => document.querySelector('html').setAttribute('dir', isRTL(Storage.session.get('locale')) ? 'rtl' : 'ltr'));
+
+  // const handleLocaleChange = event => {
+  //   const langKey = event.target.value;
+  //   document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
+  // };
 
   const renderDevRibbon = () =>
     props.isInProduction === false ? (
@@ -44,7 +50,9 @@ const Header = (props: IHeaderProps) => {
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
             {props.isAuthenticated && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && <AdminMenu showSwagger={props.isSwaggerEnabled} />}
+            {props.isAuthenticated && props.isAdmin && (
+              <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
+            )}
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
         </Collapse>
