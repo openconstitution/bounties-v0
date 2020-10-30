@@ -186,26 +186,6 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
-<<<<<<< HEAD
-  // prettier-ignore
-  @Override
-  public String toString() {
-      return "UserDTO{" +
-          "login='" + login + '\'' +
-          ", firstName='" + firstName + '\'' +
-          ", lastName='" + lastName + '\'' +
-          ", email='" + email + '\'' +
-          ", imageUrl='" + imageUrl + '\'' +
-          ", activated=" + activated +
-          ", langKey='" + langKey + '\'' +
-          ", createdBy=" + createdBy +
-          ", createdDate=" + createdDate +
-          ", lastModifiedBy='" + lastModifiedBy + '\'' +
-          ", lastModifiedDate=" + lastModifiedDate +
-          ", authorities=" + authorities +
-          "}";
-  }
-=======
     // prettier-ignore
     @Override
     public String toString() {
@@ -224,5 +204,4 @@ public class UserDTO {
             ", authorities=" + authorities +
             "}";
     }
->>>>>>> app regen revamp
 }

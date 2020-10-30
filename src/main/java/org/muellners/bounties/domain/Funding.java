@@ -17,7 +17,7 @@ import java.math.BigDecimal;
 @Table(name = "funding")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @org.springframework.data.elasticsearch.annotations.Document(indexName = "funding")
-public class Funding implements Serializable {
+public class Funding extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -74,6 +74,10 @@ public class Funding implements Serializable {
     }
 
     public Boolean isPaymentAuth() {
+        return paymentAuth;
+    }
+
+    public Boolean getPaymentAuth() {
         return paymentAuth;
     }
 

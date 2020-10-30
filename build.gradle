@@ -34,6 +34,10 @@ version = "0.0.1-SNAPSHOT"
 
 description = "Bounties platform to grow open source"
 
+bootRun {
+    jvmArgs = ["-Des.set.netty.runtime.available.processors=false"]
+}
+
 sourceCompatibility=1.8
 targetCompatibility=1.8
 assert System.properties["java.specification.version"] == "1.8" || "11" || "12" || "13" || "14"
@@ -164,9 +168,9 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/bounties"
             username "root"
-            password ""
+            password "mysql"
             changeLogFile "src/main/resources/config/liquibase/master.xml"
-            defaultSchemaName "bounties"
+            defaultSchemaName ""
             logLevel "debug"
             classpath "src/main/resources/"
         }
@@ -174,10 +178,10 @@ liquibase {
             driver "com.mysql.cj.jdbc.Driver"
             url "jdbc:mysql://localhost:3306/bounties"
             username "root"
-            password ""
+            password "mysql"
             changeLogFile project.ext.diffChangelogFile
-            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL8Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
-            defaultSchemaName "bounties"
+            referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
+            defaultSchemaName ""
             logLevel "debug"
             classpath "$buildDir/classes/java/main"
             excludeObjects "oauth_access_token, oauth_approvals, oauth_client_details, oauth_client_token, oauth_code, oauth_refresh_token"
@@ -277,6 +281,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-undertow"
     implementation "org.springframework.boot:spring-boot-starter-websocket"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
+    implementation "org.springframework.boot:spring-boot-starter-webflux"
     implementation "org.zalando:problem-spring-web"
     implementation "org.springframework.boot:spring-boot-starter-cloud-connectors"
     implementation "org.springframework.security:spring-security-config"
@@ -305,6 +310,7 @@ dependencies {
     testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunit_junit5_version}"
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunit_junit5_version}"
     testImplementation "com.h2database:h2"
+//    liquibaseRuntime "com.h2database:h2"
     testImplementation "org.testcontainers:kafka"
 
     testImplementation "org.testcontainers:testcontainers"

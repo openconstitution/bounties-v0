@@ -53,6 +53,7 @@ spring:
         prepStmtCacheSize: 250
         prepStmtCacheSqlLimit: 2048
         useServerPrepStmts: true
+        connectionTimeout: 600000
   jpa:
     show-sql: true
   data:

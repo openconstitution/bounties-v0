@@ -1,5 +1,6 @@
 package org.muellners.bounties.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,7 +11,7 @@ import java.util.Map;
 @ConfigurationProperties(prefix = "kafka")
 public class KafkaProperties {
 
-    private String bootStrapServers = "localhost:9092";
+    @Value("{kafka.bootstrap-servers}") private String bootStrapServers;
 
     private Map<String, String> consumer = new HashMap<>();
 
