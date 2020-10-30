@@ -7,10 +7,6 @@ import applicationProfile, { ApplicationProfileState } from './application-profi
 import administration, { AdministrationState } from 'app/modules/administration/administration.reducer';
 import userManagement, { UserManagementState } from './user-management';
 // prettier-ignore
-import bounties, {
-  BountiesState
-} from 'app/entities/bounties/bounties.reducer';
-// prettier-ignore
 import bounty, {
   BountyState
 } from 'app/entities/bounty/bounty.reducer';
@@ -18,10 +14,6 @@ import bounty, {
 import funding, {
   FundingState
 } from 'app/entities/funding/funding.reducer';
-// prettier-ignore
-import issue, {
-  IssueState
-} from 'app/entities/issue/issue.reducer';
 // prettier-ignore
 import profile, {
   ProfileState
@@ -33,10 +25,8 @@ export interface IRootState {
   readonly applicationProfile: ApplicationProfileState;
   readonly administration: AdministrationState;
   readonly userManagement: UserManagementState;
-  readonly bounties: BountiesState;
   readonly bounty: BountyState;
   readonly funding: FundingState;
-  readonly issue: IssueState;
   readonly profile: ProfileState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
@@ -47,10 +37,8 @@ const rootReducer = combineReducers<IRootState>({
   applicationProfile,
   administration,
   userManagement,
-  bounties,
   bounty,
   funding,
-  issue,
   profile,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,

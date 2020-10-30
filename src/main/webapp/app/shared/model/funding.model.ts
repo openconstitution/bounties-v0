@@ -6,6 +6,8 @@ export interface IFunding {
   mode?: string;
   paymentAuth?: boolean;
   bounty?: IBounty;
+  createdBy?: string;
+  createdDate?: Date;
 }
 
 export const defaultValue: Readonly<IFunding> = {

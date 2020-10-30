@@ -1,15 +1,10 @@
-import './header.scss';
+// import './header.scss';
 
-import React, { useState } from 'react';
-
-import { Navbar, Nav, NavbarToggler, NavbarBrand, Collapse } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-import { NavLink as Link } from 'react-router-dom';
+import React from 'react';
 import LoadingBar from 'react-redux-loading-bar';
-
-import { Home, Brand } from './header-components';
-import { AdminMenu, EntitiesMenu, AccountMenu } from '../menus';
+import { Dropdown, Menu, Container, Image, Input, Button, Label } from 'semantic-ui-react';
+import { NavLink as Link } from 'react-router-dom';
+import { getLoginUrl } from 'app/shared/util/url-utils';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -19,14 +14,14 @@ export interface IHeaderProps {
   isSwaggerEnabled: boolean;
 }
 
-const Header = (props: IHeaderProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  // useEffect(() => document.querySelector('html').setAttribute('dir', isRTL(Storage.session.get('locale')) ? 'rtl' : 'ltr'));
+const trigger = (
+  <span>
+    <Image src={'content/images/jhipster_family_member_0_head-192.png' || 'props.account.imageUrl'} circular avatar />
+    <span>Username</span>
+  </span>
+)
 
-  // const handleLocaleChange = event => {
-  //   const langKey = event.target.value;
-  //   document.querySelector('html').setAttribute('dir', isRTL(langKey) ? 'rtl' : 'ltr');
-  // };
+const Header = (props: IHeaderProps) => {
 
   const renderDevRibbon = () =>
     props.isInProduction === false ? (
@@ -35,30 +30,53 @@ const Header = (props: IHeaderProps) => {
       </div>
     ) : null;
 
-  const toggleMenu = () => setMenuOpen(!menuOpen);
-
-  /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
-
   return (
-    <div id="app-header">
-      {renderDevRibbon()}
-      <LoadingBar className="loading-bar" />
-      <Navbar dark expand="sm" fixed="top" className="bg-dark">
-        <NavbarToggler aria-label="Menu" onClick={toggleMenu} />
-        <Brand />
-        <Collapse isOpen={menuOpen} navbar>
-          <Nav id="header-tabs" className="ml-auto" navbar>
-            <Home />
-            {props.isAuthenticated && <EntitiesMenu />}
-            {props.isAuthenticated && props.isAdmin && (
-              <AdminMenu showSwagger={props.isSwaggerEnabled} showDatabase={!props.isInProduction} />
+    <div>
+      <Menu size='large' borderless inverted stackable fixed='top'>
+        <Container>
+          <Menu.Item as={Link} to='/' header>
+            <Image size='mini' src='content/images/logo-jhipster.png' style={{ marginRight: '1.5em' }} circular/>
+            Bounties
+          </Menu.Item>
+
+          <Menu.Menu position='right'>
+            {props.isAdmin && (
+              <Dropdown item text='Administration'>
+                <Dropdown.Menu>
+                  <Dropdown.Item icon="eye" as='a' href="/admin/tracker" text="User tracker"/>
+                  <Dropdown.Item icon="tachometer alternate" as='a' href="/admin/metrics" text="Metrics"/>
+                  <Dropdown.Item icon="heart" as='a' href="/admin/health" text="Health"/>
+                  <Dropdown.Item icon="list" as='a' href="/admin/configuration" text="Configuration"/>
+                  <Dropdown.Item icon="bell" as='a' href="/admin/audits" text="Audits"/>
+                  <Dropdown.Item icon="tasks" as='a' href="/admin/logs" text="Logs"/>
+                  <Dropdown.Item icon="book" as='a' href="/admin/docs" text="Swagger docs"/>
+                </Dropdown.Menu>
+              </Dropdown>
+
             )}
-            <AccountMenu isAuthenticated={props.isAuthenticated} />
-          </Nav>
-        </Collapse>
-      </Navbar>
+
+            {props.isAuthenticated ? (
+              <Dropdown item trigger={trigger}>
+                <Dropdown.Menu>
+                  <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
+                  <Dropdown.Item>Settings</Dropdown.Item>
+                  <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            ) : (
+              <Menu.Item>
+                <Button as='a' href='/oauth2/authorization/oidc'>
+                  Sign In
+                </Button>
+              </Menu.Item>
+            )}
+            
+          </Menu.Menu>
+        </Container>
+      </Menu>
+      <LoadingBar className="loading-bar" />
     </div>
   );
-};
+}
 
 export default Header;
