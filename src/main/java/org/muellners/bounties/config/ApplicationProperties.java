@@ -10,21 +10,21 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
-	private final Listeners listeners = new Listeners();
+  private final Listeners listeners = new Listeners();
 
-	public Listeners getListeners() { return listeners; }
+  public Listeners getListeners() { return listeners; }
 
-	private static class Listeners {
-		private String url;
+  private static class Listeners {
+    private String url;
 
-		public String getUrl() { return url; }
+    public String getUrl() { return url; }
 
-		public void setUrl(String url) { this.url = url; }
+    public void setUrl(String url) { this.url = url; }
 
-		public String getPath() { return path; }
+    public String getPath() { return path; }
 
-		public void setPath(String path) { this.path = path; }
+    public void setPath(String path) { this.path = path; }
 
-		private String path;
-	}
+    private String path;
+  }
 }
