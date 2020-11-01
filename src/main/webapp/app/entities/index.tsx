@@ -9,7 +9,6 @@ import { getProfile } from 'app/shared/reducers/application-profile';
 
 import Bounty from './bounty';
 import Funding from './funding';
-import Issue from './issue';
 import Profile from './profile';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import Header from 'app/shared/layout/header/header';

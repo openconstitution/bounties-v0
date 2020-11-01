@@ -7,8 +7,6 @@ import { IRootState } from 'app/shared/reducers';
 
 import { getEntity, updateEntity, createEntity, reset } from './bounty.reducer';
 
-import { Experience } from 'app/shared/model/enumerations/experience.model';
-import { Category } from 'app/shared/model/enumerations/category.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
 // import Select from "react-select";
 import { Form, Segment, Dropdown as Select, Grid, Input, Loader, Message, Divider, Header } from 'semantic-ui-react'
