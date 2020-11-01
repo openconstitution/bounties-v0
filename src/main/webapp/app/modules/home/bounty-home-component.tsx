@@ -1,22 +1,25 @@
-import './bounty.scss';
-
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntitiesPerPage as getEntities, reset } from './bounty.reducer';
-import { Segment, Grid, Header, Table, Input, Divider, Button, Popup, Rating, Pagination } from 'semantic-ui-react';
-import _ from 'lodash';
-import { getSortState, JhiItemCount } from 'react-jhipster';
-import { capitalizeFirst } from 'app/shared/util/string-utils';
-import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
+import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
+import { capitalizeFirst } from 'app/shared/util/string-utils';
+import React, { useEffect, useState } from 'react';
+import { getSortState, JhiItemCount } from 'react-jhipster';
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { Button, Divider, Grid, Header, Input, Pagination, Popup, Rating, Segment, Table } from 'semantic-ui-react';
 
-export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IBountyHomeComponentProps extends RouteComponentProps {
+	bountyList: any,
+  loading: any,
+  links: any,
+  totalItems: any,
+  updateSuccess: any,
+  getSearchEntities: any,
+  getEntities: any,
+  reset: any,
+}
 
-export const Bounty = (props: IBountyProps) => {
+export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
   
 	const [search, setSearch] = useState('');
   const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
@@ -247,21 +250,4 @@ export const Bounty = (props: IBountyProps) => {
   );
 };
 
-const mapStateToProps = ({ bounty }: IRootState) => ({
-  bountyList: bounty.entities,
-  loading: bounty.loading,
-  links: bounty.links,
-  totalItems: bounty.totalItems,
-  updateSuccess: bounty.updateSuccess,
-});
-
-const mapDispatchToProps = {
-  getSearchEntities,
-  getEntities,
-  reset,
-};
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(Bounty);
+export default BountyHomeComponent;

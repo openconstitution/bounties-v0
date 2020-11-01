@@ -3,6 +3,7 @@ import { Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
 import Logout from 'app/modules/login/logout';
+import Login from 'app/modules/login/login';
 import Home from 'app/modules/home/home';
 import Entities from 'app/entities';
 import PrivateRoute from 'app/shared/auth/private-route';
@@ -19,8 +20,9 @@ const Routes = () => (
   <div className="view-routes">
     <Switch>
       <ErrorBoundaryRoute path="/logout" component={Logout} />
-      <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
+      <ErrorBoundaryRoute path="/login" exact component={Login} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
+      <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />      
       <PrivateRoute path="/" component={Entities} hasAnyAuthorities={[AUTHORITIES.USER]} />
       <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>

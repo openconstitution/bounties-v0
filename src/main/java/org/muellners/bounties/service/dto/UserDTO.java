@@ -138,12 +138,12 @@ public class UserDTO {
         this.langKey = langKey;
     }
 
-    public String getLangKey() {
-        return langKey;
+    public ProfileDTO getProfile() {
+        return profile;
     }
 
-    public void setLangKey(String langKey) {
-        this.langKey = langKey;
+    public void setProfile(ProfileDTO profile) {
+        this.profile = profile;
     }
 
     public String getCreatedBy() {
