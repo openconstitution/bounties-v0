@@ -1,21 +1,21 @@
-import './home.scss';
+// import './home.scss';
 
-import React from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { Row, Col, Alert } from 'reactstrap';
 
-import { IRootState } from 'app/shared/reducers';
-import { getLoginUrl } from 'app/shared/util/url-utils';
-import { Segment, Container, Image, Header, Button, Divider, Grid, List } from 'semantic-ui-react';
 import { getSearchEntities, getEntitiesPerPage as getEntities, reset } from 'app/entities/bounty/bounty.reducer';
 import { createMedia } from '@artsy/fresnel';
-import { LandingPageComponent } from './landing-page-component';
-import BountyHomeComponent from './bounty-home-component';
+import { LandingPageComponent } from 'app/components/landing-page-component';
+import { BountyHomeComponent } from 'app/components/bounty-home-component';
+import Footer from 'app/shared/layout/footer/footer';
+import ErrorBoundary from 'app/shared/error/error-boundary';
+import { AUTHORITIES } from 'app/config/constants';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
+import { DesktopHeader, MobileHeader } from 'app/shared/layout/header/header';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
-
 
 const { MediaContextProvider, Media } = createMedia({
 	breakpoints: {
@@ -26,26 +26,47 @@ const { MediaContextProvider, Media } = createMedia({
 })
 
 export const Home = (props: IHomeProp) => {
+
   const { isAuthenticated } = props;
 
   return (
     <div>
       {isAuthenticated ? (
-        <BountyHomeComponent
-          bountyList={props.bountyList}
-          loading={props.loading}
-          links={props.links}
-          totalItems={props.totalItems}
-          updateSuccess={props.updateSuccess}
-
-          getSearchEntities={props.getSearchEntities}
-          getEntities={props.getEntities}
-          reset={props.reset}
-
-          location={props.location}
-          history={props.history}
-          match={props.match}
-        />
+        <div>
+          <ErrorBoundary>
+            <MediaContextProvider>
+              <Media greaterThan='mobile'>
+                <DesktopHeader
+                  isAuthenticated={props.isAuthenticated}
+                  isAdmin={props.isAdmin}
+                  ribbonEnv={props.ribbonEnv}
+                  isInProduction={props.isInProduction}
+                  isSwaggerEnabled={props.isSwaggerEnabled}
+                />
+              </Media>
+              <Media at='mobile'>
+                <MobileHeader
+                  isAdmin={props.isAdmin}
+                  isAuthenticated={props.isAuthenticated}
+                />
+              </Media>
+            </MediaContextProvider>
+          </ErrorBoundary>
+          <BountyHomeComponent
+            bountyList={props.bountyList}
+            loading={props.loading}
+            links={props.links}
+            totalItems={props.totalItems}
+            updateSuccess={props.updateSuccess}
+            getSearchEntities={props.getSearchEntities}
+            getEntities={props.getEntities}
+            reset={props.reset}
+            location={props.location}
+            history={props.history}
+            match={props.match}
+          />
+          <Footer />
+        </div>
       ) : (
         <LandingPageComponent account={props.account} isAuthenticated={props.isAuthenticated} />
       )}
@@ -56,6 +77,11 @@ export const Home = (props: IHomeProp) => {
 };
 
 const mapStateToProps = storeState => ({
+  isAdmin: hasAnyAuthority(storeState.authentication.account.authorities, [AUTHORITIES.ADMIN]),
+  ribbonEnv: storeState.applicationProfile.ribbonEnv,
+  isInProduction: storeState.applicationProfile.inProduction,
+  isSwaggerEnabled: storeState.applicationProfile.isSwaggerEnabled,
+
   account: storeState.authentication.account,
   isAuthenticated: storeState.authentication.isAuthenticated,
 

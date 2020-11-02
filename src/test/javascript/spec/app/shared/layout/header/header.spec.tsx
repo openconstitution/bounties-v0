@@ -6,7 +6,7 @@ import { Navbar, Nav } from 'reactstrap';
 
 import { Home, Brand } from 'app/shared/layout/header/header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu } from 'app/shared/layout/menus';
-import Header from 'app/shared/layout/header/header';
+import { DesktopHeader } from 'app/shared/layout/header/header';
 
 describe('Header', () => {
   let mountedWrapper;
@@ -36,7 +36,7 @@ describe('Header', () => {
 
   const wrapper = (props = devProps) => {
     if (!mountedWrapper) {
-      mountedWrapper = shallow(<Header {...props} />);
+      mountedWrapper = shallow(<DesktopHeader {...props} />);
     }
     return mountedWrapper;
   };

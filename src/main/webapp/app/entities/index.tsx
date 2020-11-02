@@ -11,7 +11,7 @@ import Bounty from './bounty';
 import Funding from './funding';
 import Profile from './profile';
 import ErrorBoundary from 'app/shared/error/error-boundary';
-import Header from 'app/shared/layout/header/header';
+import Header, { DesktopHeader, MobileHeader } from 'app/shared/layout/header/header';
 import { createMedia } from '@artsy/fresnel';
 import { Segment, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
@@ -46,13 +46,23 @@ const Routes = (props: IRouteProps) => {
   return (
     <MediaContextProvider>
       <ErrorBoundary>
-        <Header
-          isAuthenticated={props.isAuthenticated}
-          isAdmin={props.isAdmin}
-          ribbonEnv={props.ribbonEnv}
-          isInProduction={props.isInProduction}
-          isSwaggerEnabled={props.isSwaggerEnabled}
-        />
+        <MediaContextProvider>
+          <Media greaterThan='mobile'>
+            <DesktopHeader
+              isAuthenticated={props.isAuthenticated}
+              isAdmin={props.isAdmin}
+              ribbonEnv={props.ribbonEnv}
+              isInProduction={props.isInProduction}
+              isSwaggerEnabled={props.isSwaggerEnabled}
+            />
+          </Media>
+          <Media at='mobile'>
+            <MobileHeader
+              isAdmin={props.isAdmin}
+              isAuthenticated={props.isAuthenticated}
+            />
+          </Media>
+        </MediaContextProvider>
       </ErrorBoundary>
       
       <Segment basic style={{ padding: '5em 5em' }} vertical>
@@ -61,7 +71,7 @@ const Routes = (props: IRouteProps) => {
             <Grid.Column width={16}>
               <Switch>
                 {/* prettier-ignore */}
-                <ErrorBoundaryRoute path={`${match.url}bounty`} component={Bounty} />
+                <ErrorBoundaryRoute path={`${match.url}boun`} component={Bounty} />
                 <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
                 <ErrorBoundaryRoute path={`${match.url}profile`} component={Profile} />
                 {/* jhipster-needle-add-route-path - JHipster will add routes here */}

@@ -1,9 +1,9 @@
-import './home.scss';
+// import './home.scss';
 
 import React from 'react';
 
 import { Segment, Container, Image, Header, Button, Divider, Grid, List } from 'semantic-ui-react';
-import { DesktopContainer, MobileHeader } from './home-header';
+import { DesktopContainer, MobileHeader } from 'app/modules/home/home-header';
 import { createMedia } from '@artsy/fresnel';
 
 export interface ILandingPageComponentProps {

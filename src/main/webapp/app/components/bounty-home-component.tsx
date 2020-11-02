@@ -1,3 +1,4 @@
+import { createMedia } from '@artsy/fresnel';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
@@ -6,7 +7,7 @@ import { capitalizeFirst } from 'app/shared/util/string-utils';
 import React, { useEffect, useState } from 'react';
 import { getSortState, JhiItemCount } from 'react-jhipster';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Divider, Grid, Header, Input, Pagination, Popup, Rating, Segment, Table } from 'semantic-ui-react';
+import { Button, Divider, Grid, Header, Input, List, Pagination, Popup, Rating, Segment, Table } from 'semantic-ui-react';
 
 export interface IBountyHomeComponentProps extends RouteComponentProps {
 	bountyList: any,
@@ -18,6 +19,14 @@ export interface IBountyHomeComponentProps extends RouteComponentProps {
   getEntities: any,
   reset: any,
 }
+
+const { MediaContextProvider, Media } = createMedia({
+	breakpoints: {
+		mobile: 0,
+		tablet: 768,
+		computer: 1024,
+	},
+})
 
 export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
   
@@ -111,7 +120,7 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
     }
   }
 
-  const tableFooter = () => {
+  const TableFooter = () => {
     return (
       <Table.Footer fullWidth>
         <Table.Row>
@@ -137,9 +146,9 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
     )
   }
 
-  const dispBountyListAlt = (list) => {
+  const DesktopBountyTable = () => {
     return (
-      list.map((bounty, i) => (
+      props.bountyList.map((bounty, i) => (
         <>
           <Popup
             wide='very'
@@ -149,7 +158,7 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
             trigger={
               <Table.Row>
                 <Table.Cell>
-                  <a href={`/bounty/${bounty.id}`}>
+                  <a href={`/${bounty.id}`}>
                     <Header as='h4'>
                       <Header.Content>
                         #{bounty.id} - {bounty.summary}
@@ -174,79 +183,180 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
         </>
       ))
     )
+	}
+	
+	const MobileBountyTable = () => {
+    return (
+      props.bountyList.map((bounty, i) => (
+        <>
+					<Table.Row>
+						<Table.Cell>
+							<a href={`/${bounty.id}`}>
+								<Header as='h4'>
+									<Header.Content>
+										#{bounty.id} - {bounty.summary}
+										<Header.Subheader>
+											<span>
+												<List horizontal size='tiny'>
+													<List.Item>
+														Created by {bounty.createdBy}
+													</List.Item>
+													<List.Item>
+														{bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}
+													</List.Item>
+													<List.Item>
+														Expires on {new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}
+													</List.Item>
+												</List>
+											</span>
+										</Header.Subheader>
+									</Header.Content>									
+								</Header>
+								<div>
+
+									<p>{bounty.description !== null ? <i>No description available</i> : bounty.description}</p>
+									<span><small>Difficulty: <Rating icon='star' rating={getDifficulty(bounty.experience)} maxRating={3} /></small></span>
+									<br/>
+									<span><small>Category: {bounty.category === Category.FRONT_END && 'Front End' || bounty.category === Category.BACKEND && 'Backend' || bounty.category === Category.THIS && 'This'}</small></span>
+									<br/>
+									
+								</div>
+							</a>
+						</Table.Cell>
+					</Table.Row>
+        </>
+      ))
+    )
   }
 
-	const { bountyList, match, loading } = props;
+	const { bountyList, loading } = props;
 
-  return (
-    <Segment style={{ padding: '8em 0em' }} vertical>
-      <Segment basic>
-        <Grid columns={2} stackable textAlign='center'>
-          <Divider vertical>Or</Divider>
+  return (		
+		<MediaContextProvider>
+			<Media greaterThan='mobile'>
+				<Segment basic vertical style={{ padding: '5em 5em' }}>
+					<Grid container stackable verticalAlign='middle'>
+						<Grid.Row>
+							<Grid.Column width={16}>
+								<Segment basic>
+									<Grid columns={2} stackable textAlign='center'>
+										<Divider vertical>Or</Divider>
 
-          <Grid.Row verticalAlign='middle'>
-            <Grid.Column textAlign='center'>
-              <Input
-                action={<Button color='teal' content='search' onClick={startSearchingButton} />}
-                icon='search'
-                iconPosition='left'
-                placeholder='Search bounties...'
-                onChange={handleSearch}
-                onKeyPress={startSearching}
-                value={search}
-              />
-            </Grid.Column>
-            <Grid.Column textAlign='center'>
-              <Link to={`${match.url}/new`}>
-                <Button
-                  color='teal'
-                  content='Create New Bounty'
-                  icon='add'
-                  labelPosition='left'
-                />
-              </Link>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
-      <Segment padded basic>
-        
-        <Table selectable={bountyList.length > 0}>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell width="10"></Table.HeaderCell>
-              <Table.HeaderCell width="1">Experience</Table.HeaderCell>
-              <Table.HeaderCell width="1">Type</Table.HeaderCell>
-              <Table.HeaderCell width="1">Status</Table.HeaderCell>
-              <Table.HeaderCell width="2">Expires on</Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
+										<Grid.Row verticalAlign='middle'>
+											<Grid.Column textAlign='center'>
+												<Input
+													action={<Button color='teal' content='search' onClick={startSearchingButton} />}
+													icon='search'
+													iconPosition='left'
+													placeholder='Search bounties...'
+													onChange={handleSearch}
+													onKeyPress={startSearching}
+													value={search}
+												/>
+											</Grid.Column>
+											<Grid.Column textAlign='center'>
+												<Link to={`/new`}>
+													<Button
+														color='teal'
+														content='Create New Bounty'
+														icon='add'
+														labelPosition='left'
+													/>
+												</Link>
+											</Grid.Column>
+										</Grid.Row>
+									</Grid>
+								</Segment>
+								<Segment padded basic>
+									<Table color='black' selectable={bountyList.length > 0}>
+										<Table.Header>
+											<Table.Row>
+												<Table.HeaderCell width="10"></Table.HeaderCell>
+												<Table.HeaderCell width="1">Experience</Table.HeaderCell>
+												<Table.HeaderCell width="1">Type</Table.HeaderCell>
+												<Table.HeaderCell width="1">Status</Table.HeaderCell>
+												<Table.HeaderCell width="2">Expires on</Table.HeaderCell>
+											</Table.Row>
+										</Table.Header>
 
-          {bountyList && bountyList.length > 0 ? (
-          <>
-            {dispBountyListAlt(bountyList)}
-            {tableFooter()}
-          </>
-          ) : (
-            !loading && (
-              <Table.Body>
-                <Table.Row>
-                  <Table.Cell textAlign="center">
-                    <Header as='h4' image>
-                      <Header.Content>
-                        No Bounty found
-                      </Header.Content>
-                    </Header>
-                  </Table.Cell>
-                </Table.Row>
-            </Table.Body>
-            )
-          )}
+										{bountyList && bountyList.length > 0 ? (
+										<>
+											<DesktopBountyTable/>
+											<TableFooter/>
+										</>
+										) : (
+											!loading && (
+												<Table.Body>
+													<Table.Row>
+														<Table.Cell textAlign="center">
+															<Header as='h4' image>
+																<Header.Content>
+																	No Bounty found
+																</Header.Content>
+															</Header>
+														</Table.Cell>
+													</Table.Row>
+											</Table.Body>
+											)
+										)}
+									</Table>
+								</Segment>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
+				</Segment>
+			</Media>
 
-        </Table>
-      
-      </Segment>
-		</Segment>
+			<Media at='mobile'>
+				<Segment basic vertical>
+					<Grid container stackable verticalAlign='middle'>
+						<Grid.Row>
+							<Grid.Column width={16}>
+								<Table celled color='black' selectable={bountyList.length > 0}>
+							<Table.Header>
+								<Table.Row>
+									<Table.HeaderCell>
+										<Input
+											fluid
+											action={<Button color='teal' content='search' onClick={startSearchingButton} />}
+											icon='search'
+											iconPosition='left'
+											placeholder='Search bounties...'
+											onChange={handleSearch}
+											onKeyPress={startSearching}
+											value={search}
+										/>
+									</Table.HeaderCell>
+								</Table.Row>
+							</Table.Header>
+
+							{bountyList && bountyList.length > 0 ? (
+							<>
+								<MobileBountyTable/>
+								<TableFooter/>
+							</>
+							) : (
+								!loading && (
+									<Table.Body>
+										<Table.Row>
+											<Table.Cell textAlign="center">
+												<Header as='h4' image>
+													<Header.Content>
+														No Bounty found
+													</Header.Content>
+												</Header>
+											</Table.Cell>
+										</Table.Row>
+								</Table.Body>
+								)
+							)}
+						</Table>
+							</Grid.Column>
+						</Grid.Row>
+					</Grid>
+				</Segment>
+			</Media>
+		</MediaContextProvider>
   );
 };
 
