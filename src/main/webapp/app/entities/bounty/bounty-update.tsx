@@ -112,7 +112,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
   };
 
   return (
-    <Segment style={{ padding: '8em 0em' }} vertical>
+    <Segment vertical>
       {loading ? (
         <Loader active inline='centered' />
       ) : (

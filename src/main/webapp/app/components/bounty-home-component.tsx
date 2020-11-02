@@ -1,13 +1,15 @@
+import React, { useEffect, useState } from 'react';
+import ReactTooltip from 'react-tooltip';
+import { getSortState, JhiItemCount } from 'react-jhipster';
+import { Link, RouteComponentProps } from 'react-router-dom';
+
 import { createMedia } from '@artsy/fresnel';
 import { Category } from 'app/shared/model/enumerations/category.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { capitalizeFirst } from 'app/shared/util/string-utils';
-import React, { useEffect, useState } from 'react';
-import { getSortState, JhiItemCount } from 'react-jhipster';
-import { Link, RouteComponentProps } from 'react-router-dom';
-import { Button, Divider, Grid, Header, Input, List, Pagination, Popup, Rating, Segment, Table } from 'semantic-ui-react';
+import { Button, Divider, Grid, Header, Input, List, Pagination, Rating, Segment, Table } from 'semantic-ui-react';
 
 export interface IBountyHomeComponentProps extends RouteComponentProps {
 	bountyList: any,
@@ -149,37 +151,34 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
   const DesktopBountyTable = () => {
     return (
       props.bountyList.map((bounty, i) => (
-        <>
-          <Popup
-            wide='very'
-            position='top center'
-            mouseEnterDelay={500}
-            mouseLeaveDelay={500}
-            trigger={
-              <Table.Row>
-                <Table.Cell>
-                  <a href={`/${bounty.id}`}>
-                    <Header as='h4'>
-                      <Header.Content>
-                        #{bounty.id} - {bounty.summary}
-                        <Header.Subheader>Created by {bounty.createdBy} {bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}</Header.Subheader>
-                      </Header.Content>
-                    </Header>
-                  </a>
-                </Table.Cell>
-                <Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
-                <Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
-                <Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
-                <Table.Cell>{new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}</Table.Cell>
-              </Table.Row>
-            }
-          >
-            <Header as='h3' content={bounty.summary} />
-            <p>{bounty.description !== null ? <i>No description available</i> : bounty.description}</p>
-            <span><small>Difficulty: <Rating icon='star' rating={getDifficulty(bounty.experience)} maxRating={3} /></small></span>
-            <br/>
-            <span><small>Category: {bounty.category === Category.FRONT_END && 'Front End' || bounty.category === Category.BACKEND && 'Backend' || bounty.category === Category.THIS && 'This'}</small></span>
-          </Popup>
+        <>	
+					<ReactTooltip id='bounty-tooltip' aria-haspopup='true' type='info'>
+						<Header as='h3' content={bounty.summary} />
+						<p>{bounty.description !== null ? <i>No description available</i> : bounty.description}</p>
+						<span><small>Difficulty: <Rating icon='star' rating={getDifficulty(bounty.experience)} maxRating={3} /></small></span>
+						<br/>
+						<span>
+							<small>Category: {bounty.category === Category.FRONT_END && 'Front End' || bounty.category === Category.BACKEND && 'Backend' || bounty.category === Category.THIS && 'This'}</small>
+						</span>
+					</ReactTooltip>
+
+					<Table.Row data-tip data-for='bounty-tooltip'>
+						<Table.Cell>
+							<a href={`/${bounty.id}`}>
+								<Header as='h4'>
+									<Header.Content>
+										#{bounty.id} - {bounty.summary}
+										<Header.Subheader>Created by {bounty.createdBy} {bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}</Header.Subheader>
+									</Header.Content>
+								</Header>
+							</a>
+						</Table.Cell>
+						<Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
+						<Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
+						<Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
+						<Table.Cell>{new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}</Table.Cell>
+					</Table.Row>
+							
         </>
       ))
     )
@@ -197,12 +196,12 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
 										#{bounty.id} - {bounty.summary}
 										<Header.Subheader>
 											<span>
-												<List horizontal size='tiny'>
+												<List bulleted horizontal size='tiny'>
 													<List.Item>
 														Created by {bounty.createdBy}
 													</List.Item>
 													<List.Item>
-														{bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}
+														on {bounty.createdDate === null ? '' : `${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}
 													</List.Item>
 													<List.Item>
 														Expires on {new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}
