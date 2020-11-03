@@ -17,7 +17,7 @@ import funding, {
 // prettier-ignore
 import profile, {
   ProfileState
-} from 'app/entities/profile/profile.reducer';
+} from 'app/modules/account/profile/profile.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
