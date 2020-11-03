@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntitiesPerPage as getEntities, reset } from './bounty.reducer';
+import { getSearchEntities, getEntities, reset } from './bounty.reducer';
 import _ from 'lodash';
 import BountyHomeComponent from 'app/components/bounty-home-component';
 

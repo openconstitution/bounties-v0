@@ -1,16 +1,25 @@
 import axios from 'axios';
-import { ICrudSearchAction, ICrudGetAction, ICrudGetAllAction, ICrudPutAction, ICrudDeleteAction } from 'react-jhipster';
+import {
+  ICrudSearchAction,
+  ICrudGetAction,
+  ICrudGetAllAction,
+  ICrudPutAction,
+  ICrudDeleteAction,
+  ICrudGetAllByFilterAction,
+} from 'app/shared/util/redux-action-util';
 
 import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IBounty, defaultValue } from 'app/shared/model/bounty.model';
 import { IFunding } from 'app/shared/model/funding.model';
+import { Status } from 'app/shared/model/enumerations/status.model';
+import { IUser } from 'app/shared/model/user.model';
 
 export const ACTION_TYPES = {
   SEARCH_BOUNTIES: 'bounty/SEARCH_BOUNTIES',
+  FETCH_BOUNTY_LIST_BY_FILTER: 'bounty/FETCH_BOUNTY_LIST_BY_Filter',
   FETCH_BOUNTY_LIST: 'bounty/FETCH_BOUNTY_LIST',
-  FETCH_BOUNTY_LIST_PER_PAGE: 'bounty/FETCH_BOUNTY_LIST_PER_PAGE',
   FETCH_BOUNTY: 'bounty/FETCH_BOUNTY',
   CREATE_BOUNTY: 'bounty/CREATE_BOUNTY',
   ADD_FUNDS: 'bounty/ADD_FUNDS',
@@ -38,8 +47,8 @@ export type BountyState = Readonly<typeof initialState>;
 export default (state: BountyState = initialState, action): BountyState => {
   switch (action.type) {
     case REQUEST(ACTION_TYPES.SEARCH_BOUNTIES):
+    case REQUEST(ACTION_TYPES.FETCH_BOUNTY_LIST_BY_FILTER):
     case REQUEST(ACTION_TYPES.FETCH_BOUNTY_LIST):
-      case REQUEST(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
     case REQUEST(ACTION_TYPES.FETCH_BOUNTY):
       return {
         ...state,
@@ -65,8 +74,8 @@ export default (state: BountyState = initialState, action): BountyState => {
         updating: true,
       };
     case FAILURE(ACTION_TYPES.SEARCH_BOUNTIES):
+    case FAILURE(ACTION_TYPES.FETCH_BOUNTY_LIST_BY_FILTER):
     case FAILURE(ACTION_TYPES.FETCH_BOUNTY_LIST):
-      case FAILURE(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
     case FAILURE(ACTION_TYPES.FETCH_BOUNTY):
     case FAILURE(ACTION_TYPES.CREATE_BOUNTY):
     case FAILURE(ACTION_TYPES.ADD_FUNDS):
@@ -88,13 +97,13 @@ export default (state: BountyState = initialState, action): BountyState => {
         errorMessage: action.payload,
       };
     case SUCCESS(ACTION_TYPES.SEARCH_BOUNTIES):
-    case SUCCESS(ACTION_TYPES.FETCH_BOUNTY_LIST):
+    case SUCCESS(ACTION_TYPES.FETCH_BOUNTY_LIST_BY_FILTER):
       return {
         ...state,
         loading: false,
         entities: action.payload.data,
       };
-    case SUCCESS(ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE):
+    case SUCCESS(ACTION_TYPES.FETCH_BOUNTY_LIST):
       return {
         ...state,
         loading: false,
@@ -142,6 +151,11 @@ export default (state: BountyState = initialState, action): BountyState => {
 const apiUrl = 'api/bounties';
 const apiSearchUrl = 'api/_search/bounties';
 
+export interface IFilter {
+  status: Status;
+  hunter: string;
+}
+
 // Actions
 
 export const getSearchEntities: ICrudSearchAction<IBounty> = (query, page, size, sort) => ({
@@ -149,16 +163,19 @@ export const getSearchEntities: ICrudSearchAction<IBounty> = (query, page, size,
   payload: axios.get<IBounty>(`${apiSearchUrl}?query=${query}`),
 });
 
-export const getEntities: ICrudGetAllAction<IBounty> = (page, size, sort) => ({
-  type: ACTION_TYPES.FETCH_BOUNTY_LIST,
-  payload: axios.get<IBounty>(`${apiUrl}/all?cacheBuster=${new Date().getTime()}`),
-});
-
-export const getEntitiesPerPage: ICrudGetAllAction<IBounty> = (page, size, sort) => {
+export const getEntities: ICrudGetAllAction<IBounty> = (page, size, sort) => {
   const requestUrl = `${apiUrl}${sort ? `?page=${page}&size=${size}&sort=${sort}` : ''}`;
   return {
-    type: ACTION_TYPES.FETCH_BOUNTY_LIST_PER_PAGE,
+    type: ACTION_TYPES.FETCH_BOUNTY_LIST,
     payload: axios.get<IBounty>(`${requestUrl}${sort ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
+  };
+};
+
+export const getEntitiesByFilter: ICrudGetAllByFilterAction<IBounty> = (filter: IFilter) => {
+  const requestUrl = `${apiUrl}${filter ? `?status=${filter.status}&hunter=${filter.hunter}` : ''}`;
+  return {
+    type: ACTION_TYPES.FETCH_BOUNTY_LIST_BY_FILTER,
+    payload: axios.get<IBounty>(`${requestUrl}${filter ? '&' : '?'}cacheBuster=${new Date().getTime()}`),
   };
 };
 
@@ -180,8 +197,8 @@ export const createEntity: ICrudPutAction<IBounty> = entity => async dispatch =>
 };
 
 interface IBountyFunding {
-  entity: IFunding,
-  id: number
+  entity: IFunding;
+  id: number;
 }
 
 export const addFunds: ICrudPutAction<IBountyFunding> = (bountyFunding: any) => async dispatch => {
@@ -189,10 +206,10 @@ export const addFunds: ICrudPutAction<IBountyFunding> = (bountyFunding: any) => 
   const result = await dispatch({
     type: ACTION_TYPES.ADD_FUNDS,
     payload: axios.post(requestUrl, cleanEntity(bountyFunding.entity)),
-  })
+  });
   dispatch(getEntities());
   return result;
-}
+};
 
 export const removeFunds: ICrudDeleteAction<IBountyFunding> = (bountyFunding: any) => async dispatch => {
   const requestUrl = `${apiUrl}/${bountyFunding.id}/fundings/${bountyFunding.entity.id}`;
