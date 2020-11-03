@@ -10,6 +10,7 @@ import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-u
 import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
 import { capitalizeFirst } from 'app/shared/util/string-utils';
 import { Button, Divider, Grid, Header, Input, List, Pagination, Rating, Segment, Table } from 'semantic-ui-react';
+import { APP_DATETIME_FORMAT } from 'app/config/constants';
 
 export interface IBountyHomeComponentProps extends RouteComponentProps {
 	bountyList: any,
@@ -33,14 +34,17 @@ const { MediaContextProvider, Media } = createMedia({
 export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
   
 	const [search, setSearch] = useState('');
-  const  options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
   const [paginationState, setPaginationState] = useState(
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE), props.location.search)
   );
   const [bountyActivePage, setBountyActivePage] = useState(paginationState.activePage);
 
   const getAllEntities = () => {
-    props.getEntities(paginationState.activePage - 1, paginationState.itemsPerPage, `${paginationState.sort},${paginationState.order}`);
+		const pageable = {
+			page: paginationState.activePage - 1,
+			size: paginationState.itemsPerPage,
+			sort: `${paginationState.sort},${paginationState.order}`}
+    props.getEntities(pageable);
   };
 
   const sortEntities = () => {
@@ -168,7 +172,7 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
 								<Header as='h4'>
 									<Header.Content>
 										#{bounty.id} - {bounty.summary}
-										<Header.Subheader>Created by {bounty.createdBy} {bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}</Header.Subheader>
+										<Header.Subheader>Created by {bounty.createdBy} {bounty.createdDate === null ? '' : `on ${new Date(bounty.createdDate).toLocaleDateString('en-US', APP_DATETIME_FORMAT)}`}</Header.Subheader>
 									</Header.Content>
 								</Header>
 							</a>
@@ -176,7 +180,7 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
 						<Table.Cell>{capitalizeFirst(bounty.experience)}</Table.Cell>
 						<Table.Cell>{capitalizeFirst(bounty.type)}</Table.Cell>
 						<Table.Cell>{capitalizeFirst(bounty.status)}</Table.Cell>
-						<Table.Cell>{new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}</Table.Cell>
+						<Table.Cell>{new Date(bounty.expiryDate).toLocaleDateString('en-US', APP_DATETIME_FORMAT)}</Table.Cell>
 					</Table.Row>
 							
         </>
@@ -201,10 +205,10 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
 														Created by {bounty.createdBy}
 													</List.Item>
 													<List.Item>
-														on {bounty.createdDate === null ? '' : `${new Date(bounty.createdDate).toLocaleDateString('en-US', options)}`}
+														on {bounty.createdDate === null ? '' : `${new Date(bounty.createdDate).toLocaleDateString('en-US', APP_DATETIME_FORMAT)}`}
 													</List.Item>
 													<List.Item>
-														Expires on {new Date(bounty.expiryDate).toLocaleDateString('en-US', options)}
+														Expires on {new Date(bounty.expiryDate).toLocaleDateString('en-US', APP_DATETIME_FORMAT)}
 													</List.Item>
 												</List>
 											</span>
@@ -312,44 +316,44 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
 						<Grid.Row>
 							<Grid.Column width={16}>
 								<Table celled color='black' selectable={bountyList.length > 0}>
-							<Table.Header>
-								<Table.Row>
-									<Table.HeaderCell>
-										<Input
-											fluid
-											action={<Button color='teal' content='search' onClick={startSearchingButton} />}
-											icon='search'
-											iconPosition='left'
-											placeholder='Search bounties...'
-											onChange={handleSearch}
-											onKeyPress={startSearching}
-											value={search}
-										/>
-									</Table.HeaderCell>
-								</Table.Row>
-							</Table.Header>
-
-							{bountyList && bountyList.length > 0 ? (
-							<>
-								<MobileBountyTable/>
-								<TableFooter/>
-							</>
-							) : (
-								!loading && (
-									<Table.Body>
+									<Table.Header>
 										<Table.Row>
-											<Table.Cell textAlign="center">
-												<Header as='h4' image>
-													<Header.Content>
-														No Bounty found
-													</Header.Content>
-												</Header>
-											</Table.Cell>
+											<Table.HeaderCell>
+												<Input
+													fluid
+													action={<Button color='teal' content='search' onClick={startSearchingButton} />}
+													icon='search'
+													iconPosition='left'
+													placeholder='Search bounties...'
+													onChange={handleSearch}
+													onKeyPress={startSearching}
+													value={search}
+												/>
+											</Table.HeaderCell>
 										</Table.Row>
-								</Table.Body>
-								)
-							)}
-						</Table>
+									</Table.Header>
+
+									{bountyList && bountyList.length > 0 ? (
+									<>
+										<MobileBountyTable/>
+										<TableFooter/>
+									</>
+									) : (
+										!loading && (
+											<Table.Body>
+												<Table.Row>
+													<Table.Cell textAlign="center">
+														<Header as='h4' image>
+															<Header.Content>
+																No Bounty found
+															</Header.Content>
+														</Header>
+													</Table.Cell>
+												</Table.Row>
+										</Table.Body>
+										)
+									)}
+								</Table>
 							</Grid.Column>
 						</Grid.Row>
 					</Grid>
