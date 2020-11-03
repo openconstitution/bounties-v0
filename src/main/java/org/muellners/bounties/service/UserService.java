@@ -9,6 +9,8 @@ import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.UserDTO;
 
+import org.muellners.bounties.service.mapper.ProfileMapper;
+import org.muellners.bounties.service.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.CacheManager;
@@ -33,6 +35,10 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final Logger log = LoggerFactory.getLogger(UserService.class);
+    
+    private final ProfileMapper profileMapper;
+    
+    private final UserMapper userMapper;
 
     private final UserRepository userRepository;
 
@@ -42,7 +48,10 @@ public class UserService {
 
     private final CacheManager cacheManager;
 
-    public UserService(UserRepository userRepository, UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+    public UserService(UserMapper userMapper, ProfileMapper profileMapper, UserRepository userRepository,
+                       UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+        this.userMapper = userMapper;
+        this.profileMapper = profileMapper;
         this.userRepository = userRepository;
         this.userSearchRepository = userSearchRepository;
         this.authorityRepository = authorityRepository;
@@ -50,29 +59,27 @@ public class UserService {
     }
 
     /**
-     * Update basic information (first name, last name, email, language) for the current user.
+     * Update basic information (first name, last name, email, language, imageUrl, profile) for the current user.
      *
-     * @param firstName first name of user.
-     * @param lastName  last name of user.
-     * @param email     email id of user.
-     * @param langKey   language key.
-     * @param imageUrl  image URL of user.
+     * @param userDTO user to update
+     * @return
      */
-    public void updateUser(String firstName, String lastName, String email, String langKey, String imageUrl) {
-        SecurityUtils.getCurrentUserLogin()
-            .flatMap(userRepository::findOneByLogin)
-            .ifPresent(user -> {
-                user.setFirstName(firstName);
-                user.setLastName(lastName);
-                if (email != null) {
-                    user.setEmail(email.toLowerCase());
-                }
-                user.setLangKey(langKey);
-                user.setImageUrl(imageUrl);
-                userSearchRepository.save(user);
-                this.clearUserCaches(user);
-                log.debug("Changed Information for User: {}", user);
-            });
+    public UserDTO updateUser(UserDTO userDTO) {
+        final User user = SecurityUtils.getCurrentUserLogin()
+                                        .flatMap(userRepository::findOneByLogin)
+                                        .orElseThrow(IllegalArgumentException::new);
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        if (userDTO.getEmail() != null) {
+            user.setEmail(userDTO.getEmail().toLowerCase());
+        }
+        user.setLangKey(userDTO.getLangKey());
+        user.setImageUrl(userDTO.getImageUrl());
+        user.setProfile(profileMapper.profileDTOToProfile(userDTO.getProfile()));
+//        userSearchRepository.save(user);
+        this.clearUserCaches(user);
+        log.debug("Changed Information for User: {}", user);
+        return userMapper.userToUserDTO(user);
     }
 
 
@@ -118,14 +125,12 @@ public class UserService {
                 Instant idpModifiedDate = (Instant) details.get("updated_at");
                 if (idpModifiedDate.isAfter(dbModifiedDate)) {
                     log.debug("Updating user '{}' in local database", user.getLogin());
-                    updateUser(user.getFirstName(), user.getLastName(), user.getEmail(),
-                        user.getLangKey(), user.getImageUrl());
+                    updateUser(userMapper.userToUserDTO(user));
                 }
                 // no last updated info, blindly update
             } else {
                 log.debug("Updating user '{}' in local database", user.getLogin());
-                updateUser(user.getFirstName(), user.getLastName(), user.getEmail(),
-                    user.getLangKey(), user.getImageUrl());
+                updateUser(userMapper.userToUserDTO(user));
             }
         } else {
             log.debug("Saving user '{}' in local database", user.getLogin());

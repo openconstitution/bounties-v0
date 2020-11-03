@@ -2,6 +2,7 @@ package org.muellners.bounties.service.dto;
 
 import com.sun.istack.NotNull;
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.User;
 import org.muellners.bounties.domain.enumeration.Category;
 import org.muellners.bounties.domain.enumeration.Experience;
 import org.muellners.bounties.domain.enumeration.Status;
@@ -43,6 +44,8 @@ public class BountyDTO {
 
     private Set<FundingDTO> fundings;
 
+    private User hunter;
+
     private String createdBy;
 
     private Instant createdDate;
@@ -64,6 +67,7 @@ public class BountyDTO {
         this.keywords = bounty.getKeywords();
         this.permission = bounty.getPermission();
         this.expiryDate = bounty.getExpiryDate();
+        this.hunter = bounty.getHunter();
         this.createdBy = bounty.getCreatedBy();
         this.createdDate = bounty.getCreatedDate();
     }
@@ -83,6 +87,7 @@ public class BountyDTO {
             ", keywords='" + keywords + '\'' +
             ", permission=" + permission +
             ", expiryDate=" + expiryDate +
+            ", hunter=" + hunter +
             ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +
             '}';
@@ -192,6 +197,14 @@ public class BountyDTO {
 
     public void setFundings(Set<FundingDTO> fundings) {
         this.fundings = fundings;
+    }
+
+    public User getHunter() {
+        return hunter;
+    }
+
+    public void setHunter(User hunter) {
+        this.hunter = hunter;
     }
 
     public String getCreatedBy() {

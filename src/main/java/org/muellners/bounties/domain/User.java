@@ -65,7 +65,8 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-    @OneToOne @JoinColumn(name = "profile_id")	
+    @OneToOne
+    @JoinColumn(name = "profile_id")
 	private Profile profile;
 
     @JsonIgnore

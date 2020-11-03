@@ -72,6 +72,10 @@ public class Bounty extends AbstractAuditingEntity {
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Funding> fundings = new HashSet<>();
 
+    @OneToOne
+    @JoinColumn(name = "hunter_id")
+    private User hunter;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() { return id; }
 
@@ -213,6 +217,19 @@ public class Bounty extends AbstractAuditingEntity {
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
     // setters here
 
+    public User getHunter() {
+        return hunter;
+    }
+
+    public Bounty hunter(User hunter) {
+        this.hunter = hunter;
+        return this;
+    }
+
+    public void setHunter(User hunter) {
+        this.hunter = hunter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -235,12 +252,15 @@ public class Bounty extends AbstractAuditingEntity {
         return "Bounty{"
                 + "id=" + getId() + ", status='" + getStatus() + "'"
                 + ", issueUrl='" + getIssueUrl() + "'"
-                + ", amount=" + getAmount() + ", experience='" + getExperience() + "'"
-                + ", commitment=" + getCommitment() + ", type='" + getType() + "'"
+                + ", amount='" + getAmount() + "'"
+                + ", experience='" + getExperience() + "'"
+                + ", commitment=" + getCommitment()
+                + ", type='" + getType() + "'"
                 + ", category='" + getCategory() + "'"
                 + ", keywords='" + getKeywords() + "'"
                 + ", permission='" + isPermission() + "'"
                 + ", expiryDate='" + getExpiryDate() + "'"
+                + ", hunter='" + getHunter() + "'"
                 + "}";
     }
 }

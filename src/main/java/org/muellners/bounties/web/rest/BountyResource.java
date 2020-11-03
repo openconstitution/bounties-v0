@@ -1,6 +1,8 @@
 package org.muellners.bounties.web.rest;
 
 import io.github.jhipster.web.util.PaginationUtil;
+import org.muellners.bounties.domain.User;
+import org.muellners.bounties.domain.enumeration.Status;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.BountyService;
 import org.muellners.bounties.service.FundingService;
@@ -125,30 +127,26 @@ public class BountyResource {
                 .body(result);
     }
 
-    /**
-     * {@code GET  /bounties/all} : get all the bounties.
-     *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list
-     *         of bounties in body.
-     */
-    @GetMapping("/bounties/all")
-    public ResponseEntity<List<BountyDTO>> getAllBounties() {
-        log.debug("REST request to get all Bounties");
-        return ResponseEntity.ok().body(bountyService.findAll());
-    }
-
 	/**
 	 * {@code GET  /bounties} : get all the bounties per page.
 	 *
 	 * @param pageable the pagination information.
+     * @param status the pagination information.
+     * @param hunter the pagination information.
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
 	 */
 	@GetMapping("/bounties")
-	public ResponseEntity<List<BountyDTO>> getAllBountiesPageable(Pageable pageable) {
-		log.debug("REST request to get a page of Bounty");
-		Page<BountyDTO> page = bountyService.findAll(pageable);
-		HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-		return ResponseEntity.ok().headers(headers).body(page.getContent());
+	public ResponseEntity<List<BountyDTO>> getAllBounties(Pageable pageable, Status status, String hunter) {
+		if (status != null || hunter != null) {
+            log.debug("REST request to get all Bounties by status: {} by hunter: {}", status, hunter);
+            return ResponseEntity.ok().body(bountyService.findAllByUserByStatus(status, hunter));
+		} else {
+            log.debug("REST request to get a page of Bounty, page: {}, sort: {}, size: {}",
+                    pageable.getPageNumber(), pageable.getSort(), pageable.getPageSize());
+            Page<BountyDTO> page = bountyService.findAll(pageable);
+            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+            return ResponseEntity.ok().headers(headers).body(page.getContent());
+        }
 	}
 
     /**
