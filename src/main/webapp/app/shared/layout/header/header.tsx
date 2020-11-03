@@ -2,23 +2,15 @@
 
 import React, { Children, useState } from 'react';
 import LoadingBar from 'react-redux-loading-bar';
-import { Dropdown, Menu, Container, Image, Input, Button, Label, Sidebar, Segment, Icon } from 'semantic-ui-react';
+import { Dropdown, Menu, Container, Image, Input, Button, Label, Sidebar, Segment, Icon, List } from 'semantic-ui-react';
 import { NavLink as Link } from 'react-router-dom';
 import { getLoginUrl } from 'app/shared/util/url-utils';
 import { createMedia } from '@artsy/fresnel';
 
-const { MediaContextProvider, Media } = createMedia({
-	breakpoints: {
-		mobile: 0,
-		tablet: 768,
-		computer: 1024,
-	},
-});
-
 export interface IHeaderProps {
   isAuthenticated: boolean;
   isAdmin: boolean;
-  ribbonEnv: string;
+  account: any;
   isInProduction: boolean;
   isSwaggerEnabled: boolean;
 }
@@ -61,6 +53,7 @@ export const DesktopHeader = (props: IHeaderProps) => {
               <Dropdown item trigger={trigger}>
                 <Dropdown.Menu>
                   <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
+                  <Dropdown.Item as={Link} to={`/${props.account.login}`}>Profiles</Dropdown.Item>
                   <Dropdown.Item>Settings</Dropdown.Item>
                   <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
                 </Dropdown.Menu>
@@ -81,7 +74,7 @@ export const DesktopHeader = (props: IHeaderProps) => {
   );
 }
 
-export const MobileHeader = (props) => {
+export const MobileHeader = (props: IHeaderProps) => {
 
   const [state, setState] = useState({ sidebarOpened: null });
 
@@ -103,22 +96,45 @@ export const MobileHeader = (props) => {
           visible={sidebarOpened}
           width='thin'
         >
-          <Menu.Menu position='right'>
-            {props.isAdmin && (
-              <Dropdown item text='Administration'>
-                <Dropdown.Menu>
-                  <Dropdown.Item icon="eye" as='a' href="/admin/tracker" text="User tracker"/>
-                  <Dropdown.Item icon="tachometer alternate" as='a' href="/admin/metrics" text="Metrics"/>
-                  <Dropdown.Item icon="heart" as='a' href="/admin/health" text="Health"/>
-                  <Dropdown.Item icon="list" as='a' href="/admin/configuration" text="Configuration"/>
-                  <Dropdown.Item icon="bell" as='a' href="/admin/audits" text="Audits"/>
-                  <Dropdown.Item icon="tasks" as='a' href="/admin/logs" text="Logs"/>
-                  <Dropdown.Item icon="book" as='a' href="/admin/docs" text="Swagger docs"/>
-                </Dropdown.Menu>
-              </Dropdown>
-
-            )}
+        {props.isAdmin && (
+          <Menu.Menu>
+            <List>
+              <List.Item>
+                Administration
+                <List.List>
+                  <List.Item as='a' href="/admin/tracker">
+                    <List.Icon name='eye' />
+                    <List.Content>User tracker</List.Content>
+                  </List.Item>
+                  <List.Item as='a' href="/admin/metrics">
+                    <List.Icon name='tachometer alternate' />
+                    <List.Content>Metrics</List.Content>
+                  </List.Item>
+                  <List.Item as='a' href="/admin/health">
+                    <List.Icon name='heart' />
+                    <List.Content>Health</List.Content>
+                  </List.Item>
+                  <List.Item as='a' href="/admin/configuration">
+                    <List.Icon name='list' />
+                    <List.Content>Configuration</List.Content>
+                  </List.Item>
+                  <List.Item as='a' href="/admin/audits">
+                    <List.Icon name='bell' />
+                    <List.Content>Audits</List.Content>
+                  </List.Item>
+                  <List.Item as='a' href="/admin/logs">
+                    <List.Icon name='tasks' />
+                    <List.Content>Logs</List.Content>
+                  </List.Item>
+                  <List.Item as='a' href="/admin/docs">
+                    <List.Icon name='book' />
+                    <List.Content>Swagger docs</List.Content>
+                  </List.Item>
+                </List.List>
+              </List.Item>
+            </List>
           </Menu.Menu>
+        )}
         </Sidebar>
 
         <Sidebar.Pusher dimmed={sidebarOpened}>
@@ -145,6 +161,7 @@ export const MobileHeader = (props) => {
                     <Dropdown item trigger={trigger}>
                       <Dropdown.Menu>
                         <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
+                        <Dropdown.Item as={Link} to={`/${props.account}`}>Profile</Dropdown.Item>
                         <Dropdown.Item>Settings</Dropdown.Item>
                         <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
                       </Dropdown.Menu>
