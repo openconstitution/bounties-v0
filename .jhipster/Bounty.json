@@ -4,7 +4,7 @@
     {
       "fieldName": "status",
       "fieldType": "Status",
-      "fieldValues": "OPEN,INVALID,CLOSED,FUNDED"
+      "fieldValues": "OPEN,INVALID,CLOSED,CLAIMED"
     },
     {
       "fieldName": "url",
