@@ -290,8 +290,8 @@ export const DesktopBountyDetailComponent = (props: BountyDetailComponentProps) 
                 <Grid.Column width={5}>
                   {
                     hasExpired(bountyEntity.expiryDate?.toString()) && <Label as='a' color='red' ribbon='right'>Expired</Label>
-                    || bountyEntity?.status === Status.CLOSED && <Label as='a' color='red' ribbon='right'>Claimed</Label>
-                    || bountyEntity?.status === Status.FUNDED && <Label as='a' color='red' ribbon='right'>Funded</Label>
+                    || bountyEntity?.status === Status.CLOSED && <Label as='a' color='red' ribbon='right'>Closed</Label>
+                    || bountyEntity?.status === Status.CLAIMED && <Label as='a' color='red' ribbon='right'>Claimed</Label>
                   }
                   <Container>
                     <Statistic horizontal>
@@ -386,7 +386,7 @@ export const MobileBountyDetailComponent = (props: BountyDetailComponentProps) =
 			{
 				hasExpired(bountyEntity.expiryDate?.toString()) && <Label as='a' color='red' ribbon>Expired</Label>
 				|| bountyEntity?.status === Status.CLOSED && <Label as='a' color='red' ribbon>Claimed</Label>
-				|| bountyEntity?.status === Status.FUNDED && <Label as='a' color='red' ribbon>Funded</Label>
+				|| bountyEntity?.status === Status.CLAIMED && <Label as='a' color='red' ribbon>Claimed</Label>
 			}
 			<Segment vertical>
 				<Grid>
