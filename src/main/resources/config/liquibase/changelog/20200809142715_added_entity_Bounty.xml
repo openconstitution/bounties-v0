@@ -52,6 +52,9 @@
             <column name="expiry_date" type="date">
                 <constraints nullable="true" />
             </column>
+            <column name="hunter_id" type="varchar(100)">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>
