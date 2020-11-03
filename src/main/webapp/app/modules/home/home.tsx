@@ -5,7 +5,7 @@ import { RouteComponentProps } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
-import { getSearchEntities, getEntitiesPerPage as getEntities, reset } from 'app/entities/bounty/bounty.reducer';
+import { getSearchEntities, getEntities, reset } from 'app/entities/bounty/bounty.reducer';
 import { createMedia } from '@artsy/fresnel';
 import { LandingPageComponent } from 'app/components/landing-page-component';
 import { BountyHomeComponent } from 'app/components/bounty-home-component';
@@ -39,15 +39,18 @@ export const Home = (props: IHomeProp) => {
                 <DesktopHeader
                   isAuthenticated={props.isAuthenticated}
                   isAdmin={props.isAdmin}
-                  ribbonEnv={props.ribbonEnv}
+                  account={props.account}
                   isInProduction={props.isInProduction}
                   isSwaggerEnabled={props.isSwaggerEnabled}
                 />
               </Media>
               <Media at='mobile'>
                 <MobileHeader
-                  isAdmin={props.isAdmin}
                   isAuthenticated={props.isAuthenticated}
+                  isAdmin={props.isAdmin}
+                  account={props.account}
+                  isInProduction={props.isInProduction}
+                  isSwaggerEnabled={props.isSwaggerEnabled}
                 />
               </Media>
             </MediaContextProvider>

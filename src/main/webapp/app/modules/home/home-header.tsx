@@ -52,7 +52,7 @@ const HomepageHeading = ({ mobile }) => (
 				marginTop: mobile ? '0.5em' : '1.5em',
 			}}
 		/>
-		<Button as={Link} to={getLoginUrl()} primary size='huge'>
+		<Button as='a' href={getLoginUrl()} primary size='huge'>
 			Get Started
 			<Icon name='arrow right' />
 		</Button>
@@ -109,7 +109,7 @@ export const DesktopContainer = (props: IHeaderProps) => {
 							</Menu.Menu>
 						) : (
 							<>
-								<Menu.Item as='a'>Work</Menu.Item>
+								<Menu.Item as='a'>Work {isAuthenticated.toString()}</Menu.Item>
 								<Menu.Item as='a'>Company</Menu.Item>
 								<Menu.Item as='a'>Careers</Menu.Item>
 								<Menu.Item position='right'>
@@ -117,11 +117,8 @@ export const DesktopContainer = (props: IHeaderProps) => {
 										<Button as={Link} to={'/logout'} inverted={!fixed} color={'red'}>Sign Out</Button>
 									) : (
 										<div>
-											<Button as={Link} to={getLoginUrl()} inverted={!fixed}>
+											<Button as='a' href={getLoginUrl()} inverted={!fixed}>
 												Log in
-											</Button>
-											<Button as={Link} to={'/account/register'} inverted={!fixed} primary={fixed} style={{ marginLeft: '0.5em' }}>
-												Sign Up
 											</Button>
 										</div>
 									)}
@@ -175,8 +172,7 @@ export const MobileHeader = (props: IHeaderProps) => {
 							<Menu.Item as={Link} to={'/logout'} color='red'>Sign out</Menu.Item>
 						) : (
 							<div>
-								<Menu.Item as={Link} to={getLoginUrl()}>Log in</Menu.Item>
-								<Menu.Item as={Link} to={'/account/register'}>Sign Up</Menu.Item>
+								<Menu.Item as='a' href={getLoginUrl()}>Log in</Menu.Item>
 							</div>
 						)}
 					</div>
@@ -200,7 +196,7 @@ export const MobileHeader = (props: IHeaderProps) => {
 									<Button as={Link} to={'/logout'} inverted color={'red'}>Sign Out</Button>
 								) : (
 									<div>
-										<Button as={Link} to={getLoginUrl()} inverted>
+										<Button as='a' href={getLoginUrl()} inverted>
 											Log in
 										</Button>
 										<Button as={Link} to={'/account/register'} inverted style={{ marginLeft: '0.5em' }}>
