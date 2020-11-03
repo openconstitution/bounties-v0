@@ -35,7 +35,9 @@ public class UserMapper {
 
     public UserDTO userToUserDTO(User user) {
         final UserDTO userDTO = new UserDTO(user);
-        userDTO.setProfile(profileMapper.profileToProfileDTO(user.getProfile()));	
+        if (user.getProfile() != null) {
+            userDTO.setProfile(profileMapper.profileToProfileDTO(user.getProfile()));
+        }
         return userDTO;
     }
 

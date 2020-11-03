@@ -1,8 +1,10 @@
 package org.muellners.bounties.service;
 
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.User;
 import org.muellners.bounties.domain.enumeration.Status;
 import org.muellners.bounties.repository.BountyRepository;
+import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.repository.search.BountySearchRepository;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.mapper.BountyMapper;
@@ -30,6 +32,8 @@ public class BountyService {
 
     private final Logger log = LoggerFactory.getLogger(BountyService.class);
 
+    private final UserRepository userRepository;
+
     private final BountyRepository bountyRepository;
 
     private final BountySearchRepository bountySearchRepository;
@@ -37,8 +41,9 @@ public class BountyService {
     @Autowired
     private final BountyMapper bountyMapper;
 
-    public BountyService(BountyRepository bountyRepository, BountySearchRepository bountySearchRepository,
-                         BountyMapper bountyMapper) {
+    public BountyService(UserRepository userRepository, BountyRepository bountyRepository,
+                         BountySearchRepository bountySearchRepository, BountyMapper bountyMapper) {
+        this.userRepository = userRepository;
         this.bountyRepository = bountyRepository;
         this.bountySearchRepository = bountySearchRepository;
         this.bountyMapper = bountyMapper;
@@ -95,6 +100,19 @@ public class BountyService {
 		log.debug("Request to get all Bounty");
 		return bountyRepository.findAll(pageable).map(bountyMapper::bountyToBountyDTO);
 	}
+
+    /**
+     * Get all the bounty by user by status.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<BountyDTO> findAllByUserByStatus(Status status, String hunterLogin) {
+        log.debug("Request to get all Bounties by {} by {}", status, hunterLogin);
+        final User hunter = userRepository.findOneByLogin(hunterLogin).orElseThrow(IllegalArgumentException::new);
+        return bountyRepository.findByStatusAndHunter(status, hunter).stream()
+                .map(bountyMapper::bountyToBountyDTO).collect(Collectors.toList());
+    }
 
     /**
      * Get one bounty by id.
