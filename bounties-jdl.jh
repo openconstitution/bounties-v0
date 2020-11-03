@@ -7,7 +7,7 @@ enum Experience {
 }
 
 enum Status {
-    OPEN, INVALID, CLOSED, FUNDED
+    OPEN, INVALID, CLOSED, CLAIMED
 }
 
 enum Type {
@@ -43,5 +43,5 @@ entity Profile {
 }
 
 relationship OneToMany {
-    Bounty{fundings} to Funding{bounty},
+    Bounty{fundings} to Funding{bounty}
 }
