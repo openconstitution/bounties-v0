@@ -9,7 +9,6 @@ import { getProfile } from 'app/shared/reducers/application-profile';
 
 import Bounty from './bounty';
 import Funding from './funding';
-import Profile from './profile';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import Header, { DesktopHeader, MobileHeader } from 'app/shared/layout/header/header';
 import { createMedia } from '@artsy/fresnel';
@@ -38,7 +37,6 @@ const Routes = (props: IRouteProps) => {
   
   useEffect(() => {
     props.getSession();
-    props.getProfile();
   }, []);
 
   const { match } = props;
@@ -51,15 +49,18 @@ const Routes = (props: IRouteProps) => {
             <DesktopHeader
               isAuthenticated={props.isAuthenticated}
               isAdmin={props.isAdmin}
-              ribbonEnv={props.ribbonEnv}
+              account={props.account}
               isInProduction={props.isInProduction}
               isSwaggerEnabled={props.isSwaggerEnabled}
             />
           </Media>
           <Media at='mobile'>
             <MobileHeader
-              isAdmin={props.isAdmin}
               isAuthenticated={props.isAuthenticated}
+              isAdmin={props.isAdmin}
+              account={props.account}
+              isInProduction={props.isInProduction}
+              isSwaggerEnabled={props.isSwaggerEnabled}
             />
           </Media>
         </MediaContextProvider>
@@ -73,7 +74,6 @@ const Routes = (props: IRouteProps) => {
                 {/* prettier-ignore */}
                 <ErrorBoundaryRoute path={`${match.url}boun`} component={Bounty} />
                 <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
-                <ErrorBoundaryRoute path={`${match.url}profile`} component={Profile} />
                 {/* jhipster-needle-add-route-path - JHipster will add routes here */}
               </Switch>
             </Grid.Column>
@@ -86,14 +86,14 @@ const Routes = (props: IRouteProps) => {
   );
 }
 
-const mapStateToProps = ({ authentication, applicationProfile }: IRootState) => ({
+const mapStateToProps = ({ authentication, applicationProfile, }: IRootState) => ({
+  account: authentication.account,
   isAuthenticated: authentication.isAuthenticated,
   isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
-  ribbonEnv: applicationProfile.ribbonEnv,
   isInProduction: applicationProfile.inProduction,
   isSwaggerEnabled: applicationProfile.isSwaggerEnabled,
 });
-
+ 
 const mapDispatchToProps = { getSession, getProfile };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
