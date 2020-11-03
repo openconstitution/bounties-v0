@@ -1,9 +1,12 @@
+import { IProfile } from './profile.model';
+
 export interface IUser {
   id?: any;
   login?: string;
   firstName?: string;
   lastName?: string;
   email?: string;
+  imageUrl?: string;
   activated?: boolean;
   langKey?: string;
   authorities?: any[];
@@ -12,6 +15,7 @@ export interface IUser {
   lastModifiedBy?: string;
   lastModifiedDate?: Date | null;
   password?: string;
+  profile?: IProfile;
 }
 
 export const defaultValue: Readonly<IUser> = {
@@ -20,6 +24,7 @@ export const defaultValue: Readonly<IUser> = {
   firstName: '',
   lastName: '',
   email: '',
+  imageUrl: '',
   activated: true,
   langKey: '',
   authorities: [],
@@ -28,4 +33,5 @@ export const defaultValue: Readonly<IUser> = {
   lastModifiedBy: '',
   lastModifiedDate: null,
   password: '',
+  profile: null,
 };

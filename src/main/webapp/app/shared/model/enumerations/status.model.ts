@@ -5,5 +5,5 @@ export const enum Status {
 
   CLOSED = 'CLOSED',
 
-  FUNDED = 'FUNDED',
+  CLAIMED = 'CLAIMED',
 }
