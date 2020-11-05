@@ -56,9 +56,9 @@ const apiUrl = 'api/account';
 export const saveAccountSettings: (account: any) => void = account => async dispatch => {
   await dispatch({
     type: ACTION_TYPES.UPDATE_ACCOUNT,
-    payload: axios.post(apiUrl, account),
+    payload: axios.put(apiUrl, account),
     meta: {
-      successMessage: '<strong>Settings saved!</strong>',
+      successMessage: '<strong>Updated account!</strong>',
     },
   });
 

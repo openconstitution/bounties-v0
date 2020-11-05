@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-// import './app.scss';
+import './app.scss';
 import 'semantic-ui-css/semantic.min.css'
 
 import React, { useEffect } from 'react';
@@ -9,42 +9,31 @@ import { hot } from 'react-hot-loader';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
-import { getProfile } from 'app/shared/reducers/application-profile';
-import { hasAnyAuthority } from 'app/shared/auth/private-route';
+
 import ErrorBoundary from 'app/shared/error/error-boundary';
-import { AUTHORITIES } from 'app/config/constants';
 import AppRoutes from 'app/routes';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 
-export interface IAppProps extends StateProps, DispatchProps {}
-
-export const App = (props: IAppProps) => {
+export const App = (props: DispatchProps) => {
   useEffect(() => {
     props.getSession();
-    props.getProfile();
   }, []);
 
   return (
     <Router basename={baseHref}>
-      <ErrorBoundary>
-        <AppRoutes />
-      </ErrorBoundary>
+      <div className="bg-image">
+        <ErrorBoundary>
+          <AppRoutes />
+        </ErrorBoundary>
+      </div>      
     </Router>
   );
 };
 
-const mapStateToProps = ({ authentication, applicationProfile }: IRootState) => ({
-  isAuthenticated: authentication.isAuthenticated,
-  isAdmin: hasAnyAuthority(authentication.account.authorities, [AUTHORITIES.ADMIN]),
-  ribbonEnv: applicationProfile.ribbonEnv,
-  isInProduction: applicationProfile.inProduction,
-  isSwaggerEnabled: applicationProfile.isSwaggerEnabled,
-});
+const mapDispatchToProps = { getSession };
+ 
+type DispatchProps = typeof mapDispatchToProps
 
-const mapDispatchToProps = { getSession, getProfile };
-
-type StateProps = ReturnType<typeof mapStateToProps>;
-type DispatchProps = typeof mapDispatchToProps;
-
-export default connect(mapStateToProps, mapDispatchToProps)(hot(module)(App));
+export default connect(null, mapDispatchToProps)(hot(module)(App));
+null

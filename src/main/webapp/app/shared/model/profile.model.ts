@@ -1,9 +1,9 @@
 export interface IProfile {
   id?: number;
   votes?: number;
-  profilelink?: string;
-  about?: string;
   walletaddress?: string;
+  about?: string;
+  profilelink?: string;
   githubEmail?: string;
   githubOrgName?: string;
 }

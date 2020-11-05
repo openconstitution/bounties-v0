@@ -1,110 +1,292 @@
-import React, { useEffect } from 'react';
-import { Button, Col, Alert, Row } from 'reactstrap';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 
-import { AvForm, AvField } from 'availity-reactstrap-validation';
-
 import { IRootState } from 'app/shared/reducers';
-import { getSession } from 'app/shared/reducers/authentication';
+
 import { saveAccountSettings, reset } from './settings.reducer';
 import { RouteComponentProps } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Button, Grid, Header, Menu, Segment, Image, List, Divider, Message, Form, TextArea, Input, Confirm, Dimmer, Reveal, Icon } from 'semantic-ui-react';
+import { IUser } from 'app/shared/model/user.model';
+import { IProfile } from 'app/shared/model/profile.model';
 
 export interface IUserSettingsProps extends StateProps, DispatchProps, RouteComponentProps {}
 
 export const SettingsPage = (props: IUserSettingsProps) => {
+  const [about, setAbout] = useState('');
+  const [profilelink, setProfileLink] = useState('');
+  const [githubEmail, setGithubEmail] = useState('');
+  const [githubOrgName, setGithubOrgName] = useState('');
+
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [dimmableActive, setDimmableActive] = useState(false);
+  const [activeItem, setActiveItem] = useState('profile-settings');
+  const [isProfileInfoEditMode, setIsProfileInfoEditMode] = useState(false);
+  const [noneMessage] = useState('None Available, Please update your profile');
+
   useEffect(() => {
-    props.getSession();
     return () => {
       props.reset();
     };
   }, []);
+ 
+  const handleShow = () => setDimmableActive(true)
+  const handleHide = () => setDimmableActive(false)
 
-  const handleValidSubmit = (event, values) => {
-    const account = {
-      ...props.account,
-      ...values,
+  const handleProfileSettingsSubmit = () => {
+    const profile: IProfile = {
+      ...props.account.profile,
+      about, profilelink, githubEmail, githubOrgName
     };
 
-    props.saveAccountSettings(account);
-    event.persist();
-  };
+    const accountSettings: IUser = {
+      ...props.account, profile
+    }
+
+    props.saveAccountSettings(accountSettings);
+  }
+
+  const RenderProfileSettingsForm = (profileSettingsFormProps: any) => {
+    return (
+      <div>
+        <Form>
+          <Header as='h1' disabled>
+            Basic Info
+          </Header>
+          <List vertical fluid>
+            <List.Item>
+              <Header as='h4'>
+                Username
+              </Header>
+              <Message size='small'>
+                {props.account.login || noneMessage}
+              </Message>
+            </List.Item>
+            <List.Item>
+              <Header as='h4'>
+                Name
+              </Header>
+              <Message size='small'>
+                {`${props.account.firstName} ${props.account.lastName}` || noneMessage}
+              </Message>
+            </List.Item>
+            <List.Item>
+              <Form.Field>
+                <label>About</label>
+                <TextArea style={{ minHeight: 100 }}
+                  name="about"
+                  placeholder='Tell us more'
+                  value={about}
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                  // @ts-ignore: No overload matches this call
+                  onChange={(e, { value }) => setAbout(value)}
+                  defaultValue={props.account.profile?.about}
+                />
+              </Form.Field>
+            </List.Item>
+          </List>
+
+          <Divider />
+          <Header as='h1' disabled>
+            Github Info
+          </Header>
+          <Form.Field>
+            <label>Profile Link</label>
+            <Input
+              name="profilelink"
+              placeholder="Profile Link"
+              value={profilelink}
+              onChange={(e, { value }) => setProfileLink(value)}
+              defaultValue={props.account.profile?.profilelink}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Github email</label>
+            <Input
+              name="githubEmail"
+              placeholder="Github email"
+              value={githubEmail}
+              onChange={(e, { value }) => setGithubEmail(value)}
+              defaultValue={props.account.profile?.githubEmail}
+            />
+          </Form.Field>
+          <Form.Field>
+            <label>Github org name</label>
+            <Input
+              name="githubOrgName"
+              placeholder="Github org name"
+              value={githubOrgName}
+              onChange={(e, { value }) => setGithubOrgName(value)}
+              defaultValue={props.account.profile?.githubOrgName}
+            />
+          </Form.Field>
+          <Button
+            icon='save'
+            color='teal'
+            content='Save'
+            /* disabled={updating} */
+            onClick={() => setConfirmOpen(true)}
+          />
+          <Button
+            basic
+            color='red'
+            content='Cancel'
+            onClick={() => setIsProfileInfoEditMode(false)}
+          />
+        </Form>
+      </div>
+    );
+  }
+
+  const RenderProfileInfo = (profileInfoProps: any) => {
+    return (
+      <div>
+        <Header as='h1' disabled>
+          Basic Info
+        </Header>
+        <List vertical fluid>
+          <List.Item>
+            <Header as='h4'>
+              Username
+            </Header>
+            <Message size='small'>
+              {props.account.login || noneMessage}
+            </Message>
+          </List.Item>
+          <List.Item>
+            <Header as='h4'>
+              Name
+            </Header>
+            <Message size='small'>
+              {`${props.account.firstName} ${props.account.lastName}` || noneMessage}
+            </Message>
+          </List.Item>
+          <List.Item>
+            <Header as='h4'>
+              About
+            </Header>
+            <Message size='small'>
+              {props.account.profile?.about || noneMessage}
+            </Message>
+          </List.Item>
+        </List>
+
+        <Divider />
+        <Header as='h1' disabled>
+          Github Info
+        </Header>
+        <List vertical fluid>
+          <List.Item>
+            <Header as='h4'>
+              Github Profile Link
+            </Header>
+            <Message size='small'>
+              {props.account.profile?.profilelink || noneMessage}
+            </Message>
+          </List.Item>
+          <List.Item>
+            <Header as='h4'>
+              Github Email
+            </Header>
+            <Message size='small'>
+              {props.account.profile?.githubEmail || noneMessage}
+            </Message>
+          </List.Item>
+          <List.Item>
+            <Header as='h4'>
+              Github Organisation Name
+            </Header>
+            <Message size='small' attached>
+              {props.account.profile?.githubOrgName || noneMessage}
+            </Message>
+          </List.Item>
+        </List>
+        <Button
+          color='teal'
+          icon='pencil'
+          content='Edit'
+          onClick={() => setIsProfileInfoEditMode(true)}
+        />
+      </div>
+    );
+  }
+
+  const dimmableContent = (
+    <a>
+      <Icon name='pencil' /> Edit
+    </a>
+  )
+
+  const RenderComp = (compProps: { compFor: string }) => {
+    if (compProps.compFor === 'profile-settings') {
+      return (
+        <div>
+          <Grid columns='2'>
+            <Grid.Column width='12'>
+              {isProfileInfoEditMode ? (
+                <RenderProfileSettingsForm />
+              ) : (
+                <RenderProfileInfo />
+              )}
+            </Grid.Column>
+            <Grid.Column width='4'>
+              <Dimmer.Dimmable
+                blurring
+                circular
+                as={Image}
+                size='small'
+                dimmed={dimmableActive}
+                onMouseEnter={handleShow}
+                onMouseLeave={handleHide}
+                dimmer={{ active: dimmableActive, content: dimmableContent }}
+                src='content/images/jhipster_family_member_2_head-192.png'
+                style={{ cursor: 'pointer' }}
+              />              
+            </Grid.Column>
+          </Grid>
+        </div>
+      );
+    } else if (compProps.compFor === 'wallet-settings') {
+      return (<div>Wallet settings(Coming soon)</div>);
+    } else {
+      return (<div>Not availiable</div>);
+    }
+  }
 
   return (
-    <div>
-      <Row className="justify-content-center">
-        <Col md="8">
-          <h2 id="settings-title">User settings for {props.account.login}</h2>
-          <AvForm id="settings-form" onValidSubmit={handleValidSubmit}>
-            {/* Surname */}
-            <AvField
-              className="form-control"
-              name="surname"
-              label="Surname"
-              id="surname"
-              placeholder="Your surname"
-              validate={{
-                required: { value: true, errorMessage: 'Your surname is required.' },
-                minLength: { value: 1, errorMessage: 'Your surname is required to be at least 1 character' },
-                maxLength: { value: 50, errorMessage: 'Your surname cannot be longer than 50 characters' },
-              }}
-              value={props.account.surname}
+    <div style={{ padding: '3em 2em' }}>
+      <Header as='h2'>Settings</Header>
+      <Grid>
+        <Grid.Column width={4}>
+          <Menu fluid vertical pointing attached>
+            <Menu.Item
+              id='profile-settings'
+              name='Profile Settings'
+              active={activeItem === 'profile-settings'}
+              onClick={(e, { id }) => setActiveItem(id)}
             />
-            {/* Maiden name */}
-            <AvField
-              className="form-control"
-              name="maidenName"
-              label="Maiden Name"
-              id="maidenName"
-              placeholder="Your Maiden name"
-              validate={{
-                required: { value: true, errorMessage: 'Your Maiden name is required.' },
-                minLength: { value: 1, errorMessage: 'Your Maiden name is required to be at least 1 character' },
-                maxLength: { value: 50, errorMessage: 'Your Maiden name cannot be longer than 50 characters' },
-              }}
-              value={props.account.maidenName}
+            <Menu.Item
+              id='wallet-settings'
+              name='Wallet Settings'
+              active={activeItem === 'wallet-settings'}
+              onClick={(e, { id }) => setActiveItem(id)}
             />
-            {/* Other names */}
-            <AvField
-              className="form-control"
-              name="otherNames"
-              label="Other Name"
-              id="otherNames"
-              placeholder="Your Other name"
-              validate={{
-                required: { value: true, errorMessage: 'Your Other name is required.' },
-                minLength: { value: 1, errorMessage: 'Your Other name is required to be at least 1 character' },
-                maxLength: { value: 50, errorMessage: 'Your Other name cannot be longer than 50 characters' },
-              }}
-              value={props.account.otherNames}
+          </Menu>
+        </Grid.Column>
+
+        <Grid.Column stretched width={12}>
+          <Segment attached padded='very'>
+            <Confirm
+              open={confirmOpen}
+              cancelButton='Never mind'
+              confirmButton="Yes I'm sure!
+              "
+              onCancel={() => setConfirmOpen(false)}
+              onConfirm={handleProfileSettingsSubmit}
             />
-            {/* Email */}
-            <AvField
-              name="email"
-              label="Email"
-              placeholder={'Your email'}
-              type="email"
-              validate={{
-                required: { value: true, errorMessage: 'Your email is required.' },
-                minLength: { value: 5, errorMessage: 'Your email is required to be at least 5 characters.' },
-                maxLength: { value: 254, errorMessage: 'Your email cannot be longer than 50 characters.' },
-              }}
-              value={props.account.email}
-            />
-            
-            <Button onClick={props.history.goBack}>
-              <FontAwesomeIcon icon="arrow-left" />
-              &nbsp;
-              <span className="d-none d-md-inline">Back</span>
-            </Button>
-            &nbsp;
-            <Button color="primary" type="submit">
-              <FontAwesomeIcon icon="save" />
-              &nbsp; Save
-            </Button>
-          </AvForm>
-        </Col>
-      </Row>
+            <RenderComp compFor={activeItem} />
+          </Segment>
+        </Grid.Column>
+      </Grid>
     </div>
   );
 };
@@ -114,7 +296,7 @@ const mapStateToProps = ({ authentication }: IRootState) => ({
   isAuthenticated: authentication.isAuthenticated,
 });
 
-const mapDispatchToProps = { getSession, saveAccountSettings, reset };
+const mapDispatchToProps = { saveAccountSettings, reset };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;

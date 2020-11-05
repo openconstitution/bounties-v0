@@ -16,26 +16,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ProfileMapper {
-    
-    public List<ProfileDTO> profilesToProfilesDTOs(final List<Profile> profiles) {
-        return profiles.stream()
-            .filter(Objects::nonNull)
-            .map(this::profileToProfileDTO)
-            .collect(Collectors.toList());
-    }
 
-    public ProfileDTO profileToProfileDTO(final Profile profile) {
-        return new ProfileDTO(profile);
-    }
-
-    public  List<Profile> profileDTOsToProfiles(final List<ProfileDTO> profileDTOs) {
-        return profileDTOs.stream()
-            .filter(Objects::nonNull)
-            .map(this::profileDTOToProfile)
-            .collect(Collectors.toList());
-    }
-
-    public Profile profileDTOToProfile(final ProfileDTO profileDTO) {
+    public Profile toEntity(final ProfileDTO profileDTO) {
         if (profileDTO == null) {
             return null;
         } else {
@@ -49,5 +31,27 @@ public class ProfileMapper {
             profile.setGithubOrgName(profileDTO.getGithubOrgName());
             return profile;
         }
+    }
+
+    public ProfileDTO toDTO(final Profile profile) {
+        if (profile == null) {
+            return null;
+        } else {
+            return new ProfileDTO(profile);
+        }
+    }
+
+    public List<ProfileDTO> profilesToProfilesDTOs(final List<Profile> profiles) {
+        return profiles.stream()
+            .filter(Objects::nonNull)
+            .map(this::toDTO)
+            .collect(Collectors.toList());
+    }
+
+    public  List<Profile> profileDTOsToProfiles(final List<ProfileDTO> profileDTOs) {
+        return profileDTOs.stream()
+            .filter(Objects::nonNull)
+            .map(this::toEntity)
+            .collect(Collectors.toList());
     }
 }

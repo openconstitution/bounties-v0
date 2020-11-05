@@ -33,7 +33,7 @@ const HomepageHeading = ({ mobile }) => (
 	<Container text>
 		<Header
 			as='h1'
-			content='Imagine-a-Company'
+			content='Bounties Platform'
 			inverted
 			style={{
 				fontSize: mobile ? '2em' : '4em',
@@ -44,7 +44,7 @@ const HomepageHeading = ({ mobile }) => (
 		/>
 		<Header
 			as='h2'
-			content='Do whatever you want when you want to.'
+			content='Grow open source!'
 			inverted
 			style={{
 				fontSize: mobile ? '1.5em' : '1.7em',
@@ -83,32 +83,24 @@ export const DesktopContainer = (props: IHeaderProps) => {
 			onBottomPassed={showFixedMenu}
 			onBottomPassedReverse={hideFixedMenu}
 		>
-		<LoadingBar className="loading-bar" />
-			<Segment
-				inverted
-				textAlign='center'
-				style={isAdmin ? { margin: 'auto' } : { minHeight: 700, padding: '1em 0em' }}
-				vertical
-			>
-				<Menu
-					fixed={state.fixed ? 'top' : null}
-					inverted={!fixed}
-					pointing={!fixed}
-					secondary={!fixed}
-					size='large'
+			<LoadingBar className="loading-bar" />
+			<div className='header-bg-image'>
+				<Segment
+					textAlign='center'
+					style={{ minHeight: 700, padding: '1em 0em' }}
+					vertical
 				>
-					<Container>
-						<Menu.Item as={Link} to={'/'} active>
-							Home
-						</Menu.Item>
-						{ isAdmin ? (
-							<Menu.Menu position='right'>
-								<Menu.Item>
-									<Button as={Link} to={'/logout'} inverted={!fixed} color={'red'}>Sign Out</Button>
-								</Menu.Item>
-							</Menu.Menu>
-						) : (
-							<>
+					<Menu
+						fixed={state.fixed ? 'top' : null}
+						inverted={!fixed}
+						pointing={!fixed}
+						secondary={!fixed}
+						size='large'
+					>
+						<Container>
+							<Menu.Item as={Link} to={'/'} active>
+								Home
+							</Menu.Item>
 								<Menu.Item as='a'>Work {isAuthenticated.toString()}</Menu.Item>
 								<Menu.Item as='a'>Company</Menu.Item>
 								<Menu.Item as='a'>Careers</Menu.Item>
@@ -123,12 +115,11 @@ export const DesktopContainer = (props: IHeaderProps) => {
 										</div>
 									)}
 								</Menu.Item>
-							</>
-						)}
-					</Container>
-				</Menu>
-				{!isAdmin && <HomepageHeading />}
-			</Segment>
+						</Container>
+					</Menu>
+					<HomepageHeading />
+				</Segment>
+			</div>
 		</Visibility>
 	)
 }
