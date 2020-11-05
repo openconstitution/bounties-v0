@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import { connect } from 'react-redux';
 
 import { Segment, Grid } from 'semantic-ui-react';
 import { IRootState } from 'app/shared/reducers';
 import { logout } from 'app/shared/reducers/authentication';
+import { getLoginUrl } from 'app/shared/util/url-utils';
 
 export interface ILoginProps extends StateProps, DispatchProps {}
 
 export const Login = (props: ILoginProps) => {
+	
+	useLayoutEffect(() => {
+		window.location.href = getLoginUrl()
+	});
+
   return (
     <Segment basic style={{ padding: '5em 5em' }} vertical>
-			<Grid container stackable verticalAlign='middle'>
-				<Grid.Row>
-					<Grid.Column width={16}>
-						<h4>Login Page!</h4>
-					</Grid.Column>
-				</Grid.Row>
-			</Grid>
-		</Segment>
+		<Grid container stackable verticalAlign='middle'>
+			<Grid.Row>
+				<Grid.Column width={16}>
+					<h4>Login Page!</h4>
+				</Grid.Column>
+			</Grid.Row>
+		</Grid>
+	</Segment>
   );
 };
 

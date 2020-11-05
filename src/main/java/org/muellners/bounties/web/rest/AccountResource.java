@@ -88,7 +88,7 @@ public class AccountResource {
         if (userDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        final UserDTO result = userService.updateUser(userDTO);
+        final UserDTO result = userService.updateUserAccount(userDTO);
         return ResponseEntity.ok().headers(
                 HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, userDTO.getId().toString()))
                 .body(result);

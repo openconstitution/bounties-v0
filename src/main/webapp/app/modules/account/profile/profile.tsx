@@ -9,7 +9,6 @@ import { NavLink as Link, RouteComponentProps } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
 import { getEntity } from './profile.reducer';
-import { getSession } from 'app/shared/reducers/authentication';
 import { getEntitiesByFilter as getClaimedBounties } from 'app/entities/bounty/bounty.reducer'
 
 import { Card } from './Card/Card';
@@ -41,7 +40,6 @@ const { MediaContextProvider, Media } = createMedia({
 export const ProfileDetail = (props: IProfileDetailProps) => {
   const [open, setOpen] = useState(false);
   useEffect(() => {
-    props.getSession();
     props.getEntity(props.match.params.login);
     props.getClaimedBounties({status: Status.CLAIMED, hunter: props.match.params.login});
     setOpen(_.isEmpty(props.profileEntity.profile))
@@ -303,49 +301,28 @@ export const ProfileDetail = (props: IProfileDetailProps) => {
   }
 
   return (
-    <Segment basic style={{ padding: '5em 5em' }} vertical>
-      <br/>
-      <Grid container stackable verticalAlign='middle'>
-        <Grid.Row>
-          <Grid.Column width={16}>
-            {isAuthenticated ? (
-              <Modal
-                open={open}
-                header='Reminder!'
-                content='Please update your profile to fully benefit from the platform'
-                actions={[
-                  {key: 'snooze', content: 'Snooze', onClick: () => setOpen(false)},
-                  { key: 'done', content: 'Go to settings', as: Link, to: `/${profileEntity.login}/settings`, color: 'teal' }]}
-              />
-            ) : (null)}
-            
-            <div>
-              <Menu text floated>
-                <Menu.Item position='left' as={Link} to='/'>
-                  <h3><Icon name='arrow left' />Home</h3>
-                </Menu.Item>
-              </Menu>
-              {isAuthenticated && (
-                <Menu text floated='right'>
-                  <Menu.Item position='right' as={Link} to='/logout'>
-                    <h3>Logout <Icon name='sign-out alternate' /></h3>
-                  </Menu.Item>
-                </Menu>
-              )}
-            </div>
-            <br/>
-            <MediaContextProvider>
-              <Media greaterThan='mobile'>
-                <DesktopProfile/>
-              </Media>
-              <Media at='mobile'>
-                <MobileProfile/>
-              </Media>
-            </MediaContextProvider>      
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
-    </Segment>
+    <div style={{ padding: '3em 2em' }}>
+      {isAuthenticated ? (
+        <Modal
+          open={open}
+          onClose={() => (setOpen(false))}
+          header='Reminder!'
+          content='Please update your profile to fully benefit from the platform'
+          actions={[
+            {key: 'snooze', content: 'Snooze', onClick: () => setOpen(false)},
+            { key: 'done', content: 'Go to settings', as: Link, to: `/${profileEntity.login}/settings`, color: 'teal' }]}
+        />
+      ) : (null)}
+      
+      <MediaContextProvider>
+        <Media greaterThan='mobile'>
+          <DesktopProfile/>
+        </Media>
+        <Media at='mobile'>
+          <MobileProfile/>
+        </Media>
+      </MediaContextProvider>
+    </div>
   );
 };
 
@@ -357,7 +334,6 @@ const mapStateToProps = ({ profile, bounty, authentication }: IRootState) => ({
 
 const mapDispatchToProps = {
   getEntity,
-  getSession,
   getClaimedBounties
 };
 

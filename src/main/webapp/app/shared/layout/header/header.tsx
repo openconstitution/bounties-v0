@@ -15,10 +15,10 @@ export interface IHeaderProps {
   isSwaggerEnabled: boolean;
 }
 
-const trigger = (
+const trigger = (username: any) => (
   <span>
     <Image src={'content/images/jhipster_family_member_0_head-192.png' || 'props.account.imageUrl'} circular avatar />
-    <span>Username</span>
+    <span>{username}</span>
   </span>
 )
 
@@ -50,10 +50,10 @@ export const DesktopHeader = (props: IHeaderProps) => {
             )}
 
             {props.isAuthenticated ? (
-              <Dropdown item trigger={trigger}>
+              <Dropdown item trigger={trigger(props.account.login)}>
                 <Dropdown.Menu>
                   <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
-                  <Dropdown.Item as={Link} to={`/${props.account.login}`}>Profiles</Dropdown.Item>
+                  <Dropdown.Item as={Link} to={`/${props.account.login}`}>Profile</Dropdown.Item>
                   <Dropdown.Item>Settings</Dropdown.Item>
                   <Dropdown.Item as={Link} to='/logout'>Sign Out</Dropdown.Item>
                 </Dropdown.Menu>
@@ -158,7 +158,7 @@ export const MobileHeader = (props: IHeaderProps) => {
                 )}
                 <Menu.Item position='right'>
                   {props.isAuthenticated ? (
-                    <Dropdown item trigger={trigger}>
+                    <Dropdown item trigger={trigger(props.account.login)}>
                       <Dropdown.Menu>
                         <Dropdown.Item>Notifications(Beta)</Dropdown.Item>
                         <Dropdown.Item as={Link} to={`/${props.account}`}>Profile</Dropdown.Item>

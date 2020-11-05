@@ -25,7 +25,7 @@ const Account = Loadable({
 });
 
 const Routes = () => (
-  <div className="view-routes">
+  <div>
     <Switch>
       <ErrorBoundaryRoute path="/logout" component={Logout} />
       <ErrorBoundaryRoute path="/login" exact component={Login} />

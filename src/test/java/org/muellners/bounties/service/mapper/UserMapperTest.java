@@ -21,12 +21,14 @@ public class UserMapperTest {
     private static final String DEFAULT_ID = "id1";
 
     private UserMapper userMapper;
+    private ProfileMapper profileMapper;
     private User user;
     private UserDTO userDto;
 
     @BeforeEach
     public void init() {
-        userMapper = new UserMapper();
+        profileMapper = new ProfileMapper();
+        userMapper = new UserMapper(profileMapper);
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
         user.setActivated(true);

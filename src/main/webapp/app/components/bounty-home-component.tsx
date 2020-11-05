@@ -156,7 +156,7 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
     return (
       props.bountyList.map((bounty, i) => (
         <>	
-					<ReactTooltip id='bounty-tooltip' aria-haspopup='true' type='info'>
+					<ReactTooltip id={`bounty-tooltip-${bounty.id}`} aria-haspopup='true' type='info'>
 						<Header as='h3' content={bounty.summary} />
 						<p>{bounty.description !== null ? <i>No description available</i> : bounty.description}</p>
 						<span><small>Difficulty: <Rating icon='star' rating={getDifficulty(bounty.experience)} maxRating={3} /></small></span>
@@ -166,7 +166,7 @@ export const BountyHomeComponent = (props: IBountyHomeComponentProps) => {
 						</span>
 					</ReactTooltip>
 
-					<Table.Row data-tip data-for='bounty-tooltip'>
+					<Table.Row data-tip data-for={`bounty-tooltip-${bounty.id}`}>
 						<Table.Cell>
 							<a href={`/${bounty.id}`}>
 								<Header as='h4'>
