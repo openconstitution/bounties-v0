@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -136,7 +137,9 @@ public class BountyResource {
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
 	 */
 	@GetMapping("/bounties")
-	public ResponseEntity<List<BountyDTO>> getAllBounties(Pageable pageable, Status status, String hunter) {
+	public ResponseEntity<List<BountyDTO>> getAllBounties(@PathParam("pageable") Pageable pageable,
+                                                          @PathParam("status") Status status,
+                                                          @PathParam("hunter") String hunter) {
 		if (status != null || hunter != null) {
             log.debug("REST request to get all Bounties by status: {} by hunter: {}", status, hunter);
             return ResponseEntity.ok().body(bountyService.findAllByUserByStatus(status, hunter));

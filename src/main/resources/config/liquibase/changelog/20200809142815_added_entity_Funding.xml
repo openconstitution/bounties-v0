@@ -60,6 +60,8 @@
             <column name="amount" type="numeric"/>
             <column name="mode" type="string"/>
             <column name="payment_auth" type="boolean"/>
+            <column name="bounty_id" type="string" />
+            <column name="created_by" type="string" />
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
