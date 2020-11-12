@@ -83,20 +83,21 @@
                   file="config/liquibase/fake-data/bounty.csv"
                   separator=";"
                   tableName="bounty">
-            <column name="id" type="numeric"/>
-            <column name="summary" type="string"/>
-            <column name="description" type="string"/>
-            <column name="status" type="string"/>
-            <column name="issue_url" type="string"/>
-            <column name="amount" type="numeric"/>
-            <column name="experience" type="string"/>
-            <column name="commitment" type="numeric"/>
-            <column name="type" type="string"/>
-            <column name="category" type="string"/>
-            <column name="keywords" type="string"/>
-            <column name="permission" type="boolean"/>
-            <column name="expiry_date" type="date"/>
-            <column name="created_by" type="string"/>
+            <column name="id" type="numeric" />
+            <column name="summary" type="string" />
+            <column name="description" type="string" />
+            <column name="status" type="string" />
+            <column name="issue_url" type="string" />
+            <column name="amount" type="numeric" />
+            <column name="experience" type="string" />
+            <column name="commitment" type="numeric" />
+            <column name="type" type="string" />
+            <column name="category" type="string" />
+            <column name="keywords" type="string" />
+            <column name="permission" type="boolean" />
+            <column name="expiry_date" type="date" />
+            <column name="hunter_id" type="string" />
+            <column name="created_by" type="string" />
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>

@@ -1,11 +1,11 @@
-id;amount;mode;payment_auth
-1;18561;Cloned alarm application;true
-2;38415;withdrawal Fantastic Steel Car;false
-3;8022;Awesome Soft Pants District middleware;false
-4;44621;parsing Grocery;false
-5;28161;modular;true
-6;97294;portals redundant cross-media;false
-7;56962;sensor indigo Saint Vincent and the Grenadines;true
-8;87798;Pass;false
-9;25881;Virtual copying Frozen;false
-10;6102;Licensed Concrete Chips payment expedite;false
+id;amount;mode;payment_auth;bounty_id;created_by
+1;18561;Cloned alarm application;true;1;user
+2;38415;withdrawal Fantastic Steel Car;false;2;user
+3;8022;Awesome Soft Pants District middleware;false;3;user
+4;44621;parsing Grocery;false;4;user
+5;28161;modular;true;5;user
+6;97294;portals redundant cross-media;false;6;user
+7;56962;sensor indigo Saint Vincent and the Grenadines;true;7;user
+8;87798;Pass;false;8;user
+9;25881;Virtual copying Frozen;false;9;user
+10;6102;Licensed Concrete Chips payment expedite;false;10;user
