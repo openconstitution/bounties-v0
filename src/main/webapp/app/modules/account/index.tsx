@@ -44,8 +44,8 @@ const Routes = (props: IRouteProps) => {
                 )}
               </div>
               <br/>
-              <ErrorBoundaryRoute exact path={`${match.url}:login`} component={Profile} />
-              <PrivateRoute exact path={`${match.url}:login/settings`} component={Settings} hasAnyAuthorities={[AUTHORITIES.USER]} />
+              <ErrorBoundaryRoute exact path={`${match.url}/:login`} component={Profile} />
+              <PrivateRoute exact path={`${match.url}/:login/settings`} component={Settings} hasAnyAuthorities={[AUTHORITIES.USER]} />
               {/* 
                 <ErrorBoundaryRoute path={`${match.url}/password`} component={Password} />
                 <ErrorBoundaryRoute path={`${match.url}/sessions`} component={Sessions} />

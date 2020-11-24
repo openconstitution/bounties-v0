@@ -5,11 +5,11 @@ import { Segment, Container, Image, List, Divider } from 'semantic-ui-react';
 
 const Footer = props => (
   <div className="footer">
-    <Segment inverted style={{ margin: '0em 0em 5em' }} basic>
+    <Segment style={{ margin: '0em 0em 5em' }} basic>
       <Container textAlign='center'>
         <Divider section />
         <Image src='/logo.png' centered size='mini' />
-        <List horizontal inverted divided link size='small'>
+        <List horizontal divided link size='small'>
           <List.Item as='a' href='#'>
             Site Map
           </List.Item>

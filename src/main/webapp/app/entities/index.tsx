@@ -63,7 +63,7 @@ const Routes = (props: IRouteProps) => {
             <Grid.Column width={16}>
               <Switch>
                 {/* prettier-ignore */}
-                <ErrorBoundaryRoute path={`${match.url}boun`} component={Bounty} />
+                <ErrorBoundaryRoute path={`${match.url}bounty`} component={Bounty} />
                 <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
                 {/* jhipster-needle-add-route-path - JHipster will add routes here */}
               </Switch>

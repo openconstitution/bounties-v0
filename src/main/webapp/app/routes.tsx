@@ -5,6 +5,7 @@ import Loadable from 'react-loadable';
 import Logout from 'app/modules/login/logout';
 import Login from 'app/modules/login/login';
 import Home from 'app/modules/home/home';
+import Entities from 'app/entities';
 
 import Profile from 'app/modules/account/profile/profile';
 import Settings from 'app/modules/account/settings/settings';
@@ -31,10 +32,10 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/login" exact component={Login} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
 
-      <ErrorBoundaryRoute path="/" component={Account} />
+      <ErrorBoundaryRoute path="/hunter" component={Account} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
 
-      {/* <ErrorBoundaryRoute path="/" component={Entities} /> */}
+      <ErrorBoundaryRoute path="/" component={Entities} />
       <ErrorBoundaryRoute component={PageNotFound} />
     </Switch>
   </div>
