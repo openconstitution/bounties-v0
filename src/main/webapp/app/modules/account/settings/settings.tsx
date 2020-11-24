@@ -5,7 +5,7 @@ import { IRootState } from 'app/shared/reducers';
 
 import { saveAccountSettings, reset } from './settings.reducer';
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Grid, Header, Menu, Segment, Image, List, Divider, Message, Form, TextArea, Input, Confirm, Dimmer, Reveal, Icon } from 'semantic-ui-react';
+import { Button, Grid, Header, Menu, Segment, Image, List, Divider, Message, Form, TextArea, Input, Confirm, Dimmer, Icon } from 'semantic-ui-react';
 import { IUser } from 'app/shared/model/user.model';
 import { IProfile } from 'app/shared/model/profile.model';
 
@@ -28,7 +28,9 @@ export const SettingsPage = (props: IUserSettingsProps) => {
       props.reset();
     };
   }, []);
- 
+
+  const handleAboutChange = (e) => setAbout(e.target.value);
+
   const handleShow = () => setDimmableActive(true)
   const handleHide = () => setDimmableActive(false)
 
@@ -70,18 +72,16 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               </Message>
             </List.Item>
             <List.Item>
-              <Form.Field>
-                <label>About</label>
-                <TextArea style={{ minHeight: 100 }}
-                  name="about"
-                  placeholder='Tell us more'
-                  value={about}
-                  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-                  // @ts-ignore: No overload matches this call
-                  onChange={(e, { value }) => setAbout(value)}
-                  defaultValue={props.account.profile?.about}
-                />
-              </Form.Field>
+              <Form.Field
+                label="About"
+                control={TextArea}
+                placeholder='Tell us more about you...'
+                // value={about}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                // @ts-ignore: No overload matches this call
+                // onChange={handleAboutChange}
+                // defaultValue={props.account.profile?.about}
+              />
             </List.Item>
           </List>
 
@@ -92,7 +92,6 @@ export const SettingsPage = (props: IUserSettingsProps) => {
           <Form.Field>
             <label>Profile Link</label>
             <Input
-              name="profilelink"
               placeholder="Profile Link"
               value={profilelink}
               onChange={(e, { value }) => setProfileLink(value)}
@@ -102,7 +101,6 @@ export const SettingsPage = (props: IUserSettingsProps) => {
           <Form.Field>
             <label>Github email</label>
             <Input
-              name="githubEmail"
               placeholder="Github email"
               value={githubEmail}
               onChange={(e, { value }) => setGithubEmail(value)}
@@ -112,7 +110,6 @@ export const SettingsPage = (props: IUserSettingsProps) => {
           <Form.Field>
             <label>Github org name</label>
             <Input
-              name="githubOrgName"
               placeholder="Github org name"
               value={githubOrgName}
               onChange={(e, { value }) => setGithubOrgName(value)}

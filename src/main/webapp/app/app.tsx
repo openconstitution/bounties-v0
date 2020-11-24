@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-import './app.scss';
+// import './app.scss';
 import 'semantic-ui-css/semantic.min.css'
 
 import React, { useEffect } from 'react';
@@ -22,7 +22,7 @@ export const App = (props: DispatchProps) => {
 
   return (
     <Router basename={baseHref}>
-      <div className="bg-image">
+      <div>
         <ErrorBoundary>
           <AppRoutes />
         </ErrorBoundary>
