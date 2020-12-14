@@ -293,6 +293,7 @@ dependencies {
         exclude module: "mapstruct"
     }
     implementation "io.springfox:springfox-bean-validators"
+    implementation "com.stripe:stripe-java:20.30.0"
     implementation "mysql:mysql-connector-java"
     liquibaseRuntime "mysql:mysql-connector-java"
     implementation "org.mapstruct:mapstruct:${mapstruct_version}"

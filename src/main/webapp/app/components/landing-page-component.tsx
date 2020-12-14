@@ -5,7 +5,7 @@ import React from 'react';
 import { Segment, Container, Image, Header, Button, Divider, Grid, List } from 'semantic-ui-react';
 import { DesktopContainer, MobileHeader } from 'app/modules/home/home-header';
 import { createMedia } from '@artsy/fresnel';
-
+import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 export interface ILandingPageComponentProps {
     account: any,
     isAuthenticated: any,
@@ -19,8 +19,60 @@ const { MediaContextProvider, Media } = createMedia({
 	},
 })
 
-export const LandingPageComponent = (props: ILandingPageComponentProps) => {
+const CARD_OPTIONS = {
+  // iconStyle: 'solid',
+  style: {
+    // base: {
+    //   iconColor: '#c4f0ff',
+    //   color: '#fff',
+    //   fontWeight: "500",
+    //   fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+    //   fontSize: '16px',
+    //   fontSmoothing: 'antialiased',
+    //   ':-webkit-autofill': {color: '#fce883'},
+    //   '::placeholder': {color: '#87bbfd'},
+    // },
+    // invalid: {
+    //   iconColor: '#ffc7ee',
+    //   color: '#ffc7ee',
+    // },
+  },
+};
 
+export const LandingPageComponent = (props: ILandingPageComponentProps) => {
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (event) => {
+    // Block native form submission.
+    event.preventDefault();
+
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable
+      // form submission until Stripe.js has loaded.
+      return;
+    }
+
+    // Get a reference to a mounted CardElement. Elements knows how
+    // to find your CardElement because there can only ever be one of
+    // each type of element.
+    const cardElement = elements.getElement(CardElement);
+
+    // Use your card Element with other Stripe.js APIs
+    const {error, paymentMethod} = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+    });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.log('[error]', error);
+    } else {
+      // eslint-disable-next-line no-console
+      console.log('[PaymentMethod]', paymentMethod);
+    }
+  };
+  
   return (
     <div>
       <MediaContextProvider>
@@ -45,6 +97,18 @@ export const LandingPageComponent = (props: ILandingPageComponentProps) => {
               <Header as='h3' style={{ fontSize: '2em' }}>
                 We Help Companies and Companions
               </Header>
+
+              <form onSubmit={handleSubmit}>
+                <fieldset className="FormGroup">
+                  <div className="FormRow">
+                    <CardElement options={CARD_OPTIONS} />
+                  </div>
+                </fieldset>
+                <button type="submit" disabled={!stripe}>
+                  Pay
+                </button>
+              </form>
+
               <p style={{ fontSize: '1.33em' }}>
                 We can give your company superpowers to do things that they never thought possible.
                 Let us delight your customers and empower your needs... through pure data analytics.

@@ -1,5 +1,6 @@
 package org.muellners.bounties.web.rest;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
