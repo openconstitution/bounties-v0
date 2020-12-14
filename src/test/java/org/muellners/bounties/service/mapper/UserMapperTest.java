@@ -104,7 +104,7 @@ public class UserMapperTest {
         authoritiesAsString.add("ADMIN");
         userDto.setAuthorities(authoritiesAsString);
 
-        User user = userMapper.userDTOToUser(userDto);
+        User user = userMapper.toEntity(userDto);
 
         assertThat(user).isNotNull();
         assertThat(user.getAuthorities()).isNotNull();
@@ -116,7 +116,7 @@ public class UserMapperTest {
     public void userDTOToUserMapWithNullAuthoritiesStringShouldReturnUserWithEmptyAuthorities() {
         userDto.setAuthorities(null);
 
-        User user = userMapper.userDTOToUser(userDto);
+        User user = userMapper.toEntity(userDto);
 
         assertThat(user).isNotNull();
         assertThat(user.getAuthorities()).isNotNull();
@@ -125,7 +125,7 @@ public class UserMapperTest {
 
     @Test
     public void userDTOToUserMapWithNullUserShouldReturnNull() {
-        assertThat(userMapper.userDTOToUser(null)).isNull();
+        assertThat(userMapper.toEntity(null)).isNull();
     }
 
     @Test

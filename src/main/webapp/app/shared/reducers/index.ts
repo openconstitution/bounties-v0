@@ -18,6 +18,10 @@ import funding, {
 import profile, {
   ProfileState
 } from 'app/modules/account/profile/profile.reducer';
+// prettier-ignore
+import stripePayment, {
+  StripePaymentState
+} from 'app/modules/stripe-payment/stripe-payment.reducer';
 /* jhipster-needle-add-reducer-import - JHipster will add reducer here */
 
 export interface IRootState {
@@ -28,6 +32,7 @@ export interface IRootState {
   readonly bounty: BountyState;
   readonly funding: FundingState;
   readonly profile: ProfileState;
+  readonly stripePayment: StripePaymentState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
   readonly loadingBar: any;
 }
@@ -40,6 +45,7 @@ const rootReducer = combineReducers<IRootState>({
   bounty,
   funding,
   profile,
+  stripePayment,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
   loadingBar,
 });

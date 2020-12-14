@@ -10,7 +10,7 @@
         
         <addForeignKeyConstraint baseColumnNames="hunter_id"
                                  baseTableName="bounty"
-                                 constraintName="fk_bounty_jhi_user_id"
+                                 constraintName="fk_bounty_hunter_jhi_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
 

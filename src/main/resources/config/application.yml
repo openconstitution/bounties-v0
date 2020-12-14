@@ -192,4 +192,10 @@ sentry:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  stripe:
+    publishable-key:
+    secret-key:
+    webhook-secret:
+    account-country: US
+    payment-methods: 'alipay, bancontact, card, eps, ideal, giropay, multibanco, p24, sofort, wechat, au_becs_debit'
