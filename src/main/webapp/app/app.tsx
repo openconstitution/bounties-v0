@@ -14,6 +14,7 @@ import { Integrations } from "@sentry/tracing";
 
 import { IRootState } from 'app/shared/reducers';
 import { getSession } from 'app/shared/reducers/authentication';
+import { getConfig } from 'app/modules/stripe-payment/stripe-payment.reducer';
 
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import AppRoutes from 'app/routes';
@@ -22,6 +23,7 @@ import { CssBaseline, ThemeProvider } from '@material-ui/core';
 import theme from './themes/theme';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
+export interface IAppProps extends DispatchProps, StateProps {}
 
 Sentry.init({
   dsn: "",
@@ -39,9 +41,10 @@ Sentry.init({
 // recreating the `Stripe` object on every render.
 const stripePromise = loadStripe('pk_test_JJ1eMdKN0Hp4UFJ6kWXWO4ix00jtXzq5XG');
 
-export const App = (props: DispatchProps) => {
+export const App = (props: IAppProps) => {
   useEffect(() => {
     props.getSession();
+    props.getConfig(null);
   }, []);
 
   return (
@@ -50,7 +53,7 @@ export const App = (props: DispatchProps) => {
         <CssBaseline />
         <LoadingBar className="loading-bar" />
         <ErrorBoundary>
-          <Elements stripe={stripePromise}>
+          <Elements stripe={loadStripe(props.stripePublishableKey)}>
             <AppRoutes />
           </Elements>
         </ErrorBoundary>
@@ -59,8 +62,13 @@ export const App = (props: DispatchProps) => {
   );
 };
 
-const mapDispatchToProps = { getSession };
+const mapStateToProps = ({ stripePayment }: IRootState) => ({
+  stripePublishableKey: stripePayment.config.stripePublishableKey,
+});
+
+const mapDispatchToProps = { getSession, getConfig };
  
+type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps
 
-export default connect(null, mapDispatchToProps)(hot(module)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(hot(module)(App));

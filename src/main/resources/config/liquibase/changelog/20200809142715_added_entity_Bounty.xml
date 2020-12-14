@@ -96,7 +96,7 @@
             <column name="keywords" type="string" />
             <column name="permission" type="boolean" />
             <column name="expiry_date" type="date" />
-            <column name="hunter_id" type="string" />
+<!--            <column name="hunter_id" type="string" />-->
             <column name="created_by" type="string" />
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
