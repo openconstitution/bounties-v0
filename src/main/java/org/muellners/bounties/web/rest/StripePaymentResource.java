@@ -6,12 +6,14 @@ import org.muellners.bounties.service.FulfilmentService;
 import org.muellners.bounties.service.StripePaymentService;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.dto.StripeConfig;
+import org.muellners.bounties.service.dto.StripePaymentIntentDTO;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,10 +32,11 @@ import java.net.URISyntaxException;
 import java.util.List;
 
 /**
- * REST controller for managing Payment.
+ * REST controller for managing {@link org.muellners.bounties.service.dto.StripeConfig}.
  */
 @RestController
 @RequestMapping("/api/stripe")
+@Transactional
 public class StripePaymentResource {
 
     private final Logger log = LoggerFactory.getLogger(StripePaymentResource.class);
@@ -59,19 +62,22 @@ public class StripePaymentResource {
      * @return the ResponseEntity with status 200 (OK) and the stripe configs in body
      */
     @GetMapping("/config")
-    public StripeConfig getStripeConfig() {
+    public ResponseEntity<StripeConfig> getStripeConfig() {
         log.debug("REST request to get stripe config");
-        return stripePaymentService.getConfig();
+        final StripeConfig stripeConfig = stripePaymentService.getConfig();
+	    return ResponseEntity.ok()
+			    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, stripeConfig.country))
+			    .body(stripeConfig);
     }
 
 	/**
      * POST  /payment-intents : Create a new payment intent.
      *
-     * @return the ResponseEntity with status 201 (Created) and with body the new payment intent, or with status 400 (Bad Request) if the bounty does not exist.
      * @throws URISyntaxException if the Location URI syntax is incorrect
+	 * @return
      */
     @PostMapping("/payment-intents")
-    public ResponseEntity<PaymentIntent> createPaymentIntent(@Valid @RequestBody BountyDTO bounty) throws URISyntaxException, StripeException {
+    public ResponseEntity<StripePaymentIntentDTO> createPaymentIntent(@Valid @RequestBody BountyDTO bounty) throws URISyntaxException, StripeException {
         log.debug("REST request to create a Payment Intent for bounty : {}", bounty);
         if (bounty.getId() == null) {
             throw new BadRequestAlertException("Cannot create a payment intent for a non-existent bounty", ENTITY_NAME, "nullid");
@@ -79,7 +85,7 @@ public class StripePaymentResource {
         final PaymentIntent paymentIntent = this.stripePaymentService.createPaymentIntent(bounty);
         return ResponseEntity.created(new URI("/api/payment-intents/" + paymentIntent.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, paymentIntent.getId()))
-            .body(paymentIntent);
+	        .body(new StripePaymentIntentDTO(paymentIntent));
     }
 
     /**
@@ -88,12 +94,12 @@ public class StripePaymentResource {
      * @return the ResponseEntity with status 200 (OK) and the payment intent in body
      */
     @GetMapping("/payment-intents/{id}")
-    public ResponseEntity<PaymentIntent> getPaymentIntent(@PathVariable final String id) throws StripeException {
+    public ResponseEntity<StripePaymentIntentDTO> getPaymentIntent(@PathVariable final String id) throws StripeException {
         log.debug("REST request to get stripe payment intent");
 	    final PaymentIntent paymentIntent =  stripePaymentService.getPaymentIntent(id);
 	    return ResponseEntity.ok()
 			    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, id))
-			    .body(paymentIntent);
+			    .body(new StripePaymentIntentDTO(paymentIntent));
     }
 
 	/**
@@ -109,10 +115,10 @@ public class StripePaymentResource {
      * or with status 500 (Internal Server Error) if the payment couldn't be updated
 	 */
     @PutMapping("/payment-intents/{id}")
-    public ResponseEntity<PaymentIntent> updatePaymentIntent(@PathVariable final String id,
-                                                             @Valid @RequestBody BountyDTO bounty,
-                                                             @PathParam("currency") String currency,
-                                                             @PathParam("payment_methods") List<String> paymentMethods) {
+    public ResponseEntity<StripePaymentIntentDTO> updatePaymentIntent(@PathVariable final String id,
+                                                                      @Valid @RequestBody BountyDTO bounty,
+                                                                      @PathParam("currency") String currency,
+                                                                      @PathParam("payment_methods") List<String> paymentMethods) {
 
 	    log.debug("REST request to update Payment : {}", id);
 	    if (id == null) {
@@ -122,7 +128,7 @@ public class StripePaymentResource {
 			    currency, paymentMethods);
 	    return ResponseEntity.ok()
 			    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, id))
-			    .body(paymentIntent);
+			    .body(new StripePaymentIntentDTO(paymentIntent));
     }
 
 	/**

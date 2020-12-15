@@ -97,6 +97,7 @@ spring:
     basename: i18n/messages
   main:
     allow-bean-definition-overriding: true
+    lazy-initialization=true: true
   task:
     execution:
       thread-name-prefix: bounties-task-
@@ -198,4 +199,4 @@ application:
     secret-key:
     webhook-secret:
     account-country: US
-    payment-methods: 'alipay, bancontact, card, eps, ideal, giropay, multibanco, p24, sofort, wechat, au_becs_debit'
+    payment-methods: alipay, bancontact, card, eps, ideal, giropay, multibanco, p24, sofort, wechat, au_becs_debit

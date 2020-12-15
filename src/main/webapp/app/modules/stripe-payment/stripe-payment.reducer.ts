@@ -72,8 +72,8 @@ export default (state: StripePaymentState = initialState, action): StripePayment
   }
 };
 
-const apiUrl = 'api/stripe/config';
-const apiConfigUrl = 'api/stripe/payment-intents';
+const apiConfigUrl = 'api/stripe/config';
+const apiUrl = 'api/stripe/payment-intents';
 
 // Actions
 
