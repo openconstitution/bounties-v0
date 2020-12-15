@@ -20,16 +20,12 @@ public class StripeConfig {
 
     public String currency;
 
-    public List<String> paymentMethods;
-
     @Value("${application.stripe.paymentMethods}")
-    public static String paymentMethodsString;
+    public List<String> paymentMethods;
 
     public StripeConfig() {
         this.stripeCountry = Optional.ofNullable(stripeCountry).orElse("US");
         this.country = "US";
         this.currency = "eur";
-        this.paymentMethods = Arrays.asList(Optional.ofNullable(paymentMethodsString)
-                .orElse("card").split("\\s*,\\s*"));
     }
 }

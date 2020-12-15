@@ -1,7 +1,10 @@
 package org.muellners.bounties.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * Properties specific to Bounties.
@@ -12,7 +15,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "application", ignoreUnknownFields = false)
 public class ApplicationProperties {
+
 	private final Listeners listeners = new Listeners();
+
 	private final Stripe stripe = new Stripe();
 
 	public Listeners getListeners() { return listeners; }
@@ -23,6 +28,15 @@ public class ApplicationProperties {
 		private String url;
 
 		private String path;
+
+		public Listeners() {
+			//
+		}
+
+		public Listeners(String url, String path) {
+			this.url = url;
+			this.path = path;
+		}
 
 		public String getUrl() { return url; }
 
@@ -38,7 +52,20 @@ public class ApplicationProperties {
 		private String secretKey;
 		private String webhookSecret;
 		private String accountCountry;
-		private String paymentMethods;
+		private List<String> paymentMethods;
+
+		public Stripe() {
+			//
+		}
+
+		public Stripe(String publishableKey, String secretKey, String webhookSecret, String accountCountry,
+		              @DefaultValue("card") List<String> paymentMethods) {
+			this.publishableKey = publishableKey;
+			this.secretKey = secretKey;
+			this.webhookSecret = webhookSecret;
+			this.accountCountry = accountCountry;
+			this.paymentMethods = paymentMethods;
+		}
 
 		public String getPublishableKey() {
 			return publishableKey;
@@ -72,11 +99,11 @@ public class ApplicationProperties {
 			this.accountCountry = accountCountry;
 		}
 
-		public String getPaymentMethods() {
+		public List<String> getPaymentMethods() {
 			return paymentMethods;
 		}
 
-		public void setPaymentMethods(String paymentMethods) {
+		public void setPaymentMethods(List<String> paymentMethods) {
 			this.paymentMethods = paymentMethods;
 		}
 	}

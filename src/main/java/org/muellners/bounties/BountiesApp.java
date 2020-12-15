@@ -71,6 +71,7 @@ public class BountiesApp {
         }
         String serverPort = env.getProperty("server.port");
         String contextPath = env.getProperty("server.servlet.context-path");
+        String swaggerConfigPath = "swagger-ui/index.html?configUrl=/v3/api-docs/swagger-config#";
         if (StringUtils.isBlank(contextPath)) {
             contextPath = "/";
         }
@@ -84,6 +85,7 @@ public class BountiesApp {
                 "Application '{}' is running! Access URLs:\n\t" +
                 "Local: \t\t{}://localhost:{}{}\n\t" +
                 "External: \t{}://{}:{}{}\n\t" +
+                "Swagger: \t{}://localhost:{}{}{}\n\t" +
                 "Profile(s): \t{}\n----------------------------------------------------------",
             env.getProperty("spring.application.name"),
             protocol,
@@ -93,6 +95,10 @@ public class BountiesApp {
             hostAddress,
             serverPort,
             contextPath,
+            protocol,
+            serverPort,
+            contextPath,
+            swaggerConfigPath,
             env.getActiveProfiles());
     }
 }

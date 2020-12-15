@@ -26,14 +26,14 @@ public class StripePaymentService {
     @Value("${application.stripe.secret-key}")
     private static String stripeApiKey;
 
-    @Value("${application.stripe.payment-methods}")
-    private String paymentMethods;
-    
     @Value("${application.stripe.publishable-key}")
     public String stripePublishableKey;
     
     @Value("${application.stripe.account-country}")
     public String stripeCountry;
+
+    @Value("${application.stripe.payment-methods}")
+    private List<String> paymentMethods;
 
     public StripePaymentService() {
         //
@@ -47,11 +47,8 @@ public class StripePaymentService {
         paymentIntentParams.put("currency", "USD"); // bounty.currency);
 
         //build initial payment methods which should exclude currency specific ones
-        List<String> payment_method_types = new ArrayList<String>();
-        payment_method_types.remove("au_becs_debit");
-        payment_method_types = Arrays.asList(Optional.ofNullable(paymentMethods).orElse("card")
-                                                                            .split("\\s*,\\s*"));
-        paymentIntentParams.put("payment_method_types", payment_method_types);
+        paymentMethods.remove("au_becs_debit");
+        paymentIntentParams.put("payment_method_types", paymentMethods);
 
         return PaymentIntent.create(paymentIntentParams);
     }
