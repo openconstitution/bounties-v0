@@ -44,6 +44,8 @@ export default (state: StripePaymentState = initialState, action): StripePayment
     case FAILURE(ACTION_TYPES.CREATE_PAYMENT_INTENT):
     case FAILURE(ACTION_TYPES.UPDATE_PAYMENT_INTENT):
     case SUCCESS(ACTION_TYPES.FETCH_CONFIG):
+      // eslint-disable-next-line no-console
+      console.log(action.payload.data);
       return {
         ...state,
         loading: false,
@@ -92,12 +94,14 @@ export const getPaymentIntent: ICrudGetAction<IPaymentIntent> = id => {
   };
 };
 
-export const createPaymentIntent: ICrudPutAction<IPaymentIntent> = entity => async dispatch => {
+export const createPaymentIntent: ICrudPutAction<IPaymentIntent> = id => async dispatch => {
+  // eslint-disable-next-line no-console
+  console.log(id);
   const result = await dispatch({
     type: ACTION_TYPES.CREATE_PAYMENT_INTENT,
-    payload: axios.post(apiUrl, cleanEntity(entity)),
+    payload: axios.post(`${apiUrl}?bountyId=${id}`),
   });
-  dispatch(getPaymentIntent(entity.id));
+  // dispatch(getPaymentIntent(id));
   return result;
 };
 

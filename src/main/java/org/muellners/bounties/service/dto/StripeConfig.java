@@ -10,10 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class StripeConfig {
-    @Value("${application.stripe.publishable-key}")
     public String stripePublishableKey;
 
-    @Value("${application.stripe.account-country}")
     public String stripeCountry;
 
     public String country;
@@ -23,7 +21,8 @@ public class StripeConfig {
     @Value("${application.stripe.paymentMethods}")
     public List<String> paymentMethods;
 
-    public StripeConfig() {
+    public StripeConfig(final String stripePublishableKey, final String stripeCountry) {
+        this.stripePublishableKey = stripePublishableKey;
         this.stripeCountry = Optional.ofNullable(stripeCountry).orElse("US");
         this.country = "US";
         this.currency = "eur";

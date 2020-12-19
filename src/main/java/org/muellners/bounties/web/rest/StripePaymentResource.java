@@ -77,12 +77,12 @@ public class StripePaymentResource {
 	 * @return
      */
     @PostMapping("/payment-intents")
-    public ResponseEntity<StripePaymentIntentDTO> createPaymentIntent(@Valid @RequestBody BountyDTO bounty) throws URISyntaxException, StripeException {
-        log.debug("REST request to create a Payment Intent for bounty : {}", bounty);
-        if (bounty.getId() == null) {
+    public ResponseEntity<StripePaymentIntentDTO> createPaymentIntent(@PathParam("bounty") String bountyId) throws URISyntaxException, StripeException {
+        log.debug("REST request to create a Payment Intent for bounty : {}", bountyId);
+        if (bountyId == null) {
             throw new BadRequestAlertException("Cannot create a payment intent for a non-existent bounty", ENTITY_NAME, "nullid");
         }
-        final PaymentIntent paymentIntent = this.stripePaymentService.createPaymentIntent(bounty);
+        final PaymentIntent paymentIntent = this.stripePaymentService.createPaymentIntent(Long.valueOf(bountyId));
         return ResponseEntity.created(new URI("/api/payment-intents/" + paymentIntent.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, paymentIntent.getId()))
 	        .body(new StripePaymentIntentDTO(paymentIntent));
@@ -107,7 +107,7 @@ public class StripePaymentResource {
      *
      *
 	 * @param id
-	 * @param bounty
+	 * @param bountyId
 	 * @param currency
 	 * @param paymentMethods
 	 * @return the ResponseEntity with status 200 (OK) and with body the updated payment,
@@ -116,7 +116,7 @@ public class StripePaymentResource {
 	 */
     @PutMapping("/payment-intents/{id}")
     public ResponseEntity<StripePaymentIntentDTO> updatePaymentIntent(@PathVariable final String id,
-                                                                      @Valid @RequestBody BountyDTO bounty,
+                                                                      @Valid @RequestBody Long bountyId,
                                                                       @PathParam("currency") String currency,
                                                                       @PathParam("payment_methods") List<String> paymentMethods) {
 
@@ -124,7 +124,7 @@ public class StripePaymentResource {
 	    if (id == null) {
 		    throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
 	    }
-	    final PaymentIntent paymentIntent = this.stripePaymentService.updatePaymentIntent(id, bounty,
+	    final PaymentIntent paymentIntent = this.stripePaymentService.updatePaymentIntent(id, bountyId,
 			    currency, paymentMethods);
 	    return ResponseEntity.ok()
 			    .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, id))
