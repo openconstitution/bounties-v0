@@ -9,6 +9,7 @@ import {CardElement, useStripe, useElements} from '@stripe/react-stripe-js';
 export interface ILandingPageComponentProps {
     account: any,
     isAuthenticated: any,
+    createPaymentIntent: any,
 };
 
 const { MediaContextProvider, Media } = createMedia({
@@ -22,20 +23,20 @@ const { MediaContextProvider, Media } = createMedia({
 const CARD_OPTIONS = {
   // iconStyle: 'solid',
   style: {
-    // base: {
-    //   iconColor: '#c4f0ff',
-    //   color: '#fff',
-    //   fontWeight: "500",
-    //   fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
-    //   fontSize: '16px',
-    //   fontSmoothing: 'antialiased',
-    //   ':-webkit-autofill': {color: '#fce883'},
-    //   '::placeholder': {color: '#87bbfd'},
-    // },
-    // invalid: {
-    //   iconColor: '#ffc7ee',
-    //   color: '#ffc7ee',
-    // },
+    base: {
+      iconColor: '#c4f0ff',
+      color: '#fff',
+      fontWeight: "500",
+      fontFamily: 'Roboto, Open Sans, Segoe UI, sans-serif',
+      fontSize: '16px',
+      fontSmoothing: 'antialiased',
+      ':-webkit-autofill': {color: '#fce883'},
+      '::placeholder': {color: '#87bbfd'},
+    },
+    invalid: {
+      iconColor: '#ffc7ee',
+      color: '#ffc7ee',
+    },
   },
 };
 
@@ -72,6 +73,10 @@ export const LandingPageComponent = (props: ILandingPageComponentProps) => {
       console.log('[PaymentMethod]', paymentMethod);
     }
   };
+
+  const handleStripePay = () => {
+    props.createPaymentIntent(1);
+  }
   
   return (
     <div>
@@ -97,8 +102,10 @@ export const LandingPageComponent = (props: ILandingPageComponentProps) => {
               <Header as='h3' style={{ fontSize: '2em' }}>
                 We Help Companies and Companions
               </Header>
+              
+              <Button onClick={handleStripePay}>Stripe Pay</Button>
 
-              <form onSubmit={handleSubmit}>
+              {/* <form onSubmit={handleSubmit}>
                 <fieldset className="FormGroup">
                   <div className="FormRow">
                     <CardElement options={CARD_OPTIONS} />
@@ -107,7 +114,7 @@ export const LandingPageComponent = (props: ILandingPageComponentProps) => {
                 <button type="submit" disabled={!stripe}>
                   Pay
                 </button>
-              </form>
+              </form> */}
 
               <p style={{ fontSize: '1.33em' }}>
                 We can give your company superpowers to do things that they never thought possible.

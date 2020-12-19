@@ -194,9 +194,12 @@ sentry:
 # ===================================================================
 
 application:
+  listeners:
+    url: https://pubsub.apache.org:2070/
+    path: /jira/FINERACT
   stripe:
+    api-key:
     publishable-key:
-    secret-key:
     webhook-secret:
     account-country: US
-    payment-methods: alipay, bancontact, card, eps, ideal, giropay, multibanco, p24, sofort, wechat, au_becs_debit
+    payment-methods: card

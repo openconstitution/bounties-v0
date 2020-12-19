@@ -8,6 +8,8 @@ import org.muellners.bounties.service.dto.StripeConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
+import org.springframework.core.env.StandardEnvironment;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,38 +25,41 @@ public class StripePaymentService {
 
     private final Logger log = LoggerFactory.getLogger(StripePaymentService.class);
 
-    @Value("${application.stripe.secret-key}")
-    private static String stripeApiKey;
-
-    @Value("${application.stripe.publishable-key}")
-    public String stripePublishableKey;
-    
-    @Value("${application.stripe.account-country}")
-    public String stripeCountry;
-
     @Value("${application.stripe.payment-methods}")
     private List<String> paymentMethods;
 
-    public StripePaymentService() {
-        //
+    private BountyService bountyService;
+
+    private Environment env;
+
+    public StripePaymentService(final BountyService bountyService, final Environment env) {
+        this.bountyService = bountyService;
+        this.env = env;
     }
 
-    public PaymentIntent createPaymentIntent(final BountyDTO bounty) throws StripeException {
-        Stripe.apiKey = stripeApiKey;
+    public PaymentIntent createPaymentIntent(final Long bountyId) throws StripeException {
+
+        Stripe.apiKey = env.getProperty("application.stripe.api-key");
+
+        final BountyDTO bounty = bountyService.findOne(bountyId);
 
         Map<String, Object> paymentIntentParams = new HashMap<String, Object>();
-        paymentIntentParams.put("amount", bounty.getAmount());
+        paymentIntentParams.put("amount", 100.0);
         paymentIntentParams.put("currency", "USD"); // bounty.currency);
 
         //build initial payment methods which should exclude currency specific ones
-        paymentMethods.remove("au_becs_debit");
+//        paymentMethods.remove("eps");
+//        paymentMethods.remove("bancontact");
+//        paymentMethods.remove("au_becs_debit");
         paymentIntentParams.put("payment_method_types", paymentMethods);
 
         return PaymentIntent.create(paymentIntentParams);
     }
 
-    public PaymentIntent updatePaymentIntent(String paymentIntentId, final BountyDTO bounty,
+    public PaymentIntent updatePaymentIntent(String paymentIntentId, final Long bountyId,
                                                       String currency, List<String> paymentMethods) {
+        Stripe.apiKey = env.getProperty("application.stripe.api-key");
+        final BountyDTO bounty = bountyService.findOne(bountyId);
         try {
             final PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
             final BigDecimal amount = bounty.getAmount();
@@ -78,12 +83,13 @@ public class StripePaymentService {
     }
 
     public PaymentIntent getPaymentIntent(String id) throws StripeException {
-        Stripe.apiKey = stripeApiKey;
+        Stripe.apiKey = env.getProperty("application.stripe.api-key");
         return PaymentIntent.retrieve(id);
     }
 
     public StripeConfig getConfig() {
-        return new StripeConfig();
+        return new StripeConfig(env.getProperty("application.stripe.publishable-key"),
+                env.getProperty("application.stripe.account-country"));
     }
 
 }

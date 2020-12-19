@@ -12,6 +12,7 @@ import com.stripe.net.Webhook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,21 +23,17 @@ public class FulfilmentService {
 
     private final Logger log = LoggerFactory.getLogger(FulfilmentService.class);
 
-    @Value("${application.stripe.secret-key}")
-    private String stripeApiKey;
+    private Environment env;
 
-    @Value("${application.stripe.webhook-secret}")
-    private String endpointSecret;
-
-    public FulfilmentService() {
-        //
+    public FulfilmentService(final Environment env) {
+        this.env = env;
     }
 
     public Event verifyAndReturn(String payload, String header) throws JsonSyntaxException, SignatureVerificationException {
 
-        Stripe.apiKey = this.stripeApiKey;
+        Stripe.apiKey = env.getProperty("application.stripe.api-key");
 
-        final String endpointSecret = this.endpointSecret;
+        final String endpointSecret = env.getProperty("application.stripe.webhook-secret");
 
         Event event;
 

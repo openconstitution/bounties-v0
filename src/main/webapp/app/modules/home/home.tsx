@@ -7,6 +7,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { getSearchEntities, getEntities, reset } from 'app/entities/bounty/bounty.reducer';
+import { createPaymentIntent } from 'app/modules/stripe-payment/stripe-payment.reducer';
 import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
@@ -79,6 +80,7 @@ const mapStateToProps = storeState => ({
 });
 
 const mapDispatchToProps = {
+  createPaymentIntent,
   getSearchEntities,
   getEntities,
   reset,

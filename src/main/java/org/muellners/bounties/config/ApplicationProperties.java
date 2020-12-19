@@ -33,11 +33,6 @@ public class ApplicationProperties {
 			//
 		}
 
-		public Listeners(String url, String path) {
-			this.url = url;
-			this.path = path;
-		}
-
 		public String getUrl() { return url; }
 
 		public void setUrl(String url) { this.url = url; }
@@ -49,22 +44,13 @@ public class ApplicationProperties {
 
 	private static class Stripe {
 		private String publishableKey;
-		private String secretKey;
+		private String apiKey;
 		private String webhookSecret;
 		private String accountCountry;
 		private List<String> paymentMethods;
 
 		public Stripe() {
 			//
-		}
-
-		public Stripe(String publishableKey, String secretKey, String webhookSecret, String accountCountry,
-		              @DefaultValue("card") List<String> paymentMethods) {
-			this.publishableKey = publishableKey;
-			this.secretKey = secretKey;
-			this.webhookSecret = webhookSecret;
-			this.accountCountry = accountCountry;
-			this.paymentMethods = paymentMethods;
 		}
 
 		public String getPublishableKey() {
@@ -75,12 +61,12 @@ public class ApplicationProperties {
 			this.publishableKey = publishableKey;
 		}
 
-		public String getSecretKey() {
-			return secretKey;
+		public String getApiKey() {
+			return apiKey;
 		}
 
-		public void setSecretKey(String secretKey) {
-			this.secretKey = secretKey;
+		public void setApiKey(String apiKey) {
+			this.apiKey = apiKey;
 		}
 
 		public String getWebhookSecret() {
