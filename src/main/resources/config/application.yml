@@ -180,6 +180,9 @@ kafka:
   producer:
     key.serializer: org.apache.kafka.common.serialization.StringSerializer
     value.serializer: org.apache.kafka.common.serialization.StringSerializer
+
+sentry:
+  dsn:
 # ===================================================================
 # Application specific properties
 # Add your own application properties here, see the ApplicationProperties class
