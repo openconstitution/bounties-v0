@@ -1,19 +1,25 @@
-// import './home.scss';
+/* eslint-disable react/jsx-key */
+import './home.scss';
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
 import { getSearchEntities, getEntities, reset } from 'app/entities/bounty/bounty.reducer';
 import { createMedia } from '@artsy/fresnel';
-import { LandingPageComponent } from 'app/components/landing-page-component';
-import { BountyHomeComponent } from 'app/components/bounty-home-component';
-import Footer from 'app/shared/layout/footer/footer';
-import ErrorBoundary from 'app/shared/error/error-boundary';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
-import { DesktopHeader, MobileHeader } from 'app/shared/layout/header/header';
+
+import Features1 from 'app/components/features/Features1';
+import Features2 from 'app/components/features/Features2';
+import Features3 from 'app/components/features/Features3';
+import Header2 from 'app/components/headers/Header2';
+import HomeHorizontalNav from 'app/components/horizontal-navs/HomeHorizontalNav';
+import HowItWorks2 from 'app/components/how-it-works/HowItWorks2';
+import StructureContainer from 'app/components/__structures/StructureContainer';
+import StructureDiv from 'app/components/__structures/StructureDiv';
+import Footer1 from 'app/components/footers/Footerer1';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
 
@@ -30,52 +36,29 @@ export const Home = (props: IHomeProp) => {
   const { isAuthenticated } = props;
 
   return (
-    <div>
-      {isAuthenticated ? (
-        <div>
-          <ErrorBoundary>
-            <MediaContextProvider>
-              <Media greaterThan='mobile'>
-                <DesktopHeader
-                  isAuthenticated={props.isAuthenticated}
-                  isAdmin={props.isAdmin}
-                  account={props.account}
-                  isInProduction={props.isInProduction}
-                  isSwaggerEnabled={props.isSwaggerEnabled}
-                />
-              </Media>
-              <Media at='mobile'>
-                <MobileHeader
-                  isAuthenticated={props.isAuthenticated}
-                  isAdmin={props.isAdmin}
-                  account={props.account}
-                  isInProduction={props.isInProduction}
-                  isSwaggerEnabled={props.isSwaggerEnabled}
-                />
-              </Media>
-            </MediaContextProvider>
-          </ErrorBoundary>
-          <BountyHomeComponent
-            bountyList={props.bountyList}
-            loading={props.loading}
-            links={props.links}
-            totalItems={props.totalItems}
-            updateSuccess={props.updateSuccess}
-            getSearchEntities={props.getSearchEntities}
-            getEntities={props.getEntities}
-            reset={props.reset}
-            location={props.location}
-            history={props.history}
-            match={props.match}
-          />
-          <Footer />
-        </div>
-      ) : (
-        <LandingPageComponent account={props.account} isAuthenticated={props.isAuthenticated} />
-      )}
-      
-  
-    </div>
+    <React.Fragment>
+      <StructureDiv
+        bucket1={[
+          <HomeHorizontalNav content={null} />,
+
+          <StructureContainer
+            bucket1={[
+              <Header2 content={null} />,
+
+              <Features3 content={null} />,
+
+              <Features1 content={null} />,
+
+              <Features2 content={null} />,
+
+              <HowItWorks2 content={null} />,
+            ]}
+          />,
+
+          <Footer1 content={null} />,
+        ]}
+      />
+    </React.Fragment>
   );
 };
 
