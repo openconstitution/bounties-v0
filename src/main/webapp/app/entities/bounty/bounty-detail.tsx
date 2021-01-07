@@ -1,33 +1,57 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable react/jsx-key */
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
-import Select from "react-select";
 import { getEntity as getFunding, updateEntity as updateFunding, createEntity as createFunding, reset as resetFunding } from 'app/entities/funding/funding.reducer';
 import { addFunds, removeFunds, getEntity, getSearchEntities, getEntities } from './bounty.reducer';
-import { Grid, Segment, Header, Container, Image, Label, Statistic, Rating, List, Button, Menu, Input, Ref, Sticky, Rail, Placeholder, Popup, Modal, Form, Icon, Divider } from 'semantic-ui-react';
-import { createRef } from 'react';
-import _ from 'lodash';
-import { Experience } from 'app/shared/model/enumerations/experience.model';
-import { Category } from 'app/shared/model/enumerations/category.model';
-import { capitalizeFirst } from 'app/shared/util/string-utils';
-import { Status } from 'app/shared/model/enumerations/status.model';
-import * as yup from "yup";
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Controller, useForm } from 'react-hook-form';
-import { modeOptions } from 'app/shared/model/bounty.model';
-import BountyDetailComponent, { DesktopBountyDetailComponent, MobileBountyDetailComponent } from 'app/components/bounty-detail-component';
 import { createMedia } from '@artsy/fresnel';
+import { AUTHORITIES } from 'app/config/constants';
+import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
-export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+import HorizontalNav2 from 'app/components/horizontal-navs/HorizontalNav2';
+import StructureContainer from 'app/components/__structures/StructureContainer';
+import StructureDiv from 'app/components/__structures/StructureDiv';
+import BountyDetails from 'app/components/bounty-details/BountyDetails';
+import { Divider } from '@material-ui/core';
+import Comments from 'app/components/comments/comments';
+import Footer1 from 'app/components/footers/Footerer1';
+
+export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {};
+
+const { MediaContextProvider, Media } = createMedia({
+	breakpoints: {
+		mobile: 0,
+		tablet: 768,
+		computer: 1024,
+	},
+});
 
 export const BountyDetail = (props: IBountyDetailProps) => {
-  
+
+  const { isAuthenticated } = props;
+
   return (
-    <div>
-      <BountyDetailComponent {...props}/>
-    </div>
+    <React.Fragment>
+      <StructureDiv
+        bucket1={[
+          <HorizontalNav2 content={null} />,
+
+          <StructureContainer
+            bucket1={[
+              <BountyDetails content={null} />,
+
+              <Divider />,
+
+              <Comments content={null} />,
+            ]}
+          />,
+
+          <Footer1 content={null} />,
+        ]}
+      />
+    </React.Fragment>
   );
 };
 
