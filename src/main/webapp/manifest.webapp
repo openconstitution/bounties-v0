@@ -2,6 +2,11 @@
   "name": "bounties",
   "short_name": "bounties",
   "icons": [
+			{
+			"src": "favicon.ico",
+			"sizes": "64x64 32x32 24x24 16x16",
+			"type": "image/x-icon"
+			},
       {
           "src": "./content/images/jhipster_family_member_3_head-192.png",
           "sizes": "192x192",
@@ -24,7 +29,7 @@
       }
   ],
   "theme_color": "#000000",
-  "background_color": "#e0e0e0",
+  "background_color": "#ffffff",
   "start_url": ".",
   "display": "standalone",
   "orientation": "portrait"
