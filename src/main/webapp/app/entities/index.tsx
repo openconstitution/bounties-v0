@@ -9,71 +9,26 @@ import Funding from './funding';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { DesktopHeader, MobileHeader } from 'app/shared/layout/header/header';
 import { createMedia } from '@artsy/fresnel';
-import { Segment, Grid } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { IRootState } from 'app/shared/reducers';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import { AUTHORITIES } from 'app/config/constants';
 import { hot } from 'react-hot-loader';
-import Footer from 'app/shared/layout/footer/footer';
 /* jhipster-needle-add-route-import - JHipster will add routes here */
 
 export interface IRouteProps extends StateProps {match: any}
-
-const { MediaContextProvider, Media } = createMedia({
-	breakpoints: {
-		mobile: 0,
-		tablet: 768,
-		computer: 1024,
-	},
-})
 
 const Routes = (props: IRouteProps) => {
   
   const { match } = props;
 
   return (
-    <MediaContextProvider>
-      <ErrorBoundary>
-        <MediaContextProvider>
-          <Media greaterThan='mobile'>
-            <DesktopHeader
-              isAuthenticated={props.isAuthenticated}
-              isAdmin={props.isAdmin}
-              account={props.account}
-              isInProduction={props.isInProduction}
-              isSwaggerEnabled={props.isSwaggerEnabled}
-            />
-          </Media>
-          <Media at='mobile'>
-            <MobileHeader
-              isAuthenticated={props.isAuthenticated}
-              isAdmin={props.isAdmin}
-              account={props.account}
-              isInProduction={props.isInProduction}
-              isSwaggerEnabled={props.isSwaggerEnabled}
-            />
-          </Media>
-        </MediaContextProvider>
-      </ErrorBoundary>
-      
-      <Segment basic style={{ padding: '5em 5em' }} vertical>
-        <Grid container stackable verticalAlign='middle'>
-          <Grid.Row>
-            <Grid.Column width={16}>
-              <Switch>
-                {/* prettier-ignore */}
-                <ErrorBoundaryRoute path={`${match.url}bounty`} component={Bounty} />
-                <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
-                {/* jhipster-needle-add-route-path - JHipster will add routes here */}
-              </Switch>
-            </Grid.Column>
-          </Grid.Row>
-        </Grid>
-      </Segment>
-      
-      <Footer />
-    </MediaContextProvider>
+    <Switch>
+      {/* prettier-ignore */}
+      <ErrorBoundaryRoute path={`${match.url}bounty`} component={Bounty} />
+      <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
+      {/* jhipster-needle-add-route-path - JHipster will add routes here */}
+    </Switch>    
   );
 }
 
@@ -88,5 +43,3 @@ const mapStateToProps = ({ authentication, applicationProfile, }: IRootState) =>
 type StateProps = ReturnType<typeof mapStateToProps>;
 
 export default connect(mapStateToProps, null)(hot(module)(Routes));
-
-// export default Routes;
