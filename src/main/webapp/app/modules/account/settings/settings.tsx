@@ -5,7 +5,6 @@ import { IRootState } from 'app/shared/reducers';
 
 import { saveAccountSettings, reset } from './settings.reducer';
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Grid, Header, Menu, Segment, Image, List, Divider, Message, Form, TextArea, Input, Confirm, Dimmer, Icon } from 'semantic-ui-react';
 import { IUser } from 'app/shared/model/user.model';
 import { IProfile } from 'app/shared/model/profile.model';
 
@@ -50,7 +49,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
   const RenderProfileSettingsForm = (profileSettingsFormProps: any) => {
     return (
       <div>
-        <Form>
+        {/* <Form>
           <Header as='h1' disabled>
             Basic Info
           </Header>
@@ -83,9 +82,9 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                 // defaultValue={props.account.profile?.about}
               />
             </List.Item>
-          </List>
+          </List> */}
 
-          <Divider />
+          {/* <Divider />
           <Header as='h1' disabled>
             Github Info
           </Header>
@@ -106,8 +105,8 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               onChange={(e, { value }) => setGithubEmail(value)}
               defaultValue={props.account.profile?.githubEmail}
             />
-          </Form.Field>
-          <Form.Field>
+          </Form.Field> */}
+          {/* <Form.Field>
             <label>Github org name</label>
             <Input
               placeholder="Github org name"
@@ -115,12 +114,12 @@ export const SettingsPage = (props: IUserSettingsProps) => {
               onChange={(e, { value }) => setGithubOrgName(value)}
               defaultValue={props.account.profile?.githubOrgName}
             />
-          </Form.Field>
-          <Button
+          </Form.Field> */}
+          {/* <Button
             icon='save'
             color='teal'
             content='Save'
-            /* disabled={updating} */
+            disabled={updating}
             onClick={() => setConfirmOpen(true)}
           />
           <Button
@@ -129,7 +128,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
             content='Cancel'
             onClick={() => setIsProfileInfoEditMode(false)}
           />
-        </Form>
+        </Form> */}
       </div>
     );
   }
@@ -137,7 +136,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
   const RenderProfileInfo = (profileInfoProps: any) => {
     return (
       <div>
-        <Header as='h1' disabled>
+        {/* <Header as='h1' disabled>
           Basic Info
         </Header>
         <List vertical fluid>
@@ -202,14 +201,14 @@ export const SettingsPage = (props: IUserSettingsProps) => {
           icon='pencil'
           content='Edit'
           onClick={() => setIsProfileInfoEditMode(true)}
-        />
+        /> */}
       </div>
     );
   }
 
   const dimmableContent = (
     <a>
-      <Icon name='pencil' /> Edit
+      {/* <Icon name='pencil' /> Edit */}
     </a>
   )
 
@@ -217,7 +216,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
     if (compProps.compFor === 'profile-settings') {
       return (
         <div>
-          <Grid columns='2'>
+          {/* <Grid columns='2'>
             <Grid.Column width='12'>
               {isProfileInfoEditMode ? (
                 <RenderProfileSettingsForm />
@@ -239,7 +238,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
                 style={{ cursor: 'pointer' }}
               />              
             </Grid.Column>
-          </Grid>
+          </Grid> */}
         </div>
       );
     } else if (compProps.compFor === 'wallet-settings') {
@@ -251,7 +250,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
 
   return (
     <div style={{ padding: '3em 2em' }}>
-      <Header as='h2'>Settings</Header>
+      {/* <Header as='h2'>Settings</Header>
       <Grid>
         <Grid.Column width={4}>
           <Menu fluid vertical pointing attached>
@@ -283,7 +282,7 @@ export const SettingsPage = (props: IUserSettingsProps) => {
             <RenderComp compFor={activeItem} />
           </Segment>
         </Grid.Column>
-      </Grid>
+      </Grid> */}
     </div>
   );
 };
