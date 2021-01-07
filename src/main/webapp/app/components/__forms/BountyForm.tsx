@@ -3,7 +3,7 @@ import { Box, Grid, MenuItem, TextField, Button, Select } from '@material-ui/cor
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Controller, useForm } from 'react-hook-form';
-import ReactHookFormSelect from '../__select/ReactHookFormSelect';
+import ReactHookFormSelect from '../__selects/ReactHookFormSelect';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup";
 
