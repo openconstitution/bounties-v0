@@ -2,10 +2,8 @@
 
 import React, { Children, useState } from 'react';
 import LoadingBar from 'react-redux-loading-bar';
-import { Dropdown, Menu, Container, Image, Input, Button, Label, Sidebar, Segment, Icon, List } from 'semantic-ui-react';
 import { NavLink as Link } from 'react-router-dom';
 import { getLoginUrl } from 'app/shared/util/url-utils';
-import { createMedia } from '@artsy/fresnel';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -17,7 +15,7 @@ export interface IHeaderProps {
 
 const trigger = (username: any) => (
   <span>
-    <Image src={'content/images/jhipster_family_member_0_head-192.png' || 'props.account.imageUrl'} circular avatar />
+    {/* <Image src={'content/images/jhipster_family_member_0_head-192.png' || 'props.account.imageUrl'} circular avatar /> */}
     <span>{username}</span>
   </span>
 )
@@ -26,7 +24,7 @@ export const DesktopHeader = (props: IHeaderProps) => {
 
   return (
     <div>
-      <Menu size='large' borderless inverted stackable fixed='top'>
+      {/* <Menu size='large' borderless inverted stackable fixed='top'>
         <Container>
           <Menu.Item as={Link} to='/' header>
             <Image size='mini' src='content/images/logo-jhipster.png' style={{ marginRight: '1.5em' }} circular/>
@@ -68,8 +66,7 @@ export const DesktopHeader = (props: IHeaderProps) => {
             
           </Menu.Menu>
         </Container>
-      </Menu>
-      <LoadingBar className="loading-bar" />
+      </Menu> */}
     </div>
   );
 }
@@ -86,7 +83,7 @@ export const MobileHeader = (props: IHeaderProps) => {
 
   return (
     <div>
-      <Sidebar.Pushable>
+      {/* <Sidebar.Pushable>
         <Sidebar
           as={Menu}
           animation='overlay'
@@ -188,7 +185,7 @@ export const MobileHeader = (props: IHeaderProps) => {
                     
           </Segment>
         </Sidebar.Pusher>
-      </Sidebar.Pushable>
+      </Sidebar.Pushable> */}
     </div>
   );
 }
