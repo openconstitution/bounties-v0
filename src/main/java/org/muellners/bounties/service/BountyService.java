@@ -60,12 +60,12 @@ public class BountyService {
         // Before we go and save the url from git/bitbucket/jira/or anything else
         final Bounty bounty = bountyMapper.bountyDTOToBounty(bountyDTO);
         
-        if (bounty.getId() == null){
-//             jiraListener.listen(bounty.issueUrl());
-            bounty.setStatus(Status.OPEN);
-        } else {
-            //
-        }
+//        if (bounty.getId() == null){
+//            jiraListener.listen(bounty.issueUrl());
+//            bounty.setStatus(Status.OPEN);
+//        } else {
+//            //
+//        }
 
         log.debug("Updated Bounty : {}", bounty);
         Bounty result = bountyRepository.save(bounty);
@@ -124,7 +124,7 @@ public class BountyService {
     public BountyDTO findOne(Long id) {
         log.debug("Request to get Bounty : {}", id);
         final Optional<Bounty> bounty = bountyRepository.findById(id);
-        return bountyMapper.bountyToBountyDTO(bounty.orElse(null));
+        return bountyMapper.bountyToBountyDTO(bounty.orElseThrow(IllegalArgumentException::new));
     }
 
     /**

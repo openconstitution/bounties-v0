@@ -1,0 +1,13 @@
+id;name;key;value;created_by
+1;category;FRONT_END;Frontend;user
+2;category;BACKEND;Backend;user
+3;experience;BEGINNER;beginner;user
+4;experience;INTERMEDIATE;intermediate;user
+5;experience;ADVANCED;advanced;user
+6;status;OPEN;open;user
+7;status;INVALID;invalid;user
+8;status;CLOSED;closed;user
+9;status;CLAIMED;claimed;user
+10;type;BUG;bug;user
+11;type;FEATURE;feature;user
+12;type;IMPROVEMENT;improvement;user
