@@ -13,6 +13,7 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { TableHead, TableRow, TableCell, Checkbox, TableSortLabel, createStyles, Toolbar, Tooltip, IconButton, lighten, TableContainer, Table, TableBody, TablePagination, FormControlLabel, Switch, Collapse, Link } from '@material-ui/core';
 import clsx from 'clsx';
+import { IBounty } from 'app/shared/model/bounty.model';
 
 const useStyles = makeStyles((theme) => ({
   features: {
@@ -55,40 +56,6 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-interface Data {
-  summary: string;
-  type: number;
-  category: number;
-  experience: number;
-  amount: number;
-}
-
-function createData(
-  summary: string,
-  type: number,
-  category: number,
-  experience: number,
-  amount: number
-): Data {
-  return { summary, type, category, experience, amount };
-}
-
-const rows = [
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Donut', 452, 25.0, 51, 4.9),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-  createData('Honeycomb', 408, 3.2, 87, 6.5),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Jelly Bean', 375, 0.0, 94, 0.0),
-  createData('KitKat', 518, 26.0, 65, 7.0),
-  createData('Lollipop', 392, 0.2, 98, 0.0),
-  createData('Marshmallow', 318, 0, 81, 2.0),
-  createData('Nougat', 360, 19.0, 9, 37.0),
-  createData('Oreo', 437, 18.0, 63, 4.0),
-];
-
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
   if (b[orderBy] < a[orderBy]) {
     return -1;
@@ -122,7 +89,7 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number) {
 
 interface HeadCell {
   disablePadding: boolean;
-  id: keyof Data;
+  id: keyof IBounty;
   label: string;
   alignment: string;
   size: string
@@ -133,13 +100,13 @@ const headCells: HeadCell[] = [
   { id: 'type', alignment: 'left', size: 'small', disablePadding: false, label: 'Type' },
   { id: 'category', alignment: 'left', size: 'small', disablePadding: false, label: 'Category' },
   { id: 'experience', alignment: 'left', size: 'small', disablePadding: false, label: 'Difficulty' },
-  { id: 'amount', alignment: 'right', size: 'small', disablePadding: false, label: 'Bounty ($)' },
+  { id: 'amount', alignment: 'right', size: 'small', disablePadding: false, label: 'Bounty' },
 ];
 
 interface EnhancedTableProps {
   classes: ReturnType<typeof useStyles>;
   numSelected: number;
-  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof Data) => void;
+  onRequestSort: (event: React.MouseEvent<unknown>, property: keyof IBounty) => void;
   onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
   order: Order;
   orderBy: string;
@@ -148,7 +115,7 @@ interface EnhancedTableProps {
 
 function EnhancedTableHead(props: EnhancedTableProps) {
   const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+  const createSortHandler = (property: keyof IBounty) => (event: React.MouseEvent<unknown>) => {
     onRequestSort(event, property);
   };
 
@@ -230,15 +197,12 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
   );
 };
 
-function Row(props: { row: ReturnType<typeof createData>, isItemSelected: any, labelId: string }) {
+// function Row(props: { row: ReturnType<typeof createData>, isItemSelected: any, labelId: string }) {
+function Row(props: { row: IBounty, isItemSelected: any, labelId: string }) {
   const { row, isItemSelected, labelId } = props;
 	const [open, setOpen] = React.useState(false);
 	
   const content = {
-    'badge': 'LOREM IPSUM',
-    'header-p1': 'Lorem ipsum dolor',
-    'header-p2': 'sit amet consectetur.',
-    'description': 'Suspendisse aliquam tellus ante, porttitor mattis diam eleifend quis. Pellentesque pulvinar commodo eros sit amet finibus. Aenean et ornare erat.',
     'primary-action': 'Learn More'
   };
 
@@ -264,7 +228,13 @@ function Row(props: { row: ReturnType<typeof createData>, isItemSelected: any, l
               {row.summary}
             </Typography>
             <Typography variant="caption" display="block" gutterBottom>
-              caption text by <Link variant="caption" href="#">Link</Link>
+              Created on {
+                new Intl.DateTimeFormat("en-GB", {
+                  year: "numeric",
+                  month: "long",
+                  day: "2-digit"
+                }).format(new Date(row.createdDate))
+              } by <Link variant="caption" href={`/hunter/${row.createdBy}`}>{row.createdBy}</Link>
             </Typography>
           </Box>
 				</TableCell>
@@ -276,16 +246,23 @@ function Row(props: { row: ReturnType<typeof createData>, isItemSelected: any, l
          {/* @ts-ignore */}
 				<TableCell align="left" width="14%">{row.experience}</TableCell>
          {/* @ts-ignore */}
-				<TableCell align="right" width="9%">{row.amount}</TableCell>
+				<TableCell align="right" width="9%">
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "USD",
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+          }).format(row.amount)}
+        </TableCell>
 			</TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={1}>
               <Typography variant="h6" gutterBottom component="div">Description</Typography>
-              <Typography variant="subtitle1" component="p" color="textSecondary">{content['description']}</Typography>
+              <Typography variant="subtitle1" component="p" color="textSecondary">{row.description}</Typography>
               
-              <Button size="small" color="primary">
+              <Button size="small" color="primary" href={`bounty/${row.id}`}>
                 {content['primary-action']}
               </Button>
             </Box>
@@ -299,28 +276,17 @@ function Row(props: { row: ReturnType<typeof createData>, isItemSelected: any, l
 export default function BountyList(props) {
   const classes = useStyles();
   const [order, setOrder] = React.useState<Order>('asc');
-  const [orderBy, setOrderBy] = React.useState<keyof Data>('type');
+  const [orderBy, setOrderBy] = React.useState<keyof IBounty>('id');
   const [selected, setSelected] = React.useState<string[]>([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const content = {
-    'badge': 'LOREM IPSUM',
-    'header-p1': 'Lorem ipsum dolor',
-    'header-p2': 'sit amet consectetur.',
-    'description': 'Suspendisse aliquam tellus ante, porttitor mattis diam eleifend quis. Pellentesque pulvinar commodo eros sit amet finibus. Aenean et ornare erat.',
-    'primary-action': 'Action',
-    'col1-header': 'Lorem ipsum dolor sit amet',
-    'col1-desc': 'Libero tincidunt vulputate fermentum, nisi nulla cursus turpis.',
-    'col2-header': 'Lorem ipsum dolor sit amet',
-    'col2-desc': 'Libero tincidunt vulputate fermentum, nisi nulla cursus turpis.',
-    'col3-header': 'Lorem ipsum dolor sit amet',
-    'col3-desc': 'Libero tincidunt vulputate fermentum, nisi nulla cursus turpis.',
-    ...props.content
+    ...props.content,
   };
 
-  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof Data) => {
+  const handleRequestSort = (event: React.MouseEvent<unknown>, property: keyof IBounty) => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
     setOrderBy(property);
@@ -328,31 +294,11 @@ export default function BountyList(props) {
 
   const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.checked) {
-      const newSelecteds = rows.map((n) => n.summary);
+      const newSelecteds = content.bounties.map((n) => n.summary);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
-  };
-
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    // const selectedIndex = selected.indexOf(name);
-    // let newSelected: string[] = [];
-
-    // if (selectedIndex === -1) {
-    //   newSelected = newSelected.concat(selected, name);
-    // } else if (selectedIndex === 0) {
-    //   newSelected = newSelected.concat(selected.slice(1));
-    // } else if (selectedIndex === selected.length - 1) {
-    //   newSelected = newSelected.concat(selected.slice(0, -1));
-    // } else if (selectedIndex > 0) {
-    //   newSelected = newSelected.concat(
-    //     selected.slice(0, selectedIndex),
-    //     selected.slice(selectedIndex + 1),
-    //   );
-    // }
-
-		// setSelected(newSelected);
   };
 
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -371,7 +317,7 @@ export default function BountyList(props) {
   // eslint-disable-next-line @typescript-eslint/prefer-includes
   const isSelected = (name: string) => selected.indexOf(name) !== -1;
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, content.bounties.length - page * rowsPerPage);
 
   return (
     <section>
@@ -392,10 +338,10 @@ export default function BountyList(props) {
 								orderBy={orderBy}
 								onSelectAllClick={handleSelectAllClick}
 								onRequestSort={handleRequestSort}
-								rowCount={rows.length}
+								rowCount={content.bounties.length}
 							/>
 							<TableBody>
-								{stableSort(rows, getComparator(order, orderBy))
+								{stableSort(content.bounties, getComparator(order, orderBy))
 									.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
 									.map((row, index) => {
 										const isItemSelected = isSelected(row.summary.toString());
@@ -422,7 +368,7 @@ export default function BountyList(props) {
 					<TablePagination
 						rowsPerPageOptions={[5, 10, 25]}
 						component="div"
-						count={rows.length}
+						count={content.bounties.length}
 						rowsPerPage={rowsPerPage}
 						page={page}
 						onChangePage={handleChangePage}

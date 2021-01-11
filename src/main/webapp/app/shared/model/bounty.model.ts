@@ -1,9 +1,9 @@
-import { Moment } from 'moment';
 import { IFunding } from 'app/shared/model/funding.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
 import { Category } from 'app/shared/model/enumerations/category.model';
+import { IUser } from './user.model';
 
 export interface IBounty {
   id?: number;
@@ -20,6 +20,7 @@ export interface IBounty {
   permission?: boolean;
   expiryDate?: Date;
   fundings?: IFunding[];
+  hunter?: IUser;
   createdBy?: string;
   createdDate?: Date;
 }
@@ -27,23 +28,23 @@ export interface IBounty {
 export const categoryOptions = [
   { key: 'F', text: 'Frontend', value: Category.FRONT_END },
   { key: 'B', text: 'Backend', value: Category.BACKEND },
-  { key: 'T', text: 'This', value: Category.THIS }
+  { key: 'T', text: 'This', value: Category.THIS },
 ];
 export const typeOptions = [
   { key: 'B', text: 'Bug', value: Type.BUG },
   { key: 'F', text: 'Feature', value: Type.FEATURE },
   { key: 'I', text: 'Improvement', value: Type.IMPROVEMENT },
-  { key: 'E', text: 'Ex', value: Type.EX }
+  { key: 'E', text: 'Ex', value: Type.EX },
 ];
 export const experienceOptions = [
   { key: 'B', text: 'Beginner', value: Experience.BEGINNER },
   { key: 'I', text: 'Intermediate', value: Experience.INTERMEDIATE },
-  { key: 'E', text: 'Experience', value: Experience.ADVANCED }
+  { key: 'E', text: 'Experience', value: Experience.ADVANCED },
 ];
 export const modeOptions = [
   { key: 'A', text: 'Mode A', value: 'Mode A' },
   { key: 'B', text: 'Mode B', value: 'Mode B' },
-  { key: 'C', text: 'Mode C', value: 'Mode C' }
+  { key: 'C', text: 'Mode C', value: 'Mode C' },
 ];
 
 export const defaultValue: Readonly<IBounty> = {};

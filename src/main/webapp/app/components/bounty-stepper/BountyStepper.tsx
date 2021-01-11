@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
 export default function BountyStepper(props) {
 	const classes = useStyles();
 	
-	const [activeStep, setActiveStep] = React.useState(0);
+	const [activeStep, setActiveStep] = React.useState(1);
 	const [bountyData, setBountyData] = React.useState(null);
 	const [paymentData, setPaymentData] = React.useState(null);
 
@@ -45,7 +45,7 @@ export default function BountyStepper(props) {
     'badge': 'LOREM IPSUM',
     'header-p1': 'Lorem ipsum dolor',
     'header-p2': 'sit amet consectetur.',
-    'description': 'Suspendisse aliquam tellus ante, porttitor mattis diam eleifend quis. Pellentesque pulvinar commodo eros sit amet finibus. Aenean et ornare erat.',
+    'description': 'Suspendisse aliquam  tellus ante, porttitor mattis diam eleifend quis. Pellentesque pulvinar commodo eros sit amet finibus. Aenean et ornare erat.',
 		'primary-action': 'Next',
 		'secondary-action': 'Back',
 		
@@ -66,6 +66,7 @@ export default function BountyStepper(props) {
 							text: 'Next',
 							onClick: () => setActiveStep(1),
 						}}
+						data={props.content.bounty}
 						setData={setBountyData}
 					/>
 				)
@@ -81,6 +82,7 @@ export default function BountyStepper(props) {
 							text: 'Back',
 							onClick: () => setActiveStep(0)
 						}}
+						data={props.content.bounty}
 						setData={setPaymentData}
 					/>
 				</Box>
