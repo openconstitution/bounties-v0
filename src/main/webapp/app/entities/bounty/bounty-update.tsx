@@ -122,7 +122,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
 
           <StructureContainer
             bucket1={[
-              <BountyStepper content={null} />,
+              <BountyStepper content={{ bounty: bountyEntity }} />,
             ]}
           />,
 

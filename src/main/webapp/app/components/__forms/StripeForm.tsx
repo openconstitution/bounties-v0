@@ -47,6 +47,7 @@ export interface IAction {
 export interface IStripeForm {
 	primaryAction?: IAction,
 	secondaryAction?: IAction,
+	data?: any,
 	setData?: any,
 	content?: any,
 }
@@ -64,6 +65,8 @@ const StripeForm = (props: IStripeForm = {
 	secondaryAction: { type: 'button' },
 }) => {
 	const classes = useStyles();
+	
+	const { primaryAction, secondaryAction, setData, data } = props;
 
 	const [errors, setErrors] = React.useState({
 		currency: '',
@@ -74,7 +77,7 @@ const StripeForm = (props: IStripeForm = {
 	});
 	const [paymentData, setPaymentData] = React.useState({
 		currency: 'USD',
-		amount: '',
+		amount: data.amount,
 		cardNumber: '',
 		cardExpiry: '',
 		cardCvcNumber: '',
@@ -90,7 +93,6 @@ const StripeForm = (props: IStripeForm = {
     ...props.content
 	};
 
-	const { primaryAction, secondaryAction, setData } = props;
 
 	const primarySubmit = () => {
 		
@@ -139,7 +141,7 @@ const StripeForm = (props: IStripeForm = {
 								id='currency'
 								label='Currency'
 								name='currency'
-								defaultValue="USD"
+								defaultValue={data.currency || "USD"}
 								value={paymentData.currency}
 								margin="dense"
 								variant="outlined"
@@ -167,6 +169,8 @@ const StripeForm = (props: IStripeForm = {
 							margin="dense"
 							required
 							fullWidth
+							value={data.amount}
+							defaultValue={data.amount}
 							helperText={errors.amount && errors.amount}
 							error={errors.amount === "" ? false : true}
 							onChange={(event) => setPaymentData({

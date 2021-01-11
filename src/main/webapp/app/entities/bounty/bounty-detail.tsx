@@ -20,17 +20,13 @@ import Footer1 from 'app/components/footers/Footerer1';
 
 export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {};
 
-const { MediaContextProvider, Media } = createMedia({
-	breakpoints: {
-		mobile: 0,
-		tablet: 768,
-		computer: 1024,
-	},
-});
-
 export const BountyDetail = (props: IBountyDetailProps) => {
 
-  const { isAuthenticated } = props;
+  React.useEffect(() => {
+    props.getEntity(props.match.params.id);
+  })
+
+  const { account, isAuthenticated, bountyEntity } = props;
 
   return (
     <React.Fragment>
@@ -40,7 +36,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
 
           <StructureContainer
             bucket1={[
-              <BountyDetails content={null} />,
+              <BountyDetails content={{ bounty: bountyEntity, isAuthenticated, account }} />,
 
               <Divider />,
 

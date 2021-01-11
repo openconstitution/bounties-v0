@@ -16,6 +16,12 @@ import Footer1 from 'app/components/footers/Footerer1';
 export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
 export const Bounty = (props: IBountyProps) => {
+
+  React.useEffect(() => {
+    props.getEntities();
+  }, []);
+
+  const { bountyList } = props;
   
   return (
     <React.Fragment>
@@ -25,7 +31,7 @@ export const Bounty = (props: IBountyProps) => {
 
           <StructureContainer
             bucket1={[
-              <BountyList content={null} />,
+              <BountyList content={{bounties: bountyList}} />,
             ]}
           />,
 
