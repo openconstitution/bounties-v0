@@ -7,12 +7,36 @@
         Added the constraints for entity Funding.
     -->
     <changeSet id="20200809142715-2" author="jhipster">
-        
+
         <addForeignKeyConstraint baseColumnNames="hunter_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_hunter_jhi_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="status_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_status_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="option"/>
+
+        <addForeignKeyConstraint baseColumnNames="type_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_type_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="option"/>
+
+        <addForeignKeyConstraint baseColumnNames="category_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_category_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="option"/>
+
+        <addForeignKeyConstraint baseColumnNames="experience_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_experience_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="option"/>
 
     </changeSet>
 </databaseChangeLog>

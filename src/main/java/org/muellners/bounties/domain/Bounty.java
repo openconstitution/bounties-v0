@@ -3,15 +3,12 @@ package org.muellners.bounties.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.muellners.bounties.domain.enumeration.Category;
-import org.muellners.bounties.domain.enumeration.Experience;
-import org.muellners.bounties.domain.enumeration.Status;
-import org.muellners.bounties.domain.enumeration.Type;
 
 /**
  * A Bounty.
@@ -33,9 +30,12 @@ public class Bounty extends AbstractAuditingEntity {
     @Column(name = "summary")
     private String summary;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    private Status status;
+    @Column(name = "description")
+    private String description;
+
+    @OneToOne
+    @JoinColumn(name = "status_id")
+    private Option status;
 
     @NotNull @Column(name = "issue_url")
     private String issueUrl;
@@ -43,23 +43,24 @@ public class Bounty extends AbstractAuditingEntity {
     @Column(name = "amount", precision = 21, scale = 2)
     private BigDecimal amount;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "experience")
-    private Experience experience;
-
     @Column(name = "commitment")
     private Integer commitment;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "type")
-    private Type type;
+    @OneToOne
+    @JoinColumn(name = "type_id")
+    private Option type;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "category")
-    private Category category;
+    @OneToOne
+    @JoinColumn(name = "category_id")
+    private Option category;
 
-    @Column(name = "keywords")
-    private String keywords;
+    @OneToOne
+    @JoinColumn(name = "experience_id")
+    private Option experience;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(name = "keyword")
+    private List<String> keywords;
 
     @Column(name = "permission")
     private Boolean permission;
@@ -81,14 +82,14 @@ public class Bounty extends AbstractAuditingEntity {
 
     public void setId(Long id) { this.id = id; }
 
-    public Status getStatus() { return status; }
+    public Option getStatus() { return status; }
 
-    public Bounty status(Status status) {
+    public Bounty status(Option status) {
         this.status = status;
         return this;
     }
 
-    public void setStatus(Status status) { this.status = status; }
+    public void setStatus(Option status) { this.status = status; }
 
     public String getIssueUrl() {
         return issueUrl;
@@ -116,6 +117,22 @@ public class Bounty extends AbstractAuditingEntity {
         this.summary = summary;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
     public BigDecimal getAmount() { return amount; }
 
     public Bounty amount(BigDecimal amount) {
@@ -125,14 +142,14 @@ public class Bounty extends AbstractAuditingEntity {
 
     public void setAmount(BigDecimal amount) { this.amount = amount; }
 
-    public Experience getExperience() { return experience; }
+    public Option getExperience() { return experience; }
 
-    public Bounty experience(Experience experience) {
+    public Bounty experience(Option experience) {
         this.experience = experience;
         return this;
     }
 
-    public void setExperience(Experience experience) {
+    public void setExperience(Option experience) {
         this.experience = experience;
     }
 
@@ -147,32 +164,23 @@ public class Bounty extends AbstractAuditingEntity {
         this.commitment = commitment;
     }
 
-    public Type getType() { return type; }
+    public Option getType() { return type; }
 
-    public Bounty type(Type type) {
+    public Bounty type(Option type) {
         this.type = type;
         return this;
     }
 
-    public void setType(Type type) { this.type = type; }
+    public void setType(Option type) { this.type = type; }
 
-    public Category getCategory() { return category; }
+    public Option getCategory() { return category; }
 
-    public Bounty category(Category category) {
+    public Bounty category(Option category) {
         this.category = category;
         return this;
     }
 
-    public void setCategory(Category category) { this.category = category; }
-
-    public String getKeywords() { return keywords; }
-
-    public Bounty keywords(String keywords) {
-        this.keywords = keywords;
-        return this;
-    }
-
-    public void setKeywords(String keywords) { this.keywords = keywords; }
+    public void setCategory(Option category) { this.category = category; }
 
     public Boolean isPermission() { return permission; }
 

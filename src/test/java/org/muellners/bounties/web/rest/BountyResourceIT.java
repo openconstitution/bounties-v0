@@ -125,14 +125,14 @@ public class BountyResourceIT {
    */
   public static Bounty createUpdatedEntity(EntityManager em) {
     Bounty bounty = new Bounty()
-                        .status(UPDATED_STATUS)
+//                        .status(UPDATED_STATUS)
                         .issueUrl(UPDATED_URL)
                         .amount(UPDATED_AMOUNT)
-                        .experience(UPDATED_EXPERIENCE)
+//                        .experience(UPDATED_EXPERIENCE)
                         .commitment(UPDATED_COMMITMENT)
-                        .type(UPDATED_TYPE)
-                        .category(UPDATED_CATEGORY)
-                        .keywords(UPDATED_KEYWORDS)
+//                        .type(UPDATED_TYPE)
+//                        .category(UPDATED_CATEGORY)
+//                        .keywords(UPDATED_KEYWORDS)
                         .permission(UPDATED_PERMISSION)
                         .expiryDate(UPDATED_EXPIRES);
     return bounty;

@@ -2,22 +2,17 @@ package org.muellners.bounties.service.dto;
 
 import com.sun.istack.NotNull;
 import org.muellners.bounties.domain.Bounty;
-import org.muellners.bounties.domain.User;
-import org.muellners.bounties.domain.enumeration.Category;
-import org.muellners.bounties.domain.enumeration.Experience;
-import org.muellners.bounties.domain.enumeration.Status;
-import org.muellners.bounties.domain.enumeration.Type;
-
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 public class BountyDTO {
 
     private Long id;
 
-    private Status status;
+    private String status;
 
     @NotNull
     private String summary;
@@ -28,15 +23,15 @@ public class BountyDTO {
     @NotNull
     private BigDecimal amount;
 
-    private Experience experience;
-
     private Integer commitment;
 
-    private Category category;
+    private List<String> keywords;
 
-    private String keywords;
+    private String type;
 
-    private Type type;
+    private String category;
+
+    private String experience;
 
     private boolean permission;
 
@@ -44,7 +39,7 @@ public class BountyDTO {
 
     private Set<FundingDTO> fundings;
 
-    private User hunter;
+    private String hunter;
 
     private String createdBy;
 
@@ -56,18 +51,20 @@ public class BountyDTO {
 
     public BountyDTO(final Bounty bounty) {
         this.id = bounty.getId();
-        this.status = bounty.getStatus();
+        this.status = bounty.getStatus().getKey();
         this.summary = bounty.getSummary();
         this.amount = bounty.getAmount();
         this.issueUrl = bounty.getIssueUrl();
-        this.type = bounty.getType();
-        this.experience = bounty.getExperience();
         this.commitment = bounty.getCommitment();
-        this.category = bounty.getCategory();
+        this.type = bounty.getType().getKey();
+        this.category = bounty.getCategory().getKey();
+        this.experience = bounty.getExperience().getKey();
         this.keywords = bounty.getKeywords();
         this.permission = bounty.getPermission();
         this.expiryDate = bounty.getExpiryDate();
-        this.hunter = bounty.getHunter();
+        if (bounty.getHunter() != null) {
+            this.hunter = bounty.getHunter().getLogin();
+        }
         this.createdBy = bounty.getCreatedBy();
         this.createdDate = bounty.getCreatedDate();
     }
@@ -86,7 +83,7 @@ public class BountyDTO {
             ", category='" + category + '\'' +
             ", keywords='" + keywords + '\'' +
             ", permission=" + permission +
-            ", expiryDate=" + expiryDate +
+            ", c=" + expiryDate +
             ", hunter=" + hunter +
             ", createdBy='" + createdBy + '\'' +
             ", createdDate=" + createdDate +
@@ -109,14 +106,6 @@ public class BountyDTO {
         this.summary = summary;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(final Status status) {
-        this.status = status;
-    }
-
     public String getIssueUrl() {
         return issueUrl;
     }
@@ -133,36 +122,12 @@ public class BountyDTO {
         this.amount = amount;
     }
 
-    public Experience getExperience() {
-        return experience;
-    }
-
-    public void setExperience(final Experience experience) {
-        this.experience = experience;
-    }
-
     public Integer getCommitment() {
         return commitment;
     }
 
     public void setCommitment(final Integer commitment) {
         this.commitment = commitment;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(final Category category) {
-        this.category = category;
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(final String keywords) {
-        this.keywords = keywords;
     }
 
     public boolean isPermission() {
@@ -199,11 +164,11 @@ public class BountyDTO {
         this.fundings = fundings;
     }
 
-    public User getHunter() {
+    public String getHunter() {
         return hunter;
     }
 
-    public void setHunter(User hunter) {
+    public void setHunter(String hunter) {
         this.hunter = hunter;
     }
 
@@ -223,15 +188,47 @@ public class BountyDTO {
         this.createdDate = createdDate;
     }
 
-    public Type getType() {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getExperience() {
+        return experience;
+    }
+
+    public void setExperience(String experience) {
+        this.experience = experience;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(final Type type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public BountyDTO status(final Status status) {
+    public BountyDTO status(final String status) {
         this.status = status;
         return this;
     }
@@ -246,7 +243,7 @@ public class BountyDTO {
         return this;
     }
 
-    public BountyDTO experience(final Experience experience) {
+    public BountyDTO experience(final String experience) {
         this.experience = experience;
         return this;
     }
@@ -256,17 +253,17 @@ public class BountyDTO {
         return this;
     }
 
-    public BountyDTO type(final Type type) {
+    public BountyDTO type(final String type) {
         this.type = type;
         return this;
     }
 
-    public BountyDTO category(final Category category) {
+    public BountyDTO category(final String category) {
         this.category = category;
         return this;
     }
 
-    public BountyDTO keywords(final String keywords) {
+    public BountyDTO keywords(final List<String> keywords) {
         this.keywords = keywords;
         return this;
     }

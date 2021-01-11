@@ -117,7 +117,7 @@ public class BountyResource {
      */
     @PutMapping("/bounties")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
-    public ResponseEntity<BountyDTO> updateBounty(@RequestBody final BountyDTO bountyDTO) throws URISyntaxException {
+    public ResponseEntity<BountyDTO> updateBounty(@RequestBody final BountyDTO bountyDTO) {
         log.debug("REST request to update Bounty : {}", bountyDTO);
         if (bountyDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -131,25 +131,14 @@ public class BountyResource {
 	/**
 	 * {@code GET  /bounties} : get all the bounties per page.
 	 *
-	 * @param pageable the pagination information.
-     * @param status the pagination information.
-     * @param hunter the pagination information.
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
 	 */
 	@GetMapping("/bounties")
-	public ResponseEntity<List<BountyDTO>> getAllBounties(@PathParam("pageable") Pageable pageable,
-                                                          @PathParam("status") Status status,
-                                                          @PathParam("hunter") String hunter) {
-		if (status != null || hunter != null) {
-            log.debug("REST request to get all Bounties by status: {} by hunter: {}", status, hunter);
-            return ResponseEntity.ok().body(bountyService.findAllByUserByStatus(status, hunter));
-		} else {
-            log.debug("REST request to get a page of Bounty, page: {}, sort: {}, size: {}",
-                    pageable.getPageNumber(), pageable.getSort(), pageable.getPageSize());
-            Page<BountyDTO> page = bountyService.findAll(pageable);
-            HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-            return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
+	public ResponseEntity<List<BountyDTO>> getAllBounties() {
+        log.debug("REST request to get all Bounties");
+        List<BountyDTO> bountyDTOS = bountyService.findAll();
+        HttpHeaders headers = HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, String.valueOf(bountyDTOS));
+        return ResponseEntity.ok().headers(headers).body(bountyDTOS);
 	}
 
     /**
