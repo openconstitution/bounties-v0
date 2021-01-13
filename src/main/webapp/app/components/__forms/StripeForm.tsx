@@ -1,6 +1,7 @@
 /* eslint-disable react/jsx-key */
-import { Box, Grid, MenuItem, TextField, Button, Select, InputAdornment } from '@material-ui/core';
 import React from 'react';
+import axios from 'axios';
+import { Box, Grid, MenuItem, TextField, Button, Select, InputAdornment } from '@material-ui/core';
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import { FormHelperText, makeStyles } from '@material-ui/core';
@@ -94,15 +95,9 @@ const StripeForm = (props: IStripeForm = {
 	};
 
 
-	const primarySubmit = () => {
+	const primarySubmit = async () => {
 		
-		let tempErrors = {
-			currency: '',
-			amount: '',
-			cardNumber: '',
-			cardExpiry: '',
-			cardCvcNumber: '',
-		};
+		let tempErrors = errors;
 		
 		if (paymentData.amount === "") {
 			tempErrors = { ...tempErrors, amount: "Amount cannot be empty." };
@@ -122,8 +117,53 @@ const StripeForm = (props: IStripeForm = {
 			}
 		}
 
-		setData(paymentData);
-		primaryAction.onClick();
+		const card = {
+			cardNumber: paymentData.cardNumber,
+			cardExpiryDate: paymentData.cardExpiry,
+			cardCvcNumber: paymentData.cardCvcNumber
+		}
+
+		const methodPayload = await axios.post("api/stripe/payment-methods", card);
+		
+		// eslint-disable-next-line no-console
+		console.log(methodPayload);
+		const error = methodPayload.data["error"];
+
+		for (const key in error) {
+			if (key !== "") {
+				if (error["code"] === "incorrect_number") {
+					tempErrors = { ...tempErrors, cardNumber: error["message"] as string };
+				}
+				if (error["code"] === "invalid_expiry_month" || error["code"] === "invalid_expiry_year") {
+					tempErrors = { ...tempErrors, cardExpiry: error["message"] as string };
+				}
+				if (error["code"] === "expired_card") {
+					tempErrors = { ...tempErrors, cardExpiry: error["message"] as string };
+				}
+				if (error["code"] === "incorrect_cvc") {
+					tempErrors = { ...tempErrors, cardCvcNumber: error["message"] as string };
+				}
+				setErrors(tempErrors);
+			}
+		}
+
+		const intent = {
+			bountyId: 1,
+			paymentMethodId: methodPayload.data.id
+		}
+
+		const intentPayload = await axios.post("api/stripe/payment-intents", intent);
+
+		// eslint-disable-next-line no-console
+		console.log(intentPayload);
+
+		const confirmIntentPayload = await axios.get(`api/stripe/payment-intents/${intentPayload.data.id}/confirm`)
+		
+		// eslint-disable-next-line no-console
+		console.log(confirmIntentPayload);
+
+		// setData(paymentData);
+		// primaryAction.onClick();
 	}
 
 	const secondarySubmit = () => {
@@ -145,10 +185,16 @@ const StripeForm = (props: IStripeForm = {
 								value={paymentData.currency}
 								margin="dense"
 								variant="outlined"
-								onChange={(event) => setPaymentData({
-									...paymentData,
-									currency: event.target.value as string
-								})}
+								onChange={(event) => {
+										setPaymentData({
+											...paymentData,
+											currency: event.target.value as string
+										})
+										setErrors({
+											...errors,
+											currency: ""
+										})
+								}}
 								required
 							>
 								<MenuItem value="">
@@ -173,14 +219,17 @@ const StripeForm = (props: IStripeForm = {
 							defaultValue={data.amount}
 							helperText={errors.amount && errors.amount}
 							error={errors.amount === "" ? false : true}
-							onChange={(event) => setPaymentData({
-								...paymentData,
-								amount: event.target.value
-							})}
+							onChange={(event) => {
+									setPaymentData({
+										...paymentData,
+										amount: event.target.value
+									})
+									setErrors({
+										...errors,
+										amount: ""
+									})
+							}}
 							InputProps={{
-								inputProps: {
-									component: CardNumberElement
-								},
 								endAdornment: <InputAdornment position="end">{paymentData.currency}</InputAdornment>,
 								inputComponent: AmountNumberFormat as any
 							}}
@@ -198,10 +247,16 @@ const StripeForm = (props: IStripeForm = {
 					fullWidth
 					helperText={errors.cardNumber && errors.cardNumber}
 					error={errors.cardNumber === "" ? false : true}
-					onChange={(event) => setPaymentData({
-						...paymentData,
-						cardNumber: event.target.value
-					})}
+					onChange={(event) => {
+							setPaymentData({
+								...paymentData,
+								cardNumber: event.target.value
+							})
+							setErrors({
+								...errors,
+								cardNumber: ""
+							})
+					}}
 					InputProps={{
 						inputProps: {
 							component: CardNumberElement
@@ -220,10 +275,16 @@ const StripeForm = (props: IStripeForm = {
 							fullWidth
 							helperText={errors.cardExpiry !== "" && errors.cardExpiry}
 							error={errors.cardExpiry === "" ? false : true}
-							onChange={(event) => setPaymentData({
-								...paymentData,
-								cardExpiry: event.target.value
-							})}
+							onChange={(event) => {
+									setPaymentData({
+										...paymentData,
+										cardExpiry: event.target.value
+									})
+									setErrors({
+										...errors,
+										cardExpiry: ""
+									})
+							}}
 							InputProps={{
 								inputProps: {
 									component: CardExpiryElement
@@ -240,10 +301,16 @@ const StripeForm = (props: IStripeForm = {
 							margin="dense"
 							fullWidth
 							helperText="CVC number is the 3 digit number at the back of your card"
-							onChange={(event) => setPaymentData({
-								...paymentData,
-								cardExpiry: event.target.value
-							})}
+							onChange={(event) => {
+									setPaymentData({
+										...paymentData,
+										cardCvcNumber: event.target.value
+									})
+									setErrors({
+										...errors,
+										cardCvcNumber: ""
+									})
+							}}
 							InputProps={{
 								inputProps: {
 									component: CardCvcElement
