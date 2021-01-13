@@ -19,6 +19,7 @@ import LayersIcon from '@material-ui/icons/Layers';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
 import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
 import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
+import { getLoginUrl } from 'app/shared/util/url-utils';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -113,7 +114,14 @@ export default function Navigation(props) {
         <Link href="#" color="textPrimary" variant="body2" className={classes.link}>
           {content['link4']}
         </Link>
-        <Button variant="contained" color="secondary" className={classes.primaryAction}>{content['primary-action']}</Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          href={getLoginUrl()}
+          className={classes.primaryAction}
+        >
+          {content['primary-action']}
+        </Button>
         <IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton} onClick={toggleDrawer(true)}>
           <MenuIcon />
         </IconButton>
@@ -152,7 +160,14 @@ export default function Navigation(props) {
             </ListItem>
           </List>
           <Box mt={1} ml={2} pt={3} border={1} borderBottom={0} borderLeft={0} borderRight={0} borderColor="background.emphasis">
-            <Button variant="contained" color="secondary" fullWidth>{content['primary-action']}</Button>
+            <Button
+              variant="contained"
+              color="secondary"
+              href={getLoginUrl()}
+              fullWidth
+            >
+              {content['primary-action']}
+            </Button>
           </Box>
         </div>
       </Drawer>

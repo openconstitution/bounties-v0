@@ -98,30 +98,13 @@ export default function BountyDetails(props) {
   };
 
   const content = {
-    'badge': 'Benefactor',
-    'badge2': 'Expires on ',
-    'fake-date': '10-09-2021',
-    'header-p1': 'Lorem ipsum dolor',
-    'header-p2': 'sit amet consectetur.',
-    'bounty': '100',
+    'sponsor-box-text1': 'Want this bounty to get traction?',
+    'sponsor-box-text2': 'Become a sponsoreby funding this bounty',
+    'card-text1': 'Expires on ',
     'bounty-tag': 'Bounty',
-    'description': 'Suspendisse aliquam tellus ante, porttitor mattis diam eleifend quis. Pellentesque pulvinar commodo eros sit amet finibus. Aenean et ornare erat.',
-    'primary-action': 'Action',
-    'col1-header': 'Lorem ipsum dolor sit amet',
-    'col1-desc': 'Libero tincidunt vulputate fermentum, nisi nulla cursus turpis.',
-    'col2-header': 'Lorem ipsum dolor sit amet',
-    'col2-desc': 'Libero tincidunt vulputate fermentum, nisi nulla cursus turpis.',
-    'col3-header': 'Lorem ipsum dolor sit amet',
-    'col3-desc': 'Libero tincidunt vulputate fermentum, nisi nulla cursus turpis.',
+    'primary-action': 'Claim',
+    'secondary-action': 'Fund',
     ...props.content
-  };
-
-  const tier = {
-    title: 'Free',
-    price: '0',
-    description: ['10 users included', '2 GB of storage', 'Help center access', 'Email support'],
-    buttonText: 'Sign up for free',
-    buttonVariant: 'outlined',
   };
 
   const checkoutDialog = (
@@ -194,117 +177,136 @@ export default function BountyDetails(props) {
   );
 
   return (
-        <section>
-          {checkoutDialog}
-          {sponsorListDialog}
-          <Container maxWidth="lg">
-            <Box pt={10} pb={6}>
-              <Grid container spacing={6}>
-                <Grid item xs={12} md={7}>
-                  <Card raised>
-                    <CardHeader
-                      title={
-                        new Intl.NumberFormat("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 0
-                        }).format(content['bounty']).concat(" " + content['bounty-tag'] + " ")
-                      }
-                      subheader={
-                        <Box justifyContent="center" mt={1}>
-                          <Typography variant="overline" component="div" align="center">
-                            <Typography variant="overline" color="primary" component="span">Benefactor: </Typography>
-                            <Typography variant="overline" component="span">{content['header-p2']}</Typography>
-                          </Typography>
-                          <Typography variant="subtitle1" component="p">{
-                              content['badge2'].concat(
-                                new Intl.DateTimeFormat("en-GB", {
-                                  year: "numeric",
-                                  month: "long",
-                                  day: "2-digit"
-                                }).format(new Date(content['fake-date']))
-                              )}
-                          </Typography>
-                        </Box>
-                      }
-                      titleTypographyProps={{ align: 'center', variant: 'h4' }}
-                      subheaderTypographyProps={{ align: 'center' }}
-                      action={tier.title === 'Pro' ? <EditIcon /> : null}
-                      className={classes.cardHeader}
-                    />
-                    <CardContent>
-                      <div className={classes.cardPricing}>
-                        <Box>
-                          <Typography variant="h3" component="span">{content['header-p2']}</Typography>
-                          <Typography variant="subtitle1" component="p" color="textSecondary">{content['description']}</Typography>
-                        </Box>
-                      </div>
-                      <Typography variant="overline" color="textSecondary" align="right">{content['badge']}</Typography>
-                      <ul>
-                        <Typography variant="subtitle1" component="li" align="left" gutterBottom={true}>
-                          <Typography color="primary" component="span">Type: </Typography>
-                          <Typography component="span">{content['header-p2']}</Typography>
+    <section>
+      {checkoutDialog}
+      {sponsorListDialog}
+      <Container maxWidth="lg">
+        <Box pt={10} pb={6}>
+          <Grid container spacing={6}>
+            <Grid item xs={12} md={7}>
+              <Card raised>
+                <CardHeader
+                  title={
+                    new Intl.NumberFormat("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 0
+                    }).format(content.bounty.amount).concat(" " + content['bounty-tag'] + " ")
+                  }
+                  subheader={
+                    <Box justifyContent="center" mt={1}>
+                      <Typography variant="overline" component="div" align="center">
+                        <Typography variant="overline" color="primary" component="span">Benefactor: </Typography>
+                        <Typography variant="overline" component="span">
+                          <Link variant="caption" href={`/hunter/${content.bounty.createdBy}`}>
+                            {content.bounty.createdBy}
+                          </Link>
                         </Typography>
-                        <Typography variant="subtitle1" component="li" align="left" gutterBottom={true}>
-                          <Typography color="primary" component="span">Category: </Typography>
-                          <Typography component="span">{content['header-p2']}</Typography>
-                        </Typography>
-                        <Typography variant="subtitle1" component="li" align="left" gutterBottom={true}>
-                          <Typography color="primary" component="span">Difficulty: </Typography>
-                          <Typography component="span"><Rating name="read-only" value={3} readOnly size="small" /></Typography>
-                        </Typography>
-                      </ul>
-                    </CardContent>
-                    <CardActions>
-                      <Button fullWidth variant='contained' color="primary" className={classes.primaryAction}>
-                        {content['primary-action']}
-                      </Button>
-                    </CardActions>
-                  </Card>
-                  
-                </Grid>
-
-                <Grid item xs={12} md={5}>  
-                  <div className={classes.features}>
-                    <Box display="flex" justifyContent="center">
-                      <Box borderRadius={16} {...defaultProps}>
-                        <Box py={1} textAlign="center">
-                          <Typography variant="overline" component="span">{content['badge']}</Typography>
-                          <Typography variant="subtitle1">{content['header-p1']}</Typography>
-                          <Box mt={1}>
-                            <Button color="primary" variant="contained" onClick={handleClickCheckoutDialogOpen} endIcon={<PaymentIcon />}>Fund</Button>                            
-                          </Box>
-                                
-                          <Box display="flex" justifyContent="center" mt={3} mb={4}>
-                            <Link
-                              component="button"
-                              variant="h6"
-                              underline="none"
-                              onClick={handleClickSponsorListDialogOpen}
-                            >
-                              <Typography color="primary" variant="h6" component="span">Sponsors</Typography>
-                              <Typography color="primary" variant="h6" component="span">&nbsp;</Typography>
-                              <AvatarGroup max={4} className={classes.small}>
-                                <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                                <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                                <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                                <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                                <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
-                              </AvatarGroup>
-                            </Link>
-                            
-                          </Box>
-
-                        </Box>
-                      </Box>
+                      </Typography>
+                      {JSON.stringify(content.bounty.expiryDate)}
+                      {JSON.stringify(new Date(content.bounty.expiryDate))}
+                      {/* <Typography variant="subtitle1" component="p">{
+                          content['card-text1'].concat(
+                            new Intl.DateTimeFormat("en-GB", {
+                              year: "numeric",
+                              month: "long",
+                              day: "2-digit"
+                            }).format(new Date(content.bounty.expiryDate))
+                          )}
+                      </Typography> */}
                     </Box>
-                    
+                  }
+                  titleTypographyProps={{ align: 'center', variant: 'h4' }}
+                  subheaderTypographyProps={{ align: 'center' }}
+                  action={content.account.login === content.bounty.createdBy ? (
+                    <Link href={`/bounty/${content.bounty.id}/edit`}>
+                      <EditIcon />
+                    </Link>
+                  ) : null}
+                  className={classes.cardHeader}
+                />
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Box>
+                      <Typography variant="h3" component="span">{content.bounty.summary}</Typography>
+                      <Typography variant="subtitle1" component="p" color="textSecondary">{content.bounty.description}</Typography>
+                    </Box>
                   </div>
-                </Grid>
-              </Grid>
-            </Box>
-          </Container>
-        </section>
+
+                  <ul>
+                    <Typography variant="subtitle1" component="li" align="left" gutterBottom={true}>
+                      <Typography color="primary" component="span">Type: </Typography>
+                      <Typography component="span">{content.bounty.type}</Typography>
+                    </Typography>
+                    <Typography variant="subtitle1" component="li" align="left" gutterBottom={true}>
+                      <Typography color="primary" component="span">Category: </Typography>
+                      <Typography component="span">{content.bounty.category}</Typography>
+                    </Typography>
+                    <Typography variant="subtitle1" component="li" align="left" gutterBottom={true}>
+                      <Typography color="primary" component="span">Difficulty: </Typography>
+                      <Typography component="span">{content.bounty.difficulty}</Typography>
+                    </Typography>
+                  </ul>
+                </CardContent>
+                {content.isAuthenticated && (
+                  <CardActions>
+                    <Button fullWidth variant='contained' color="primary" className={classes.primaryAction}>
+                      {content['primary-action']}
+                    </Button>
+                  </CardActions>
+                )}
+              </Card>
+              
+            </Grid>
+
+            <Grid item xs={12} md={5}>  
+              <div className={classes.features}>
+                <Box display="flex" justifyContent="center">
+                  <Box borderRadius={16} {...defaultProps}>
+                    <Box py={1} textAlign="center">
+                      <Typography variant="overline" component="span">{content['sponsor-box-text1']}</Typography>
+                      <Typography variant="subtitle1">{content['sponsor-box-text2']}</Typography>
+                      <Box mt={1}>
+                        <Button
+                          color="primary"
+                          variant="contained"
+                          onClick={handleClickCheckoutDialogOpen}
+                          endIcon={<PaymentIcon />}
+                        >
+                          {content['secondary-action']}
+                        </Button>                            
+                      </Box>
+                            
+                      <Box display="flex" justifyContent="center" mt={3} mb={4}>
+                        <Link
+                          component="button"
+                          variant="h6"
+                          underline="none"
+                          onClick={handleClickSponsorListDialogOpen}
+                        >
+                          <Typography color="primary" variant="h6" component="span">Sponsors</Typography>
+                          <Typography color="primary" variant="h6" component="span">&nbsp;</Typography>
+                          <AvatarGroup max={4} className={classes.small}>
+                            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+                            <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+                            <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+                            <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
+                            <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+                          </AvatarGroup>
+                        </Link>
+                        
+                      </Box>
+
+                    </Box>
+                  </Box>
+                </Box>
+                
+              </div>
+            </Grid>
+          </Grid>
+        </Box>
+      </Container>
+    </section>
   );
 }

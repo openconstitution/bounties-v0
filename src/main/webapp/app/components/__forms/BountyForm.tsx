@@ -35,6 +35,7 @@ export interface IAction {
 export interface IBountyUpdateForm {
 	primaryAction: IAction,
 	secondaryAction?: IAction,
+	data?: any,
 	setData?: any,
 	content?: any,
 	event?: Function,
@@ -63,7 +64,7 @@ const bountyFormSchema = yup.object().shape({
 
 const BountyForm = (props) => {
 	const classes = useStyles();
-	
+
   const content = {
 		'ages': [{value: 10, text: 'Ten'}, {value: 20, text: 'Twenty'}, {value: 30, text: 'Thirty'}],
     'primary-action': 'Next',
@@ -72,15 +73,14 @@ const BountyForm = (props) => {
     ...props.content
 	};
 
-	const { primaryAction, secondaryAction, event, setData } = props;
+	const { primaryAction, secondaryAction, data, setData } = props;
 
   const { control, errors, handleSubmit } = useForm<IBountyFormInput>({
     resolver: yupResolver(bountyFormSchema)
   });
 
-  const onSubmit = (data: IBountyFormInput) => {
-		alert(JSON.stringify(data));
-		setData(data);
+  const onSubmit = (formData: IBountyFormInput) => {
+		setData(formData);
 		primaryAction.onClick();
 	}
 
@@ -101,6 +101,7 @@ const BountyForm = (props) => {
 									id="bounty-summary"
 									label="Summary *"
 									name="summary"
+									defaultValue={data.summary}
 									placeholder="Short summary of your bounty"
 									helperText={errors.summary?.message ? errors.summary?.message : "Brief summary of your bounty"}
 									error={errors.summary?.message ? true : false}
@@ -115,6 +116,7 @@ const BountyForm = (props) => {
 									id="bounty-description"
 									label="Description (Optional)"
 									name='description'
+									defaultValue={data.description}
 									placeholder="Tell us more about your bounty"
 									variant="outlined"
 									margin="dense"
@@ -129,6 +131,7 @@ const BountyForm = (props) => {
 									id="bounty-issue-url"
 									label="Issue Url *"
 									name='issueUrl'
+									defaultValue={data.issueUrl}
 									placeholder="Bounty issue url"
 									error={errors.issueUrl?.message ? true : false}
 									helperText={errors.issueUrl?.message ? errors.issueUrl?.message : "Bounty github or Jira issue url"}
@@ -143,7 +146,8 @@ const BountyForm = (props) => {
 									id="bounty-expiry-date"
 									label="Expiry Date *"
 									name='expiryDate'
-									type="datetime-local"
+									defaultValue={data.expiryDate}
+									type="date"
 									error={errors.expiryDate?.message ? true : false}
 									helperText={errors.expiryDate?.message ? errors.expiryDate?.message : "Deadline for your bounty"}
 									variant="outlined"
@@ -163,7 +167,7 @@ const BountyForm = (props) => {
 									id='bounty-type'
 									label='Type *'
 									name='type'
-									defaultValue={null}
+									defaultValue={data.type}
 									control={control}
 									error={errors.type?.message ? true : false}
 									helperText={errors.type?.message && errors.type?.message}
@@ -178,7 +182,7 @@ const BountyForm = (props) => {
 									id='bounty-category'
 									label='Category *'
 									name='category'
-									defaultValue={null}
+									defaultValue={data.category}
 									control={control}
 									error={errors.category?.message ? true : false}
 									helperText={errors.category?.message && errors.category?.message}
@@ -194,7 +198,7 @@ const BountyForm = (props) => {
 									label='Experience *'
 									name='experience'
 									helperText={errors.experience?.message ? errors.experience?.message : 'Select difficulty level of bounty'}
-									defaultValue={null}
+									defaultValue={data.experience}
 									control={control}
 									error={errors.experience?.message ? true : false}
 								>
@@ -208,7 +212,7 @@ const BountyForm = (props) => {
 									id='bounty-mode'
 									label='Mode *'
 									name='mode'
-									defaultValue={null}
+									defaultValue={data.mode}
 									helperText={errors.mode?.message ? errors.mode?.message : 'Select payment mode, either crypto or credit card'}
 									control={control}
 									error={errors.mode?.message ? true : false}

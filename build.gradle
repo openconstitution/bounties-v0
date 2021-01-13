@@ -244,6 +244,7 @@ dependencies {
     implementation "com.fasterxml.jackson.datatype:jackson-datatype-hibernate5"
     implementation "com.fasterxml.jackson.core:jackson-annotations"
     implementation "com.fasterxml.jackson.core:jackson-databind"
+    implementation "com.google.code.gson:gson:2.8.6"
     implementation "org.redisson:redisson"
     implementation "org.hibernate:hibernate-jcache"
     implementation "javax.cache:cache-api"

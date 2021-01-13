@@ -37,10 +37,6 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-// Make sure to call `loadStripe` outside of a component’s render to avoid
-// recreating the `Stripe` object on every render.
-const stripePromise = loadStripe('pk_test_JJ1eMdKN0Hp4UFJ6kWXWO4ix00jtXzq5XG');
-
 export const App = (props: IAppProps) => {
   useEffect(() => {
     props.getSession();
