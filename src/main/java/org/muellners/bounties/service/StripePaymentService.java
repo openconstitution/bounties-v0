@@ -1,8 +1,11 @@
 package org.muellners.bounties.service;
 
+import com.google.gson.Gson;
 import com.stripe.Stripe;
+import com.stripe.exception.CardException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
+import com.stripe.model.PaymentMethod;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.dto.StripeConfig;
 import org.slf4j.Logger;
@@ -37,27 +40,37 @@ public class StripePaymentService {
         this.env = env;
     }
 
-    public PaymentIntent createPaymentIntent(final Long bountyId) throws StripeException {
+    public PaymentIntent createPaymentIntent(final String paymentMethodId, final String receiptEmail,
+                                             final Long bountyId, String currency) throws StripeException {
 
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
 
         final BountyDTO bounty = bountyService.findOne(bountyId);
 
+        if (currency == null) {
+            currency = "USD";
+        }
+
         Map<String, Object> paymentIntentParams = new HashMap<String, Object>();
-        paymentIntentParams.put("amount", 100.0);
-        paymentIntentParams.put("currency", "USD"); // bounty.currency);
+        paymentIntentParams.put("amount", 100);
+        paymentIntentParams.put("currency", currency);
+        if (receiptEmail != null) {
+            paymentIntentParams.put("receipt_email", receiptEmail);
+        }
+        paymentIntentParams.put("payment_method", paymentMethodId);
+        paymentIntentParams.put("payment_method_types", paymentMethods);
 
         //build initial payment methods which should exclude currency specific ones
 //        paymentMethods.remove("eps");
 //        paymentMethods.remove("bancontact");
 //        paymentMethods.remove("au_becs_debit");
-        paymentIntentParams.put("payment_method_types", paymentMethods);
 
         return PaymentIntent.create(paymentIntentParams);
     }
 
-    public PaymentIntent updatePaymentIntent(String paymentIntentId, final Long bountyId,
-                                                      String currency, List<String> paymentMethods) {
+    public PaymentIntent updatePaymentIntent(final String paymentIntentId, final String paymentMethodId,
+                                             final String receiptEmail, final Long bountyId, final String currency,
+                                             final List<String> paymentMethods) {
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
         final BountyDTO bounty = bountyService.findOne(bountyId);
         try {
@@ -71,11 +84,30 @@ public class StripePaymentService {
             if (currency != null) {
                 paymentIntentParams.put("currency", currency);
             }
+            if (paymentMethodId != null) {
+                paymentIntentParams.put("payment_method", paymentMethodId);
+            }
             if (paymentMethods != null) {
                 paymentIntentParams.put("payment_method_types", paymentMethods);
             }
+            if (receiptEmail != null) {
+                paymentIntentParams.put("receipt_email", receiptEmail);
+            }
+
+//            paymentIntentParams.put("application_fee_amount", 1);
 
             return paymentIntent.update(paymentIntentParams);
+        } catch (StripeException e) {
+            log.debug("An error occurred : {}", e.getLocalizedMessage());
+            return null;
+        }
+    }
+
+    public PaymentIntent confirmPaymentIntent(final String paymentIntentId) {
+        Stripe.apiKey = env.getProperty("application.stripe.api-key");
+        try {
+            final PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
+            return paymentIntent.confirm();
         } catch (StripeException e) {
             log.debug("An error occurred : {}", e.getLocalizedMessage());
             return null;
@@ -90,6 +122,40 @@ public class StripePaymentService {
     public StripeConfig getConfig() {
         return new StripeConfig(env.getProperty("application.stripe.publishable-key"),
                 env.getProperty("application.stripe.account-country"));
+    }
+
+    public String createPaymentMethod(final String cardNumber, final String cardExpiryDate,
+                                             final String cardCvcNumber) throws StripeException {
+        Stripe.apiKey = env.getProperty("application.stripe.api-key");
+        
+        final String expiryMonth = cardExpiryDate.substring(0, 2);
+        final String expiryYear = "20".concat(cardExpiryDate.substring(2));
+
+        log.debug("Expiry Month: {} and Expiry Year: {}", expiryMonth, expiryYear);
+        
+        Map<String, Object> card = new HashMap<>();
+        card.put("number", cardNumber);
+        card.put("exp_month", expiryMonth);
+        card.put("exp_year", expiryYear);
+        if (cardCvcNumber != null) {
+            card.put("cvc", cardCvcNumber);
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("type", "card");
+        params.put("card", card);
+
+        try {
+            final PaymentMethod paymentMethod = PaymentMethod.create(params);
+            return new Gson().toJson(paymentMethod);
+        } catch (CardException e) {
+            log.debug("Stripe Card Exception: {}", e.getLocalizedMessage());
+            final HashMap<String, HashMap<String, String>> errorMap = new HashMap<>();
+            final HashMap<String, String> errorDetailMap = new HashMap<>();
+            errorDetailMap.put("code", e.getStripeError().getCode());
+            errorDetailMap.put("message", e.getStripeError().getMessage());
+            errorMap.put("error", errorDetailMap);
+            return new Gson().toJson(errorMap);
+        }
     }
 
 }
