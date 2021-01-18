@@ -15,7 +15,7 @@ import StructureContainer from 'app/components/__structures/StructureContainer';
 import StructureDiv from 'app/components/__structures/StructureDiv';
 import BountyDetails from 'app/components/bounty-details/BountyDetails';
 import { Divider } from '@material-ui/core';
-import Comments from 'app/components/comments/comments';
+import Comments from 'app/components/comments/Comments';
 import Footer1 from 'app/components/footers/Footerer1';
 
 export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {};
