@@ -206,6 +206,9 @@ function Row(props: { row: IBounty, isItemSelected: any, labelId: string }) {
     'primary-action': 'Learn More'
   };
 
+  const cellNormProps = { align: "left", width: "14%" };
+  const cellSmallProps = { align: "right", width: "9%" };
+
 	return (
 		<React.Fragment>
 			<TableRow
@@ -239,14 +242,18 @@ function Row(props: { row: IBounty, isItemSelected: any, labelId: string }) {
           </Box>
 				</TableCell>
         
-         {/* @ts-ignore */}
-				<TableCell align="left" width="14%">{row.type}</TableCell>
-         {/* @ts-ignore */}
-				<TableCell align="left" width="14%">{row.category}</TableCell>
-         {/* @ts-ignore */}
-				<TableCell align="left" width="14%">{row.experience}</TableCell>
-         {/* @ts-ignore */}
-				<TableCell align="right" width="9%">
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-ignore */}
+        {/* @ts-ignore */}
+				<TableCell>{row.type}</TableCell>
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-ignore */}
+        {/* @ts-ignore */}
+				<TableCell>{row.category}</TableCell>
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-ignore */}
+        {/* @ts-ignore */}
+				<TableCell>{row.experience}</TableCell>
+        {/* eslint-disable-next-line @typescript-eslint/ban-ts-ignore */}
+        {/* @ts-ignore */}
+				<TableCell>
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",
