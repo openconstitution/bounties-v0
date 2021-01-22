@@ -1,13 +1,12 @@
 version: '2'
 services:
   bounties-mysql:
-    image: mysql:8.0.20
-    # volumes:
-    #     - ~/volumes/jhipster/bounties/mysql/:/var/lib/mysql/
+    image: mysql:8.0.0
+    volumes:
+        - ~/volumes/jhipster/bounties/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
       - MYSQL_DATABASE=bounties
     ports:
       - 3306:3306
