@@ -65,12 +65,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Navigation(props) {
+export default function NavBar(props) {
   const classes = useStyles();
 
   const content = {
     'brand': { image: 'content/images/nereus-light.png', width: 110 },
-    'link1': 'Section One',
+    'link1': 'Home',
     'link2': 'Section Two',
     'link3': 'Section Three',
     'link4': 'Section Four',
@@ -126,51 +126,7 @@ export default function Navigation(props) {
           <MenuIcon />
         </IconButton>
       </Toolbar>
-      <Drawer anchor="left" open={state.open} onClose={toggleDrawer(false)}>
-        <div className={classes.drawerContainer}>
-          <Box mb={1} ml={2} pb={2} border={1} borderTop={0} borderLeft={0} borderRight={0} borderColor="background.emphasis">
-            <Link href="#" color="primary" underline="none" variant="h5" className={classes.linkBrand}>
-              {brand}
-            </Link>
-          </Box>
-          <List>
-            <ListItem button key={content['link1']}>
-              <ListItemIcon className={classes.iconWrapper}>
-                <LayersIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={content['link1']} />
-            </ListItem>
-            <ListItem button key={content['link2']}>
-              <ListItemIcon className={classes.iconWrapper}>
-                <FilterHdrIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={content['link2']} />
-            </ListItem>
-            <ListItem button key={content['link3']}>
-              <ListItemIcon className={classes.iconWrapper}>
-                <DirectionsBusIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={content['link3']} />
-            </ListItem>
-            <ListItem button key={content['link4']}>
-              <ListItemIcon className={classes.iconWrapper}>
-                <NotificationImportantIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={content['link4']} />
-            </ListItem>
-          </List>
-          <Box mt={1} ml={2} pt={3} border={1} borderBottom={0} borderLeft={0} borderRight={0} borderColor="background.emphasis">
-            <Button
-              variant="contained"
-              color="secondary"
-              href={getLoginUrl()}
-              fullWidth
-            >
-              {content['primary-action']}
-            </Button>
-          </Box>
-        </div>
-      </Drawer>
+      
     </AppBar>
   );
 }

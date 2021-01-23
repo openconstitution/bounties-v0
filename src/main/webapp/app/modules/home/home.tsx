@@ -12,15 +12,11 @@ import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
-import Features1 from 'app/components/features/Features1';
-import Features2 from 'app/components/features/Features2';
-import Features3 from 'app/components/features/Features3';
-import Header2 from 'app/components/headers/Header2';
-import HomeHorizontalNav from 'app/components/horizontal-navs/HomeHorizontalNav';
-import HowItWorks2 from 'app/components/how-it-works/HowItWorks2';
+import Header from 'app/components/header/Header';
+import NavBar from 'app/components/navBar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
 import StructureDiv from 'app/components/__structures/StructureDiv';
-import Footer1 from 'app/components/footers/Footerer1';
+import Footer from 'app/components/footer/Footer';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
 
@@ -40,23 +36,16 @@ export const Home = (props: IHomeProp) => {
     <React.Fragment>
       <StructureDiv
         bucket1={[
-          <HomeHorizontalNav content={null} />,
+          <NavBar content={null} />,
 
           <StructureContainer
             bucket1={[
-              <Header2 content={null} />,
+              <Header content={null} />,
 
-              <Features3 content={null} />,
-
-              <Features1 content={null} />,
-
-              <Features2 content={null} />,
-
-              <HowItWorks2 content={null} />,
             ]}
           />,
 
-          <Footer1 content={null} />,
+          <Footer content={null} />,
         ]}
       />
     </React.Fragment>

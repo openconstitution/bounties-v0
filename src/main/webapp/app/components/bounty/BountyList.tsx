@@ -54,6 +54,11 @@ const useStyles = makeStyles((theme) => ({
 		top: 20,
 		width: 1,
 	},
+
+  tableCell: {
+    align:"left",
+    width:"14%"
+  }
 }));
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -201,7 +206,7 @@ const EnhancedTableToolbar = (props: EnhancedTableToolbarProps) => {
 function Row(props: { row: IBounty, isItemSelected: any, labelId: string }) {
   const { row, isItemSelected, labelId } = props;
 	const [open, setOpen] = React.useState(false);
-	
+	const styling = useStyles()
   const content = {
     'primary-action': 'Learn More'
   };
@@ -240,13 +245,13 @@ function Row(props: { row: IBounty, isItemSelected: any, labelId: string }) {
 				</TableCell>
         
          {/* @ts-ignore */}
-				<TableCell align="left" width="14%">{row.type}</TableCell>
+				<TableCell style={styling.tableCell}>{row.type}</TableCell>
          {/* @ts-ignore */}
-				<TableCell align="left" width="14%">{row.category}</TableCell>
+				<TableCell style={styling.tableCell}>{row.category}</TableCell>
          {/* @ts-ignore */}
-				<TableCell align="left" width="14%">{row.experience}</TableCell>
+				<TableCell style={styling.tableCell}>{row.experience}</TableCell>
          {/* @ts-ignore */}
-				<TableCell align="right" width="9%">
+				<TableCell style={styling.tableCell}>
           {new Intl.NumberFormat("en-US", {
             style: "currency",
             currency: "USD",

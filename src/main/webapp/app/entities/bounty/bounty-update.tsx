@@ -12,11 +12,11 @@ import _ from 'lodash';
 import * as yup from "yup";
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
-import HorizontalNav2 from 'app/components/horizontal-navs/HorizontalNav2';
+import NavBar from 'app/components/navBar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
 import StructureDiv from 'app/components/__structures/StructureDiv';
-import BountyStepper from 'app/components/bounty-stepper/BountyStepper';
-import Footer1 from 'app/components/footers/Footerer1';
+import BountyStepper from 'app/components/bounty/BountyStepper';
+import Footer from 'app/components/footer/Footer';
 
 export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
@@ -118,7 +118,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
     <React.Fragment>
       <StructureDiv
         bucket1={[
-          <HorizontalNav2 content={null} />,
+          <NavBar content={null} />,
 
           <StructureContainer
             bucket1={[
@@ -126,7 +126,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
             ]}
           />,
 
-          <Footer1 content={null} />,
+          <Footer content={null} />,
         ]}
       />
     </React.Fragment>
