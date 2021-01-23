@@ -67,7 +67,8 @@ module.exports = options => ({
       {
         enforce: 'pre',
         test: /\.jsx?$/,
-        loader: 'source-map-loader'
+        loader: 'source-map-loader',
+        exclude: [utils.root('node_modules')]
       },
       {
         test: /\.(j|t)sx?$/,

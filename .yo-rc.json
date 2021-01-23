@@ -37,6 +37,12 @@
     "enableTranslation": false,
     "nativeLanguage": "en",
     "languages": ["en", "fr"],
-    "blueprints": []
+    "blueprints": [],
+    "herokuAppName": "bounty-m",
+    "herokuDeployType": "git",
+    "herokuJavaVersion": "11",
+    "useOkta": false,
+    "oktaAdminLogin": "kazenasser@gmail.com",
+    "oktaAdminPassword": "JnconNLNCAS314@*#"
   }
 }
