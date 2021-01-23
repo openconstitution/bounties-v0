@@ -63,7 +63,7 @@ export const App = (props: IAppProps) => {
 };
 
 const mapStateToProps = ({ stripePayment }: IRootState) => ({
-  stripePublishableKey: stripePayment.config.stripePublishableKey,
+  stripePublishableKey: null
 });
 
 const mapDispatchToProps = { getSession, getConfig };
