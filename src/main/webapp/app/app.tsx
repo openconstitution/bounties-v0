@@ -1,5 +1,5 @@
 import 'react-toastify/dist/ReactToastify.css';
-import './app.scss';
+import '../content/scss/app.scss';
 
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
@@ -59,7 +59,7 @@ export const App = (props: IAppProps) => {
 };
 
 const mapStateToProps = ({ stripePayment }: IRootState) => ({
-  stripePublishableKey: stripePayment.config.stripePublishableKey,
+  stripePublishableKey: null,
 });
 
 const mapDispatchToProps = { getSession, getConfig };

@@ -10,13 +10,13 @@ import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
-import HorizontalNav2 from 'app/components/horizontal-navs/HorizontalNav2';
+import NavBar from 'app/components/navbar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
 import StructureDiv from 'app/components/__structures/StructureDiv';
 import BountyDetails from 'app/components/bounty-details/BountyDetails';
 import { Divider } from '@material-ui/core';
 import Comments from 'app/components/comments/Comments';
-import Footer1 from 'app/components/footers/Footerer1';
+import Footer from 'app/components/footer/Footer';
 
 export interface IBountyDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {};
 
@@ -32,7 +32,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
     <React.Fragment>
       <StructureDiv
         bucket1={[
-          <HorizontalNav2 content={null} />,
+          <NavBar content={null} />,
 
           <StructureContainer
             bucket1={[
@@ -44,7 +44,7 @@ export const BountyDetail = (props: IBountyDetailProps) => {
             ]}
           />,
 
-          <Footer1 content={null} />,
+          <Footer content={null} />,
         ]}
       />
     </React.Fragment>
