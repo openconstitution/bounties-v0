@@ -65,7 +65,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Navigation(props) {
+export default function NavBar(props) {
   const classes = useStyles();
 
   const content = {

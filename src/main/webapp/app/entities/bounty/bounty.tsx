@@ -8,10 +8,10 @@ import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities, reset } from './bounty.reducer';
 import _ from 'lodash';
 import StructureDiv from 'app/components/__structures/StructureDiv';
-import HorizontalNav2 from 'app/components/horizontal-navs/HorizontalNav2';
+import NavBar from 'app/components/navbar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
 import BountyList from 'app/components/bounty-list/BountyList';
-import Footer1 from 'app/components/footers/Footerer1';
+import Footer from 'app/components/footer/Footer';
 
 export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
@@ -27,7 +27,7 @@ export const Bounty = (props: IBountyProps) => {
     <React.Fragment>
       <StructureDiv
         bucket1={[
-          <HorizontalNav2 content={null} />,
+          <NavBar content={null} />,
 
           <StructureContainer
             bucket1={[
@@ -35,7 +35,7 @@ export const Bounty = (props: IBountyProps) => {
             ]}
           />,
 
-          <Footer1 content={null} />,
+          <Footer content={null} />,
         ]}
       />
     </React.Fragment>
