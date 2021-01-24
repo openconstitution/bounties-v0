@@ -42,7 +42,7 @@ import org.muellners.bounties.domain.enumeration.Category;
  * Integration tests for the {@link BountyResource} REST controller.
  */
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
+@ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class BountyResourceIT {
@@ -105,14 +105,14 @@ public class BountyResourceIT {
    */
   public static Bounty createEntity(EntityManager em) {
     Bounty bounty = new Bounty()
-                        .status(DEFAULT_STATUS)
+//                        .status(DEFAULT_STATUS)
                         .issueUrl(DEFAULT_URL)
                         .amount(DEFAULT_AMOUNT)
-                        .experience(DEFAULT_EXPERIENCE)
+//                        .experience(DEFAULT_EXPERIENCE)
                         .commitment(DEFAULT_COMMITMENT)
-                        .type(DEFAULT_TYPE)
-                        .category(DEFAULT_CATEGORY)
-                        .keywords(DEFAULT_KEYWORDS)
+//                        .type(DEFAULT_TYPE)
+//                        .category(DEFAULT_CATEGORY)
+//                        .keywords(DEFAULT_KEYWORDS)
                         .permission(DEFAULT_PERMISSION)
                         .expiryDate(DEFAULT_EXPIRES);
     return bounty;
@@ -159,14 +159,14 @@ public class BountyResourceIT {
     List<Bounty> bountyList = bountyRepository.findAll();
     assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
     Bounty testBounty = bountyList.get(bountyList.size() - 1);
-    assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
+//    assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
     assertThat(testBounty.getIssueUrl()).isEqualTo(DEFAULT_URL);
     assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
-    assertThat(testBounty.getExperience()).isEqualTo(DEFAULT_EXPERIENCE);
+//    assertThat(testBounty.getExperience()).isEqualTo(DEFAULT_EXPERIENCE);
     assertThat(testBounty.getCommitment()).isEqualTo(DEFAULT_COMMITMENT);
-    assertThat(testBounty.getType()).isEqualTo(DEFAULT_TYPE);
-    assertThat(testBounty.getCategory()).isEqualTo(DEFAULT_CATEGORY);
-    assertThat(testBounty.getKeywords()).isEqualTo(DEFAULT_KEYWORDS);
+//    assertThat(testBounty.getType()).isEqualTo(DEFAULT_TYPE);
+//    assertThat(testBounty.getCategory()).isEqualTo(DEFAULT_CATEGORY);
+//    assertThat(testBounty.getKeywords()).isEqualTo(DEFAULT_KEYWORDS);
     assertThat(testBounty.isPermission()).isEqualTo(DEFAULT_PERMISSION);
     assertThat(testBounty.getExpiryDate()).isEqualTo(DEFAULT_EXPIRES);
 
@@ -211,20 +211,16 @@ public class BountyResourceIT {
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(
             jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
-        .andExpect(
-            jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+//        .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
         .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
         .andExpect(
             jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-        .andExpect(jsonPath("$.[*].experience")
-                       .value(hasItem(DEFAULT_EXPERIENCE.toString())))
+//        .andExpect(jsonPath("$.[*].experience").value(hasItem(DEFAULT_EXPERIENCE.toString())))
         .andExpect(
             jsonPath("$.[*].commitment").value(hasItem(DEFAULT_COMMITMENT)))
-        .andExpect(
-            jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-        .andExpect(jsonPath("$.[*].category")
-                       .value(hasItem(DEFAULT_CATEGORY.toString())))
-        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
+//        .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+//        .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
+//        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
         .andExpect(jsonPath("$.[*].permission")
                        .value(hasItem(DEFAULT_PERMISSION.booleanValue())))
         .andExpect(jsonPath("$.[*].expires")
@@ -242,17 +238,15 @@ public class BountyResourceIT {
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(jsonPath("$.id").value(bounty.getId().intValue()))
-        .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+//        .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
         .andExpect(jsonPath("$.url").value(DEFAULT_URL))
         .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
-        .andExpect(
-            jsonPath("$.experience").value(DEFAULT_EXPERIENCE.toString()))
+//        .andExpect(jsonPath("$.experience").value(DEFAULT_EXPERIENCE.toString()))
         .andExpect(jsonPath("$.commitment").value(DEFAULT_COMMITMENT))
-        .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-        .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
-        .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
-        .andExpect(
-            jsonPath("$.permission").value(DEFAULT_PERMISSION.booleanValue()))
+//        .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
+//        .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
+//        .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
+        .andExpect(jsonPath("$.permission").value(DEFAULT_PERMISSION.booleanValue()))
         .andExpect(jsonPath("$.expires").value(DEFAULT_EXPIRES.toString()));
   }
   @Test
@@ -276,14 +270,15 @@ public class BountyResourceIT {
     // Disconnect from session so that the updates on updatedBounty are not
     // directly saved in db
     em.detach(updatedBounty);
-    updatedBounty.status(UPDATED_STATUS)
+    updatedBounty
+//        .status(UPDATED_STATUS)
         .issueUrl(UPDATED_URL)
         .amount(UPDATED_AMOUNT)
-        .experience(UPDATED_EXPERIENCE)
+//        .experience(UPDATED_EXPERIENCE)
         .commitment(UPDATED_COMMITMENT)
-        .type(UPDATED_TYPE)
-        .category(UPDATED_CATEGORY)
-        .keywords(UPDATED_KEYWORDS)
+//        .type(UPDATED_TYPE)
+//        .category(UPDATED_CATEGORY)
+//        .keywords(UPDATED_KEYWORDS)
         .permission(UPDATED_PERMISSION)
         .expiryDate(UPDATED_EXPIRES);
 
@@ -298,14 +293,14 @@ public class BountyResourceIT {
     List<Bounty> bountyList = bountyRepository.findAll();
     assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
     Bounty testBounty = bountyList.get(bountyList.size() - 1);
-    assertThat(testBounty.getStatus()).isEqualTo(UPDATED_STATUS);
+//    assertThat(testBounty.getStatus()).isEqualTo(UPDATED_STATUS);
     assertThat(testBounty.getIssueUrl()).isEqualTo(UPDATED_URL);
     assertThat(testBounty.getAmount()).isEqualTo(UPDATED_AMOUNT);
-    assertThat(testBounty.getExperience()).isEqualTo(UPDATED_EXPERIENCE);
+//    assertThat(testBounty.getExperience()).isEqualTo(UPDATED_EXPERIENCE);
     assertThat(testBounty.getCommitment()).isEqualTo(UPDATED_COMMITMENT);
-    assertThat(testBounty.getType()).isEqualTo(UPDATED_TYPE);
-    assertThat(testBounty.getCategory()).isEqualTo(UPDATED_CATEGORY);
-    assertThat(testBounty.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
+//    assertThat(testBounty.getType()).isEqualTo(UPDATED_TYPE);
+//    assertThat(testBounty.getCategory()).isEqualTo(UPDATED_CATEGORY);
+//    assertThat(testBounty.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
     assertThat(testBounty.isPermission()).isEqualTo(UPDATED_PERMISSION);
     assertThat(testBounty.getExpiryDate()).isEqualTo(UPDATED_EXPIRES);
 
@@ -372,25 +367,16 @@ public class BountyResourceIT {
         .perform(get("/api/_search/bounties?query=id:" + bounty.getId()))
         .andExpect(status().isOk())
         .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(
-            jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
-        .andExpect(
-            jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+        .andExpect(jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
+//        .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
         .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
-        .andExpect(
-            jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-        .andExpect(jsonPath("$.[*].experience")
-                       .value(hasItem(DEFAULT_EXPERIENCE.toString())))
-        .andExpect(
-            jsonPath("$.[*].commitment").value(hasItem(DEFAULT_COMMITMENT)))
-        .andExpect(
-            jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-        .andExpect(jsonPath("$.[*].category")
-                       .value(hasItem(DEFAULT_CATEGORY.toString())))
-        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
-        .andExpect(jsonPath("$.[*].permission")
-                       .value(hasItem(DEFAULT_PERMISSION.booleanValue())))
-        .andExpect(jsonPath("$.[*].expires")
-                       .value(hasItem(DEFAULT_EXPIRES.toString())));
+        .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+//        .andExpect(jsonPath("$.[*].experience").value(hasItem(DEFAULT_EXPERIENCE.toString())))
+        .andExpect(jsonPath("$.[*].commitment").value(hasItem(DEFAULT_COMMITMENT)))
+//        .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
+//        .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
+//        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
+        .andExpect(jsonPath("$.[*].permission").value(hasItem(DEFAULT_PERMISSION.booleanValue())))
+        .andExpect(jsonPath("$.[*].expires").value(hasItem(DEFAULT_EXPIRES.toString())));
   }
 }

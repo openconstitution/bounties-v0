@@ -32,7 +32,7 @@ import static org.muellners.bounties.repository.CustomAuditEventRepository.EVENT
  * Integration tests for {@link CustomAuditEventRepository}.
  */
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
+// @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
 public class CustomAuditEventRepositoryIT {
 

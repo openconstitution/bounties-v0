@@ -39,7 +39,7 @@ import static org.mockito.Mockito.verify;
  * Integration tests for {@link UserService}.
  */
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
+// @ExtendWith(RedisTestContainerExtension.class)
 @Transactional
 public class UserServiceIT {
 

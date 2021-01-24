@@ -9,20 +9,27 @@ export interface IBounty {
   id?: number;
   summary?: string;
   description?: string;
-  status?: Status;
+  status?: IOption;
   issueUrl?: string;
   amount?: number;
-  experience?: Experience;
+  experience?: IOption;
   commitment?: number;
-  type?: Type;
-  category?: Category;
-  keywords?: string;
+  type?: IOption;
+  category?: IOption;
+  keywords?: string[];
   permission?: boolean;
   expiryDate?: Date;
   fundings?: IFunding[];
   hunter?: IUser;
   createdBy?: string;
   createdDate?: Date;
+}
+
+export interface IOption {
+  id?: number;
+  name?: string;
+  key?: string;
+  value?: string;
 }
 
 export const categoryOptions = [

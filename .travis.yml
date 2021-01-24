@@ -36,14 +36,15 @@ before_install:
   - npm install -g npm
   - node -v
   - npm -v
+  - docker-compose -f src/main/docker/redis.yml up -d
 install:
   - npm install
 script:
   - chmod +x gradlew
   - ./gradlew checkstyleNohttp
-  - ./gradlew clean test integrationTest
-  - ./gradlew npm_run_test-ci -PnodeInstall --no-daemon
-  - ./gradlew bootJar -Pprod -x test
+  - ./gradlew clean test integrationTest -Pdev
+  #  - ./gradlew npm_run_test-ci -PnodeInstall --no-daemon
+  #  - ./gradlew bootJar -Pprod -x test
 notifications:
   webhooks:
     on_success: change # options: [always|never|change] default: always

@@ -35,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link ProfileResource} REST controller.
  */
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
-@ExtendWith({ RedisTestContainerExtension.class, MockitoExtension.class })
+@ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class ProfileResourceIT {

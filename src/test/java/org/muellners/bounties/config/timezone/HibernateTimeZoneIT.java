@@ -25,7 +25,7 @@ import static org.assertj.core.api.Assertions.assertThat;
  * Integration tests for the ZoneId Hibernate configuration.
  */
 @SpringBootTest(classes = {BountiesApp.class, TestSecurityConfiguration.class})
-@ExtendWith(RedisTestContainerExtension.class)
+// @ExtendWith(RedisTestContainerExtension.class)
 public class HibernateTimeZoneIT {
 
     @Autowired
