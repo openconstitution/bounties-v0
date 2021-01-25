@@ -12,10 +12,8 @@ import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
-import Header2 from 'app/components/header/Header';
+import Header from 'app/components/header/Header';
 import NavBar from 'app/components/navbar/NavBar';
-import StructureContainer from 'app/components/__structures/StructureContainer';
-import StructureDiv from 'app/components/__structures/StructureDiv';
 import Footer from 'app/components/footer/Footer';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
@@ -33,21 +31,16 @@ export const Home = (props: IHomeProp) => {
   const { isAuthenticated } = props;
 
   return (
-    <React.Fragment>
-      <StructureDiv
-        bucket1={[
-          <NavBar content={null} />,
 
-          <StructureContainer
-            bucket1={[
-              <Header2 content={null} />,
-            ]}
-          />,
+    <div className="home">
+      <div className="home__landing">
 
-          <Footer content={null} />,
-        ]}
-      />
-    </React.Fragment>
+      </div>
+      <div className="home__about">
+
+      </div>
+      <div className="home__bounties"></div>
+    </div>
   );
 };
 

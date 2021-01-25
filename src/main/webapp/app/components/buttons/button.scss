@@ -1,0 +1,14 @@
+.buttonprimary {
+  margin: 0.5rem 0;
+
+  &__box {
+    width: 25rem;
+    height: 3rem;
+    padding: 0.2rem 1rem;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: #3b3686;
+    color: #fff;
+    font-size: 1.4rem;
+  }
+}

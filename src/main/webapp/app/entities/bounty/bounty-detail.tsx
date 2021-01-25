@@ -13,7 +13,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import NavBar from 'app/components/navbar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
 import StructureDiv from 'app/components/__structures/StructureDiv';
-import BountyDetails from 'app/components/bounty-details/BountyDetails';
+import BountyDetails from 'app/components/bounties/BountyDetails';
 import { Divider } from '@material-ui/core';
 import Comments from 'app/components/comments/Comments';
 import Footer from 'app/components/footer/Footer';

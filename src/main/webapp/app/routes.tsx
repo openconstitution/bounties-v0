@@ -2,9 +2,12 @@ import React from 'react';
 import { Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
-import Logout from 'app/modules/login/logout';
+import Logout from 'app/modules/auth-screens/logout';
 import Home from 'app/modules/home/home';
 import Entities from 'app/entities';
+import Login from './modules/auth-screens/login';
+import Signup from './modules/auth-screens/signup';
+import VerifyPassword from './modules/auth-screens/verify-password';
 
 import Profile from 'app/modules/account/profile/profile';
 import Settings from 'app/modules/account/settings/settings';
@@ -27,8 +30,11 @@ const Account = Loadable({
 const Routes = () => (
   <div>
     <Switch>
-      <ErrorBoundaryRoute path="/logout" component={Logout} />
       <ErrorBoundaryRoute path="/" exact component={Home} />
+      <ErrorBoundaryRoute path="/login" component={Login} />
+      <ErrorBoundaryRoute path="/logout" component={Logout} />
+      <ErrorBoundaryRoute path="/sign-up" component={Signup} />
+      <ErrorBoundaryRoute path="/verify-password" component={VerifyPassword} />
 
       <ErrorBoundaryRoute path="/hunter" component={Account} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />

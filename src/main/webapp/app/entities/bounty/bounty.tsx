@@ -10,7 +10,7 @@ import _ from 'lodash';
 import StructureDiv from 'app/components/__structures/StructureDiv';
 import NavBar from 'app/components/navbar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
-import BountyList from 'app/components/bounty-list/BountyList';
+import BountyList from 'app/components/bounties/BountyList';
 import Footer from 'app/components/footer/Footer';
 
 export interface IBountyProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
