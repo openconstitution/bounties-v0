@@ -19,6 +19,8 @@ import { getConfig } from 'app/modules/stripe-payment/stripe-payment.reducer';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import AppRoutes from 'app/routes';
 import { LoadingBar } from 'react-redux-loading-bar';
+import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import theme from './themes/theme';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 export interface IAppProps extends DispatchProps, StateProps {}
@@ -43,6 +45,7 @@ export const App = (props: IAppProps) => {
 
   return (
     <Router basename={baseHref}>
+        <CssBaseline />
         <LoadingBar className="loading-bar" />
         <ErrorBoundary>
           <Elements stripe={loadStripe(props.stripePublishableKey)}>
@@ -54,7 +57,7 @@ export const App = (props: IAppProps) => {
 };
 
 const mapStateToProps = ({ stripePayment }: IRootState) => ({
-  stripePublishableKey: null
+  stripePublishableKey: stripePayment.config.stripePublishableKey,
 });
 
 const mapDispatchToProps = { getSession, getConfig };
