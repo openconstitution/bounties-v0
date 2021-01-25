@@ -1,0 +1,12 @@
+.input {
+  padding: 0.1rem;
+  margin: 0.5rem 0;
+
+  &__box {
+    width: 25rem;
+    height: 3rem;
+    padding: 0.2rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #d7dde8;
+  }
+}

@@ -69,19 +69,17 @@ export default function NavBar(props) {
   const classes = useStyles();
 
   const content = {
-    'brand': { image: 'content/images/nereus-light.png', width: 110 },
-    'link1': 'Section One',
-    'link2': 'Section Two',
-    'link3': 'Section Three',
-    'link4': 'Section Four',
-    'primary-action': 'Sign in',
+    'brand': { image: '../../../content/images/LOGO-WEB@2x.png', width: 110 },
+    'link1': 'Home',
+    'link2': 'About',
+    'link3': 'Bounties',
     ...props.content
   };
 
   let brand;
 
   if (content.brand.image) {
-    brand = <img src={ content.brand.image } alt="" width={ content.brand.width } />;
+    brand = <img src={ content.brand.image } alt="Bounties Logo" width={ content.brand.width } />;
   } else {
     brand = content.brand.text || '';
   }
@@ -111,17 +109,6 @@ export default function NavBar(props) {
         <Link href="#" color="textPrimary" variant="body2" className={classes.link}>
           {content['link3']}
         </Link>
-        <Link href="#" color="textPrimary" variant="body2" className={classes.link}>
-          {content['link4']}
-        </Link>
-        <Button
-          variant="contained"
-          color="secondary"
-          href={getLoginUrl()}
-          className={classes.primaryAction}
-        >
-          {content['primary-action']}
-        </Button>
         <IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton} onClick={toggleDrawer(true)}>
           <MenuIcon />
         </IconButton>
@@ -159,16 +146,6 @@ export default function NavBar(props) {
               <ListItemText primary={content['link4']} />
             </ListItem>
           </List>
-          <Box mt={1} ml={2} pt={3} border={1} borderBottom={0} borderLeft={0} borderRight={0} borderColor="background.emphasis">
-            <Button
-              variant="contained"
-              color="secondary"
-              href={getLoginUrl()}
-              fullWidth
-            >
-              {content['primary-action']}
-            </Button>
-          </Box>
         </div>
       </Drawer>
     </AppBar>
