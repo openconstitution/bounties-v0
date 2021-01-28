@@ -4,13 +4,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <!--
-        Added the constraints for entity Funding.
+        Added the constraints for entity Fund.
     -->
     <changeSet id="20200809142815-2" author="jhipster">
         
         <addForeignKeyConstraint baseColumnNames="bounty_id"
-                                 baseTableName="funding"
-                                 constraintName="fk_funding_bounty_id"
+                                 baseTableName="fund"
+                                 constraintName="fk_fund_bounty_id"
                                  referencedColumnNames="id"
                                  referencedTableName="bounty"/>
 

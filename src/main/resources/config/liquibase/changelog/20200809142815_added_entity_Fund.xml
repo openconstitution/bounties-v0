@@ -9,10 +9,10 @@
         <property name="autoIncrement" value="true"/>
 
     <!--
-        Added the entity Funding.
+        Added the entity Fund.
     -->
     <changeSet id="20200809142815-1" author="jhipster">
-        <createTable tableName="funding">
+        <createTable tableName="fund">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -51,19 +51,19 @@
           This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
           Spring Boot configuration key.
     -->
-    <changeSet id="20200809142815-1-data" author="jhipster" context="faker">
-        <loadData
-                  file="config/liquibase/fake-data/funding.csv"
-                  separator=";"
-                  tableName="funding">
-            <column name="id" type="numeric"/>
-            <column name="amount" type="numeric"/>
-            <column name="mode" type="string"/>
-            <column name="payment_auth" type="boolean"/>
-            <column name="bounty_id" type="string" />
-            <column name="created_by" type="string" />
-            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
-        </loadData>
-    </changeSet>
+<!--    <changeSet id="20200809142815-1-data" author="jhipster" context="faker">-->
+<!--        <loadData-->
+<!--                  file="config/liquibase/fake-data/fund.csv"-->
+<!--                  separator=";"-->
+<!--                  tableName="fund">-->
+<!--            <column name="id" type="numeric"/>-->
+<!--            <column name="amount" type="numeric"/>-->
+<!--            <column name="mode" type="string"/>-->
+<!--            <column name="payment_auth" type="boolean"/>-->
+<!--            <column name="bounty_id" type="string" />-->
+<!--            <column name="created_by" type="string" />-->
+<!--            &lt;!&ndash; jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here &ndash;&gt;-->
+<!--        </loadData>-->
+<!--    </changeSet>-->
 
 </databaseChangeLog>
