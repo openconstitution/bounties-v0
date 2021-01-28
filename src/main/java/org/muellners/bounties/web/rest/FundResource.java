@@ -59,7 +59,7 @@ public class FundResource {
             throw new BadRequestAlertException("A new fund cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Fund result = fundRepository.save(fund);
-        return ResponseEntity.created(new URI("/api/fundings/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/funds/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -86,9 +86,9 @@ public class FundResource {
     }
 
     /**
-     * {@code GET  /fundings} : get all the fundings.
+     * {@code GET  /funds} : get all the funds.
      *
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of fundings in body.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of funds in body.
      */
     @GetMapping("/funds")
     public Collection<FundDTO> getAllFunds(@RequestParam("criteria") FundCriteria fundCriteria) {
@@ -109,22 +109,22 @@ public class FundResource {
     }
 
     /**
-     * {@code GET  /fundings/:id} : get the "id" funding.
+     * {@code GET  /funds/:id} : get the "id" fund.
      *
-     * @param id the id of the funding to retrieve.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the funding, or with status {@code 404 (Not Found)}.
+     * @param id the id of the fund to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the fund, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/funds/{id}")
     public ResponseEntity<Fund> getFund(@PathVariable Long id) {
         log.debug("REST request to get Fund : {}", id);
-        Optional<Fund> funding = fundRepository.findById(id);
-        return ResponseUtil.wrapOrNotFound(funding);
+        Optional<Fund> fund = fundRepository.findById(id);
+        return ResponseUtil.wrapOrNotFound(fund);
     }
 
     /**
-     * {@code DELETE  /fundings/:id} : delete the "id" funding.
+     * {@code DELETE  /funds/:id} : delete the "id" fund.
      *
-     * @param id the id of the funding to delete.
+     * @param id the id of the fund to delete.
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/funds/{id}")
@@ -135,10 +135,10 @@ public class FundResource {
     }
 
     /**
-     * {@code SEARCH  /_search/fundings?q=:query} : search for the funding corresponding
+     * {@code SEARCH  /_search/funds?q=:query} : search for the fund corresponding
      * to the query.
      *
-     * @param query the query of the funding search.
+     * @param query the query of the fund search.
      * @return the result of the search.
      */
     @GetMapping("/_search/funds")

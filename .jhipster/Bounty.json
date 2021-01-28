@@ -57,9 +57,9 @@
     },
     {
       "relationshipType": "one-to-many",
-      "otherEntityName": "funding",
+      "otherEntityName": "fund",
       "otherEntityRelationshipName": "bounty",
-      "relationshipName": "fundings"
+      "relationshipName": "funds"
     }
   ],
   "changelogDate": "20200809142715",

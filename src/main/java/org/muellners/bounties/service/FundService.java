@@ -19,7 +19,7 @@ public interface FundService {
 	FundDTO save(final FundDTO fundDTO);
 
 	/**
-	 * Get all the fundings.
+	 * Get all the funds.
 	 *
 	 * @return the list of entities.
 	 */
@@ -27,7 +27,7 @@ public interface FundService {
 	List<FundDTO> findAll();
 
 	/**
-	 * Get one funding by id.
+	 * Get one fund by id.
 	 *
 	 * @param id the id of the entity.
 	 * @return the entity.
@@ -36,14 +36,14 @@ public interface FundService {
 	FundDTO findOne(Long id);
 
 	/**
-	 * Delete the funding by id.
+	 * Delete the fund by id.
 	 *
 	 * @param id the id of the entity.
 	 */
 	void delete(Long id);
 
 	/**
-	 * Search for the funding corresponding to the query.
+	 * Search for the fund corresponding to the query.
 	 *
 	 * @param query the query of the search.
 	 * @return the list of entities.

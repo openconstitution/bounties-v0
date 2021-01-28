@@ -202,7 +202,7 @@ public class BountyDTO {
         return this;
     }
 
-    public void setFunds(Set<FundDTO> fundings) {
+    public void setFunds(Set<FundDTO> funds) {
         this.funds = funds;
     }
 

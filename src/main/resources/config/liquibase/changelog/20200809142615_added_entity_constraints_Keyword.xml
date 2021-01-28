@@ -7,12 +7,12 @@
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <!--
-        Added the constraints for entity bounty_keyword.
+        Added the constraints for entity bounty_keywords.
     -->
     <changeSet id="20200809142615-2" author="xurror">
 
         <addForeignKeyConstraint baseColumnNames="bounty_id"
-                                 baseTableName="bounty_keyword"
+                                 baseTableName="bounty_keywords"
                                  constraintName="fk_bounty_keyword_bounty_id"
                                  referencedColumnNames="id"
                                  referencedTableName="bounty"/>
