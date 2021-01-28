@@ -9,7 +9,13 @@
  import org.springframework.context.annotation.Configuration;
  import org.springframework.core.env.Environment;
  import org.springframework.http.MediaType;
+ import org.springframework.web.reactive.function.client.ClientResponse;
  import org.springframework.web.reactive.function.client.WebClient;
+ import org.springframework.web.reactive.function.client.WebClientResponseException;
+ import reactor.core.publisher.Flux;
+ import reactor.core.publisher.Mono;
+
+ import java.util.function.Function;
 
  @Configuration
  public class JiraListener {
@@ -26,13 +32,35 @@
 
  	@Bean
  	CommandLineRunner listen(WebClient web) {
- 		return args -> web.get()
- 				.uri(getUri())
- 				.accept(MediaType.TEXT_EVENT_STREAM)
- 				.retrieve()
- 				.bodyToFlux(String.class)
- 				.map(String::valueOf)
- 				.subscribe(log::debug);
+	    WebClient.ResponseSpec response = web.get()
+			    .uri(getUri())
+			    .accept(MediaType.TEXT_EVENT_STREAM)
+			    .retrieve()
+			    .onStatus(
+		            httpStatus -> {
+				        if (httpStatus.is4xxClientError()) {
+				            log.debug("Something went wrong with reading from {}", getClientAddress());
+				            return true;
+					    } else if (httpStatus.is5xxServerError()) {
+				            log.debug("Server error from publisher {}", getClientAddress());
+				            return true;
+					    } else {
+				        	return false;
+				        }
+			        },
+				    clientResponse -> Mono.empty()
+			    );
+
+	    Flux<Object> bodyToFlux = response.bodyToFlux(String.class).map(String::valueOf);
+	    log.debug("Response from listener: {}", bodyToFlux);
+
+	    return args -> response
+			    .bodyToFlux(String.class)
+			    .onErrorResume(WebClientResponseException.class,
+					    ex -> ex.getRawStatusCode() == 404 ? Mono.empty() : Mono.error(ex))
+			    .map(String::valueOf)
+			    .subscribe(log::debug);
+
  	}
 
  	private String getClientAddress() {
