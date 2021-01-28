@@ -6,18 +6,15 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
- * A Funding.
+ * A Fund.
  */
 @Entity
 @Table(name = "funding")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "funding")
-public class Funding extends AbstractAuditingEntity {
+public class Fund extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
 
@@ -31,6 +28,9 @@ public class Funding extends AbstractAuditingEntity {
     @Column(name = "mode")
     private String mode;
 
+    @Column(name = "payment_intent_id")
+    private String paymentIntentId;
+
     @Column(name = "payment_auth")
     private Boolean paymentAuth;
 
@@ -39,6 +39,11 @@ public class Funding extends AbstractAuditingEntity {
     private Bounty bounty;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+
+    public Fund() {
+        // no-args
+    }
+
     public Long getId() {
         return id;
     }
@@ -51,7 +56,7 @@ public class Funding extends AbstractAuditingEntity {
         return amount;
     }
 
-    public Funding amount(BigDecimal amount) {
+    public Fund amount(BigDecimal amount) {
         this.amount = amount;
         return this;
     }
@@ -64,13 +69,21 @@ public class Funding extends AbstractAuditingEntity {
         return mode;
     }
 
-    public Funding mode(String mode) {
+    public Fund mode(String mode) {
         this.mode = mode;
         return this;
     }
 
     public void setMode(String mode) {
         this.mode = mode;
+    }
+
+    public String getPaymentIntentId() {
+        return paymentIntentId;
+    }
+
+    public void setPaymentIntentId(String paymentIntentId) {
+        this.paymentIntentId = paymentIntentId;
     }
 
     public Boolean isPaymentAuth() {
@@ -81,7 +94,7 @@ public class Funding extends AbstractAuditingEntity {
         return paymentAuth;
     }
 
-    public Funding paymentAuth(Boolean paymentAuth) {
+    public Fund paymentAuth(Boolean paymentAuth) {
         this.paymentAuth = paymentAuth;
         return this;
     }
@@ -94,7 +107,7 @@ public class Funding extends AbstractAuditingEntity {
         return bounty;
     }
 
-    public Funding bounty(Bounty bounty) {
+    public Fund bounty(Bounty bounty) {
         this.bounty = bounty;
         return this;
     }
@@ -109,10 +122,10 @@ public class Funding extends AbstractAuditingEntity {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Funding)) {
+        if (!(o instanceof Fund)) {
             return false;
         }
-        return id != null && id.equals(((Funding) o).id);
+        return id != null && id.equals(((Fund) o).id);
     }
 
     @Override
@@ -123,7 +136,7 @@ public class Funding extends AbstractAuditingEntity {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Funding{" +
+        return "Fund{" +
             "id=" + getId() +
             ", amount=" + getAmount() +
             ", mode='" + getMode() + "'" +

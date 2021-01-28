@@ -1,15 +1,12 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
-import org.muellners.bounties.domain.Funding;
-import org.muellners.bounties.repository.FundingRepository;
-import org.muellners.bounties.repository.search.FundingSearchRepository;
+import org.muellners.bounties.domain.Fund;
+import org.muellners.bounties.repository.FundRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,25 +18,22 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
- * Integration tests for the {@link FundingResource} REST controller.
+ * Integration tests for the {@link FundResource} REST controller.
  */
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
 @ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
-public class FundingResourceIT {
+public class FundResourceIT {
 
     private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
     private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
@@ -51,15 +45,7 @@ public class FundingResourceIT {
     private static final Boolean UPDATED_PAYMENT_AUTH = true;
 
     @Autowired
-    private FundingRepository fundingRepository;
-
-    /**
-     * This repository is mocked in the org.muellners.bounties.repository.search test package.
-     *
-     * @see org.muellners.bounties.repository.search.FundingSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private FundingSearchRepository mockFundingSearchRepository;
+    private FundRepository fundRepository;
 
     @Autowired
     private EntityManager em;
@@ -67,7 +53,7 @@ public class FundingResourceIT {
     @Autowired
     private MockMvc restFundingMockMvc;
 
-    private Funding funding;
+    private Fund fund;
 
     /**
      * Create an entity for this test.
@@ -75,12 +61,12 @@ public class FundingResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Funding createEntity(EntityManager em) {
-        Funding funding = new Funding()
+    public static Fund createEntity(EntityManager em) {
+        Fund fund = new Fund()
             .amount(DEFAULT_AMOUNT)
             .mode(DEFAULT_MODE)
             .paymentAuth(DEFAULT_PAYMENT_AUTH);
-        return funding;
+        return fund;
     }
     /**
      * Create an updated entity for this test.
@@ -88,61 +74,55 @@ public class FundingResourceIT {
      * This is a static method, as tests for other entities might also need it,
      * if they test an entity which requires the current entity.
      */
-    public static Funding createUpdatedEntity(EntityManager em) {
-        Funding funding = new Funding()
+    public static Fund createUpdatedEntity(EntityManager em) {
+        Fund fund = new Fund()
             .amount(UPDATED_AMOUNT)
             .mode(UPDATED_MODE)
             .paymentAuth(UPDATED_PAYMENT_AUTH);
-        return funding;
+        return fund;
     }
 
     @BeforeEach
     public void initTest() {
-        funding = createEntity(em);
+        fund = createEntity(em);
     }
 
     @Test
     @Transactional
     public void createFunding() throws Exception {
-        int databaseSizeBeforeCreate = fundingRepository.findAll().size();
-        // Create the Funding
+        int databaseSizeBeforeCreate = fundRepository.findAll().size();
+        // Create the Fund
         restFundingMockMvc.perform(post("/api/fundings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(funding)))
+            .content(TestUtil.convertObjectToJsonBytes(fund)))
             .andExpect(status().isCreated());
 
-        // Validate the Funding in the database
-        List<Funding> fundingList = fundingRepository.findAll();
-        assertThat(fundingList).hasSize(databaseSizeBeforeCreate + 1);
-        Funding testFunding = fundingList.get(fundingList.size() - 1);
-        assertThat(testFunding.getAmount()).isEqualTo(DEFAULT_AMOUNT);
-        assertThat(testFunding.getMode()).isEqualTo(DEFAULT_MODE);
-        assertThat(testFunding.isPaymentAuth()).isEqualTo(DEFAULT_PAYMENT_AUTH);
-
-        // Validate the Funding in Elasticsearch
-        verify(mockFundingSearchRepository, times(1)).save(testFunding);
+        // Validate the Fund in the database
+        List<Fund> fundList = fundRepository.findAll();
+        assertThat(fundList).hasSize(databaseSizeBeforeCreate + 1);
+        Fund testFund = fundList.get(fundList.size() - 1);
+        assertThat(testFund.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testFund.getMode()).isEqualTo(DEFAULT_MODE);
+        assertThat(testFund.isPaymentAuth()).isEqualTo(DEFAULT_PAYMENT_AUTH);
     }
 
     @Test
     @Transactional
     public void createFundingWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = fundingRepository.findAll().size();
+        int databaseSizeBeforeCreate = fundRepository.findAll().size();
 
-        // Create the Funding with an existing ID
-        funding.setId(1L);
+        // Create the Fund with an existing ID
+        fund.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restFundingMockMvc.perform(post("/api/fundings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(funding)))
+            .content(TestUtil.convertObjectToJsonBytes(fund)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Funding in the database
-        List<Funding> fundingList = fundingRepository.findAll();
-        assertThat(fundingList).hasSize(databaseSizeBeforeCreate);
-
-        // Validate the Funding in Elasticsearch
-        verify(mockFundingSearchRepository, times(0)).save(funding);
+        // Validate the Fund in the database
+        List<Fund> fundList = fundRepository.findAll();
+        assertThat(fundList).hasSize(databaseSizeBeforeCreate);
     }
 
 
@@ -150,13 +130,13 @@ public class FundingResourceIT {
     @Transactional
     public void getAllFundings() throws Exception {
         // Initialize the database
-        fundingRepository.saveAndFlush(funding);
+        fundRepository.saveAndFlush(fund);
 
         // Get all the fundingList
         restFundingMockMvc.perform(get("/api/fundings?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(funding.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(fund.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].mode").value(hasItem(DEFAULT_MODE)))
             .andExpect(jsonPath("$.[*].paymentAuth").value(hasItem(DEFAULT_PAYMENT_AUTH.booleanValue())));
@@ -166,13 +146,13 @@ public class FundingResourceIT {
     @Transactional
     public void getFunding() throws Exception {
         // Initialize the database
-        fundingRepository.saveAndFlush(funding);
+        fundRepository.saveAndFlush(fund);
 
-        // Get the funding
-        restFundingMockMvc.perform(get("/api/fundings/{id}", funding.getId()))
+        // Get the fund
+        restFundingMockMvc.perform(get("/api/fundings/{id}", fund.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.id").value(funding.getId().intValue()))
+            .andExpect(jsonPath("$.id").value(fund.getId().intValue()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.mode").value(DEFAULT_MODE))
             .andExpect(jsonPath("$.paymentAuth").value(DEFAULT_PAYMENT_AUTH.booleanValue()));
@@ -180,7 +160,7 @@ public class FundingResourceIT {
     @Test
     @Transactional
     public void getNonExistingFunding() throws Exception {
-        // Get the funding
+        // Get the fund
         restFundingMockMvc.perform(get("/api/fundings/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
@@ -189,74 +169,65 @@ public class FundingResourceIT {
     @Transactional
     public void updateFunding() throws Exception {
         // Initialize the database
-        fundingRepository.saveAndFlush(funding);
+        fundRepository.saveAndFlush(fund);
 
-        int databaseSizeBeforeUpdate = fundingRepository.findAll().size();
+        int databaseSizeBeforeUpdate = fundRepository.findAll().size();
 
-        // Update the funding
-        Funding updatedFunding = fundingRepository.findById(funding.getId()).get();
-        // Disconnect from session so that the updates on updatedFunding are not directly saved in db
-        em.detach(updatedFunding);
-        updatedFunding
+        // Update the fund
+        Fund updatedFund = fundRepository.findById(fund.getId()).get();
+        // Disconnect from session so that the updates on updatedFund are not directly saved in db
+        em.detach(updatedFund);
+        updatedFund
             .amount(UPDATED_AMOUNT)
             .mode(UPDATED_MODE)
             .paymentAuth(UPDATED_PAYMENT_AUTH);
 
         restFundingMockMvc.perform(put("/api/fundings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedFunding)))
+            .content(TestUtil.convertObjectToJsonBytes(updatedFund)))
             .andExpect(status().isOk());
 
-        // Validate the Funding in the database
-        List<Funding> fundingList = fundingRepository.findAll();
-        assertThat(fundingList).hasSize(databaseSizeBeforeUpdate);
-        Funding testFunding = fundingList.get(fundingList.size() - 1);
-        assertThat(testFunding.getAmount()).isEqualTo(UPDATED_AMOUNT);
-        assertThat(testFunding.getMode()).isEqualTo(UPDATED_MODE);
-        assertThat(testFunding.isPaymentAuth()).isEqualTo(UPDATED_PAYMENT_AUTH);
-
-        // Validate the Funding in Elasticsearch
-        verify(mockFundingSearchRepository, times(1)).save(testFunding);
+        // Validate the Fund in the database
+        List<Fund> fundList = fundRepository.findAll();
+        assertThat(fundList).hasSize(databaseSizeBeforeUpdate);
+        Fund testFund = fundList.get(fundList.size() - 1);
+        assertThat(testFund.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testFund.getMode()).isEqualTo(UPDATED_MODE);
+        assertThat(testFund.isPaymentAuth()).isEqualTo(UPDATED_PAYMENT_AUTH);
     }
 
     @Test
     @Transactional
     public void updateNonExistingFunding() throws Exception {
-        int databaseSizeBeforeUpdate = fundingRepository.findAll().size();
+        int databaseSizeBeforeUpdate = fundRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restFundingMockMvc.perform(put("/api/fundings").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(funding)))
+            .content(TestUtil.convertObjectToJsonBytes(fund)))
             .andExpect(status().isBadRequest());
 
-        // Validate the Funding in the database
-        List<Funding> fundingList = fundingRepository.findAll();
-        assertThat(fundingList).hasSize(databaseSizeBeforeUpdate);
-
-        // Validate the Funding in Elasticsearch
-        verify(mockFundingSearchRepository, times(0)).save(funding);
+        // Validate the Fund in the database
+        List<Fund> fundList = fundRepository.findAll();
+        assertThat(fundList).hasSize(databaseSizeBeforeUpdate);
     }
 
     @Test
     @Transactional
     public void deleteFunding() throws Exception {
         // Initialize the database
-        fundingRepository.saveAndFlush(funding);
+        fundRepository.saveAndFlush(fund);
 
-        int databaseSizeBeforeDelete = fundingRepository.findAll().size();
+        int databaseSizeBeforeDelete = fundRepository.findAll().size();
 
-        // Delete the funding
-        restFundingMockMvc.perform(delete("/api/fundings/{id}", funding.getId()).with(csrf())
+        // Delete the fund
+        restFundingMockMvc.perform(delete("/api/fundings/{id}", fund.getId()).with(csrf())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
-        List<Funding> fundingList = fundingRepository.findAll();
-        assertThat(fundingList).hasSize(databaseSizeBeforeDelete - 1);
-
-        // Validate the Funding in Elasticsearch
-        verify(mockFundingSearchRepository, times(1)).deleteById(funding.getId());
+        List<Fund> fundList = fundRepository.findAll();
+        assertThat(fundList).hasSize(databaseSizeBeforeDelete - 1);
     }
 
     @Test
@@ -264,15 +235,13 @@ public class FundingResourceIT {
     public void searchFunding() throws Exception {
         // Configure the mock search repository
         // Initialize the database
-        fundingRepository.saveAndFlush(funding);
-        when(mockFundingSearchRepository.search(queryStringQuery("id:" + funding.getId())))
-            .thenReturn(Collections.singletonList(funding));
+        fundRepository.saveAndFlush(fund);
 
-        // Search the funding
-        restFundingMockMvc.perform(get("/api/_search/fundings?query=id:" + funding.getId()))
+        // Search the fund
+        restFundingMockMvc.perform(get("/api/_search/fundings?query=id:" + fund.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(funding.getId().intValue())))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(fund.getId().intValue())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].mode").value(hasItem(DEFAULT_MODE)))
             .andExpect(jsonPath("$.[*].paymentAuth").value(hasItem(DEFAULT_PAYMENT_AUTH.booleanValue())));
