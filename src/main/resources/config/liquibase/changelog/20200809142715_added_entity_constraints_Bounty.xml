@@ -4,39 +4,51 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <!--
-        Added the constraints for entity Funding.
+        Added the constraints for entity Fund.
     -->
-    <changeSet id="20200809142715-2" author="jhipster">
+    <changeSet id="20200809142715-2" author="xurror">
 
         <addForeignKeyConstraint baseColumnNames="hunter_id"
                                  baseTableName="bounty"
-                                 constraintName="fk_bounty_hunter_jhi_user_id"
+                                 constraintName="fk_bounty_hunter_user_id"
                                  referencedColumnNames="id"
                                  referencedTableName="jhi_user"/>
+
+        <addForeignKeyConstraint baseColumnNames="issue_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_issue_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="b_issue"/>
 
         <addForeignKeyConstraint baseColumnNames="status_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_status_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="option"/>
+                                 referencedTableName="b_option"/>
+
+        <addForeignKeyConstraint baseColumnNames="commitment_id"
+                                 baseTableName="bounty"
+                                 constraintName="fk_bounty_commitment_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="b_option"/>
 
         <addForeignKeyConstraint baseColumnNames="type_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_type_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="option"/>
+                                 referencedTableName="b_option"/>
 
         <addForeignKeyConstraint baseColumnNames="category_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_category_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="option"/>
+                                 referencedTableName="b_option"/>
 
         <addForeignKeyConstraint baseColumnNames="experience_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_experience_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="option"/>
+                                 referencedTableName="b_option"/>
 
     </changeSet>
 </databaseChangeLog>
