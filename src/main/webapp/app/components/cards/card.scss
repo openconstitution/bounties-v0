@@ -1,0 +1,33 @@
+@import '../../../content/scss/global.scss';
+
+.aboutCard {
+  position: relative;
+  width: 18rem;
+  height: 18rem;
+  background-color: $secondary-color;
+  border-radius: 01rem;
+  padding: 5rem 1.5rem;
+  margin: 0 1rem;
+  text-align: justify;
+  overflow: unset;
+
+  & > h2 {
+    margin-bottom: 1rem;
+    font-size: large;
+  }
+
+  &__image-box {
+    height: 5rem;
+    width: 5rem;
+    border-radius: 3rem;
+    border: 1px solid $secondary-color;
+    background-color: $white-color;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -2.5rem;
+    left: 1rem;
+    z-index: 1;
+  }
+}
