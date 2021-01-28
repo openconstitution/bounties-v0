@@ -11,12 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * A Funding.
+ * A Fund.
  */
 @Entity
 @Table(name = "b_option")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "b_option")
 public class Option extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;

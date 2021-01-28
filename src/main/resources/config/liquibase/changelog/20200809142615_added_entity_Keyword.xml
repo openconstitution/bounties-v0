@@ -9,10 +9,10 @@
         <property name="autoIncrement" value="true"/>
 
     <!--
-        Added the entity Funding.
+        Added the entity Fund.
     -->
     <changeSet id="20200809142615-1" author="xurror">
-        <createTable tableName="bounty_keywords">
+        <createTable tableName="bounty_keyword">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
@@ -41,9 +41,9 @@
     -->
 <!--    <changeSet id="20200809142615-1-data" author="xurror" context="faker">-->
 <!--        <loadData-->
-<!--                  file="config/liquibase/fake-data/bounty_keywords.csv"-->
+<!--                  file="config/liquibase/fake-data/bounty_keyword.csv"-->
 <!--                  separator=";"-->
-<!--                  tableName="bounty_keywords">-->
+<!--                  tableName="bounty_keyword">-->
 <!--            <column name="id" type="numeric"/>-->
 <!--            <column name="bounty_id" type="numeric"/>-->
 <!--            <column name="keyword" type="string"/>-->

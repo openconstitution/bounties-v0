@@ -7,37 +7,44 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class BountyDTO {
 
     private Long id;
 
-    private String status;
-
     @NotNull
     private String summary;
+
+    private String description;
 
     @NotNull
     private String issueUrl;
 
-    @NotNull
     private BigDecimal amount;
 
-    private Integer commitment;
+    private String statusKey;
+
+    private String commitmentKey;
+
+    @NotNull
+    private String typeKey;
+
+    @NotNull
+    private String categoryKey;
+
+    @NotNull
+    private String experienceKey;
 
     private List<String> keywords;
 
-    private String type;
-
-    private String category;
-
-    private String experience;
-
     private boolean permission;
 
+    @NotNull
     private LocalDate expiryDate;
 
-    private Set<FundingDTO> fundings;
+    @NotNull
+    private Set<FundDTO> funds;
 
     private String hunter;
 
@@ -51,15 +58,18 @@ public class BountyDTO {
 
     public BountyDTO(final Bounty bounty) {
         this.id = bounty.getId();
-        this.status = bounty.getStatus().getKey();
         this.summary = bounty.getSummary();
+        this.description = bounty.getDescription();
         this.amount = bounty.getAmount();
-        this.issueUrl = bounty.getIssueUrl();
-        this.commitment = bounty.getCommitment();
-        this.type = bounty.getType().getKey();
-        this.category = bounty.getCategory().getKey();
-        this.experience = bounty.getExperience().getKey();
-        this.keywords = bounty.getKeywords();
+        this.issueUrl = bounty.getIssue().getUrl();
+        this.statusKey = bounty.getStatus().getKey();
+        this.commitmentKey = bounty.getCommitment().getKey();
+        this.typeKey = bounty.getType().getKey();
+        this.categoryKey = bounty.getCategory().getKey();
+        this.experienceKey = bounty.getExperience().getKey();
+        this.keywords = bounty.getKeywords().stream()
+                .map(bountyKeyword -> bountyKeyword.getKeyword())
+                .collect(Collectors.toList());
         this.permission = bounty.getPermission();
         this.expiryDate = bounty.getExpiryDate();
         if (bounty.getHunter() != null) {
@@ -75,12 +85,12 @@ public class BountyDTO {
         return "BountyDTO{" +
             "id=" + id +
             ", summary='" + summary + '\'' +
-            ", status='" + status + '\'' +
             ", issueUrl='" + issueUrl + '\'' +
             ", amount=" + amount +
-            ", experience='" + experience + '\'' +
-            ", commitment=" + commitment +
-            ", category='" + category + '\'' +
+            ", status='" + statusKey + '\'' +
+            ", experience='" + experienceKey + '\'' +
+            ", commitment=" + commitmentKey +
+            ", category='" + categoryKey + '\'' +
             ", keywords='" + keywords + '\'' +
             ", permission=" + permission +
             ", c=" + expiryDate +
@@ -106,6 +116,14 @@ public class BountyDTO {
         this.summary = summary;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getIssueUrl() {
         return issueUrl;
     }
@@ -122,12 +140,44 @@ public class BountyDTO {
         this.amount = amount;
     }
 
-    public Integer getCommitment() {
-        return commitment;
+    public String getStatusKey() {
+        return statusKey;
     }
 
-    public void setCommitment(final Integer commitment) {
-        this.commitment = commitment;
+    public void setStatusKey(String statusKey) {
+        this.statusKey = statusKey;
+    }
+
+    public String getCommitmentKey() {
+        return commitmentKey;
+    }
+
+    public void setCommitmentKey(String commitmentKey) {
+        this.commitmentKey = commitmentKey;
+    }
+
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
+    public String getCategoryKey() {
+        return categoryKey;
+    }
+
+    public void setCategoryKey(String categoryKey) {
+        this.categoryKey = categoryKey;
+    }
+
+    public String getExperienceKey() {
+        return experienceKey;
+    }
+
+    public void setExperienceKey(String experienceKey) {
+        this.experienceKey = experienceKey;
     }
 
     public boolean isPermission() {
@@ -138,30 +188,22 @@ public class BountyDTO {
         this.permission = permission;
     }
 
-    public LocalDate getExpiryDate() {
-        return expiryDate;
+    public Set<FundDTO> getFunds() {
+        return funds;
     }
 
-    public void setExpiryDate(final LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public Set<FundingDTO> getFundings() {
-        return fundings;
-    }
-
-    public BountyDTO addFundings(FundingDTO funding) {
-        this.fundings.add(funding);
+    public BountyDTO addFunds(FundDTO fund) {
+        this.funds.add(fund);
         return this;
     }
 
-    public BountyDTO removeFundings(FundingDTO funding) {
-        this.fundings.remove(funding);
+    public BountyDTO removeFunds(FundDTO fund) {
+        this.funds.remove(fund);
         return this;
     }
 
-    public void setFundings(Set<FundingDTO> fundings) {
-        this.fundings = fundings;
+    public void setFunds(Set<FundDTO> fundings) {
+        this.funds = funds;
     }
 
     public String getHunter() {
@@ -170,6 +212,45 @@ public class BountyDTO {
 
     public void setHunter(String hunter) {
         this.hunter = hunter;
+    }
+
+    public List<String> getKeywords() {
+        return keywords;
+    }
+
+    public BountyDTO keywords(final List<String> keywords) {
+        this.keywords = keywords;
+        return this;
+    }
+
+    public void setKeywords(List<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    public void setPermission(final Boolean permission) {
+        this.permission = permission;
+    }
+
+    public BountyDTO permission(final Boolean permission) {
+        this.permission = permission;
+        return this;
+    }
+
+	public Boolean getPermission() {
+        return permission;
+    }
+
+    public LocalDate getExpiryDate() {
+        return expiryDate;
+    }
+
+    public BountyDTO expiryDate(final LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
+        return this;
+    }
+
+    public void setExpiryDate(final LocalDate expiryDate) {
+        this.expiryDate = expiryDate;
     }
 
     public String getCreatedBy() {
@@ -186,109 +267,6 @@ public class BountyDTO {
 
     public void setCreatedDate(final Instant createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public List<String> getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public BountyDTO status(final String status) {
-        this.status = status;
-        return this;
-    }
-
-    public BountyDTO issueUrl(final String issueUrl) {
-        this.issueUrl = issueUrl;
-        return this;
-    }
-
-    public BountyDTO amount(final BigDecimal amount) {
-        this.amount = amount;
-        return this;
-    }
-
-    public BountyDTO experience(final String experience) {
-        this.experience = experience;
-        return this;
-    }
-
-    public BountyDTO commitment(final Integer commitment) {
-        this.commitment = commitment;
-        return this;
-    }
-
-    public BountyDTO type(final String type) {
-        this.type = type;
-        return this;
-    }
-
-    public BountyDTO category(final String category) {
-        this.category = category;
-        return this;
-    }
-
-    public BountyDTO keywords(final List<String> keywords) {
-        this.keywords = keywords;
-        return this;
-    }
-
-    public BountyDTO permission(final boolean permission) {
-        this.permission = permission;
-        return this;
-    }
-
-    public BountyDTO expiryDate(final LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-        return this;
-    }
-
-    public BountyDTO permission(final Boolean permission) {
-        this.permission = permission;
-        return this;
-    }
-
-    public void setPermission(final Boolean permission) {
-        this.permission = permission;
-    }
-
-	public Boolean getPermission() {
-        return permission;
     }
 
 }

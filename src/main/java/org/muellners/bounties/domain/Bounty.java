@@ -9,15 +9,14 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.muellners.bounties.exceptions.NoBenefactorException;
 
 /**
- * A Bounty.
+ * A Bounty.0
  */
 @Entity
 @Table(name = "bounty")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.
-        Document(indexName = "bounty")
 public class Bounty extends AbstractAuditingEntity {
 
     private static final long serialVersionUID = 1L;
@@ -33,18 +32,20 @@ public class Bounty extends AbstractAuditingEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToOne
-    @JoinColumn(name = "status_id")
-    private Option status;
-
-    @NotNull @Column(name = "issue_url")
-    private String issueUrl;
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "issue_id")
+    private Issue issue;
 
     @Column(name = "amount", precision = 21, scale = 2)
     private BigDecimal amount;
 
-    @Column(name = "commitment")
-    private Integer commitment;
+    @OneToOne
+    @JoinColumn(name = "status_id")
+    private Option status;
+
+    @OneToOne
+    @JoinColumn(name = "commitment_id")
+    private Option commitment;
 
     @OneToOne
     @JoinColumn(name = "type_id")
@@ -58,9 +59,9 @@ public class Bounty extends AbstractAuditingEntity {
     @JoinColumn(name = "experience_id")
     private Option experience;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Column(name = "keyword")
-    private List<String> keywords;
+    @OneToMany(cascade = CascadeType.PERSIST)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<BountyKeyword> keywords = new HashSet<>();
 
     @Column(name = "permission")
     private Boolean permission;
@@ -71,38 +72,30 @@ public class Bounty extends AbstractAuditingEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "bounty_id", referencedColumnName = "id")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Funding> fundings = new HashSet<>();
+    private Set<Fund> funds = new HashSet<>();
 
     @OneToOne
     @JoinColumn(name = "hunter_id")
     private User hunter;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
+    public Bounty() {
+        // no-args
+    }
+
+    public User getBenefactor() {
+        return (User) this.funds.stream().map(fund -> {
+            if (fund.getCreatedBy().equalsIgnoreCase(this.getCreatedBy())) {
+                return fund.getCreatedBy();
+            } else {
+                throw new NoBenefactorException(this.id);
+            }
+        });
+    }
+
     public Long getId() { return id; }
 
     public void setId(Long id) { this.id = id; }
-
-    public Option getStatus() { return status; }
-
-    public Bounty status(Option status) {
-        this.status = status;
-        return this;
-    }
-
-    public void setStatus(Option status) { this.status = status; }
-
-    public String getIssueUrl() {
-        return issueUrl;
-    }
-
-    public Bounty issueUrl(String issueUrl) {
-        this.issueUrl = issueUrl;
-        return this;
-    }
-
-    public void setIssueUrl(String issueUrl) {
-        this.issueUrl = issueUrl;
-    }
 
     public String getSummary() {
         return summary;
@@ -125,12 +118,12 @@ public class Bounty extends AbstractAuditingEntity {
         this.description = description;
     }
 
-    public List<String> getKeywords() {
-        return keywords;
+    public Issue getIssue() {
+        return issue;
     }
 
-    public void setKeywords(List<String> keywords) {
-        this.keywords = keywords;
+    public void setIssue(Issue issue) {
+        this.issue = issue;
     }
 
     public BigDecimal getAmount() { return amount; }
@@ -141,6 +134,15 @@ public class Bounty extends AbstractAuditingEntity {
     }
 
     public void setAmount(BigDecimal amount) { this.amount = amount; }
+
+    public Option getStatus() { return status; }
+
+    public Bounty status(Option status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(Option status) { this.status = status; }
 
     public Option getExperience() { return experience; }
 
@@ -153,15 +155,20 @@ public class Bounty extends AbstractAuditingEntity {
         this.experience = experience;
     }
 
-    public Integer getCommitment() { return commitment; }
-
-    public Bounty commitment(Integer commitment) {
-        this.commitment = commitment;
-        return this;
+    public Option getCommitment() {
+        return commitment;
     }
 
-    public void setCommitment(Integer commitment) {
+    public void setCommitment(Option commitment) {
         this.commitment = commitment;
+    }
+
+    public Set<BountyKeyword> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(Set<BountyKeyword> keywords) {
+        this.keywords = keywords;
     }
 
     public Option getType() { return type; }
@@ -204,24 +211,24 @@ public class Bounty extends AbstractAuditingEntity {
 
     public void setExpiryDate(LocalDate expiryDate) { this.expiryDate = expiryDate; }
 
-    public Set<Funding> getFundings() { return fundings; }
+    public Set<Fund> getFunds() { return funds; }
 
-    public Bounty fundings(Set<Funding> fundings) {
-        this.fundings = fundings;
+    public Bounty funds(Set<Fund> funds) {
+        this.funds = funds;
         return this;
     }
 
-    public Bounty addFundings(Funding funding) {
-        this.fundings.add(funding);
+    public Bounty addFunds(Fund fund) {
+        this.funds.add(fund);
         return this;
     }
 
-    public Bounty removeFundings(Funding funding) {
-        this.fundings.remove(funding);
+    public Bounty removeFunds(Fund fund) {
+        this.funds.remove(fund);
         return this;
     }
 
-    public void setFundings(Set<Funding> fundings) { this.fundings = fundings; }
+    public void setFunds(Set<Fund> funds) { this.funds = funds; }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and
     // setters here
 
@@ -259,7 +266,7 @@ public class Bounty extends AbstractAuditingEntity {
     public String toString() {
         return "Bounty{"
                 + "id=" + getId() + ", status='" + getStatus() + "'"
-                + ", issueUrl='" + getIssueUrl() + "'"
+                + ", issueUrl='" + getIssue() + "'"
                 + ", amount='" + getAmount() + "'"
                 + ", experience='" + getExperience() + "'"
                 + ", commitment=" + getCommitment()
