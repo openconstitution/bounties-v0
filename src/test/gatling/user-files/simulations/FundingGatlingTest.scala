@@ -91,13 +91,13 @@ class FundingGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all fundings")
-            .get("/api/fundings")
+            exec(http("Get all funds")
+            .get("/api/funds")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new funding")
-            .post("/api/fundings")
+            .exec(http("Create new fund")
+            .post("/api/funds")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
@@ -109,12 +109,12 @@ class FundingGatlingTest extends Simulation {
             .check(headerRegex("Location", "(.*)").saveAs("new_funding_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created funding")
+                exec(http("Get created fund")
                 .get("${new_funding_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created funding")
+            .exec(http("Delete created fund")
             .delete("${new_funding_url}")
             .headers(headers_http_authenticated))
             .pause(10)

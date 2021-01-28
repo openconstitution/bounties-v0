@@ -4,13 +4,13 @@ import { waitUntilAnyDisplayed, waitUntilDisplayed, click, waitUntilHidden, isVi
 
 import NavBarPage from './../../page-objects/navbar-page';
 
-import FundingUpdatePage from './funding-update.page-object';
+import FundingUpdatePage from './fund-update.page-object';
 
 const expect = chai.expect;
 export class FundingDeleteDialog {
   deleteModal = element(by.className('modal'));
-  private dialogTitle: ElementFinder = element(by.id('bountiesApp.funding.delete.question'));
-  private confirmButton = element(by.id('jhi-confirm-delete-funding'));
+  private dialogTitle: ElementFinder = element(by.id('bountiesApp.fund.delete.question'));
+  private confirmButton = element(by.id('jhi-confirm-delete-fund'));
 
   getDialogTitle() {
     return this.dialogTitle;
@@ -24,7 +24,7 @@ export class FundingDeleteDialog {
 export default class FundingComponentsPage {
   createButton: ElementFinder = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('div table .btn-danger'));
-  title: ElementFinder = element(by.id('funding-heading'));
+  title: ElementFinder = element(by.id('fund-heading'));
   noRecords: ElementFinder = element(by.css('#app-view-container .table-responsive div.alert.alert-warning'));
   table: ElementFinder = element(by.css('#app-view-container div.table-responsive > table'));
 
@@ -43,7 +43,7 @@ export default class FundingComponentsPage {
   }
 
   async goToPage(navBarPage: NavBarPage) {
-    await navBarPage.getEntityPage('funding');
+    await navBarPage.getEntityPage('fund');
     await waitUntilAnyDisplayed([this.noRecords, this.table]);
     return this;
   }
@@ -59,7 +59,7 @@ export default class FundingComponentsPage {
 
     const fundingDeleteDialog = new FundingDeleteDialog();
     await waitUntilDisplayed(fundingDeleteDialog.deleteModal);
-    expect(await fundingDeleteDialog.getDialogTitle().getAttribute('id')).to.match(/bountiesApp.funding.delete.question/);
+    expect(await fundingDeleteDialog.getDialogTitle().getAttribute('id')).to.match(/bountiesApp.fund.delete.question/);
     await fundingDeleteDialog.clickOnConfirmButton();
 
     await waitUntilHidden(fundingDeleteDialog.deleteModal);
