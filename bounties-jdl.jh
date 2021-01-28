@@ -43,5 +43,5 @@ entity Profile {
 }
 
 relationship OneToMany {
-    Bounty{fundings} to Funding{bounty}
+    Bounty{funds} to Funding{bounty}
 }
