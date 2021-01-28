@@ -1,11 +1,11 @@
-id;summary;description;status_id;issue_url;amount;experience_id;commitment;type_id;category_id;permission;expiry_date;created_date;created_by
-1;capacity pixel Baby;Comoro Franc Supervisor;6;http://heloise.info;82175;4;94915;12;1;true;2025-08-09;2020-08-09;user
-2;Metal Generic;GB paradigm Licensed;7;https://harvey.name;21045;5;78464;10;2;false;2025-08-09;2020-08-10;user
-3;Reduced;orange Investment Account;8;https://maritza.com;26909;3;2916;11;1;false;2025-08-08;2020-07-09;user
-4;Car Lek;Gorgeous Iowa Decentralized;9;http://ida.biz;72187;3;69677;10;1;false;2025-08-09;2020-08-07;user
-5;Alabama index;copy Business-focused;9;http://karine.net;57722;3;70479;12;2;false;2025-08-09;2020-06-09;user
-6;Customer;frictionless;8;http://luigi.biz;90342;4;1555;12;2;false;2025-08-08;2020-08-12;user
-7;intermediate Tugrik;Infrastructure JSON;7;https://theresa.com;29786;5;5034;11;1;true;2025-08-12;2020-08-09;user
-8;Mobility;syndicate Swedish Krona Division;6;https://philip.net;44191;4;43136;10;1;true;2025-08-11;2020-08-09;user
-9;Creative;Alabama;8;http://ashlee.name;82892;5;23832;10;1;false;2025-08-09;2020-08-10;user
-10;overriding Metrics;Assistant New Israeli Sheqel Handcrafted Metal Ball;7;http://jeanette.biz;83040;3;36794;10;2;true;2025-08-09;2020-05-09;user
+id;summary;description;status_id;issue_id;amount;experience_id;commitment_id;type_id;category_id;permission;expiry_date;created_date;created_by
+1;capacity pixel Baby;Comoro Franc Supervisor;6;1;82175;4;1;12;1;true;2025-08-09;2020-08-09;user
+2;Metal Generic;GB paradigm Licensed;7;2;21045;5;2;10;2;false;2025-08-09;2020-08-10;user
+3;Reduced;orange Investment Account;8;3;26909;3;3;11;1;false;2025-08-08;2020-07-09;user
+4;Car Lek;Gorgeous Iowa Decentralized;9;4;72187;3;4;10;1;false;2025-08-09;2020-08-07;user
+5;Alabama index;copy Business-focused;9;5;57722;3;5;12;2;false;2025-08-09;2020-06-09;user
+6;Customer;frictionless;8;1;90342;4;6;12;2;false;2025-08-08;2020-08-12;user
+7;intermediate Tugrik;Infrastructure JSON;7;2;29786;5;7;11;1;true;2025-08-12;2020-08-09;user
+8;Mobility;syndicate Swedish Krona Division;6;3;44191;4;8;10;1;true;2025-08-11;2020-08-09;user
+9;Creative;Alabama;8;4;82892;5;9;10;1;false;2025-08-09;2020-08-10;user
+10;overriding Metrics;Assistant New Israeli Sheqel Handcrafted Metal Ball;7;5;83040;3;4;10;2;true;2025-08-09;2020-05-09;user

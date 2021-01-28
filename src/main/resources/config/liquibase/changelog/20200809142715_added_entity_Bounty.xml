@@ -25,13 +25,13 @@
             <column name="status_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="issue_url" type="varchar(255)">
+            <column name="issue_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="amount" type="decimal(21,2)">
                 <constraints nullable="true" />
             </column>
-            <column name="commitment" type="integer">
+            <column name="commitment_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="type_id" type="bigint">
@@ -84,13 +84,12 @@
             <column name="summary" type="string" />
             <column name="description" type="string" />
             <column name="status_id" type="numeric" />
-            <column name="issue_url" type="string" />
+            <column name="issue_id" type="numeric" />
             <column name="amount" type="numeric" />
-            <column name="commitment" type="numeric" />
+            <column name="commitment_id" type="numeric" />
             <column name="type_id" type="numeric" />
             <column name="category_id" type="numeric" />
             <column name="experience_id" type="numeric" />
-            <column name="keywords" type="string" />
             <column name="permission" type="boolean" />
             <column name="expiry_date" type="date" />
             <column name="created_date" type="timestamp" />

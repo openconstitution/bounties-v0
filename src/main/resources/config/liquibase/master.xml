@@ -17,11 +17,13 @@
     <include file="config/liquibase/changelog/00000000000001_initial_schema.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200809142615_added_entity_Keyword.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200809142615_added_entity_Option.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200809143715_added_entity_Issue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200809142715_added_entity_Bounty.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200809142815_added_entity_Funding.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200809142815_added_entity_Fund.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20200809142615_added_entity_constraints_Keyword.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200809142815_added_entity_constraints_Funding.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200809142815_added_entity_constraints_Fund.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20200809143715_added_entity_constraints_Issue.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200809142715_added_entity_constraints_Bounty.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
 </databaseChangeLog>
