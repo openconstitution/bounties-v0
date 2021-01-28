@@ -9,8 +9,8 @@ import { IRootState } from 'app/shared/reducers';
 
 import { IBounty } from 'app/shared/model/bounty.model';
 import { getEntities as getBounties } from 'app/entities/bounty/bounty.reducer';
-import { getEntity, updateEntity, createEntity, reset } from './funding.reducer';
-import { IFunding } from 'app/shared/model/funding.model';
+import { getEntity, updateEntity, createEntity, reset } from './fund.reducer';
+import { IFunding } from 'app/shared/model/fund.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
@@ -23,7 +23,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
   const { fundingEntity, bounties, loading, updating } = props;
 
   const handleClose = () => {
-    props.history.push('/funding');
+    props.history.push('/fund');
   };
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="bountiesApp.funding.home.createOrEditLabel">Create or edit a Funding</h2>
+          <h2 id="bountiesApp.fund.home.createOrEditLabel">Create or edit a Funding</h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
@@ -72,31 +72,31 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
             <AvForm model={isNew ? {} : fundingEntity} onSubmit={saveEntity}>
               {!isNew ? (
                 <AvGroup>
-                  <Label for="funding-id">ID</Label>
-                  <AvInput id="funding-id" type="text" className="form-control" name="id" required readOnly />
+                  <Label for="fund-id">ID</Label>
+                  <AvInput id="fund-id" type="text" className="form-control" name="id" required readOnly />
                 </AvGroup>
               ) : null}
               <AvGroup>
-                <Label id="amountLabel" for="funding-amount">
+                <Label id="amountLabel" for="fund-amount">
                   Amount
                 </Label>
-                <AvField id="funding-amount" type="text" name="amount" />
+                <AvField id="fund-amount" type="text" name="amount" />
               </AvGroup>
               <AvGroup>
-                <Label id="modeLabel" for="funding-mode">
+                <Label id="modeLabel" for="fund-mode">
                   Mode
                 </Label>
-                <AvField id="funding-mode" type="text" name="mode" />
+                <AvField id="fund-mode" type="text" name="mode" />
               </AvGroup>
               <AvGroup check>
                 <Label id="paymentAuthLabel">
-                  <AvInput id="funding-paymentAuth" type="checkbox" className="form-check-input" name="paymentAuth" />
+                  <AvInput id="fund-paymentAuth" type="checkbox" className="form-check-input" name="paymentAuth" />
                   Payment Auth
                 </Label>
               </AvGroup>
               <AvGroup>
-                <Label for="funding-bounty">Bounty</Label>
-                <AvInput id="funding-bounty" type="select" className="form-control" name="bounty.id">
+                <Label for="fund-bounty">Bounty</Label>
+                <AvInput id="fund-bounty" type="select" className="form-control" name="bounty.id">
                   <option value="" key="0" />
                   {bounties
                     ? bounties.map(otherEntity => (
@@ -107,7 +107,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
                     : null}
                 </AvInput>
               </AvGroup>
-              <Button tag={Link} id="cancel-save" to="/funding" replace color="info">
+              <Button tag={Link} id="cancel-save" to="/fund" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">Back</span>
@@ -127,10 +127,10 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   bounties: storeState.bounty.entities,
-  fundingEntity: storeState.funding.entity,
-  loading: storeState.funding.loading,
-  updating: storeState.funding.updating,
-  updateSuccess: storeState.funding.updateSuccess,
+  fundingEntity: storeState.fund.entity,
+  loading: storeState.fund.loading,
+  updating: storeState.fund.updating,
+  updateSuccess: storeState.fund.updateSuccess,
 });
 
 const mapDispatchToProps = {

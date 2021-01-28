@@ -13,7 +13,7 @@ export const EntitiesMenu = props => (
     <MenuItem icon="asterisk" to="/bounty">
       Bounty
     </MenuItem>
-    <MenuItem icon="asterisk" to="/funding">
+    <MenuItem icon="asterisk" to="/fund">
       Funding
     </MenuItem>
     <MenuItem icon="asterisk" to="/issue">

@@ -6,8 +6,8 @@ import { ICrudGetAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntity } from './funding.reducer';
-import { IFunding } from 'app/shared/model/funding.model';
+import { getEntity } from './fund.reducer';
+import { IFunding } from 'app/shared/model/fund.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IFundingDetailProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
@@ -40,11 +40,11 @@ export const FundingDetail = (props: IFundingDetailProps) => {
           <dt>Bounty</dt>
           <dd>{fundingEntity.bounty ? fundingEntity.bounty.id : ''}</dd>
         </dl>
-        <Button tag={Link} to="/funding" replace color="info">
+        <Button tag={Link} to="/fund" replace color="info">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>
         </Button>
         &nbsp;
-        <Button tag={Link} to={`/funding/${fundingEntity.id}/edit`} replace color="primary">
+        <Button tag={Link} to={`/fund/${fundingEntity.id}/edit`} replace color="primary">
           <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
         </Button>
       </Col>
@@ -52,8 +52,8 @@ export const FundingDetail = (props: IFundingDetailProps) => {
   );
 };
 
-const mapStateToProps = ({ funding }: IRootState) => ({
-  fundingEntity: funding.entity,
+const mapStateToProps = ({ fund }: IRootState) => ({
+  fundingEntity: fund.entity,
 });
 
 const mapDispatchToProps = { getEntity };
