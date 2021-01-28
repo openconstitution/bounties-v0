@@ -20,7 +20,6 @@ import ErrorBoundary from 'app/shared/error/error-boundary';
 import AppRoutes from 'app/routes';
 import { LoadingBar } from 'react-redux-loading-bar';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
-import theme from './themes/theme';
 
 const baseHref = document.querySelector('base').getAttribute('href').replace(/\/$/, '');
 export interface IAppProps extends DispatchProps, StateProps {}
@@ -57,7 +56,7 @@ export const App = (props: IAppProps) => {
 };
 
 const mapStateToProps = ({ stripePayment }: IRootState) => ({
-  stripePublishableKey: stripePayment.config.stripePublishableKey,
+  stripePublishableKey: null,
 });
 
 const mapDispatchToProps = { getSession, getConfig };

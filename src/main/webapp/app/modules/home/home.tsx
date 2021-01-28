@@ -12,9 +12,12 @@ import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
-import Header from 'app/components/header/Header';
-import NavBar from 'app/components/navbar/NavBar';
+// component imports
 import Footer from 'app/components/footer/Footer';
+import Landing from '../../components/landing/landing';
+import AboutCard from '../../components/cards/aboutCard';
+import BountyTable from '../../components/bounties/bounty-table';
+import ButtonOutline from 'app/components/buttons/buttonOutline';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
 
@@ -34,12 +37,26 @@ export const Home = (props: IHomeProp) => {
 
     <div className="home">
       <div className="home__landing">
-
+        <Landing />
       </div>
       <div className="home__about">
 
+        <h2>About</h2>
+
+        <div className="home__card-box">
+          <AboutCard />
+          <AboutCard />
+          <AboutCard />
+        </div>
+      </div>  
+      <div className="home__bounties">
+        <div className="home__table-box">
+          <h2>Bounties</h2>
+          <BountyTable />
+          <ButtonOutline title="See All &#8594;" onclick={() => { }}/>
+        </div>
       </div>
-      <div className="home__bounties"></div>
+      <Footer />
     </div>
   );
 };

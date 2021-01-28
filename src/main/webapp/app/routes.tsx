@@ -31,8 +31,8 @@ const Routes = () => (
   <div>
     <Switch>
       <ErrorBoundaryRoute path="/" exact component={Home} />
-      <ErrorBoundaryRoute path="/login" component={Login} />
-      <ErrorBoundaryRoute path="/logout" component={Logout} />
+      <ErrorBoundaryRoute path="/sign-in" component={Login} />
+      <ErrorBoundaryRoute path="/sign-out" component={Logout} />
       <ErrorBoundaryRoute path="/sign-up" component={Signup} />
       <ErrorBoundaryRoute path="/verify-password" component={VerifyPassword} />
 

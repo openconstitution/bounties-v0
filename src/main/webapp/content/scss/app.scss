@@ -17,12 +17,11 @@ a {
 
 * {
   -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  &:after,
-  &::before {
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-  }
+  box-sizing: border-box !important;
+  font-size: 1rem;
+  font-family: 'Lato', sans-serif;
+  color: $font-color;
+  overflow: hidden auto;
 }
 
 .app-container {

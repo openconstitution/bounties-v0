@@ -23,7 +23,8 @@ import { getLoginUrl } from 'app/shared/util/url-utils';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    minHeight: 70
+    minHeight: 70,
+    
   },
   brand: {
     lineHeight: 1,
@@ -62,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
     paddingLeft: theme.spacing(2),
     paddingRight: theme.spacing(3),
     width: 300,
+  },
+  menuBar: {
+    paddingLeft: theme.spacing(7),
+    paddingRight: theme.spacing(7),
   }
 }));
 
@@ -69,7 +74,7 @@ export default function NavBar(props) {
   const classes = useStyles();
 
   const content = {
-    'brand': { image: '../../../content/images/LOGO-WEB@2x.png', width: 110 },
+    'brand': { image: '../../../content/images/LOGO-WEB@2x.png', width: 200 },
     'link1': 'Home',
     'link2': 'About',
     'link3': 'Bounties',
@@ -95,7 +100,7 @@ export default function NavBar(props) {
   };
 
   return (
-    <AppBar position="static" color="inherit">
+    <AppBar position="static" color="transparent" elevation={0} className={classes.menuBar}>
       <Toolbar className={classes.toolbar}>
         <Link href="#" color="primary" underline="none" variant="h5" className={classes.brand}>
           {brand}
