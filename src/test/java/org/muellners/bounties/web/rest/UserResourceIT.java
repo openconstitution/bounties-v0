@@ -6,7 +6,6 @@ import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Authority;
 import org.muellners.bounties.domain.User;
 import org.muellners.bounties.repository.UserRepository;
-import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.dto.UserDTO;
 import org.muellners.bounties.service.mapper.UserMapper;
@@ -59,14 +58,6 @@ public class UserResourceIT {
 
     @Autowired
     private UserRepository userRepository;
-
-    /**
-     * This repository is mocked in the org.muellners.bounties.repository.search test package.
-     *
-     * @see org.muellners.bounties.repository.search.UserSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private UserSearchRepository mockUserSearchRepository;
 
     @Autowired
     private UserMapper userMapper;
@@ -140,7 +131,6 @@ public class UserResourceIT {
     public void getUser() throws Exception {
         // Initialize the database
         userRepository.saveAndFlush(user);
-        mockUserSearchRepository.save(user);
 
         assertThat(cacheManager.getCache(UserRepository.USERS_BY_LOGIN_CACHE).get(user.getLogin())).isNull();
 

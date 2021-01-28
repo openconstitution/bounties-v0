@@ -6,9 +6,9 @@ public class ProfileDTO {
 
     private Long id;
     private Integer votes;
-    private String profilelink;
+    private String profileLink;
     private String about;
-    private String walletaddress;
+    private String walletAddress;
     private String githubEmail;
     private String githubOrgName;
 
@@ -19,9 +19,9 @@ public class ProfileDTO {
     public ProfileDTO(Profile profile) {
         this.id = profile.getId();
         this.votes = profile.getVotes();
-        this.profilelink = profile.getProfilelink();
+        this.profileLink = profile.getProfileLink();
         this.about = profile.getAbout();
-        this.walletaddress = profile.getWalletaddress();
+        this.walletAddress = profile.getWalletAddress();
         this.githubEmail = profile.getGithubEmail();
         this.githubOrgName = profile.getGithubOrgName();
     }
@@ -47,17 +47,12 @@ public class ProfileDTO {
         return votes;
     }
 
-    public String getProfilelink() {
-        return this.profilelink;
+    public String getProfileLink() {
+        return profileLink;
     }
 
-    public ProfileDTO profilelink(String profilelink) {
-        this.profilelink = profilelink;
-        return this;
-    }
-
-    public void setProfilelink(String profilelink) {
-        this.profilelink = profilelink;
+    public void setProfileLink(String profileLink) {
+        this.profileLink = profileLink;
     }
 
     public String getAbout() {
@@ -73,17 +68,12 @@ public class ProfileDTO {
         this.about = about;
     }
 
-    public String getWalletaddress() {
-        return walletaddress;
+    public String getWalletAddress() {
+        return walletAddress;
     }
 
-    public ProfileDTO walletaddress(String walletaddress) {
-        this.walletaddress = walletaddress;
-        return this;
-    }
-
-    public void setWalletaddress(String walletaddress) {
-        this.walletaddress = walletaddress;
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
     }
 
     public String getGithubEmail() {
@@ -135,9 +125,9 @@ public class ProfileDTO {
         return "Profile{" +
             "id=" + getId() +
             ", votes=" + getVotes() +
-            ", profilelink='" + getProfilelink() + "'" +
+            ", profileLink='" + getProfileLink() + "'" +
             ", about='" + getAbout() + "'" +
-            ", walletaddress='" + getWalletaddress() + "'" +
+            ", walletAddress='" + getWalletAddress() + "'" +
             ", githubEmail='" + getGithubEmail() + "'" +
             ", githubOrgName='" + getGithubOrgName() + "'" +
             "}";

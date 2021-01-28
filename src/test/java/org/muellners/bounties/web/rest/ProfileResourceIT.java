@@ -1,15 +1,11 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Profile;
 import org.muellners.bounties.repository.ProfileRepository;
-import org.muellners.bounties.repository.search.ProfileSearchRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +16,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.mockito.Mockito.*;
@@ -61,14 +55,6 @@ public class ProfileResourceIT {
     @Autowired
     private ProfileRepository profileRepository;
 
-    /**
-     * This repository is mocked in the org.muellners.bounties.repository.search test package.
-     *
-     * @see org.muellners.bounties.repository.search.ProfileSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private ProfileSearchRepository mockProfileSearchRepository;
-
     @Autowired
     private EntityManager em;
 
@@ -84,15 +70,15 @@ public class ProfileResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Profile createEntity(EntityManager em) {
-        Profile profile = new Profile()
+        return new Profile()
             .votes(DEFAULT_VOTES)
-            .profilelink(DEFAULT_PROFILELINK)
+            .profileLink(DEFAULT_PROFILELINK)
             .about(DEFAULT_ABOUT)
-            .walletaddress(DEFAULT_WALLETADDRESS)
+            .walletAddress(DEFAULT_WALLETADDRESS)
             .githubEmail(DEFAULT_GITHUB_EMAIL)
             .githubOrgName(DEFAULT_GITHUB_ORG_NAME);
-        return profile;
     }
+
     /**
      * Create an updated entity for this test.
      *
@@ -100,14 +86,13 @@ public class ProfileResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Profile createUpdatedEntity(EntityManager em) {
-        Profile profile = new Profile()
+        return new Profile()
             .votes(UPDATED_VOTES)
-            .profilelink(UPDATED_PROFILELINK)
+            .profileLink(UPDATED_PROFILELINK)
             .about(UPDATED_ABOUT)
-            .walletaddress(UPDATED_WALLETADDRESS)
+            .walletAddress(UPDATED_WALLETADDRESS)
             .githubEmail(UPDATED_GITHUB_EMAIL)
             .githubOrgName(UPDATED_GITHUB_ORG_NAME);
-        return profile;
     }
 
     @BeforeEach
@@ -130,14 +115,11 @@ public class ProfileResourceIT {
         assertThat(profileList).hasSize(databaseSizeBeforeCreate + 1);
         Profile testProfile = profileList.get(profileList.size() - 1);
         assertThat(testProfile.getVotes()).isEqualTo(DEFAULT_VOTES);
-        assertThat(testProfile.getProfilelink()).isEqualTo(DEFAULT_PROFILELINK);
+        assertThat(testProfile.getProfileLink()).isEqualTo(DEFAULT_PROFILELINK);
         assertThat(testProfile.getAbout()).isEqualTo(DEFAULT_ABOUT);
-        assertThat(testProfile.getWalletaddress()).isEqualTo(DEFAULT_WALLETADDRESS);
+        assertThat(testProfile.getWalletAddress()).isEqualTo(DEFAULT_WALLETADDRESS);
         assertThat(testProfile.getGithubEmail()).isEqualTo(DEFAULT_GITHUB_EMAIL);
         assertThat(testProfile.getGithubOrgName()).isEqualTo(DEFAULT_GITHUB_ORG_NAME);
-
-        // Validate the Profile in Elasticsearch
-        verify(mockProfileSearchRepository, times(1)).save(testProfile);
     }
 
     @Test
@@ -157,9 +139,6 @@ public class ProfileResourceIT {
         // Validate the Profile in the database
         List<Profile> profileList = profileRepository.findAll();
         assertThat(profileList).hasSize(databaseSizeBeforeCreate);
-
-        // Validate the Profile in Elasticsearch
-        verify(mockProfileSearchRepository, times(0)).save(profile);
     }
 
 
@@ -222,9 +201,9 @@ public class ProfileResourceIT {
         em.detach(updatedProfile);
         updatedProfile
             .votes(UPDATED_VOTES)
-            .profilelink(UPDATED_PROFILELINK)
+            .profileLink(UPDATED_PROFILELINK)
             .about(UPDATED_ABOUT)
-            .walletaddress(UPDATED_WALLETADDRESS)
+            .walletAddress(UPDATED_WALLETADDRESS)
             .githubEmail(UPDATED_GITHUB_EMAIL)
             .githubOrgName(UPDATED_GITHUB_ORG_NAME);
 
@@ -238,14 +217,11 @@ public class ProfileResourceIT {
         assertThat(profileList).hasSize(databaseSizeBeforeUpdate);
         Profile testProfile = profileList.get(profileList.size() - 1);
         assertThat(testProfile.getVotes()).isEqualTo(UPDATED_VOTES);
-        assertThat(testProfile.getProfilelink()).isEqualTo(UPDATED_PROFILELINK);
+        assertThat(testProfile.getProfileLink()).isEqualTo(UPDATED_PROFILELINK);
         assertThat(testProfile.getAbout()).isEqualTo(UPDATED_ABOUT);
-        assertThat(testProfile.getWalletaddress()).isEqualTo(UPDATED_WALLETADDRESS);
+        assertThat(testProfile.getWalletAddress()).isEqualTo(UPDATED_WALLETADDRESS);
         assertThat(testProfile.getGithubEmail()).isEqualTo(UPDATED_GITHUB_EMAIL);
         assertThat(testProfile.getGithubOrgName()).isEqualTo(UPDATED_GITHUB_ORG_NAME);
-
-        // Validate the Profile in Elasticsearch
-        verify(mockProfileSearchRepository, times(1)).save(testProfile);
     }
 
     @Test
@@ -262,9 +238,6 @@ public class ProfileResourceIT {
         // Validate the Profile in the database
         List<Profile> profileList = profileRepository.findAll();
         assertThat(profileList).hasSize(databaseSizeBeforeUpdate);
-
-        // Validate the Profile in Elasticsearch
-        verify(mockProfileSearchRepository, times(0)).save(profile);
     }
 
     @Test
@@ -283,9 +256,6 @@ public class ProfileResourceIT {
         // Validate the database contains one less item
         List<Profile> profileList = profileRepository.findAll();
         assertThat(profileList).hasSize(databaseSizeBeforeDelete - 1);
-
-        // Validate the Profile in Elasticsearch
-        verify(mockProfileSearchRepository, times(1)).deleteById(profile.getId());
     }
 
     @Test
@@ -294,8 +264,6 @@ public class ProfileResourceIT {
         // Configure the mock search repository
         // Initialize the database
         profileRepository.saveAndFlush(profile);
-        when(mockProfileSearchRepository.search(queryStringQuery("id:" + profile.getId())))
-            .thenReturn(Collections.singletonList(profile));
 
         // Search the profile
         restProfileMockMvc.perform(get("/api/_search/profiles?query=id:" + profile.getId()))

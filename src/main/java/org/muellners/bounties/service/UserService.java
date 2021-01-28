@@ -5,7 +5,6 @@ import org.muellners.bounties.domain.Authority;
 import org.muellners.bounties.domain.User;
 import org.muellners.bounties.repository.AuthorityRepository;
 import org.muellners.bounties.repository.UserRepository;
-import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.UserDTO;
 
@@ -37,23 +36,16 @@ public class UserService {
 	private final Logger log = LoggerFactory.getLogger(UserService.class);
 
 	private final ProfileMapper profileMapper;
-
 	private final UserMapper userMapper;
-
 	private final UserRepository userRepository;
-
-	private final UserSearchRepository userSearchRepository;
-
 	private final AuthorityRepository authorityRepository;
-
 	private final CacheManager cacheManager;
 
 	public UserService(UserMapper userMapper, ProfileMapper profileMapper, UserRepository userRepository,
-	                   UserSearchRepository userSearchRepository, AuthorityRepository authorityRepository, CacheManager cacheManager) {
+	                   AuthorityRepository authorityRepository, CacheManager cacheManager) {
 		this.userMapper = userMapper;
 		this.profileMapper = profileMapper;
 		this.userRepository = userRepository;
-		this.userSearchRepository = userSearchRepository;
 		this.authorityRepository = authorityRepository;
 		this.cacheManager = cacheManager;
 	}
@@ -78,7 +70,6 @@ public class UserService {
 					}
 					user.setLangKey(langKey);
 					user.setImageUrl(imageUrl);
-					userSearchRepository.save(user);
 					this.clearUserCaches(user);
 					log.debug("Changed Information for User: {}", user);
 				});
@@ -93,7 +84,6 @@ public class UserService {
 		log.debug("Request to save User : {}", userDTO);
 		final User user = userMapper.toEntity(userDTO);
 		userRepository.save(user);
-		userSearchRepository.save(user);
 		this.clearUserCaches(user);
 		log.debug("Updated profile for User: {}", user);
 		return userMapper.toDto(user);

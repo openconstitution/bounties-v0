@@ -1,4 +1,4 @@
-package org.muellners.bounties.service;
+package org.muellners.bounties.service.impl;
 
 import com.google.gson.JsonSyntaxException;
 import com.stripe.Stripe;
@@ -9,9 +9,9 @@ import com.stripe.model.PaymentIntent;
 import com.stripe.model.Source;
 import com.stripe.net.ApiResource;
 import com.stripe.net.Webhook;
+import org.muellners.bounties.service.StripeFulfilmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +19,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class FulfilmentService {
+public class FulfilmentServiceImpl implements StripeFulfilmentService {
 
-    private final Logger log = LoggerFactory.getLogger(FulfilmentService.class);
+    private final Logger log = LoggerFactory.getLogger(FulfilmentServiceImpl.class);
 
     private Environment env;
 
-    public FulfilmentService(final Environment env) {
+    public FulfilmentServiceImpl(final Environment env) {
         this.env = env;
     }
 
+    @Override
     public Event verifyAndReturn(String payload, String header) throws JsonSyntaxException, SignatureVerificationException {
 
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
@@ -48,6 +49,7 @@ public class FulfilmentService {
         return event;
     }
 
+    @Override
     public Integer fulfill(Event event) throws StripeException {
 
         PaymentIntent pi;

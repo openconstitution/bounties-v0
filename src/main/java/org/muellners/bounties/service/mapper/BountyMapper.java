@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.Issue;
 import org.muellners.bounties.service.OptionService;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.springframework.stereotype.Service;
@@ -17,12 +18,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class BountyMapper {
 
-    private final FundingMapper fundingMapper;
+    private final FundMapper fundMapper;
 
     private final OptionService optionService;
 
-    public BountyMapper(final FundingMapper fundingMapper, final OptionService optionService) {
-        this.fundingMapper = fundingMapper;
+    public BountyMapper(final FundMapper fundMapper, final OptionService optionService) {
+        this.fundMapper = fundMapper;
         this.optionService = optionService;
     }
 
@@ -35,8 +36,8 @@ public class BountyMapper {
     
     public BountyDTO bountyToBountyDTO(final Bounty bounty) {
         final BountyDTO bountyDTO = new BountyDTO(bounty);
-        bountyDTO.setFundings(bounty.getFundings().stream()
-                        .map(funding -> fundingMapper.fundingToFundingDTO(funding))
+        bountyDTO.setFunds(bounty.getFunds().stream()
+                        .map(fundMapper::fundToFundDTO)
                         .collect(Collectors.toSet()));
         return bountyDTO;
     }
@@ -54,19 +55,20 @@ public class BountyMapper {
         } else {
             Bounty bounty = new Bounty();
             bounty.setId(bountyDTO.getId());
-            bounty.setStatus(optionService.findOneByKey(bountyDTO.getStatus()));
-            bounty.setIssueUrl(bountyDTO.getIssueUrl());
             bounty.setSummary(bountyDTO.getSummary());
+            bounty.setDescription(bountyDTO.getDescription());
+            bounty.setIssue(new Issue().url(bountyDTO.getIssueUrl()));
             bounty.setAmount(bountyDTO.getAmount());
-            bounty.setCommitment(bountyDTO.getCommitment());
-            bounty.setType(optionService.findOneByKey(bountyDTO.getType()));
-            bounty.setCategory(optionService.findOneByKey(bountyDTO.getCategory()));
-            bounty.setExperience(optionService.findOneByKey(bountyDTO.getExperience()));
-            bounty.setKeywords(bountyDTO.getKeywords());
+            bounty.setStatus(optionService.findOneByKey(bountyDTO.getStatusKey()));
+            bounty.setCommitment(optionService.findOneByKey(bountyDTO.getCommitmentKey()));
+            bounty.setType(optionService.findOneByKey(bountyDTO.getTypeKey()));
+            bounty.setCategory(optionService.findOneByKey(bountyDTO.getCategoryKey()));
+            bounty.setExperience(optionService.findOneByKey(bountyDTO.getExperienceKey()));
+//            bounty.setKeywords(bountyDTO.getKeywords());
             bounty.setPermission(bountyDTO.getPermission());
             bounty.setExpiryDate(bountyDTO.getExpiryDate());
-            bounty.setFundings(bountyDTO.getFundings().stream()
-                    .map(fundingDTO -> fundingMapper.fundingDTOToFunding(fundingDTO))
+            bounty.setFunds(bountyDTO.getFunds().stream()
+                    .map(fundMapper::fundDTOToFund)
                     .collect(Collectors.toSet()));
             return bounty;
         }
