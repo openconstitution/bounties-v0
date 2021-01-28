@@ -16,7 +16,7 @@ import {
 
 const expect = chai.expect;
 
-describe('Funding e2e test', () => {
+describe('Fund e2e test', () => {
   let navBarPage: NavBarPage;
   let signInPage: SignInPage;
   let fundingComponentsPage: FundingComponentsPage;
