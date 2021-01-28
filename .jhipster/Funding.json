@@ -1,5 +1,5 @@
 {
-  "name": "Funding",
+  "name": "Fund",
   "fields": [
     {
       "fieldName": "amount",
@@ -18,13 +18,13 @@
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "bounty",
-      "otherEntityRelationshipName": "fundings",
+      "otherEntityRelationshipName": "funds",
       "relationshipName": "bounty",
       "otherEntityField": "id"
     }
   ],
   "changelogDate": "20200809142815",
-  "entityTableName": "funding",
+  "entityTableName": "fund",
   "dto": "no",
   "pagination": "no",
   "service": "no",

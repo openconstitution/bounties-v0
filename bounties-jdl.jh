@@ -27,7 +27,7 @@ entity Bounty {
     expires LocalDate
 }
 
-entity Funding {
+entity Fund {
     amount BigDecimal,
     mode String,
     paymentAuth Boolean
@@ -43,5 +43,5 @@ entity Profile {
 }
 
 relationship OneToMany {
-    Bounty{funds} to Funding{bounty}
+    Bounty{funds} to Fund{bounty}
 }

@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  * A Fund.
  */
 @Entity
-@Table(name = "funding")
+@Table(name = "fund")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Fund extends AbstractAuditingEntity {
 
@@ -35,7 +35,7 @@ public class Fund extends AbstractAuditingEntity {
     private Boolean paymentAuth;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = "fundings", allowSetters = true)
+    @JsonIgnoreProperties(value = "funds", allowSetters = true)
     private Bounty bounty;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
