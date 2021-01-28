@@ -2,10 +2,7 @@ package org.muellners.bounties.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-
 import javax.persistence.*;
-
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
 
 /**
@@ -14,7 +11,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "profile")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "profile")
 public class Profile implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -27,13 +23,13 @@ public class Profile implements Serializable {
     private Integer votes;
 
     @Column(name = "profilelink")
-    private String profilelink;
+    private String profileLink;
 
     @Column(name = "about")
     private String about;
 
     @Column(name = "walletaddress")
-    private String walletaddress;
+    private String walletAddress;
 
     @Column(name = "github_email")
     private String githubEmail;
@@ -63,17 +59,17 @@ public class Profile implements Serializable {
         this.votes = votes;
     }
 
-    public String getProfilelink() {
-        return profilelink;
+    public String getProfileLink() {
+        return profileLink;
     }
 
-    public Profile profilelink(String profilelink) {
-        this.profilelink = profilelink;
+    public Profile profileLink(String profileLink) {
+        this.profileLink = profileLink;
         return this;
     }
 
-    public void setProfilelink(String profilelink) {
-        this.profilelink = profilelink;
+    public void setProfileLink(String profileLink) {
+        this.profileLink = profileLink;
     }
 
     public String getAbout() {
@@ -89,17 +85,16 @@ public class Profile implements Serializable {
         this.about = about;
     }
 
-    public String getWalletaddress() {
-        return walletaddress;
+    public String getWalletAddress() {
+        return walletAddress;
     }
 
-    public Profile walletaddress(String walletaddress) {
-        this.walletaddress = walletaddress;
+    public Profile walletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
         return this;
     }
-
-    public void setWalletaddress(String walletaddress) {
-        this.walletaddress = walletaddress;
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
     }
 
     public String getGithubEmail() {
@@ -151,11 +146,12 @@ public class Profile implements Serializable {
         return "Profile{" +
             "id=" + getId() +
             ", votes=" + getVotes() +
-            ", profilelink='" + getProfilelink() + "'" +
+            ", profilelink='" + getProfileLink() + "'" +
             ", about='" + getAbout() + "'" +
-            ", walletaddress='" + getWalletaddress() + "'" +
+            ", walletaddress='" + getWalletAddress() + "'" +
             ", githubEmail='" + getGithubEmail() + "'" +
             ", githubOrgName='" + getGithubOrgName() + "'" +
             "}";
     }
+
 }
