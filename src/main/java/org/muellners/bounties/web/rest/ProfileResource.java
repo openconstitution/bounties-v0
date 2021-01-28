@@ -2,7 +2,9 @@ package org.muellners.bounties.web.rest;
 
 import org.muellners.bounties.domain.Profile;
 import org.muellners.bounties.repository.ProfileRepository;
-import org.muellners.bounties.repository.search.ProfileSearchRepository;
+import org.muellners.bounties.service.criteria.OptionCriteria;
+import org.muellners.bounties.service.criteria.ProfileCriteria;
+import org.muellners.bounties.service.query.ProfileQueryService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -18,10 +20,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link org.muellners.bounties.domain.Profile}.
@@ -39,12 +37,11 @@ public class ProfileResource {
     private String applicationName;
 
     private final ProfileRepository profileRepository;
+    private final ProfileQueryService profileQueryService;
 
-    private final ProfileSearchRepository profileSearchRepository;
-
-    public ProfileResource(ProfileRepository profileRepository, ProfileSearchRepository profileSearchRepository) {
+    public ProfileResource(final ProfileRepository profileRepository, ProfileQueryService profileQueryService) {
         this.profileRepository = profileRepository;
-        this.profileSearchRepository = profileSearchRepository;
+        this.profileQueryService = profileQueryService;
     }
 
     /**
@@ -61,7 +58,6 @@ public class ProfileResource {
             throw new BadRequestAlertException("A new profile cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Profile result = profileRepository.save(profile);
-        profileSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/profiles/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -83,7 +79,6 @@ public class ProfileResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         Profile result = profileRepository.save(profile);
-        profileSearchRepository.save(result);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, profile.getId().toString()))
             .body(result);
@@ -95,9 +90,21 @@ public class ProfileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of profiles in body.
      */
     @GetMapping("/profiles")
-    public List<Profile> getAllProfiles() {
-        log.debug("REST request to get all Profiles");
-        return profileRepository.findAll();
+    public List<Profile> getAllProfiles(@RequestParam("criteria") ProfileCriteria profileCriteria) {
+        log.debug("REST request to get all Profiles by criteria: {}", profileCriteria);
+        return profileQueryService.findByCriteria(profileCriteria);
+    }
+
+    /**
+     * `GET  /prodiles/count}` : count all the profiles.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
+     */
+    @GetMapping("/profiles/count")
+    public ResponseEntity<Long> countOptions(@RequestParam("criteria") ProfileCriteria criteria) {
+        log.debug("REST request to count Funds by criteria: {}", criteria);
+        return ResponseEntity.ok().body(profileQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -123,22 +130,19 @@ public class ProfileResource {
     public ResponseEntity<Void> deleteProfile(@PathVariable Long id) {
         log.debug("REST request to delete Profile : {}", id);
         profileRepository.deleteById(id);
-        profileSearchRepository.deleteById(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 
     /**
-     * {@code SEARCH  /_search/profiles?query=:query} : search for the profile corresponding
+     * {@code SEARCH  /_search/profiles?q=:query} : search for the profile corresponding
      * to the query.
      *
      * @param query the query of the profile search.
      * @return the result of the search.
      */
     @GetMapping("/_search/profiles")
-    public List<Profile> searchProfiles(@RequestParam String query) {
+    public ResponseEntity<List<Profile>> searchProfiles(@RequestParam("q") String query) {
         log.debug("REST request to search Profiles for query {}", query);
-        return StreamSupport
-            .stream(profileSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-        .collect(Collectors.toList());
+        return ResponseEntity.ok().body(profileQueryService.search(query));
     }
 }

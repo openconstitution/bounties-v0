@@ -2,15 +2,14 @@ package org.muellners.bounties.web.rest;
 
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.domain.User;
-import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.UserService;
 import org.muellners.bounties.service.dto.UserDTO;
 
-import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 
+import org.muellners.bounties.service.query.UserQueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,10 +23,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing users.
@@ -63,12 +58,12 @@ public class UserResource {
     private String applicationName;
 
     private final UserService userService;
+    private final UserQueryService userQueryService;
 
-    private final UserSearchRepository userSearchRepository;
-
-    public UserResource(UserService userService, UserSearchRepository userSearchRepository) {
+    public UserResource(final UserService userService,
+                        final UserQueryService userQueryService) {
         this.userService = userService;
-        this.userSearchRepository = userSearchRepository;
+        this.userQueryService = userQueryService;
     }
 
     /**
@@ -111,15 +106,14 @@ public class UserResource {
     }
 
     /**
-     * {@code SEARCH /_search/users/:query} : search for the User corresponding to the query.
+     * {@code SEARCH /_search/users?q=:query} : search for the User corresponding to the query.
      *
      * @param query the query to search.
      * @return the result of the search.
      */
-    @GetMapping("/_search/users/{query}")
-    public List<User> search(@PathVariable String query) {
-        return StreamSupport
-            .stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false)
-            .collect(Collectors.toList());
+    @GetMapping("/_search/users")
+    public ResponseEntity<List<User>> search(@RequestParam("q") String query) {
+        log.debug("REST request to search Users for query {}", query);
+        return ResponseEntity.ok().body(userQueryService.search(query));
     }
 }

@@ -95,12 +95,18 @@ springBoot {
     mainClassName = "org.muellners.bounties.BountiesApp"
 }
 
+task integrationTest(type: Test) {
+    description = "Execute integration tests."
+    group = "verification"
+}
+
 test {
     useJUnitPlatform()
     exclude "**/*IT*", "**/*IntTest*"
 
     testLogging {
         events 'FAILED', 'SKIPPED'
+        exceptionFormat 'FULL'
     }
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
@@ -108,17 +114,15 @@ test {
     reports.html.enabled = false
 }
 
-task integrationTest(type: Test) {
+integrationTest {
     useJUnitPlatform()
-    description = "Execute integration tests."
-    group = "verification"
     include "**/*IT*", "**/*IntTest*"
     exclude "**/*CucumberIT*"
 
     testLogging {
         events 'FAILED', 'SKIPPED'
+        exceptionFormat 'FULL'
     }
-
     if (project.hasProperty('testcontainers')) {
         environment 'spring.profiles.active', 'testcontainers'
     }
@@ -126,7 +130,8 @@ task integrationTest(type: Test) {
     // uncomment if the tests reports are not generated
     // see https://github.com/jhipster/generator-jhipster/pull/2771 and https://github.com/jhipster/generator-jhipster/pull/4484
     // ignoreFailures true
-    reports.html.enabled = false
+    reports.html.enabled = true
+
 }
 
 task cucumberTest(type: Test) {
@@ -236,7 +241,6 @@ dependencies {
     // to use a SNAPSHOT release instead of a stable release
     implementation group: "io.github.jhipster", name: "jhipster-framework"
     implementation "javax.annotation:javax.annotation-api"
-    implementation "org.springframework.boot:spring-boot-starter-cache"
     implementation "io.dropwizard.metrics:metrics-core"
     implementation "io.micrometer:micrometer-registry-prometheus"
     implementation "net.logstash.logback:logstash-logback-encoder"
@@ -256,70 +260,81 @@ dependencies {
     implementation "javax.transaction:javax.transaction-api"
     implementation "org.hibernate:hibernate-entitymanager"
     implementation "org.hibernate.validator:hibernate-validator"
-    implementation "org.liquibase:liquibase-core"
-    liquibaseRuntime "org.liquibase:liquibase-core"
-    liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
-    liquibaseRuntime sourceSets.main.compileClasspath
+
+    implementation "org.springframework.boot:spring-boot-starter-cache"
     implementation "org.springframework.boot:spring-boot-loader-tools"
     implementation "org.springframework.boot:spring-boot-starter-mail"
     implementation "org.springframework.boot:spring-boot-starter-logging"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
     implementation "org.springframework.boot:spring-boot-starter-aop"
     implementation "org.springframework.boot:spring-boot-starter-data-jpa"
-    implementation "org.springframework.boot:spring-boot-starter-data-elasticsearch"
-    implementation "org.springframework.kafka:spring-kafka"
-    // Spring Data Jest dependencies for Elasticsearch
-    implementation ("com.github.vanroy:spring-boot-starter-data-jest") {
-        exclude module: "commons-logging"
-    }
-    // log4j2-mock needed to create embedded elasticsearch instance with SLF4J
-    runtimeOnly "de.dentrassi.elasticsearch:log4j2-mock:${log4j2_mock_version}"
-    // end of Spring Data Jest dependencies
-    testImplementation "org.testcontainers:mysql"
     implementation "org.springframework.boot:spring-boot-starter-security"
-    implementation ("org.springframework.boot:spring-boot-starter-web") {
-        exclude module: "spring-boot-starter-tomcat"
-    }
     implementation "org.springframework.boot:spring-boot-starter-undertow"
     implementation "org.springframework.boot:spring-boot-starter-websocket"
     implementation "org.springframework.boot:spring-boot-starter-thymeleaf"
     implementation "org.springframework.boot:spring-boot-starter-webflux"
-    implementation "org.zalando:problem-spring-web"
     implementation "org.springframework.boot:spring-boot-starter-cloud-connectors"
+    implementation 'org.springframework.kafka:spring-kafka'
     implementation "org.springframework.security:spring-security-config"
     implementation "org.springframework.security:spring-security-data"
     implementation "org.springframework.security:spring-security-web"
     implementation "org.springframework.security:spring-security-messaging"
     implementation "org.springframework.boot:spring-boot-starter-oauth2-client"
     implementation "org.springframework.boot:spring-boot-starter-oauth2-resource-server"
+    implementation ("org.springframework.boot:spring-boot-starter-web") {
+        exclude module: "spring-boot-starter-tomcat"
+    }
+
     implementation ("io.springfox:springfox-swagger2") {
         exclude module: "mapstruct"
     }
+    implementation "org.zalando:problem-spring-web"
     implementation "io.springfox:springfox-bean-validators"
     implementation "com.stripe:stripe-java:20.30.0"
     implementation "mysql:mysql-connector-java"
-    liquibaseRuntime "mysql:mysql-connector-java"
     implementation "org.mapstruct:mapstruct:${mapstruct_version}"
     implementation 'io.sentry:sentry-spring-boot-starter:3.2.0'
     implementation 'io.sentry:sentry-logback:3.2.0'
+
+    implementation "org.liquibase:liquibase-core"
+    liquibaseRuntime "org.liquibase:liquibase-core"
+    liquibaseRuntime "org.liquibase.ext:liquibase-hibernate5:${liquibase_hibernate5_version}"
+    liquibaseRuntime sourceSets.main.compileClasspath
+    liquibaseRuntime "mysql:mysql-connector-java"
+
     annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
     annotationProcessor "org.hibernate:hibernate-jpamodelgen:${hibernate_version}"
     annotationProcessor "org.glassfish.jaxb:jaxb-runtime:${jaxb_runtime_version}"
     annotationProcessor "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
+
     testImplementation "io.cucumber:cucumber-junit"
     testImplementation "io.cucumber:cucumber-spring"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+    testImplementation 'org.springframework.security:spring-security-test'
     testImplementation ("org.springframework.boot:spring-boot-starter-test") {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation 'org.mockito:mockito-core'
+    testImplementation 'org.mockito:mockito-junit-jupiter'
+    testImplementation 'org.junit.platform:junit-platform-runner'
+    testImplementation 'org.awaitility:awaitility'
+    testImplementation('org.mock-server:mockserver-junit-jupiter:5.11.2') {
+        exclude group: 'com.sun.mail', module: 'mailapi'
+        exclude group: 'javax.servlet', module: 'javax.servlet-api'
+        exclude group: 'javax.validation'
     }
     testImplementation "org.springframework.security:spring-security-test"
     testImplementation "org.springframework.boot:spring-boot-test"
+    testImplementation "com.h2database:h2"
+    testImplementation 'org.testcontainers:kafka'
+    testImplementation 'org.testcontainers:mysql'
+    testImplementation 'org.testcontainers:junit-jupiter'
+
     testImplementation "com.tngtech.archunit:archunit-junit5-api:${archunit_junit5_version}"
     testRuntimeOnly "com.tngtech.archunit:archunit-junit5-engine:${archunit_junit5_version}"
-    testImplementation "com.h2database:h2"
-    testImplementation "org.testcontainers:kafka"
-
-    testImplementation "org.testcontainers:testcontainers"
-    implementation "org.springframework.cloud:spring-cloud-localconfig-connector"
-    implementation "org.springframework.cloud:spring-cloud-heroku-connector"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here
 }
 

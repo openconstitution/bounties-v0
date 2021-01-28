@@ -28,10 +28,6 @@ services:
     extends:
       file: redis.yml
       service: bounties-redis
-  bounties-elasticsearch:
-    extends:
-      file: elasticsearch.yml
-      service: bounties-elasticsearch
   kafka:
     extends:
       file: kafka.yml
