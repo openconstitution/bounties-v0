@@ -1,19 +1,17 @@
 package org.muellners.bounties.web.rest;
 
-import org.muellners.bounties.RedisTestContainerExtension;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.repository.BountyRepository;
-import org.muellners.bounties.repository.search.BountySearchRepository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -27,17 +25,24 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import org.muellners.bounties.domain.enumeration.Status;
 import org.muellners.bounties.domain.enumeration.Experience;
 import org.muellners.bounties.domain.enumeration.Type;
 import org.muellners.bounties.domain.enumeration.Category;
+
 /**
  * Integration tests for the {@link BountyResource} REST controller.
  */
@@ -82,15 +87,6 @@ public class BountyResourceIT {
 
   @Autowired private BountyRepository bountyRepository;
 
-  /**
-   * This repository is mocked in the org.muellners.bounties.repository.search
-   * test package.
-   *
-   * @see
-   *     org.muellners.bounties.repository.search.BountySearchRepositoryMockConfiguration
-   */
-  @Autowired private BountySearchRepository mockBountySearchRepository;
-
   @Autowired private EntityManager em;
 
   @Autowired private MockMvc restBountyMockMvc;
@@ -106,10 +102,10 @@ public class BountyResourceIT {
   public static Bounty createEntity(EntityManager em) {
     Bounty bounty = new Bounty()
 //                        .status(DEFAULT_STATUS)
-                        .issueUrl(DEFAULT_URL)
+//                        .issueUrl(DEFAULT_URL)
                         .amount(DEFAULT_AMOUNT)
 //                        .experience(DEFAULT_EXPERIENCE)
-                        .commitment(DEFAULT_COMMITMENT)
+//                        .commitment(DEFAULT_COMMITMENT)
 //                        .type(DEFAULT_TYPE)
 //                        .category(DEFAULT_CATEGORY)
 //                        .keywords(DEFAULT_KEYWORDS)
@@ -126,10 +122,10 @@ public class BountyResourceIT {
   public static Bounty createUpdatedEntity(EntityManager em) {
     Bounty bounty = new Bounty()
 //                        .status(UPDATED_STATUS)
-                        .issueUrl(UPDATED_URL)
+//                        .issueUrl(UPDATED_URL)
                         .amount(UPDATED_AMOUNT)
 //                        .experience(UPDATED_EXPERIENCE)
-                        .commitment(UPDATED_COMMITMENT)
+//                        .commitment(UPDATED_COMMITMENT)
 //                        .type(UPDATED_TYPE)
 //                        .category(UPDATED_CATEGORY)
 //                        .keywords(UPDATED_KEYWORDS)
@@ -140,7 +136,7 @@ public class BountyResourceIT {
 
   @BeforeEach
   public void initTest() {
-    bounty = createEntity(em);
+    // bounty = createEntity(em);
   }
 
   @Test
@@ -160,18 +156,15 @@ public class BountyResourceIT {
     assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
     Bounty testBounty = bountyList.get(bountyList.size() - 1);
 //    assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
-    assertThat(testBounty.getIssueUrl()).isEqualTo(DEFAULT_URL);
+//    assertThat(testBounty.getIssueUrl()).isEqualTo(DEFAULT_URL);
     assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
 //    assertThat(testBounty.getExperience()).isEqualTo(DEFAULT_EXPERIENCE);
-    assertThat(testBounty.getCommitment()).isEqualTo(DEFAULT_COMMITMENT);
+//    assertThat(testBounty.getCommitment()).isEqualTo(DEFAULT_COMMITMENT);
 //    assertThat(testBounty.getType()).isEqualTo(DEFAULT_TYPE);
 //    assertThat(testBounty.getCategory()).isEqualTo(DEFAULT_CATEGORY);
 //    assertThat(testBounty.getKeywords()).isEqualTo(DEFAULT_KEYWORDS);
     assertThat(testBounty.isPermission()).isEqualTo(DEFAULT_PERMISSION);
     assertThat(testBounty.getExpiryDate()).isEqualTo(DEFAULT_EXPIRES);
-
-    // Validate the Bounty in Elasticsearch
-    verify(mockBountySearchRepository, times(1)).save(testBounty);
   }
 
   @Test
@@ -194,9 +187,6 @@ public class BountyResourceIT {
     // Validate the Bounty in the database
     List<Bounty> bountyList = bountyRepository.findAll();
     assertThat(bountyList).hasSize(databaseSizeBeforeCreate);
-
-    // Validate the Bounty in Elasticsearch
-    verify(mockBountySearchRepository, times(0)).save(bounty);
   }
 
   @Test
@@ -272,10 +262,10 @@ public class BountyResourceIT {
     em.detach(updatedBounty);
     updatedBounty
 //        .status(UPDATED_STATUS)
-        .issueUrl(UPDATED_URL)
+//        .issueUrl(UPDATED_URL)
         .amount(UPDATED_AMOUNT)
 //        .experience(UPDATED_EXPERIENCE)
-        .commitment(UPDATED_COMMITMENT)
+//        .commitment(UPDATED_COMMITMENT)
 //        .type(UPDATED_TYPE)
 //        .category(UPDATED_CATEGORY)
 //        .keywords(UPDATED_KEYWORDS)
@@ -294,18 +284,15 @@ public class BountyResourceIT {
     assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
     Bounty testBounty = bountyList.get(bountyList.size() - 1);
 //    assertThat(testBounty.getStatus()).isEqualTo(UPDATED_STATUS);
-    assertThat(testBounty.getIssueUrl()).isEqualTo(UPDATED_URL);
+//    assertThat(testBounty.getIssueUrl()).isEqualTo(UPDATED_URL);
     assertThat(testBounty.getAmount()).isEqualTo(UPDATED_AMOUNT);
 //    assertThat(testBounty.getExperience()).isEqualTo(UPDATED_EXPERIENCE);
-    assertThat(testBounty.getCommitment()).isEqualTo(UPDATED_COMMITMENT);
+//    assertThat(testBounty.getCommitment()).isEqualTo(UPDATED_COMMITMENT);
 //    assertThat(testBounty.getType()).isEqualTo(UPDATED_TYPE);
 //    assertThat(testBounty.getCategory()).isEqualTo(UPDATED_CATEGORY);
 //    assertThat(testBounty.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
     assertThat(testBounty.isPermission()).isEqualTo(UPDATED_PERMISSION);
     assertThat(testBounty.getExpiryDate()).isEqualTo(UPDATED_EXPIRES);
-
-    // Validate the Bounty in Elasticsearch
-    verify(mockBountySearchRepository, times(1)).save(testBounty);
   }
 
   @Test
@@ -324,9 +311,6 @@ public class BountyResourceIT {
     // Validate the Bounty in the database
     List<Bounty> bountyList = bountyRepository.findAll();
     assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
-
-    // Validate the Bounty in Elasticsearch
-    verify(mockBountySearchRepository, times(0)).save(bounty);
   }
 
   @Test
@@ -347,9 +331,6 @@ public class BountyResourceIT {
     // Validate the database contains one less item
     List<Bounty> bountyList = bountyRepository.findAll();
     assertThat(bountyList).hasSize(databaseSizeBeforeDelete - 1);
-
-    // Validate the Bounty in Elasticsearch
-    verify(mockBountySearchRepository, times(1)).deleteById(bounty.getId());
   }
 
   @Test
@@ -358,9 +339,6 @@ public class BountyResourceIT {
     // Configure the mock search repository
     // Initialize the database
     bountyRepository.saveAndFlush(bounty);
-    when(mockBountySearchRepository.search(
-             queryStringQuery("id:" + bounty.getId())))
-        .thenReturn(Collections.singletonList(bounty));
 
     // Search the bounty
     restBountyMockMvc

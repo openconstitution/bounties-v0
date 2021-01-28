@@ -24,9 +24,9 @@ public class ProfileMapper {
             Profile profile = new Profile();
             profile.setId(profileDTO.getId());
             profile.setVotes(profileDTO.getVotes());
-            profile.setProfilelink(profileDTO.getProfilelink());
+            profile.setProfileLink(profileDTO.getProfileLink());
             profile.setAbout(profileDTO.getAbout());
-            profile.setWalletaddress(profileDTO.getWalletaddress());
+            profile.setWalletAddress(profileDTO.getWalletAddress());
             profile.setGithubEmail(profileDTO.getGithubEmail());
             profile.setGithubOrgName(profileDTO.getGithubOrgName());
             return profile;

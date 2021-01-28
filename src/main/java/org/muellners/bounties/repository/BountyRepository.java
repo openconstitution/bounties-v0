@@ -13,6 +13,6 @@ import java.util.List;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BountyRepository extends JpaRepository<Bounty, Long> {
+public interface BountyRepository extends JpaRepository<Bounty, Long>, JpaSpecificationExecutor<Bounty> {
 	List<Bounty> findByStatusAndHunter(Status status, User hunter);
 }

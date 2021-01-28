@@ -1,18 +1,15 @@
 package org.muellners.bounties.service;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.User;
-import org.muellners.bounties.repository.search.UserSearchRepository;
 import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.dto.UserDTO;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
@@ -31,9 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
 
 /**
  * Integration tests for {@link UserService}.
@@ -60,14 +54,6 @@ public class UserServiceIT {
 
     @Autowired
     private UserService userService;
-
-    /**
-     * This repository is mocked in the org.muellners.bounties.repository.search test package.
-     *
-     * @see org.muellners.bounties.repository.search.UserSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private UserSearchRepository mockUserSearchRepository;
 
     private User user;
 
