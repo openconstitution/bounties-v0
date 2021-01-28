@@ -6,7 +6,7 @@ import org.springframework.cache.interceptor.KeyGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import io.github.jhipster.config.cache.PrefixedKeyGenerator;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.*;
+
 import java.net.URI;
 import org.redisson.Redisson;
 import org.redisson.config.Config;
@@ -83,10 +83,13 @@ public class CacheConfiguration {
             createCache(cm, org.muellners.bounties.domain.User.class.getName() + ".authorities", jcacheConfiguration);
             // jhipster-needle-redis-add-entry
             createCache(cm, org.muellners.bounties.domain.Bounty.class.getName(), jcacheConfiguration);
-            createCache(cm, org.muellners.bounties.domain.Bounty.class.getName() + ".fundings", jcacheConfiguration);
-            createCache(cm, org.muellners.bounties.domain.Funding.class.getName(), jcacheConfiguration);
-            createCache(cm, org.muellners.bounties.domain.Profile.class.getName(), jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Bounty.class.getName() + ".funds", jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Bounty.class.getName() + ".keywords", jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Fund.class.getName(), jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Issue.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Option.class.getName(), jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.Profile.class.getName(), jcacheConfiguration);
+            createCache(cm, org.muellners.bounties.domain.BountyKeyword.class.getName(), jcacheConfiguration);
         };
     }
 
