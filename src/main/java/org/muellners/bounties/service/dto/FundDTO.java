@@ -3,10 +3,9 @@ package org.muellners.bounties.service.dto;
 import java.math.BigDecimal;
 import java.time.Instant;
 
-import org.muellners.bounties.domain.Bounty;
-import org.muellners.bounties.domain.Funding;
+import org.muellners.bounties.domain.Fund;
 
-public class FundingDTO {
+public class FundDTO {
     private Long id;
 
     private BigDecimal amount;
@@ -19,17 +18,17 @@ public class FundingDTO {
 
     private Instant createdDate;
 
-    public FundingDTO() {
+    public FundDTO() {
         //
     }
 
-    public FundingDTO(Funding funding) {
-        this.id = funding.getId();
-        this.amount = funding.getAmount();
-        this.mode = funding.getMode();
-        this.paymentAuth = funding.getPaymentAuth();
-        this.createdBy = funding.getCreatedBy();
-        this.createdDate = funding.getCreatedDate();
+    public FundDTO(Fund fund) {
+        this.id = fund.getId();
+        this.amount = fund.getAmount();
+        this.mode = fund.getMode();
+        this.paymentAuth = fund.getPaymentAuth();
+        this.createdBy = fund.getCreatedBy();
+        this.createdDate = fund.getCreatedDate();
 	}
 
 	public Long getId() {
@@ -44,7 +43,7 @@ public class FundingDTO {
         return amount;
     }
 
-    public FundingDTO amount(BigDecimal amount) {
+    public FundDTO amount(BigDecimal amount) {
         this.amount = amount;
         return this;
     }
@@ -57,7 +56,7 @@ public class FundingDTO {
         return mode;
     }
 
-    public FundingDTO mode(String mode) {
+    public FundDTO mode(String mode) {
         this.mode = mode;
         return this;
     }
@@ -70,7 +69,7 @@ public class FundingDTO {
         return paymentAuth;
     }
 
-    public FundingDTO paymentAuth(Boolean paymentAuth) {
+    public FundDTO paymentAuth(Boolean paymentAuth) {
         this.paymentAuth = paymentAuth;
         return this;
     }
