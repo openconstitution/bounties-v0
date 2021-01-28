@@ -7,8 +7,8 @@ import { ICrudSearchAction, ICrudGetAllAction } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
-import { getSearchEntities, getEntities } from './funding.reducer';
-import { IFunding } from 'app/shared/model/funding.model';
+import { getSearchEntities, getEntities } from './fund.reducer';
+import { IFunding } from 'app/shared/model/fund.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
 export interface IFundingProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
@@ -36,7 +36,7 @@ export const Funding = (props: IFundingProps) => {
   const { fundingList, match, loading } = props;
   return (
     <div>
-      <h2 id="funding-heading">
+      <h2 id="fund-heading">
         Fundings
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
@@ -74,26 +74,26 @@ export const Funding = (props: IFundingProps) => {
               </tr>
             </thead>
             <tbody>
-              {fundingList.map((funding, i) => (
+              {fundingList.map((fund, i) => (
                 <tr key={`entity-${i}`}>
                   <td>
-                    <Button tag={Link} to={`${match.url}/${funding.id}`} color="link" size="sm">
-                      {funding.id}
+                    <Button tag={Link} to={`${match.url}/${fund.id}`} color="link" size="sm">
+                      {fund.id}
                     </Button>
                   </td>
-                  <td>{funding.amount}</td>
-                  <td>{funding.mode}</td>
-                  <td>{funding.paymentAuth ? 'true' : 'false'}</td>
-                  <td>{funding.bounty ? <Link to={`bounty/${funding.bounty.id}`}>{funding.bounty.id}</Link> : ''}</td>
+                  <td>{fund.amount}</td>
+                  <td>{fund.mode}</td>
+                  <td>{fund.paymentAuth ? 'true' : 'false'}</td>
+                  <td>{fund.bounty ? <Link to={`bounty/${fund.bounty.id}`}>{fund.bounty.id}</Link> : ''}</td>
                   <td className="text-right">
                     <div className="btn-group flex-btn-group-container">
-                      <Button tag={Link} to={`${match.url}/${funding.id}`} color="info" size="sm">
+                      <Button tag={Link} to={`${match.url}/${fund.id}`} color="info" size="sm">
                         <FontAwesomeIcon icon="eye" /> <span className="d-none d-md-inline">View</span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${funding.id}/edit`} color="primary" size="sm">
+                      <Button tag={Link} to={`${match.url}/${fund.id}/edit`} color="primary" size="sm">
                         <FontAwesomeIcon icon="pencil-alt" /> <span className="d-none d-md-inline">Edit</span>
                       </Button>
-                      <Button tag={Link} to={`${match.url}/${funding.id}/delete`} color="danger" size="sm">
+                      <Button tag={Link} to={`${match.url}/${fund.id}/delete`} color="danger" size="sm">
                         <FontAwesomeIcon icon="trash" /> <span className="d-none d-md-inline">Delete</span>
                       </Button>
                     </div>
@@ -110,9 +110,9 @@ export const Funding = (props: IFundingProps) => {
   );
 };
 
-const mapStateToProps = ({ funding }: IRootState) => ({
-  fundingList: funding.entities,
-  loading: funding.loading,
+const mapStateToProps = ({ fund }: IRootState) => ({
+  fundingList: fund.entities,
+  loading: fund.loading,
 });
 
 const mapDispatchToProps = {
