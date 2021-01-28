@@ -56,11 +56,6 @@ spring:
         connectionTimeout: 600000
   jpa:
     show-sql: true
-  data:
-    elasticsearch:
-      properties:
-        path:
-          home: build/elasticsearch
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

@@ -1,36 +1,29 @@
 package org.muellners.bounties.web.rest;
 
-import io.github.jhipster.web.util.PaginationUtil;
-import org.muellners.bounties.domain.User;
-import org.muellners.bounties.domain.enumeration.Status;
+import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.BountyService;
-import org.muellners.bounties.service.FundingService;
+import org.muellners.bounties.service.FundService;
+import org.muellners.bounties.service.criteria.BountyCriteria;
+import org.muellners.bounties.service.criteria.OptionCriteria;
 import org.muellners.bounties.service.dto.BountyDTO;
-import org.muellners.bounties.service.dto.FundingDTO;
+import org.muellners.bounties.service.dto.FundDTO;
+import org.muellners.bounties.service.query.BountyQueryService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpStatusCodeException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.websocket.server.PathParam;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
 
 /**
  * REST controller for managing {@link org.muellners.bounties.domain.Bounty}.
@@ -48,12 +41,14 @@ public class BountyResource {
     private String applicationName;
 
     private final BountyService bountyService;
+    private BountyQueryService bountyQueryService;
+    private final FundService fundService;
 
-    private final FundingService fundingService;
-
-    public BountyResource(final BountyService bountyService, final FundingService fundingService) {
+    public BountyResource(final BountyService bountyService,
+                          final BountyQueryService bountyQueryService,
+                          final FundService fundService) {
         this.bountyService = bountyService;
-        this.fundingService = fundingService;
+        this.fundService = fundService;
     }
 
     /**
@@ -80,28 +75,50 @@ public class BountyResource {
     }
 
     /**
-     * {@code POST  /bounties/:id/fundings} : Add funds to bounty.
+     * {@code POST  /bounties/:id/funds} : Add/Remove funds from bounty.
      *
-     * @param fundingDTO the fund to add to the bounty.
+     * @param funds the fund to add/remove from bounty.
      * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
      *         body the new bounty, or with status {@code 400 (Bad Request)} if the
      *         bounty has already an ID.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @PostMapping("/bounties/{id}/fundings")
+    @PostMapping("/bounties/{id}/funds")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
-    public ResponseEntity<BountyDTO> addFunding(@PathVariable final Long id, @RequestBody final FundingDTO fundingDTO) throws URISyntaxException {
-        log.debug("REST request to add funding to Bounty : {}", fundingDTO);
-        if (fundingDTO.getId() != null) {
-            throw new BadRequestAlertException("A new fund cannot already have an ID", "funding", "idexists");
+    public ResponseEntity<BountyDTO> manageFunds(@PathVariable final Long id,
+                                                 @RequestParam final String action,
+                                                 @RequestBody final List<FundDTO> funds) throws URISyntaxException {
+        log.debug("REST request to manage funds for Bounty : {}", id);
+
+        if (funds.isEmpty()) {
+            throw new BadRequestAlertException("There are no funds to manage", "fund", "nofunds");
         }
-        final BountyDTO bountyDTO = bountyService.findOne(id);
-        bountyDTO.addFundings(fundingDTO);
-        final BountyDTO result = bountyService.save(bountyDTO);
+
+        BountyDTO bountyDTO = null;
+
+        if (action.equalsIgnoreCase("add")) {
+            funds.stream().map(fund -> {
+                if (fund.getId() != null) {
+                    throw new BadRequestAlertException("A new fund cannot already have an ID", "fund", "idexists");
+                }
+                return null;
+            });
+            bountyDTO = bountyService.addFunds(id, funds);
+        } else if (action.equalsIgnoreCase("remove")) {
+            funds.stream().map(fund -> {
+                if (fund.getId() == null) {
+                    throw new BadRequestAlertException("Cannot remove funds that are not attached to a bounty", "fund", "idexists");
+                }
+                return null;
+            });
+            bountyDTO = bountyService.removeFunds(id, funds);
+        } else {
+            throw new BadRequestAlertException("Action: " + action + " is not supported", "bounty", "unknownAction");
+        }
         return ResponseEntity
-                .created(new URI("/api/bounties/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
+                .created(new URI("/api/bounties/" + bountyDTO.getId())).headers(HeaderUtil
+                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, bountyDTO.getId().toString()))
+                .body(bountyDTO);
     }
 
     /**
@@ -134,12 +151,24 @@ public class BountyResource {
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
 	 */
 	@GetMapping("/bounties")
-	public ResponseEntity<List<BountyDTO>> getAllBounties() {
-        log.debug("REST request to get all Bounties");
-        List<BountyDTO> bountyDTOS = bountyService.findAll();
+	public ResponseEntity<List<BountyDTO>> getAllBounties(@RequestParam("criteria") BountyCriteria criteria) {
+        log.debug("REST request to get all Bounties by criteria: {}", criteria);
+        List<BountyDTO> bountyDTOS = bountyQueryService.findByCriteria(criteria);
         HttpHeaders headers = HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, String.valueOf(bountyDTOS));
         return ResponseEntity.ok().headers(headers).body(bountyDTOS);
 	}
+
+    /**
+     * `GET  /bounties/count}` : count all the bounties.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
+     */
+    @GetMapping("/bounties/count")
+    public ResponseEntity<Long> countOptions(@RequestParam("criteria") BountyCriteria criteria) {
+        log.debug("REST request to count Bounties by criteria: {}", criteria);
+        return ResponseEntity.ok().body(bountyQueryService.countByCriteria(criteria));
+    }
 
     /**
      * {@code GET  /bounties/:id} : get the "id" bounty.
@@ -172,46 +201,15 @@ public class BountyResource {
     }
 
     /**
-     * {@code DELETE  /bounties/:id/{fundings}} : Remove funds to bounty.
-     *
-     * @param fundingId the fund to add to the bounty.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with
-     *         body the new bounty, or with status {@code 400 (Bad Request)} if the
-     *         bounty has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @DeleteMapping("/bounties/{id}/fundings/{fundingId}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
-    public ResponseEntity<BountyDTO> removeFunding(@PathVariable("id") final Long id, @PathVariable("fundingId") final Long fundingId) throws URISyntaxException {
-        log.debug("REST request to remove funding from Bounty : {}", id);
-
-        final BountyDTO bountyDTO = bountyService.findOne(id);
-        final FundingDTO fundingDTO = (FundingDTO) bountyDTO.getFundings().stream().map(fundingDto -> {
-            if (fundingDto.getId() == fundingId) {
-                return fundingDto;
-            } else {
-                throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-            }
-        });
-        bountyDTO.removeFundings(fundingDTO);
-        fundingService.delete(fundingDTO.getId());
-        final BountyDTO result = bountyService.save(bountyDTO);
-        return ResponseEntity
-                .created(new URI("/api/bounties/" + result.getId())).headers(HeaderUtil
-                        .createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
-                .body(result);
-    }
-
-    /**
-     * {@code SEARCH  /_search/bounties?query=:query} : search for the bounty
+     * {@code SEARCH  /_search/bounties?q=:query} : search for the bounty
      * corresponding to the query.
      *
      * @param query the query of the bounty search.
      * @return the result of the search.
      */
     @GetMapping("/_search/bounties")
-    public ResponseEntity<List<BountyDTO>> searchBounties(@RequestParam final String query) {
+    public ResponseEntity<List<Bounty>> searchBounties(@RequestParam("q") final String query) {
         log.debug("REST request to search Bounties for query {}", query);
-        return ResponseEntity.ok().body(bountyService.search(query));
+        return ResponseEntity.ok().body(bountyQueryService.search(query));
     }
 }
