@@ -5,12 +5,6 @@ import { Box, Grid, MenuItem, TextField, Button, Select, InputAdornment } from '
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import { FormHelperText, makeStyles } from '@material-ui/core';
-import {
-	CardCvcElement,
-	CardNumberElement,
-	CardExpiryElement,
-	useElements
-} from "@stripe/react-stripe-js";
 import AmountNumberFormat from '../__number-format-customs/AmountNumberFormat';
 import CardNumberFormat from '../__number-format-customs/CardNumberFormat';
 import CVCNumberFormat from '../__number-format-customs/CVCNumberFormat';
@@ -258,9 +252,6 @@ const StripeForm = (props: IStripeForm = {
 							})
 					}}
 					InputProps={{
-						inputProps: {
-							component: CardNumberElement
-						},
 						inputComponent: CardNumberFormat as any
 					}}
 				/>
@@ -286,9 +277,6 @@ const StripeForm = (props: IStripeForm = {
 									})
 							}}
 							InputProps={{
-								inputProps: {
-									component: CardExpiryElement
-								},
 								inputComponent: ExpiryDateFormat as any
 							}}
 						/>
@@ -312,9 +300,6 @@ const StripeForm = (props: IStripeForm = {
 									})
 							}}
 							InputProps={{
-								inputProps: {
-									component: CardCvcElement
-								},
 								inputComponent: CVCNumberFormat as any
 							}}
 						/>

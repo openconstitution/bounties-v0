@@ -19,8 +19,6 @@
     "@react-spring/web": "^9.0.0-rc.3",
     "@sentry/react": "^5.29.2",
     "@sentry/tracing": "^5.29.2",
-    "@stripe/react-stripe-js": "^1.1.2",
-    "@stripe/stripe-js": "^1.11.0",
     "@types/yup": "^0.29.9",
     "availity-reactstrap-validation": "2.6.1",
     "axios": "0.19.2",
