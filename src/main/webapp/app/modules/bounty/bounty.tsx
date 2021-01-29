@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
-import './bounty.scss'
+import './bounty.scss';
+import {bountyData} from '../../data';
 
 // component imports
-import BountyItem from '../../components/itemRow/bountyItem';
+import BountyItem from '../../components/itemRow/bounttem';
 import Search from '../../components/input/search';
 
 // material imports
@@ -10,51 +11,6 @@ import Popover from '@material-ui/core/Popover';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 export default function Bounty() {
-
-  const bountyData = [
-    {
-      header: true,
-      name: "NAME",
-      type: "TYPE",
-      Difficulty: "DIFFICULTY",
-      amount: "AMOUNT",
-    },
-    {
-      header: false,
-      name: "KGB#110",
-      type: "FE",
-      Difficulty: "Expert",
-      amount: "$90",
-    },
-    {
-      header: false,
-      name: "KGB#111",
-      type: "FE",
-      Difficulty: "Intermediate",
-      amount: "$40",
-    },
-    {
-      header: false,
-      name: "WKM#187",
-      type: "BE",
-      Difficulty: "Intermediate",
-      amount: "$200",
-    },
-    {
-      header: false,
-      name: "WKM#188",
-      type: "BE",
-      Difficulty: "Expert",
-      amount: "$250",
-    },
-    {
-      header: false,
-      name: "WKM#387",
-      type: "BE",
-      Difficulty: "Expert",
-      amount: "$300",
-    },
-  ]
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
