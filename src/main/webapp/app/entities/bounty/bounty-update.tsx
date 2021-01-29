@@ -16,7 +16,6 @@ import NavBar from 'app/components/navbar/NavBar';
 import StructureContainer from 'app/components/__structures/StructureContainer';
 import StructureDiv from 'app/components/__structures/StructureDiv';
 import BountyStepper from 'app/components/bounties/BountyStepper';
-import Footer from 'app/components/footer/Footer';
 
 export interface IBountyUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
