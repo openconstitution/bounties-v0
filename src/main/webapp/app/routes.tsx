@@ -31,13 +31,13 @@ const Account = Loadable({
 const Routes = () => (
   <div>
     <Switch>
-      <ErrorBoundaryRoute path="/home" exact component={Home} />
+      <ErrorBoundaryRoute path="/" exact component={Home} />
       <ErrorBoundaryRoute path="/sign-in" component={Login} />
       <ErrorBoundaryRoute path="/sign-out" component={Logout} />
       <ErrorBoundaryRoute path="/sign-up" component={Signup} />
       <ErrorBoundaryRoute path="/verify-password" component={VerifyPassword} />
 
-      <ErrorBoundaryRoute path="/" component={Bounty} />
+      <ErrorBoundaryRoute path="/bounty" component={Bounty} />
 
       <ErrorBoundaryRoute path="/hunter" component={Account} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />
