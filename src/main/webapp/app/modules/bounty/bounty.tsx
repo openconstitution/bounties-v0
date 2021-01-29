@@ -42,10 +42,10 @@ export default function Bounty() {
     },
     {
       header: false,
-      name: "WKM#187",
+      name: "WKM#188",
       type: "BE",
-      Difficulty: "Intermediate",
-      amount: "$200",
+      Difficulty: "Expert",
+      amount: "$250",
     },
     {
       header: false,
