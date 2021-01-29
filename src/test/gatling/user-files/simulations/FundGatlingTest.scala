@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the Funding entity.
+ * Performance test for the Fund entity.
  */
-class FundingGatlingTest extends Simulation {
+class FundGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -45,7 +45,7 @@ class FundingGatlingTest extends Simulation {
         "Upgrade-Insecure-Requests" -> "1"
     )
 
-    val scn = scenario("Test the Funding entity")
+    val scn = scenario("Test the Fund entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -106,16 +106,16 @@ class FundingGatlingTest extends Simulation {
                 , "paymentAuth":null
                 }""")).asJson
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_funding_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_fund_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
                 exec(http("Get created fund")
-                .get("${new_funding_url}")
+                .get("${new_fund_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
             .exec(http("Delete created fund")
-            .delete("${new_funding_url}")
+            .delete("${new_fund_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

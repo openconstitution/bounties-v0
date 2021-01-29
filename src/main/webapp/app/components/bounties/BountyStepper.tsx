@@ -50,7 +50,7 @@ export default function BountyStepper(props) {
 		'secondary-action': 'Back',
 		
     'step1': 'Bounty Details',
-    'step2': 'Funding',
+    'step2': 'Fund',
 		'step3': 'Summary',
 		'step3-action': 'Submit',
 		

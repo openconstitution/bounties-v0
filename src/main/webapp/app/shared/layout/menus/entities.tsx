@@ -14,7 +14,7 @@ export const EntitiesMenu = props => (
       Bounty
     </MenuItem>
     <MenuItem icon="asterisk" to="/fund">
-      Funding
+      Fund
     </MenuItem>
     <MenuItem icon="asterisk" to="/issue">
       Issue

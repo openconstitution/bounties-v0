@@ -10,17 +10,17 @@ import { IRootState } from 'app/shared/reducers';
 import { IBounty } from 'app/shared/model/bounty.model';
 import { getEntities as getBounties } from 'app/entities/bounty/bounty.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './fund.reducer';
-import { IFunding } from 'app/shared/model/fund.model';
+import { IFund } from 'app/shared/model/fund.model';
 import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
 import { mapIdList } from 'app/shared/util/entity-utils';
 
-export interface IFundingUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
+export interface IFundUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
-export const FundingUpdate = (props: IFundingUpdateProps) => {
+export const FundUpdate = (props: IFundUpdateProps) => {
   const [bountyId, setBountyId] = useState('0');
   const [isNew, setIsNew] = useState(!props.match.params || !props.match.params.id);
 
-  const { fundingEntity, bounties, loading, updating } = props;
+  const { fundEntity, bounties, loading, updating } = props;
 
   const handleClose = () => {
     props.history.push('/fund');
@@ -45,7 +45,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
   const saveEntity = (event, errors, values) => {
     if (errors.length === 0) {
       const entity = {
-        ...fundingEntity,
+        ...fundEntity,
         ...values,
       };
 
@@ -61,7 +61,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
     <div>
       <Row className="justify-content-center">
         <Col md="8">
-          <h2 id="bountiesApp.fund.home.createOrEditLabel">Create or edit a Funding</h2>
+          <h2 id="bountiesApp.fund.home.createOrEditLabel">Create or edit a Fund</h2>
         </Col>
       </Row>
       <Row className="justify-content-center">
@@ -69,7 +69,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            <AvForm model={isNew ? {} : fundingEntity} onSubmit={saveEntity}>
+            <AvForm model={isNew ? {} : fundEntity} onSubmit={saveEntity}>
               {!isNew ? (
                 <AvGroup>
                   <Label for="fund-id">ID</Label>
@@ -127,7 +127,7 @@ export const FundingUpdate = (props: IFundingUpdateProps) => {
 
 const mapStateToProps = (storeState: IRootState) => ({
   bounties: storeState.bounty.entities,
-  fundingEntity: storeState.fund.entity,
+  fundEntity: storeState.fund.entity,
   loading: storeState.fund.loading,
   updating: storeState.fund.updating,
   updateSuccess: storeState.fund.updateSuccess,
@@ -144,4 +144,4 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(FundingUpdate);
+export default connect(mapStateToProps, mapDispatchToProps)(FundUpdate);

@@ -99,7 +99,7 @@ export default function BountyDetails(props) {
 
   const content = {
     'sponsor-box-text1': 'Want this bounty to get traction?',
-    'sponsor-box-text2': 'Become a sponsoreby funding this bounty',
+    'sponsor-box-text2': 'Become a sponsoreby fund this bounty',
     'card-text1': 'Expires on ',
     'bounty-tag': 'Bounty',
     'primary-action': 'Claim',

@@ -11,9 +11,9 @@ import bounty, {
   BountyState
 } from 'app/entities/bounty/bounty.reducer';
 // prettier-ignore
-import funding, {
-  FundingState
-} from 'app/entities/funding/funding.reducer';
+import fund, {
+  FundState
+} from 'app/entities/fund/fund.reducer';
 // prettier-ignore
 import profile, {
   ProfileState
@@ -30,7 +30,7 @@ export interface IRootState {
   readonly administration: AdministrationState;
   readonly userManagement: UserManagementState;
   readonly bounty: BountyState;
-  readonly funding: FundingState;
+  readonly fund: FundState;
   readonly profile: ProfileState;
   readonly stripePayment: StripePaymentState;
   /* jhipster-needle-add-reducer-type - JHipster will add reducer type here */
@@ -43,7 +43,7 @@ const rootReducer = combineReducers<IRootState>({
   administration,
   userManagement,
   bounty,
-  funding,
+  fund,
   profile,
   stripePayment,
   /* jhipster-needle-add-reducer-combine - JHipster will add reducer here */
