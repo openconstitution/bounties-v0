@@ -83,15 +83,15 @@ public class Bounty extends AbstractAuditingEntity {
         // no-args
     }
 
-    public User getBenefactor() {
-        return (User) this.funds.stream().map(fund -> {
-            if (fund.getCreatedBy().equalsIgnoreCase(this.getCreatedBy())) {
-                return fund.getCreatedBy();
-            } else {
-                throw new NoBenefactorException(this.id);
-            }
-        });
-    }
+    // public User getBenefactor() {
+    //     return (User) this.funds.stream().map(fund -> {
+    //         if (fund.getCreatedBy().equalsIgnoreCase(this.getCreatedBy())) {
+    //             return fund.getCreatedBy();
+    //         } else {
+    //             throw new NoBenefactorException(this.id);
+    //         }
+    //     });
+    // }
 
     public Long getId() { return id; }
 

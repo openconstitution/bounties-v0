@@ -91,7 +91,7 @@ public class FundResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of funds in body.
      */
     @GetMapping("/funds")
-    public Collection<FundDTO> getAllFunds(@RequestParam("criteria") FundCriteria fundCriteria) {
+    public Collection<FundDTO> getAllFunds(@RequestParam(name = "criteria", required = false) FundCriteria fundCriteria) {
         log.debug("REST request to get all Funds: {}", fundCriteria);
         return fundQueryService.findByCriteria(fundCriteria);
     }
@@ -103,7 +103,7 @@ public class FundResource {
      * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
      */
     @GetMapping("/funds/count")
-    public ResponseEntity<Long> countOptions(@RequestParam("criteria") FundCriteria criteria) {
+    public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) FundCriteria criteria) {
         log.debug("REST request to count Funds by criteria: {}", criteria);
         return ResponseEntity.ok().body(fundQueryService.countByCriteria(criteria));
     }

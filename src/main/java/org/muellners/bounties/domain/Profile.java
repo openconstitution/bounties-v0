@@ -146,7 +146,7 @@ public class Profile implements Serializable {
         return "Profile{" +
             "id=" + getId() +
             ", votes=" + getVotes() +
-            ", profilelink='" + getProfileLink() + "'" +
+            ", profileLink='" + getProfileLink() + "'" +
             ", about='" + getAbout() + "'" +
             ", walletaddress='" + getWalletAddress() + "'" +
             ", githubEmail='" + getGithubEmail() + "'" +

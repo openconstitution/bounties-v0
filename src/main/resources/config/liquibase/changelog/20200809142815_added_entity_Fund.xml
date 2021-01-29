@@ -28,6 +28,9 @@
             <column name="bounty_id" type="bigint">
                 <constraints nullable="true" />
             </column>
+            <column name="payment_intent_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="created_by" type="varchar(50)">
                 <constraints nullable="false"/>
             </column>

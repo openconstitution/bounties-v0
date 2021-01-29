@@ -45,7 +45,7 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
-      hibernate.hbm2ddl.auto: validate
+      hibernate.hbm2ddl.auto: none
       hibernate.jdbc.time_zone: UTC
   liquibase:
     contexts: test
@@ -132,4 +132,13 @@ kafka:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-# application:
+application:
+  listeners:
+    url: https://pubsub.apache.org:2070/
+    path: /jira/FINERACT
+  stripe:
+    api-key:
+    publishable-key:
+    webhook-secret:
+    account-country: US
+    payment-methods: card

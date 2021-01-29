@@ -90,7 +90,7 @@ public class ProfileResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of profiles in body.
      */
     @GetMapping("/profiles")
-    public List<Profile> getAllProfiles(@RequestParam("criteria") ProfileCriteria profileCriteria) {
+    public List<Profile> getAllProfiles(@RequestParam(name = "criteria", required = false) ProfileCriteria profileCriteria) {
         log.debug("REST request to get all Profiles by criteria: {}", profileCriteria);
         return profileQueryService.findByCriteria(profileCriteria);
     }
@@ -102,7 +102,7 @@ public class ProfileResource {
      * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
      */
     @GetMapping("/profiles/count")
-    public ResponseEntity<Long> countOptions(@RequestParam("criteria") ProfileCriteria criteria) {
+    public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) ProfileCriteria criteria) {
         log.debug("REST request to count Funds by criteria: {}", criteria);
         return ResponseEntity.ok().body(profileQueryService.countByCriteria(criteria));
     }

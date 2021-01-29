@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "bounty_keywords")
+@Table(name = "bounty_keyword")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class BountyKeyword implements Serializable {
 

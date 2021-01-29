@@ -151,7 +151,7 @@ public class BountyResource {
 	 * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of bounties in body.
 	 */
 	@GetMapping("/bounties")
-	public ResponseEntity<List<BountyDTO>> getAllBounties(@RequestParam("criteria") BountyCriteria criteria) {
+	public ResponseEntity<List<BountyDTO>> getAllBounties(@RequestParam(name = "criteria", required = false) BountyCriteria criteria) {
         log.debug("REST request to get all Bounties by criteria: {}", criteria);
         List<BountyDTO> bountyDTOS = bountyQueryService.findByCriteria(criteria);
         HttpHeaders headers = HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, String.valueOf(bountyDTOS));
@@ -165,7 +165,7 @@ public class BountyResource {
      * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
      */
     @GetMapping("/bounties/count")
-    public ResponseEntity<Long> countOptions(@RequestParam("criteria") BountyCriteria criteria) {
+    public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) BountyCriteria criteria) {
         log.debug("REST request to count Bounties by criteria: {}", criteria);
         return ResponseEntity.ok().body(bountyQueryService.countByCriteria(criteria));
     }
