@@ -101,7 +101,7 @@ public class OptionResource {
 	 * @return the [ResponseEntity] with status `200 (OK)` and the list of options in body.
 	 */
 	@GetMapping("/options")
-	public ResponseEntity<List<OptionDTO>> getAllOptions(@RequestParam("criteria") OptionCriteria criteria) {
+	public ResponseEntity<List<OptionDTO>> getAllOptions(@RequestParam(name = "criteria", required = false) OptionCriteria criteria) {
 		log.debug("REST request to get Options by criteria: {}", criteria);
 		final List<OptionDTO> entityList = optionQueryService.findByCriteria(criteria);
 		return ResponseEntity.ok().body(entityList);
@@ -114,7 +114,7 @@ public class OptionResource {
 	 * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
 	 */
 	@GetMapping("/options/count")
-	public ResponseEntity<Long> countOptions(@RequestParam("criteria") OptionCriteria criteria) {
+	public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) OptionCriteria criteria) {
 		log.debug("REST request to count Options by criteria: {}", criteria);
 		return ResponseEntity.ok().body(optionQueryService.countByCriteria(criteria));
 	}
