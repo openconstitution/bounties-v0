@@ -16,7 +16,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import Footer from 'app/components/footer/Footer';
 import Landing from '../../components/landing/landing';
 import AboutCard from '../../components/cards/aboutCard';
-import BountyTable from '../../components/bounties/bounty-table';
+import BountyItem from '../../components/itemRow/item';
 import ButtonOutline from 'app/components/buttons/buttonOutline';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
@@ -32,6 +32,51 @@ const { MediaContextProvider, Media } = createMedia({
 export const Home = (props: IHomeProp) => {
 
   const { isAuthenticated } = props;
+
+  const bountyData = [
+    {
+      header: true,
+      name: "NAME",
+      type: "TYPE",
+      Difficulty: "DIFFICULTY",
+      amount: "AMOUNT",
+    },
+    {
+      header: false,
+      name: "KGB#110",
+      type: "FE",
+      Difficulty: "Expert",
+      amount: "$90",
+    },
+    {
+      header: false,
+      name: "KGB#111",
+      type: "FE",
+      Difficulty: "Intermediate",
+      amount: "$40",
+    },
+    {
+      header: false,
+      name: "WKM#187",
+      type: "BE",
+      Difficulty: "Intermediate",
+      amount: "$200",
+    },
+    {
+      header: false,
+      name: "WKM#187",
+      type: "BE",
+      Difficulty: "Intermediate",
+      amount: "$200",
+    },    
+    {
+      header: false,
+      name: "WKM#387",
+      type: "BE",
+      Difficulty: "Expert",
+      amount: "$300",
+    }
+  ]
 
   return (
 
@@ -52,8 +97,20 @@ export const Home = (props: IHomeProp) => {
       <div className="home__bounties">
         <div className="home__table-box">
           <h2>Bounties</h2>
-          <BountyTable />
-          <ButtonOutline title="See All &#8594;" onclick={() => { }}/>
+          <div className="home__table">
+            {bountyData.map((bounty, i) => (
+              <BountyItem
+                key={i}
+                header={bounty.header}
+                Name={bounty.name}
+                Type={bounty.type}
+                Difficulty={bounty.Difficulty}
+                Amount={bounty.amount}
+                onclick={() => {}}
+              />
+            ))}
+          </div>
+          <ButtonOutline title="See all &#8594;" onclick={() => { }}/>
         </div>
       </div>
       <Footer />
