@@ -8,12 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { IRootState } from 'app/shared/reducers';
 import { getSearchEntities, getEntities } from './fund.reducer';
-import { IFunding } from 'app/shared/model/fund.model';
+import { IFund } from 'app/shared/model/fund.model';
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 
-export interface IFundingProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
+export interface IFundProps extends StateProps, DispatchProps, RouteComponentProps<{ url: string }> {}
 
-export const Funding = (props: IFundingProps) => {
+export const Fund = (props: IFundProps) => {
   const [search, setSearch] = useState('');
 
   useEffect(() => {
@@ -33,14 +33,14 @@ export const Funding = (props: IFundingProps) => {
 
   const handleSearch = event => setSearch(event.target.value);
 
-  const { fundingList, match, loading } = props;
+  const { fundList, match, loading } = props;
   return (
     <div>
       <h2 id="fund-heading">
-        Fundings
+        Funds
         <Link to={`${match.url}/new`} className="btn btn-primary float-right jh-create-entity" id="jh-create-entity">
           <FontAwesomeIcon icon="plus" />
-          &nbsp; Create new Funding
+          &nbsp; Create new Fund
         </Link>
       </h2>
       <Row>
@@ -61,7 +61,7 @@ export const Funding = (props: IFundingProps) => {
         </Col>
       </Row>
       <div className="table-responsive">
-        {fundingList && fundingList.length > 0 ? (
+        {fundList && fundList.length > 0 ? (
           <Table responsive>
             <thead>
               <tr>
@@ -74,7 +74,7 @@ export const Funding = (props: IFundingProps) => {
               </tr>
             </thead>
             <tbody>
-              {fundingList.map((fund, i) => (
+              {fundList.map((fund, i) => (
                 <tr key={`entity-${i}`}>
                   <td>
                     <Button tag={Link} to={`${match.url}/${fund.id}`} color="link" size="sm">
@@ -103,7 +103,7 @@ export const Funding = (props: IFundingProps) => {
             </tbody>
           </Table>
         ) : (
-          !loading && <div className="alert alert-warning">No Fundings found</div>
+          !loading && <div className="alert alert-warning">No Funds found</div>
         )}
       </div>
     </div>
@@ -111,7 +111,7 @@ export const Funding = (props: IFundingProps) => {
 };
 
 const mapStateToProps = ({ fund }: IRootState) => ({
-  fundingList: fund.entities,
+  fundList: fund.entities,
   loading: fund.loading,
 });
 
@@ -123,4 +123,4 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Funding);
+export default connect(mapStateToProps, mapDispatchToProps)(Fund);

@@ -48,7 +48,7 @@ public class FundResourceIT {
     private FundRepository fundRepository;
 
     @Autowired
-    private MockMvc restFundingMockMvc;
+    private MockMvc restFundMockMvc;
 
     private Fund fund;
 
@@ -86,10 +86,10 @@ public class FundResourceIT {
 
     @Test
     @Transactional
-    public void createFunding() throws Exception {
+    public void createFund() throws Exception {
         int databaseSizeBeforeCreate = fundRepository.findAll().size();
         // Create the Fund
-        restFundingMockMvc.perform(post("/api/funds").with(csrf())
+        restFundMockMvc.perform(post("/api/funds").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(fund)))
             .andExpect(status().isCreated());
@@ -105,14 +105,14 @@ public class FundResourceIT {
 
     @Test
     @Transactional
-    public void createFundingWithExistingId() throws Exception {
+    public void createFundWithExistingId() throws Exception {
         int databaseSizeBeforeCreate = fundRepository.findAll().size();
 
         // Create the Fund with an existing ID
         fund.setId(1L);
 
         // An entity with an existing ID cannot be created, so this API call must fail
-        restFundingMockMvc.perform(post("/api/funds").with(csrf())
+        restFundMockMvc.perform(post("/api/funds").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(fund)))
             .andExpect(status().isBadRequest());
@@ -125,12 +125,12 @@ public class FundResourceIT {
 
     @Test
     @Transactional
-    public void getAllFundings() throws Exception {
+    public void getAllFunds() throws Exception {
         // Initialize the database
         fundRepository.saveAndFlush(fund);
 
-        // Get all the fundingList
-        restFundingMockMvc.perform(get("/api/funds?sort=id,desc"))
+        // Get all the fundList
+        restFundMockMvc.perform(get("/api/funds?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(fund.getId().intValue())))
@@ -141,12 +141,12 @@ public class FundResourceIT {
     
     @Test
     @Transactional
-    public void getFunding() throws Exception {
+    public void getFund() throws Exception {
         // Initialize the database
         fundRepository.saveAndFlush(fund);
 
         // Get the fund
-        restFundingMockMvc.perform(get("/api/funds/{id}", fund.getId()))
+        restFundMockMvc.perform(get("/api/funds/{id}", fund.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(fund.getId().intValue()))
@@ -156,15 +156,15 @@ public class FundResourceIT {
     }
     @Test
     @Transactional
-    public void getNonExistingFunding() throws Exception {
+    public void getNonExistingFund() throws Exception {
         // Get the fund
-        restFundingMockMvc.perform(get("/api/funds/{id}", Long.MAX_VALUE))
+        restFundMockMvc.perform(get("/api/funds/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
     }
 
     @Test
     @Transactional
-    public void updateFunding() throws Exception {
+    public void updateFund() throws Exception {
         // Initialize the database
         fundRepository.saveAndFlush(fund);
 
@@ -178,7 +178,7 @@ public class FundResourceIT {
             .mode(UPDATED_MODE)
             .paymentAuth(UPDATED_PAYMENT_AUTH);
 
-        restFundingMockMvc.perform(put("/api/funds").with(csrf())
+        restFundMockMvc.perform(put("/api/funds").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(updatedFund)))
             .andExpect(status().isOk());
@@ -194,11 +194,11 @@ public class FundResourceIT {
 
     @Test
     @Transactional
-    public void updateNonExistingFunding() throws Exception {
+    public void updateNonExistingFund() throws Exception {
         int databaseSizeBeforeUpdate = fundRepository.findAll().size();
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restFundingMockMvc.perform(put("/api/funds").with(csrf())
+        restFundMockMvc.perform(put("/api/funds").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(fund)))
             .andExpect(status().isBadRequest());
@@ -210,14 +210,14 @@ public class FundResourceIT {
 
     @Test
     @Transactional
-    public void deleteFunding() throws Exception {
+    public void deleteFund() throws Exception {
         // Initialize the database
         fundRepository.saveAndFlush(fund);
 
         int databaseSizeBeforeDelete = fundRepository.findAll().size();
 
         // Delete the fund
-        restFundingMockMvc.perform(delete("/api/funds/{id}", fund.getId()).with(csrf())
+        restFundMockMvc.perform(delete("/api/funds/{id}", fund.getId()).with(csrf())
             .accept(MediaType.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
@@ -229,13 +229,13 @@ public class FundResourceIT {
     @org.junit.jupiter.api.Disabled
     @Test
     @Transactional
-    public void searchFunding() throws Exception {
+    public void searchFund() throws Exception {
         // Configure the mock search repository
         // Initialize the database
         fundRepository.saveAndFlush(fund);
 
         // Search the fund
-        restFundingMockMvc.perform(get("/api/_search/funds?query=id:" + fund.getId()))
+        restFundMockMvc.perform(get("/api/_search/funds?query=id:" + fund.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(fund.getId().intValue())))

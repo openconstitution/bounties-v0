@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { IRootState } from 'app/shared/reducers';
-import { getEntity as getFunding, updateEntity as updateFunding, createEntity as createFunding, reset as resetFunding } from 'app/entities/funding/funding.reducer';
+import { getEntity as getFund, updateEntity as updateFund, createEntity as createFund, reset as resetFund } from 'app/entities/fund/fund.reducer';
 import { addFunds, removeFunds, getEntity, getSearchEntities, getEntities } from './bounty.reducer';
 import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
@@ -51,11 +51,11 @@ export const BountyDetail = (props: IBountyDetailProps) => {
   );
 };
 
-const mapStateToProps = ({ authentication, bounty, funding }: IRootState) => ({
+const mapStateToProps = ({ authentication, bounty, fund }: IRootState) => ({
   bountyEntity: bounty.entity,
   bountyList: bounty.entities,
   loading: bounty.loading,
-  fundingUpdating: funding.updating,
+  fundUpdating: fund.updating,
   isAuthenticated: authentication.isAuthenticated,
   account: authentication.account
 });
@@ -68,10 +68,10 @@ const mapDispatchToProps = {
   addFunds,
   removeFunds,
 
-  getFunding,
-  resetFunding,
-  updateFunding,
-  createFunding,
+  getFund,
+  resetFund,
+  updateFund,
+  createFund,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

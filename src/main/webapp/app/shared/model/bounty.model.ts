@@ -1,4 +1,4 @@
-import { IFunding } from 'app/shared/model/funding.model';
+import { IFund } from 'app/shared/model/fund.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
 import { Experience } from 'app/shared/model/enumerations/experience.model';
 import { Type } from 'app/shared/model/enumerations/type.model';
@@ -19,7 +19,7 @@ export interface IBounty {
   keywords?: string[];
   permission?: boolean;
   expiryDate?: Date;
-  fundings?: IFunding[];
+  funds?: IFund[];
   hunter?: IUser;
   createdBy?: string;
   createdDate?: Date;

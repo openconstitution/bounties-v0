@@ -5,7 +5,7 @@ import { Switch } from 'react-router-dom';
 import ErrorBoundaryRoute from 'app/shared/error/error-boundary-route';
 
 import Bounty from './bounty';
-import Funding from './funding';
+import Fund from './fund';
 import ErrorBoundary from 'app/shared/error/error-boundary';
 import { DesktopHeader, MobileHeader } from 'app/shared/layout/header/header';
 import { createMedia } from '@artsy/fresnel';
@@ -26,7 +26,7 @@ const Routes = (props: IRouteProps) => {
     <Switch>
       {/* prettier-ignore */}
       <ErrorBoundaryRoute path={`${match.url}bounty`} component={Bounty} />
-      <ErrorBoundaryRoute path={`${match.url}funding`} component={Funding} />
+      <ErrorBoundaryRoute path={`${match.url}fund`} component={Fund} />
       {/* jhipster-needle-add-route-path - JHipster will add routes here */}
     </Switch>    
   );

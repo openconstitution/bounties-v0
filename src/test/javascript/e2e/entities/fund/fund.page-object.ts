@@ -4,10 +4,10 @@ import { waitUntilAnyDisplayed, waitUntilDisplayed, click, waitUntilHidden, isVi
 
 import NavBarPage from './../../page-objects/navbar-page';
 
-import FundingUpdatePage from './fund-update.page-object';
+import FundUpdatePage from './fund-update.page-object';
 
 const expect = chai.expect;
-export class FundingDeleteDialog {
+export class FundDeleteDialog {
   deleteModal = element(by.className('modal'));
   private dialogTitle: ElementFinder = element(by.id('bountiesApp.fund.delete.question'));
   private confirmButton = element(by.id('jhi-confirm-delete-fund'));
@@ -21,7 +21,7 @@ export class FundingDeleteDialog {
   }
 }
 
-export default class FundingComponentsPage {
+export default class FundComponentsPage {
   createButton: ElementFinder = element(by.id('jh-create-entity'));
   deleteButtons = element.all(by.css('div table .btn-danger'));
   title: ElementFinder = element(by.id('fund-heading'));
@@ -48,22 +48,22 @@ export default class FundingComponentsPage {
     return this;
   }
 
-  async goToCreateFunding() {
+  async goToCreateFund() {
     await this.createButton.click();
-    return new FundingUpdatePage();
+    return new FundUpdatePage();
   }
 
-  async deleteFunding() {
+  async deleteFund() {
     const deleteButton = this.getDeleteButton(this.records.last());
     await click(deleteButton);
 
-    const fundingDeleteDialog = new FundingDeleteDialog();
-    await waitUntilDisplayed(fundingDeleteDialog.deleteModal);
-    expect(await fundingDeleteDialog.getDialogTitle().getAttribute('id')).to.match(/bountiesApp.fund.delete.question/);
-    await fundingDeleteDialog.clickOnConfirmButton();
+    const fundDeleteDialog = new FundDeleteDialog();
+    await waitUntilDisplayed(fundDeleteDialog.deleteModal);
+    expect(await fundDeleteDialog.getDialogTitle().getAttribute('id')).to.match(/bountiesApp.fund.delete.question/);
+    await fundDeleteDialog.clickOnConfirmButton();
 
-    await waitUntilHidden(fundingDeleteDialog.deleteModal);
+    await waitUntilHidden(fundDeleteDialog.deleteModal);
 
-    expect(await isVisible(fundingDeleteDialog.deleteModal)).to.be.false;
+    expect(await isVisible(fundDeleteDialog.deleteModal)).to.be.false;
   }
 }

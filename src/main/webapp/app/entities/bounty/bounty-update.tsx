@@ -82,7 +82,7 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
     //     category,
     //     type: data.type,
     //     experience: data.experience,
-    //     fundings: [
+    //     funds: [
     //       {
     //         mode: data.mode,
     //         amount: data.amount,
@@ -100,9 +100,9 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
     //     category,
     //     type: data.type,
     //     experience: data.experience,
-    //     fundings: [
+    //     funds: [
     //       {
-    //         ...bountyEntity.fundings[0],
+    //         ...bountyEntity.funds[0],
     //         mode: data.mode,
     //         amount: data.amount,
     //       }

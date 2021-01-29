@@ -1,6 +1,6 @@
 import { IBounty } from 'app/shared/model/bounty.model';
 
-export interface IFunding {
+export interface IFund {
   id?: number;
   amount?: number;
   mode?: string;
@@ -10,6 +10,6 @@ export interface IFunding {
   createdDate?: Date;
 }
 
-export const defaultValue: Readonly<IFunding> = {
+export const defaultValue: Readonly<IFund> = {
   paymentAuth: false,
 };

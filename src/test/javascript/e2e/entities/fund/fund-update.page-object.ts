@@ -3,14 +3,14 @@ import { waitUntilDisplayed, waitUntilHidden, isVisible } from '../../util/utils
 
 const expect = chai.expect;
 
-export default class FundingUpdatePage {
-  pageTitle: ElementFinder = element(by.id('bountiesApp.funding.home.createOrEditLabel'));
+export default class FundUpdatePage {
+  pageTitle: ElementFinder = element(by.id('bountiesApp.fund.home.createOrEditLabel'));
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
-  amountInput: ElementFinder = element(by.css('input#funding-amount'));
-  modeInput: ElementFinder = element(by.css('input#funding-mode'));
-  paymentAuthInput: ElementFinder = element(by.css('input#funding-paymentAuth'));
-  bountySelect: ElementFinder = element(by.css('select#funding-bounty'));
+  amountInput: ElementFinder = element(by.css('input#fund-amount'));
+  modeInput: ElementFinder = element(by.css('input#fund-mode'));
+  paymentAuthInput: ElementFinder = element(by.css('input#fund-paymentAuth'));
+  bountySelect: ElementFinder = element(by.css('select#fund-bounty'));
 
   getPageTitle() {
     return this.pageTitle;

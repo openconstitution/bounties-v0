@@ -12,7 +12,7 @@ import { cleanEntity } from 'app/shared/util/entity-utils';
 import { REQUEST, SUCCESS, FAILURE } from 'app/shared/reducers/action-type.util';
 
 import { IBounty, defaultValue } from 'app/shared/model/bounty.model';
-import { IFunding } from 'app/shared/model/funding.model';
+import { IFund } from 'app/shared/model/fund.model';
 import { Status } from 'app/shared/model/enumerations/status.model';
 import { IUser } from 'app/shared/model/user.model';
 
@@ -196,23 +196,23 @@ export const createEntity: ICrudPutAction<IBounty> = entity => async dispatch =>
   return result;
 };
 
-interface IBountyFunding {
-  entity: IFunding;
+interface IBountyFund {
+  entity: IFund;
   id: number;
 }
 
-export const addFunds: ICrudPutAction<IBountyFunding> = (bountyFunding: any) => async dispatch => {
-  const requestUrl = `${apiUrl}/${bountyFunding.id}/fundings`;
+export const addFunds: ICrudPutAction<IBountyFund> = (bountyFund: any) => async dispatch => {
+  const requestUrl = `${apiUrl}/${bountyFund.id}/funds`;
   const result = await dispatch({
     type: ACTION_TYPES.ADD_FUNDS,
-    payload: axios.post(requestUrl, cleanEntity(bountyFunding.entity)),
+    payload: axios.post(requestUrl, cleanEntity(bountyFund.entity)),
   });
   dispatch(getEntities());
   return result;
 };
 
-export const removeFunds: ICrudDeleteAction<IBountyFunding> = (bountyFunding: any) => async dispatch => {
-  const requestUrl = `${apiUrl}/${bountyFunding.id}/fundings/${bountyFunding.entity.id}`;
+export const removeFunds: ICrudDeleteAction<IBountyFund> = (bountyFund: any) => async dispatch => {
+  const requestUrl = `${apiUrl}/${bountyFund.id}/funds/${bountyFund.entity.id}`;
   const result = await dispatch({
     type: ACTION_TYPES.REMOVE_FUNDS,
     payload: axios.delete(requestUrl),
