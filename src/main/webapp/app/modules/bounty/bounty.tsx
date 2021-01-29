@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './bounty.scss'
 
 // component imports
-import BountyItem from '../../components/itemRow/item';
+import BountyItem from '../../components/itemRow/bountyItem';
 import Search from '../../components/input/search';
 
 // material imports

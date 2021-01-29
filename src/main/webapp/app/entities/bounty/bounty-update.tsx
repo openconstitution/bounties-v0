@@ -126,7 +126,6 @@ export const BountyUpdate = (props: IBountyUpdateProps) => {
             ]}
           />,
 
-          <Footer content={null} />,
         ]}
       />
     </React.Fragment>

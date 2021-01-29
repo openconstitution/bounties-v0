@@ -16,7 +16,7 @@ import { hasAnyAuthority } from 'app/shared/auth/private-route';
 import Footer from 'app/components/footer/Footer';
 import Landing from '../../components/landing/landing';
 import AboutCard from '../../components/cards/aboutCard';
-import BountyItem from '../../components/itemRow/item';
+import BountyItem from '../../components/itemRow/bountyItem';
 import ButtonOutline from 'app/components/buttons/buttonOutline';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
@@ -89,9 +89,9 @@ export const Home = (props: IHomeProp) => {
         <h2>About</h2>
 
         <div className="home__card-box">
-          <AboutCard />
-          <AboutCard />
-          <AboutCard />
+          <AboutCard type="Money"/>
+          <AboutCard type="Learn"/>
+          <AboutCard type="Collaborate"/>
         </div>
       </div>  
       <div className="home__bounties">

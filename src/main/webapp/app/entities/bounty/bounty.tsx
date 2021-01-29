@@ -35,7 +35,6 @@ export const Bounty = (props: IBountyProps) => {
             ]}
           />,
 
-          <Footer content={null} />,
         ]}
       />
     </React.Fragment>
