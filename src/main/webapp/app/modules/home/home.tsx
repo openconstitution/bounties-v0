@@ -64,10 +64,10 @@ export const Home = (props: IHomeProp) => {
     },
     {
       header: false,
-      name: "WKM#187",
-      type: "BE",
-      Difficulty: "Intermediate",
-      amount: "$200",
+      name: "WKM#233",
+      type: "FE",
+      Difficulty: "Beginner",
+      amount: "$40",
     },    
     {
       header: false,
