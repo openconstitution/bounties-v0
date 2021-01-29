@@ -8,6 +8,7 @@ import Entities from 'app/entities';
 import Login from './modules/auth-screens/login';
 import Signup from './modules/auth-screens/signup';
 import VerifyPassword from './modules/auth-screens/verify-password';
+import Bounty from './modules/bounty/bounty';
 
 import Profile from 'app/modules/account/profile/profile';
 import Settings from 'app/modules/account/settings/settings';
@@ -30,11 +31,13 @@ const Account = Loadable({
 const Routes = () => (
   <div>
     <Switch>
-      <ErrorBoundaryRoute path="/" exact component={Home} />
+      <ErrorBoundaryRoute path="/home" exact component={Home} />
       <ErrorBoundaryRoute path="/sign-in" component={Login} />
       <ErrorBoundaryRoute path="/sign-out" component={Logout} />
       <ErrorBoundaryRoute path="/sign-up" component={Signup} />
       <ErrorBoundaryRoute path="/verify-password" component={VerifyPassword} />
+
+      <ErrorBoundaryRoute path="/" component={Bounty} />
 
       <ErrorBoundaryRoute path="/hunter" component={Account} />
       <PrivateRoute path="/admin" component={Admin} hasAnyAuthorities={[AUTHORITIES.ADMIN]} />

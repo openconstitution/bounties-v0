@@ -1,7 +1,7 @@
 import React from 'react';
 import './auth-style.scss'
 
-//component imports
+// component imports
 import Input from '../../components/input/input';
 import ButtonPrimary from '../../components/buttons/buttonPrimary';
 
