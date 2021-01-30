@@ -3,7 +3,6 @@ import './auth-style.scss'
 
 // component imports
 import Input from '../../components/input/input';
-import ButtonPrimary from '../../components/buttons/buttonPrimary';
 
 export default function Login() {
   return (
@@ -15,7 +14,9 @@ export default function Login() {
 
           <Input placeholder='Email' />
           <Input placeholder='Password' />
-          <ButtonPrimary title='Sign in' onclick={() => { }} />
+          <button className="btn btn__primary">
+            Sign in
+          </button>
 
           <div className="auth__forgot">
             <p>Forgot Password ?</p>
