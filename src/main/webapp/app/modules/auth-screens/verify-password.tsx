@@ -14,8 +14,9 @@ export default function VerifyPassword() {
           <h2>Verify Password</h2>
 
           <Input placeholder='Email' />
-          <ButtonPrimary title='Verify Password' onclick={() => { }} />
-
+          <button className="btn btn__primary">
+            verify
+          </button>
         </div>
 
       </div>

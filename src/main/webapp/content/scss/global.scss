@@ -9,24 +9,32 @@ $white-color: #fff;
 
 .btn {
   height: 2.5rem;
-  width: 7rem;
   border: none;
-  background-color: $white-color;
   border-radius: 0.5rem;
-}
+  padding: 0.3rem 0.7rem;
+  margin: 0.5rem 0;
 
-.btn__round {
-  height: 2.5rem;
-  width: 7rem;
-  border-radius: 4rem;
-  border: none;
-  background-color: $white-color;
-}
+  &__white {
+    background-color: $white-color;
+  }
 
-.btn__outline {
-  height: 2.5rem;
-  width: 7rem;
-  border: none;
-  background-color: $white-color;
-  border-radius: 0.5rem;
+  &__primary {
+    background-color: $primary-color;
+    color: $white-color;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  &__round {
+    border-radius: 4rem;
+    background-color: $primary-color;
+    color: $white-color;
+  }
+
+  &__outline {
+    background-color: transparent;
+    border: 1px solid $primary-color;
+    border-radius: 4rem;
+    color: $primary-color;
+  }
 }
