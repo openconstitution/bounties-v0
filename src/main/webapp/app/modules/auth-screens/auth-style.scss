@@ -68,3 +68,15 @@
     margin: auto;
   }
 }
+
+@media only screen and (max-width: 1024px) {
+  .auth {
+    &__form-section {
+      width: 100%;
+    }
+
+    &__image-section {
+      display: none;
+    }
+  }
+}

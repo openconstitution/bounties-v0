@@ -3,7 +3,6 @@ import './landing.scss'
 
 // component imports 
 import NavBar from '../navbar/NavBar';
-import ButtonSecondary from '../buttons/buttonSecondary';
 
 export default function Landing() {
   return (
@@ -21,10 +20,9 @@ export default function Landing() {
             esse quidem recusandae quas.
           </p>
 
-          <ButtonSecondary
-            onclick={() => { }}
-            title='Explore Bounties'
-          />
+          <button className="btn btn__round">
+            Explore Bounties
+          </button>
           
         </div>
 

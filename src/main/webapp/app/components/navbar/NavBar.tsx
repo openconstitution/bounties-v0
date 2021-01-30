@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuBar: {
     paddingLeft: theme.spacing(7),
-    paddingRight: theme.spacing(7),
+    paddingRight: theme.spacing(5),
   }
 }));
 
@@ -143,12 +143,6 @@ export default function NavBar(props) {
                 <DirectionsBusIcon className={classes.icon} />
               </ListItemIcon>
               <ListItemText primary={content['link3']} />
-            </ListItem>
-            <ListItem button key={content['link4']}>
-              <ListItemIcon className={classes.iconWrapper}>
-                <NotificationImportantIcon className={classes.icon} />
-              </ListItemIcon>
-              <ListItemText primary={content['link4']} />
             </ListItem>
           </List>
         </div>

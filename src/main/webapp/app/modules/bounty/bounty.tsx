@@ -3,7 +3,7 @@ import './bounty.scss';
 import {bountyData} from '../../data';
 
 // component imports
-import BountyItem from '../../components/itemRow/bounttem';
+import BountyItem from '../../components/itemRow/bountyItem';
 import Search from '../../components/input/search';
 
 // material imports
