@@ -64,10 +64,7 @@ const useStyles = makeStyles((theme) => ({
     paddingRight: theme.spacing(3),
     width: 300,
   },
-  menuBar: {
-    paddingLeft: theme.spacing(7),
-    paddingRight: theme.spacing(5),
-  }
+
 }));
 
 export default function NavBar(props) {
@@ -100,7 +97,7 @@ export default function NavBar(props) {
   };
 
   return (
-    <AppBar position="static" color="transparent" elevation={0} className={classes.menuBar}>
+    <AppBar position="static" color="transparent" elevation={0} className="menuBar">
       <Toolbar className={classes.toolbar}>
         <Link href="#" color="primary" underline="none" variant="h5" className={classes.brand}>
           {brand}
