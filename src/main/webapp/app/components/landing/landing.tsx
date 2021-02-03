@@ -20,7 +20,7 @@ export default function Landing() {
             esse quidem recusandae quas.
           </p>
 
-          <button className="btn btn__round">
+          <button className="btn btn__round btn__landing">
             Explore Bounties
           </button>
           

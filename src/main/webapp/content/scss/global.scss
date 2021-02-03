@@ -36,5 +36,14 @@ $white-color: #fff;
     border: 1px solid $primary-color;
     border-radius: 4rem;
     color: $primary-color;
+    transition: all 0.5s;
+
+    &:hover,
+    &:active {
+      background-color: $primary-color;
+      border: 1px solid $primary-color;
+      color: $white-color;
+      transform: scale(1.15);
+    }
   }
 }

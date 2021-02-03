@@ -76,6 +76,7 @@
     "@typescript-eslint/eslint-plugin": "2.29.0",
     "@typescript-eslint/parser": "2.29.0",
     "autoprefixer": "9.7.6",
+    "babel-jest": "^26.6.3",
     "browser-sync": "2.26.7",
     "browser-sync-webpack-plugin": "2.2.2",
     "cache-loader": "4.1.0",
@@ -85,9 +86,9 @@
     "core-js": "3.6.5",
     "cross-env": "7.0.2",
     "css-loader": "3.5.3",
-    "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.2",
-    "enzyme-to-json": "3.4.4",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.4.4",
     "eslint": "6.8.0",
     "eslint-config-jhipster": "0.0.1",
     "eslint-config-jhipster-react": "0.0.1",
@@ -101,7 +102,7 @@
     "html-webpack-plugin": "4.3.0",
     "husky": "4.2.5",
     "identity-obj-proxy": "3.0.0",
-    "jest": "25.4.0",
+    "jest": "^25.4.0",
     "jest-junit": "10.0.0",
     "jest-sonar-reporter": "2.0.0",
     "json-loader": "0.5.7",
@@ -172,5 +173,13 @@
   "jestSonar": {
     "reportPath": "build/test-results/jest",
     "reportFile": "TESTS-results-sonar.xml"
+  },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "setupFiles": [
+      "./src/main/webapp/app/__tests__/setup.tsx"
+    ]
   }
 }
