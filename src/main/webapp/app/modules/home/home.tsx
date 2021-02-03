@@ -4,6 +4,7 @@ import {bountyData} from '../../data';
 
 import React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 
@@ -22,17 +23,15 @@ import ButtonOutline from 'app/components/buttons/buttonOutline';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
 
-const { MediaContextProvider, Media } = createMedia({
-	breakpoints: {
-		mobile: 0,
-		tablet: 768,
-		computer: 1024,
-	},
-})
+export const Home = (props) => {
 
-export const Home = (props: IHomeProp) => {
-
+  const history = useHistory()
   const { isAuthenticated } = props;
+
+  const toBounties = () => {
+    history.push('/bounty')
+  }
+
   return (
 
     <div className="home">
@@ -65,7 +64,7 @@ export const Home = (props: IHomeProp) => {
               />
             ))}
           </div>
-          <button className="btn btn__outline">
+          <button className="btn btn__outline" onClick={() => toBounties()}>
             See all &#8594;
           </button>
         </div>

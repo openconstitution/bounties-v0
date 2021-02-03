@@ -25,6 +25,13 @@ export default function Bounty() {
   const open = Boolean(anchorEl);
   const id = open ? 'simple-popover' : undefined;
 
+  const filters = [
+    'All', 'Latest bounties', 'Highest amount',
+    'Lowest amount', 'Intermediate', 'Expert',
+    'Beginner', 'FrontEnd', 'BackEnd', 'DevOps',
+    'Design', 'Documentation'
+  ]
+
   return (
     <div className="bountypage">
 
@@ -48,7 +55,20 @@ export default function Bounty() {
               horizontal: 'center',
             }}
           >
-            <div>This is where the filter will go</div>
+            <div className="bountypage__filters-box">
+              {
+                filters.map((filter, i) => {
+                  return (
+                    <button
+                      key={i}
+                      className="btn btn__outline bountypage__filter"
+                    >
+                      {filter}
+                    </button>
+                  )
+                })
+              }
+            </div>
           </Popover>
         </div>
         <Search placeholder="search..." />

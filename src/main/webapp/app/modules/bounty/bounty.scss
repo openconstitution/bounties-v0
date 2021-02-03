@@ -25,10 +25,22 @@
     display: flex;
     flex-direction: column;
   }
+
+  &__filters-box {
+    height: 20rem;
+    width: 30rem;
+    padding: 1rem;
+  }
+
+  &__filter {
+    padding: 0 1.5rem;
+    margin: 1rem 0.5rem;
+  }
 }
 
 .btn__filter {
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: $white-color;
 }
