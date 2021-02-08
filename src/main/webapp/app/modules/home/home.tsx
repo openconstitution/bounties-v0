@@ -64,7 +64,7 @@ export const Home = (props) => {
               />
             ))}
           </div>
-          <button className="btn btn__outline" onClick={() => toBounties()}>
+          <button className="btn btn__outline home__btn-table" onClick={() => toBounties()}>
             See all &#8594;
           </button>
         </div>

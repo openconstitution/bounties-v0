@@ -6,12 +6,13 @@ $primary-color: #3b3686;
 $secondary-color: #d7dde8;
 $font-color: #525a69;
 $white-color: #fff;
+$grey-color: #eef2f7;
 
 .btn {
   height: 2.5rem;
   border: none;
   border-radius: 0.5rem;
-  padding: 0.3rem 0.7rem;
+  padding: 0.3rem 1rem;
   margin: 0.5rem 0;
 
   &__white {
@@ -37,6 +38,7 @@ $white-color: #fff;
     border-radius: 4rem;
     color: $primary-color;
     transition: all 0.5s;
+    padding: 0 1rem;
 
     &:hover,
     &:active {
