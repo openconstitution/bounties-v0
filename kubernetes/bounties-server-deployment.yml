@@ -1,0 +1,86 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: bounties-server
+  name: bounties-server
+spec:
+  ports:
+  - protocol: TCP
+    port: 8443
+    targetPort: 8443
+  selector:
+    app: bounties-server
+    tier: backend
+  type: LoadBalancer
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bounties-server
+  labels:
+    app: bounties
+spec:
+  selector:
+    matchLabels:
+      app: bounties-server
+      tier: backend
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bounties-server
+        tier: backend
+    spec:
+      initContainers:
+        - name: init-mysqldb
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MySQL server deployment" while ! nc -z "bounties-mysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MySQL server has started";' ]
+        - name: init-redis
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Redis server deployment" while ! nc -z "bounties-redis" 6379; do sleep 1; printf "-"; done; echo -e " >> Redis server has started";' ]
+        - name: init-keycloak
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Keycloak server deployment" while ! nc -z "bounties-keycloak" 9080; do sleep 1; printf "-"; done; echo -e " >> Keycloak server has started";' ]
+        - name: init-kafka
+          image: busybox:1.28
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Kafka server deployment" while ! nc -z "bounties-kafka" 9092; do sleep 1; printf "-"; done; echo -e " >> Kafka server has started";' ]
+      containers:
+      - name: bounties-server
+        image: bounties
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "1000m"
+          limits:
+            memory: "5Gi"
+            cpu: "2000m"
+        env:
+        - name: _JAVA_OPTIONS
+          value: -Xmx512m -Xms256m
+        - name: SPRING_PROFILES_ACTIVE
+          value: prod,swagger
+        - name: MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED
+          value: "true"
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://bounties-mysql:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+        - name: JHIPSTER_CACHE_REDIS_SERVER
+          value: redis://bounties-redis:6379
+        - name: JHIPSTER_CACHE_REDIS_CLUSTER
+          value: "false"
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI
+          value: http://bounties-keycloak:9080/auth/realms/jhipster
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID
+          value: web_app
+        - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET
+          value: web_app
+        - name: JHIPSTER_SLEEP
+          value: "30" # gives time for other services to boot before the application
+        - name: KAFKA_BOOTSTRAPSERVERS
+          value: bounties-kafka:9092
+        ports:
+        - containerPort: 8080
+          name: bounties-server

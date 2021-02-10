@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bounties-redis
+  labels:
+    app: bounties
+spec:
+  selector:
+    app: bounties-redis
+    tier: redis
+  ports:
+  - port: 6379
+    targetPort: 6379
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bounties-redis
+  labels:
+    app: bounties
+spec:
+  selector:
+    matchLabels:
+      app: bounties-redis
+      tier: redis
+  template:
+    metadata:
+      labels:
+        app: bounties-redis
+        tier: redis
+    spec:
+      containers:
+      - name: bounties-redis
+        image: redis:6.0.4
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 6379

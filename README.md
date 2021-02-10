@@ -22,7 +22,7 @@ If you are using redis as a cache, you will have to launch a cache server.
 To start your cache server, run:
 
 ```
-docker-compose -f src/main/docker/redis.yml up -d
+docker-compose -f docker/redis.yml up -d
 ```
 
 The cache can also be turned off by adding to the application yaml:
@@ -62,7 +62,7 @@ Congratulations! You've selected an excellent way to secure your JHipster applic
 To log in to your app, you'll need to have [Keycloak](https://keycloak.org) up and running. The JHipster Team has created a Docker container for you that has the default users and roles. Start Keycloak using the following command.
 
 ```
-docker-compose -f src/main/docker/keycloak.yml up
+docker-compose -f docker/keycloak.yml up
 ```
 
 The security settings in `src/main/resources/config/application.yml` are configured for this image.
@@ -159,7 +159,7 @@ For further instructions on how to develop with JHipster, have a look at [Using 
 
 Then implements the generated delegate classes with `@Service` classes.
 
-To edit the `api.yml` definition file, you can use a tool such as [Swagger-Editor](). Start a local instance of the swagger-editor using docker by running: `docker-compose -f src/main/docker/swagger-editor.yml up -d`. The editor will then be reachable at [http://localhost:7742](http://localhost:7742).
+To edit the `api.yml` definition file, you can use a tool such as [Swagger-Editor](). Start a local instance of the swagger-editor using docker by running: `docker-compose -f docker/swagger-editor.yml up -d`. The editor will then be reachable at [http://localhost:7742](http://localhost:7742).
 
 Refer to [Doing API-First development][] for more details.
 
@@ -224,7 +224,7 @@ For more information, refer to the [Running tests page][].
 Sonar is used to analyse code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
 
 ```
-docker-compose -f src/main/docker/sonar.yml up -d
+docker-compose -f docker/sonar.yml up -d
 ```
 
 You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the gradle plugin.
@@ -239,18 +239,18 @@ For more information, refer to the [Code quality page][].
 
 ## Using Docker to simplify development (optional)
 
-You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [src/main/docker](src/main/docker) folder to launch required third party services.
+You can use Docker to improve your JHipster development experience. A number of docker-compose configuration are available in the [docker](docker) folder to launch required third party services.
 
 For example, to start a mysql database in a docker container, run:
 
 ```
-docker-compose -f src/main/docker/mysql.yml up -d
+docker-compose -f docker/mysql.yml up -d
 ```
 
 To stop it and remove the container, run:
 
 ```
-docker-compose -f src/main/docker/mysql.yml down
+docker-compose -f docker/mysql.yml down
 ```
 
 You can also fully dockerize your application and all the services that it depends on.
@@ -263,7 +263,7 @@ To achieve this, first build a docker image of your app by running:
 Then run:
 
 ```
-docker-compose -f src/main/docker/app.yml up -d
+docker-compose up -d
 ```
 
 For more information refer to [Using Docker and Docker-Compose][], this page also contains information on the docker-compose sub-generator (`jhipster docker-compose`), which is able to generate docker configurations for one or several JHipster applications.
@@ -294,6 +294,5 @@ To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`)
 [swagger-editor]: https://editor.swagger.io
 
 [doing api-first development]:
-
 
 [doing api-first development]: https://www.jhipster.tech/documentation-archive/v6.10.4/doing-api-first-development/
