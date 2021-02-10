@@ -6,6 +6,7 @@ $primary-color: #3b3686;
 $secondary-color: #d7dde8;
 $font-color: #525a69;
 $white-color: #fff;
+$grey-color: #eef2f7;
 
 .btn {
   height: 2.5rem;
@@ -44,6 +45,7 @@ $white-color: #fff;
       border: 1px solid $primary-color;
       color: $white-color;
       transform: scale(1.15);
+      box-shadow: rgba(74, 74, 138, 0.493) 0px 7px 15px 0px;
     }
   }
 }

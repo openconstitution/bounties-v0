@@ -1,4 +1,5 @@
 import React from 'react';
+import '../content/scss/app.scss'
 import { Switch } from 'react-router-dom';
 import Loadable from 'react-loadable';
 
@@ -29,7 +30,7 @@ const Account = Loadable({
 });
 
 const Routes = () => (
-  <div>
+  <div className="app">
     <Switch>
       <ErrorBoundaryRoute path="/" exact component={Home} />
       <ErrorBoundaryRoute path="/sign-in" component={Login} />

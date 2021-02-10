@@ -7,51 +7,52 @@
   &__about {
     height: 70vh;
     width: 100%;
-    padding: 5rem;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
 
     & > h2 {
-      width: 75%;
+      width: 100%;
       overflow: hidden;
       font-size: xx-large;
-      margin: 0 0 2rem 2rem;
+      padding: 0 11%;
     }
   }
 
   &__card-box {
     height: 100%;
-    width: 75%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
+    padding: 0 10%;
   }
 
   &__bounties {
-    background-color: $secondary-color;
     height: 80vh;
-    width: 100vw;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
 
   &__table-box {
-    height: 80%;
-    width: 70%;
+    height: 100%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     flex-direction: column;
     align-self: center;
     align-items: center;
+    padding: 0 10% 2% 10%;
 
     & > h2 {
       font-size: xx-large;
       display: flex;
       align-self: start;
+      margin: 2% 0;
     }
   }
 
@@ -62,6 +63,12 @@
     background: #fff;
     display: flex;
     flex-direction: column;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+
+  &__table-btn {
+    width: 10rem;
+    font-size: large;
   }
 }
 

@@ -39,9 +39,7 @@ export const Home = (props) => {
         <Landing />
       </div>
       <div className="home__about">
-
         <h2>About</h2>
-
         <div className="home__card-box">
           <AboutCard type="Money"/>
           <AboutCard type="Learn"/>
@@ -64,7 +62,7 @@ export const Home = (props) => {
               />
             ))}
           </div>
-          <button className="btn btn__outline" onClick={() => toBounties()}>
+          <button className="btn btn__outline home__table-btn " onClick={() => toBounties()}>
             See all &#8594;
           </button>
         </div>
