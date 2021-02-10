@@ -8,8 +8,9 @@
 }
 
 a {
-  color: #533f03;
+  color: $primary-color;
   font-weight: bold;
+  text-decoration: none;
 }
 
 * {
@@ -23,4 +24,9 @@ a {
 
 *:focus {
   outline: none;
+}
+
+.app {
+  padding: 2% 0%;
+  font-size: 1.4rem;
 }

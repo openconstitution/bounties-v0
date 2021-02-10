@@ -61,7 +61,7 @@ export default function Bounty() {
                   return (
                     <button
                       key={i}
-                      className="btn btn__outline bountypage__filter"
+                      className="btn btn__outline bountypage__btn-filter"
                     >
                       {filter}
                     </button>

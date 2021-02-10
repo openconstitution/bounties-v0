@@ -1,11 +1,11 @@
 import React from 'react';
+import './nav.scss';
 import { makeStyles } from '@material-ui/core/styles';
 
 import AppBar from '@material-ui/core/AppBar';
 import Box from '@material-ui/core/Box';
 import Toolbar from '@material-ui/core/Toolbar';
 import Link from '@material-ui/core/Link';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -18,8 +18,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import LayersIcon from '@material-ui/icons/Layers';
 import FilterHdrIcon from '@material-ui/icons/FilterHdr';
 import DirectionsBusIcon from '@material-ui/icons/DirectionsBus';
-import NotificationImportantIcon from '@material-ui/icons/NotificationImportant';
-import { getLoginUrl } from 'app/shared/util/url-utils';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -34,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(5),
     [theme.breakpoints.down('sm')]: {
       display: 'none'
-    }
+    },
   },
   linkBrand: {
     flexGrow: 1,
@@ -78,12 +76,16 @@ export default function NavBar(props) {
     ...props.content
   };
 
-  let brand;
+  const getBrand = () => {
+    let brand: JSX.Element;
 
-  if (content.brand.image) {
-    brand = <img src={ content.brand.image } alt="Bounties Logo" width={ content.brand.width } />;
-  } else {
-    brand = content.brand.text || '';
+    if (content.brand.image) {
+      brand = <img src={content.brand.image} alt="Bounties Logo" width={content.brand.width} />;
+    } else {
+      brand = content.brand.text || '';
+    }
+
+    return brand;
   }
 
   const [state, setState] = React.useState({ open: false });
@@ -100,16 +102,16 @@ export default function NavBar(props) {
     <AppBar position="static" color="transparent" elevation={0} className="menuBar">
       <Toolbar className={classes.toolbar}>
         <Link href="#" color="primary" underline="none" variant="h5" className={classes.brand}>
-          {brand}
+          {getBrand()}
         </Link>
-        <Link href="#" color="textPrimary" variant="body2" className={classes.link}>
-          {content['link1']}
+        <Link href="#" className={`${classes.link}`}>
+          <a href="#" className="nav__link">{content['link1']}</a>
         </Link>
-        <Link href="#" color="textPrimary" variant="body2" className={classes.link}>
-          {content['link2']}
+        <Link href="#" className={classes.link}>
+          <a href="#" className="nav__link">{content['link2']}</a>
         </Link>
-        <Link href="#" color="textPrimary" variant="body2" className={classes.link}>
-          {content['link3']}
+        <Link href="#" className={classes.link}>
+          <a href="#" className="nav__link">{content['link3']}</a>
         </Link>
         <IconButton edge="start" color="inherit" aria-label="menu" className={classes.menuButton} onClick={toggleDrawer(true)}>
           <MenuIcon />
@@ -119,7 +121,7 @@ export default function NavBar(props) {
         <div className={classes.drawerContainer}>
           <Box mb={1} ml={2} pb={2} border={1} borderTop={0} borderLeft={0} borderRight={0} borderColor="background.emphasis">
             <Link href="#" color="primary" underline="none" variant="h5" className={classes.linkBrand}>
-              {brand}
+              {getBrand()}
             </Link>
           </Box>
           <List>

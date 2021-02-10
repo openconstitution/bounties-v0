@@ -2,14 +2,15 @@
 
 .aboutCard {
   position: relative;
-  width: 18rem;
-  height: 18rem;
-  background-color: $secondary-color;
-  border-radius: 01rem;
-  padding: 4rem 1.5rem;
+  width: 30rem;
+  height: 15rem;
+  background-color: $white-color;
+  border-radius: 1rem;
+  padding: 4rem 2rem;
   margin: 0 1rem;
   text-align: justify;
   overflow: unset;
+  box-shadow: rgba(100, 100, 111, 0.3) 0px 7px 29px 0px;
 
   & > h2 {
     margin-bottom: 1rem;
@@ -27,7 +28,7 @@
     align-items: center;
     position: absolute;
     top: -2.5rem;
-    left: 1rem;
+    left: 2rem;
     z-index: 1;
   }
 }
