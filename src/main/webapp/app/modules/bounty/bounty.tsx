@@ -1,92 +1,61 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './bounty.scss';
-import {bountyData} from '../../data';
-
-// component imports
-import BountyItem from '../../components/itemRow/bountyItem';
-import Search from '../../components/input/search';
-
-// material imports
-import Popover from '@material-ui/core/Popover';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 export default function Bounty() {
-
-  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
-
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
-  const filters = [
-    'All', 'Latest bounties', 'Highest amount',
-    'Lowest amount', 'Intermediate', 'Expert',
-    'Beginner', 'FrontEnd', 'BackEnd', 'DevOps',
-    'Design', 'Documentation'
-  ]
-
   return (
-    <div className="bountypage">
+    <div className="bounty">
 
-      <div className="bountypage__header">
-        <div className="bountypage__filter">
-          <button aria-describedby={id} className="btn btn__filter" onClick={handleClick}>
-            Filter
-            <ArrowDropDownIcon />
-          </button>
-          <Popover
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            onClose={handleClose}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-          >
-            <div className="bountypage__filters-box">
-              {
-                filters.map((filter, i) => {
-                  return (
-                    <button
-                      key={i}
-                      className="btn btn__outline bountypage__btn-filter"
-                    >
-                      {filter}
-                    </button>
-                  )
-                })
-              }
-            </div>
-          </Popover>
+      <div className="bounty__container">
+        <div className="bounty__header">
+          <p>#KGB204</p>
+          <p>Keegeb Inc</p>
+          <p>10 days ago</p>
         </div>
-        <Search placeholder="search..." />
+
+        <div className="bounty__body">
+          <h3>Bounty Description</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Aliquam nobis unde laboriosam, aliquid accusamus eos 
+            id doloremque in ullam omnis reprehenderit, impedit 
+            tempore eligendi illo? Eligendi enim laudantium 
+            cupiditate deleniti! Lorem ipsum dolor sit amet 
+            consectetur adipisicing elit. 
+            Aliquam nobis unde laboriosam, aliquid accusamus eos 
+            id doloremque in ullam omnis reprehenderit, impedit 
+            tempore eligendi illo? Eligendi enim laudantium 
+            cupiditate deleniti!
+          </p>
+        </div>
+
+        <div className="bounty__footer">
+          <p>
+            <span>Job Type</span>
+            Front-end
+          </p>
+          <p>
+            <span>Bounty Difficulty</span>
+            Intermediate
+          </p>
+          <p>
+            <span>Bounty Amount</span>
+            200$
+          </p>
+          <p>
+            <span>Bounty Duration</span>
+            Approx. 1 week
+          </p>
+          <p>
+            <span>payment Method</span>
+            Stable coin
+          </p>
+          <p>
+            <span>payment Method</span>
+            Stable coin
+          </p>
+        </div>
       </div>
 
-      <div className="bountypage__table">
-        {bountyData.map((bounty, i) => (
-          <BountyItem
-            key={i}
-            header={bounty.header}
-            Name={bounty.name}
-            Type={bounty.type}
-            Difficulty={bounty.Difficulty}
-            Amount={bounty.amount}
-            onclick={() => { }}
-          />
-        ))}
-      </div>
     </div>
   );
 }

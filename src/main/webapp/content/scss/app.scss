@@ -11,6 +11,7 @@ a {
   color: $primary-color;
   font-weight: bold;
   text-decoration: none;
+  cursor: pointer;
 }
 
 * {
@@ -27,6 +28,6 @@ a {
 }
 
 .app {
-  padding: 2% 0%;
+  background-color: $grey-color;
   font-size: 1.4rem;
 }

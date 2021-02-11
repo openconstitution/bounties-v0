@@ -6,8 +6,8 @@ import { TextFormat, JhiPagination, JhiItemCount, getSortState, IPaginationBaseS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_TIMESTAMP_FORMAT } from 'app/config/constants';
-import { ITEMS_PER_PAGE } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
+import { ITEMS_PER_PAGE } from 'app/util/pagination.constants';
+import { overridePaginationStateWithQueryParams } from 'app/util/entity-utils';
 
 import { IRootState } from 'app/shared/reducers';
 import { getAudits } from '../administration.reducer';

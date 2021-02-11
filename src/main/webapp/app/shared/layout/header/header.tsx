@@ -3,7 +3,7 @@
 import React, { Children, useState } from 'react';
 import LoadingBar from 'react-redux-loading-bar';
 import { NavLink as Link } from 'react-router-dom';
-import { getLoginUrl } from 'app/shared/util/url-utils';
+import { getLoginUrl } from 'app/util/url-utils';
 
 export interface IHeaderProps {
   isAuthenticated: boolean;

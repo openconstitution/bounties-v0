@@ -20,6 +20,8 @@ export default function VerifyPassword() {
         </div>
 
       </div>
+      <hr className="auth__section-separator" />
+
       <div className="auth__image-section">
         <img src="../../../content/images/forgot-logo.png" alt="bounties-auth-image" className="auth__image-forgot" />
       </div>

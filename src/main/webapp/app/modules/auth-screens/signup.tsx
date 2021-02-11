@@ -3,6 +3,7 @@ import './auth-style.scss'
 
 // component imports
 import Input from '../../components/input/input';
+import { Link } from 'react-router-dom';
 
 export default function Signup() {
   return (
@@ -27,11 +28,12 @@ export default function Signup() {
         <div className="auth__sign-box">
           <p>
             Already have an account?
-          <span className="auth__sign-link">Sign in</span>
+          <Link to="/sign-in" className="auth__sign-link">Sign in</Link>
           </p>
         </div>
 
       </div>
+      <hr className="auth__section-separator" />
       <div className="auth__image-section">
         <div className="auth__text-box">
           <h3>Welcome to Bounties</h3>
