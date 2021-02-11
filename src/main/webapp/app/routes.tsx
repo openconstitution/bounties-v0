@@ -9,6 +9,7 @@ import Entities from 'app/entities';
 import Login from './modules/auth-screens/login';
 import Signup from './modules/auth-screens/signup';
 import VerifyPassword from './modules/auth-screens/verify-password';
+import Bounties from './modules/bounty/bounties';
 import Bounty from './modules/bounty/bounty';
 
 import Profile from 'app/modules/account/profile/profile';
@@ -38,6 +39,7 @@ const Routes = () => (
       <ErrorBoundaryRoute path="/sign-up" component={Signup} />
       <ErrorBoundaryRoute path="/verify-password" component={VerifyPassword} />
 
+      <ErrorBoundaryRoute path="/bounties" component={Bounties} />
       <ErrorBoundaryRoute path="/bounty" component={Bounty} />
 
       <ErrorBoundaryRoute path="/hunter" component={Account} />

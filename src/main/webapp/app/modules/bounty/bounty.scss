@@ -7,6 +7,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: $grey-color;
 
   &__header {
     width: 90%;
@@ -43,7 +44,7 @@
   }
 
   &__btn-filter {
-    margin: 1rem 0.5rem;
+    margin: 0.5rem;
   }
 }
 
@@ -53,4 +54,74 @@
   align-items: center;
   background-color: $white-color;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 15px 0px;
+}
+
+.bounty {
+  height: 100vh;
+  background-color: $grey-color;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &__container {
+    height: 75vh;
+    width: 75%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 15px 0px;
+    border-radius: 0.8rem;
+    background-color: $white-color;
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    & > p:not(:last-of-type) {
+      font-weight: 700;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      color: $heading-color;
+    }
+
+    & > p:last-of-type {
+      text-transform: uppercase;
+      color: #3b36864b;
+      font-weight: 600;
+    }
+  }
+
+  &__body {
+    & > h3 {
+      color: $heading-color;
+      text-transform: uppercase;
+      font-size: 1.2rem;
+    }
+
+    & > p {
+      font-size: 1.2rem;
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+
+    & > p {
+      display: flex;
+      flex-direction: column;
+      width: 33.33%;
+      font-size: 1.4rem;
+
+      & > span {
+        color: $heading-color;
+        text-transform: uppercase;
+        margin: 1% 0;
+        font-weight: 700;
+      }
+    }
+  }
 }

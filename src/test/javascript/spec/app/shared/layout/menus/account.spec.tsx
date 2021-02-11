@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { getLoginUrl } from 'app/shared/util/url-utils';
+import { getLoginUrl } from 'app/util/url-utils';
 import { NavDropdown } from 'app/shared/layout/menus/menu-components';
 import { AccountMenu } from 'app/shared/layout/menus';
 

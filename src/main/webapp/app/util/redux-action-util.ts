@@ -1,6 +1,6 @@
 import { AxiosPromise } from 'axios';
-import { Status } from '../model/enumerations/status.model';
-import { IUser } from '../model/user.model';
+import { Status } from '../shared/model/enumerations/status.model';
+import { IUser } from '../shared/model/user.model';
 
 export interface IFilter {
   status: Status;

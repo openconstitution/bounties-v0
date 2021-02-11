@@ -10,7 +10,6 @@ import { connect } from 'react-redux';
 
 import { getSearchEntities, getEntities, reset } from 'app/entities/bounty/bounty.reducer';
 import { createPaymentIntent } from 'app/modules/stripe-payment/stripe-payment.reducer';
-import { createMedia } from '@artsy/fresnel';
 import { AUTHORITIES } from 'app/config/constants';
 import { hasAnyAuthority } from 'app/shared/auth/private-route';
 
@@ -19,7 +18,9 @@ import Footer from 'app/components/footer/Footer';
 import Landing from '../../components/landing/landing';
 import AboutCard from '../../components/cards/aboutCard';
 import BountyItem from '../../components/itemRow/bountyItem';
-import ButtonOutline from 'app/components/buttons/buttonOutline';
+
+// utility imports
+import { displaySingleBounty } from '../../util/function-utils';
 
 export interface IHomeProp extends StateProps, DispatchProps, RouteComponentProps {};
 
@@ -29,8 +30,14 @@ export const Home = (props) => {
   const { isAuthenticated } = props;
 
   const toBounties = () => {
-    history.push('/bounty')
+    history.push('/bounties')
   }
+
+  // const displaySingleBounty = (bounty) => {
+  //   // eslint-disable-next-line no-console
+  //   console.log('navigate now so')
+  //   history.push('/bounty')
+  // }
 
   return (
 
@@ -58,7 +65,7 @@ export const Home = (props) => {
                 Type={bounty.type}
                 Difficulty={bounty.Difficulty}
                 Amount={bounty.amount}
-                onclick={() => {}}
+                onclick={() => displaySingleBounty(bounty, history)}
               />
             ))}
           </div>

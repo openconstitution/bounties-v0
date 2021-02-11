@@ -11,8 +11,8 @@ import { IBounty } from 'app/shared/model/bounty.model';
 import { getEntities as getBounties } from 'app/entities/bounty/bounty.reducer';
 import { getEntity, updateEntity, createEntity, reset } from './fund.reducer';
 import { IFund } from 'app/shared/model/fund.model';
-import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/shared/util/date-utils';
-import { mapIdList } from 'app/shared/util/entity-utils';
+import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateTime } from 'app/util/date-utils';
+import { mapIdList } from 'app/util/entity-utils';
 
 export interface IFundUpdateProps extends StateProps, DispatchProps, RouteComponentProps<{ id: string }> {}
 
