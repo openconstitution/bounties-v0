@@ -14,5 +14,5 @@ jobs:
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        docker build --build-arg JAR_FILE=build/libs/\*.jar -t muellners.azurecr.io/bounties:latest .
+        docker build . -t muellners.azurecr.io/bounties:latest
         docker push muellners.azurecr.io/bounties:latest
