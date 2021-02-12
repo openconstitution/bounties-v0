@@ -33,12 +33,6 @@ export const Home = (props) => {
     history.push('/bounties')
   }
 
-  // const displaySingleBounty = (bounty) => {
-  //   // eslint-disable-next-line no-console
-  //   console.log('navigate now so')
-  //   history.push('/bounty')
-  // }
-
   return (
 
     <div className="home">
@@ -57,17 +51,21 @@ export const Home = (props) => {
         <div className="home__table-box">
           <h2>Bounties</h2>
           <div className="home__table">
-            {bountyData.map((bounty, i) => (
-              <BountyItem
-                key={i}
-                header={bounty.header}
-                Name={bounty.name}
-                Type={bounty.type}
-                Difficulty={bounty.Difficulty}
-                Amount={bounty.amount}
-                onclick={() => displaySingleBounty(bounty, history)}
-              />
-            ))}
+            {bountyData.map((bounty, i) => {
+              if (i < 6) {
+                return (
+                  <BountyItem
+                    key={i}
+                    header={bounty.header}
+                    Name={bounty.name}
+                    Type={bounty.type}
+                    Difficulty={bounty.Difficulty}
+                    Amount={bounty.amount}
+                    onclick={() => displaySingleBounty(bounty, history)}
+                  />
+                )
+              }
+            })}
           </div>
           <button className="btn btn__outline home__table-btn " onClick={() => toBounties()}>
             See all &#8594;
