@@ -168,14 +168,18 @@ if (!project.hasProperty("runList")) {
 }
 
 project.ext.diffChangelogFile = "src/main/resources/config/liquibase/changelog/" + new Date().format("yyyyMMddHHmmss") + "_changelog.xml"
+project.ext.liquibaseHost = getConfigurationProperty('JDBC_DATABASE_URL', 'liquibase_host')
+project.ext.liquibaseDatabase = getConfigurationProperty('JDBC_DATABASE', 'liquibase_database')
+project.ext.liquibaseUsername = getConfigurationProperty('JDBC_DATABASE_USERNAME', 'liquibase_username')
+project.ext.liquibasePassword = getConfigurationProperty('JDBC_DATABASE_PASSWORD', 'liquibase_password')
 
 liquibase {
     activities {
         main {
             driver "com.mysql.cj.jdbc.Driver"
-            url "jdbc:mysql://localhost:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
-            username "root"
-            password "mysql"
+            url "jdbc:mysql://${project.ext.liquibaseHost}:3306/${project.ext.liquibaseDatabase}?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
+            username project.ext.liquibaseUsername
+            password project.ext.liquibasePassword
             changeLogFile "src/main/resources/config/liquibase/master.xml"
             defaultSchemaName ""
             logLevel "debug"
@@ -183,9 +187,9 @@ liquibase {
         }
         diffLog {
             driver "com.mysql.cj.jdbc.Driver"
-            url "jdbc:mysql://localhost:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
-            username "root"
-            password "mysql"
+            url "jdbc:mysql://${project.ext.liquibaseHost}:3306/${project.ext.liquibaseDatabase}?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true"
+            username project.ext.liquibaseUsername
+            password project.ext.liquibasePassword
             changeLogFile project.ext.diffChangelogFile
             referenceUrl "hibernate:spring:org.muellners.bounties.domain?dialect=org.hibernate.dialect.MySQL5Dialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy"
             defaultSchemaName ""
@@ -196,6 +200,10 @@ liquibase {
     }
 
     runList = project.ext.runList
+}
+
+String getConfigurationProperty(String envVar, String sysProp) {
+    System.getenv(envVar) ?: project.findProperty(sysProp)
 }
 
 gitProperties {
