@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bounties-app
+  labels:
+    app: bounties
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bounties
+  template:
+    metadata:
+      labels:
+        app: bounties
+    spec:
+      # affinity:
+      #   podAntiAffinity:
+      #     preferredDuringSchedulingIgnoredDuringExecution:
+      #       - podAffinityTerm:
+      #           labelSelector:
+      #             matchExpressions:
+      #               - key: app
+      #                 operator: In
+      #                 values:
+      #                   - bounties
+      #           topologyKey: kubernetes.io/hostname
+      #         weight: 100
+      initContainers:
+        - name: init-ds
+          image: busybox:latest
+          command: ['sh', '-c', 'echo -e "Checking for the availability of MYSQL server deployment"; while ! nc -z "bounties-mysql" 3306; do sleep 1; printf "-"; done; echo -e " >> MYSQL server has started";']
+        - name: init-redis
+          image: busybox:latest
+          command: ['sh', '-c', 'echo -e "Checking for the availability of Redis server deployment"; while ! nc -z "bounties-redis" 6379; do sleep 1; printf "-"; done; echo -e " >> Redis server has started";']
+        - name: init-kafka
+          image: busybox:latest
+          command: ['sh', '-c', 'echo -e "Checking for the availability of kafka server deployment"; while ! nc -z "bounties-cp-kafka" 9092; do sleep 1; printf "-"; done; echo -e " >> kafka server has started";']
+        # - name: init-keycloak
+        #   image: busybox:latest
+        #   command: ['sh', '-c', 'echo -e "Checking for the availability of keycloak server deployment"; while ! nc -z "bounties-keycloak" 8080; do sleep 1; printf "-"; done; echo -e " >> keycloak server has started";']
+      containers:
+        - name: bounties-app
+          image: muellners.azurecr.io/bounties:latest
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: prod
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://bounties-mysql:3306/bounties?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
+            - name: JDBC_DATABASE_USERNAME
+              value: root
+            - name: JDBC_DATABASE_PASSWORD
+              value: mysql
+            - name: JDBC_DATABASE_URL
+              value: bounties-mysql
+            - name: JDBC_DATABASE
+              value: bounties
+            - name: JHIPSTER_CACHE_REDIS_SERVER
+              value: redis://bounties-redis:6379
+            - name: JHIPSTER_CACHE_REDIS_CLUSTER
+              value: "false"
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI
+              value: http://bounties-keycloak:9080/auth/realms/muellners
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID
+              value: web_app
+            - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET
+              value: web_app
+            - name: KAFKA_CONSUMER_KEY_DESERIALIZER
+              value: 'org.apache.kafka.common.serialization.StringDeserializer'
+            - name: KAFKA_CONSUMER_VALUE_DESERIALIZER
+              value: 'org.apache.kafka.common.serialization.StringDeserializer'
+            - name: KAFKA_CONSUMER_BOOTSTRAP_SERVERS
+              value: 'bounties-cp-kafka:9092'
+            - name: KAFKA_CONSUMER_GROUP_ID
+              value: 'bounties'
+            - name: KAFKA_CONSUMER_AUTO_OFFSET_RESET
+              value: 'earliest'
+            - name: KAFKA_PRODUCER_BOOTSTRAP_SERVERS
+              value: 'bounties-cp-kafka:9092'
+            - name: KAFKA_PRODUCER_KEY_DESERIALIZER
+              value: 'org.apache.kafka.common.serialization.StringDeserializer'
+            - name: KAFKA_PRODUCER_VALUE_DESERIALIZER
+              value: 'org.apache.kafka.common.serialization.StringDeserializer'
+            - name: JAVA_OPTS
+              value: ' -Xmx256m -Xms256m'
+          resources:
+            requests:
+              memory: '512Mi'
+              cpu: '500m'
+            limits:
+              memory: '1Gi'
+              cpu: '1'
+          ports:
+            - name: http
+              containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /management/health
+              port: http
+            initialDelaySeconds: 20
+            periodSeconds: 15
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /management/health
+              port: http
+            initialDelaySeconds: 120
