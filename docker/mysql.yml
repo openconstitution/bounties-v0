@@ -1,7 +1,7 @@
 version: '2'
 services:
   bounties-mysql:
-    image: mysql:8.0.0
+    image: mysql:5.7
     volumes:
         - ~/volumes/jhipster/bounties/mysql/:/var/lib/mysql/
     environment:

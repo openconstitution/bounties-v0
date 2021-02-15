@@ -30,7 +30,7 @@
     "clientThemeVariant": "dark",
     "creationTimestamp": 1596968372584,
     "testFrameworks": ["gatling", "cucumber", "protractor"],
-    "jhiPrefix": "jhi",
+    "jhiPrefix": "b",
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
@@ -43,6 +43,18 @@
     "herokuJavaVersion": "11",
     "useOkta": false,
     "oktaAdminLogin": "kazenasser@gmail.com",
-    "oktaAdminPassword": "JnconNLNCAS314@*#"
+    "oktaAdminPassword": "JnconNLNCAS314@*#",
+    "appsFolders": ["bounties"],
+    "directoryPath": "../",
+    "jwtSecretKey": "ODFiNWI0ZGJmNGI1ZDU0MDYxNDlhZjlhOTY4Yzg0YWJhZWQ3ZmZkMjZjMjVkMmNhZTFlMzYzZWEyMmYwOTZkZDQ1N2M0ZjI1NGFmNzNmMzdmMGQ3Nzk1Nzc2NTllZDdiOTc3Mw==",
+    "dockerRepositoryName": "bounties",
+    "dockerPushCommand": "docker push",
+    "kubernetesNamespace": "default",
+    "kubernetesServiceType": "LoadBalancer",
+    "kubernetesUseDynamicStorage": true,
+    "kubernetesStorageClassName": "",
+    "ingressDomain": "",
+    "monitoring": "no",
+    "istio": false
   }
 }

@@ -10,11 +10,8 @@ spec:
     tier: keycloak
   ports:
   - name: http
-    port: 9080
-    targetPort: 9080
-  - name: https
-    port: 9443
-    targetPort: 9443
+    port: 8080
+    targetPort: 8080
   type: LoadBalancer
 
 ---
@@ -56,19 +53,7 @@ spec:
         - name: PROXY_ADDRESS_FORWARDING
           value: "true"
         - name: DB_VENDOR
-          value: mysql
-        - name: DB_ADDR
-          value: bounties-mysql
-        - name: DB_PORT
-          value: "3306"
-        - name: DB_USER
-          value: root
-        - name: DB_PASSWORD
-          # value: mysql
-          valueFrom:
-            secretKeyRef:
-              name: bounties-mysql-db-secret
-              key: password
+          value: h2
         args:
           - -b
           - 0.0.0.0
@@ -80,22 +65,14 @@ spec:
           - -Dkeycloak.profile.feature.upload_scripts=enabled
         ports:
         - name: http
-          containerPort: 9080
+          containerPort: 8080
         - name: https
-          containerPort: 9443
-        # readinessProbe:
-        #   httpGet:
-        #     path: /auth/realms/master
-        #     port: 9080
+          containerPort: 8443
         volumeMounts:
-          - name: bounties-keycloak-realm-config
+          - name: realm-config
             mountPath: /opt/jboss/keycloak/realm-config
-          # - name: bounties-keycloak-realm-users
-          #   mountPath: /opt/jboss/keycloak/realm-config
       volumes:
-        - name: bounties-keycloak-realm-config
+        - name: realm-config
           configMap:
-            name: bounties-keycloak-realm-config
-        # - name: bounties-keycloak-realm-users
-        #   configMap:
-        #     name: bounties-keycloak-realm-users
+            name: realm-config
+            

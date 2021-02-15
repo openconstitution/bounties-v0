@@ -11,9 +11,8 @@ spec:
   ports:
   - port: 6379
     targetPort: 6379
-
+  clusterIP: None
 ---
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -39,4 +38,5 @@ spec:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 6379
+        - name: bounties-redis
+          containerPort: 6379
