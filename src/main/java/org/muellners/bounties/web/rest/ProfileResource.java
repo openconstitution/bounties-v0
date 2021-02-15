@@ -2,7 +2,6 @@ package org.muellners.bounties.web.rest;
 
 import org.muellners.bounties.domain.Profile;
 import org.muellners.bounties.repository.ProfileRepository;
-import org.muellners.bounties.service.criteria.OptionCriteria;
 import org.muellners.bounties.service.criteria.ProfileCriteria;
 import org.muellners.bounties.service.query.ProfileQueryService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;

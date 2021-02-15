@@ -6,9 +6,7 @@ import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Criteria class for the [cm.pwork.schoolman.domain.Option] entity. This class is used in

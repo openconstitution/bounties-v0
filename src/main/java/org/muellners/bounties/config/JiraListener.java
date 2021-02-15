@@ -9,13 +9,10 @@
  import org.springframework.context.annotation.Configuration;
  import org.springframework.core.env.Environment;
  import org.springframework.http.MediaType;
- import org.springframework.web.reactive.function.client.ClientResponse;
  import org.springframework.web.reactive.function.client.WebClient;
  import org.springframework.web.reactive.function.client.WebClientResponseException;
  import reactor.core.publisher.Flux;
  import reactor.core.publisher.Mono;
-
- import java.util.function.Function;
 
  @Configuration
  public class JiraListener {

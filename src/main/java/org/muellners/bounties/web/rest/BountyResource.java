@@ -3,14 +3,11 @@ package org.muellners.bounties.web.rest;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.BountyService;
-import org.muellners.bounties.service.FundService;
 import org.muellners.bounties.service.criteria.BountyCriteria;
-import org.muellners.bounties.service.criteria.OptionCriteria;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.dto.FundDTO;
 import org.muellners.bounties.service.query.BountyQueryService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -42,13 +38,11 @@ public class BountyResource {
 
     private final BountyService bountyService;
     private BountyQueryService bountyQueryService;
-    private final FundService fundService;
 
     public BountyResource(final BountyService bountyService,
-                          final BountyQueryService bountyQueryService,
-                          final FundService fundService) {
+                          final BountyQueryService bountyQueryService) {
         this.bountyService = bountyService;
-        this.fundService = fundService;
+        this.bountyQueryService = bountyQueryService;
     }
 
     /**

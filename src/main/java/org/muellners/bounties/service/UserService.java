@@ -7,8 +7,6 @@ import org.muellners.bounties.repository.AuthorityRepository;
 import org.muellners.bounties.repository.UserRepository;
 import org.muellners.bounties.security.SecurityUtils;
 import org.muellners.bounties.service.dto.UserDTO;
-
-import org.muellners.bounties.service.mapper.ProfileMapper;
 import org.muellners.bounties.service.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +19,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -35,16 +32,14 @@ public class UserService {
 
 	private final Logger log = LoggerFactory.getLogger(UserService.class);
 
-	private final ProfileMapper profileMapper;
 	private final UserMapper userMapper;
 	private final UserRepository userRepository;
 	private final AuthorityRepository authorityRepository;
 	private final CacheManager cacheManager;
 
-	public UserService(UserMapper userMapper, ProfileMapper profileMapper, UserRepository userRepository,
+	public UserService(UserMapper userMapper, UserRepository userRepository,
 	                   AuthorityRepository authorityRepository, CacheManager cacheManager) {
 		this.userMapper = userMapper;
-		this.profileMapper = profileMapper;
 		this.userRepository = userRepository;
 		this.authorityRepository = authorityRepository;
 		this.cacheManager = cacheManager;

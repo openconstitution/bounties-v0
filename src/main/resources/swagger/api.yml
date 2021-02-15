@@ -22,7 +22,7 @@ components:
   securitySchemes:
     oauth:
       type: oauth2
-      description: OAuth2 authentication with KeyCloak
+      description: OAuth2 authentication with Github # TODO: GITHUB ISSUER
       flows:
         authorizationCode:
           authorizationUrl: http://localhost:9080/auth/realms/muellners/protocol/openid-connect/auth
@@ -33,7 +33,7 @@ components:
             profile: Profile claims
     openId:
       type: openIdConnect
-      description: OpenID Connect authentication with KeyCloak
+      description: OpenID Connect authentication with Github # TODO: GITHUB ISSUER
       openIdConnectUrl: http://localhost:9080/auth/realms/muellners/.well-known/openid-configuration
 security:
   - oauth: [muellners, email, profile]

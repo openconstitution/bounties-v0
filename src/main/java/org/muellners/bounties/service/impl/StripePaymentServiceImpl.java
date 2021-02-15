@@ -44,6 +44,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
 
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
 
+        @SuppressWarnings("unused")
         final BountyDTO bounty = bountyService.findOne(bountyId);
 
         if (currency == null) {

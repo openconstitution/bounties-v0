@@ -3,7 +3,6 @@ package org.muellners.bounties.web.rest;
 import io.github.jhipster.web.util.HeaderUtil;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.UserService;
-import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.dto.UserDTO;
 
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import javax.servlet.http.HttpServletRequest;
 
 import java.net.URISyntaxException;
 import java.security.Principal;
@@ -60,7 +58,6 @@ public class AccountResource {
      * @throws AccountResourceException {@code 500 (Internal Server Error)} if the user couldn't be returned.
      */
     @GetMapping("/account")
-    @SuppressWarnings("unchecked")
     public UserDTO getAccount(Principal principal) {
         if (principal instanceof AbstractAuthenticationToken) {
             return userService.getUserFromAuthentication((AbstractAuthenticationToken) principal);
@@ -80,7 +77,6 @@ public class AccountResource {
      *         updated.
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
-    @SuppressWarnings("unchecked")
     @PutMapping("/account")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
     public ResponseEntity<UserDTO> updateAccount(@RequestBody final UserDTO userDTO) {

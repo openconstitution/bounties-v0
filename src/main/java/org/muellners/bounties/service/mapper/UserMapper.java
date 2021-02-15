@@ -1,9 +1,7 @@
 package org.muellners.bounties.service.mapper;
 
 import org.muellners.bounties.domain.Authority;
-import org.muellners.bounties.domain.Profile;
 import org.muellners.bounties.domain.User;
-import org.muellners.bounties.service.dto.ProfileDTO;
 import org.muellners.bounties.service.dto.UserDTO;
 
 import org.springframework.stereotype.Service;

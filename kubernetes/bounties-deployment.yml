@@ -36,9 +36,6 @@ spec:
         - name: init-kafka
           image: busybox:latest
           command: ['sh', '-c', 'echo -e "Checking for the availability of kafka server deployment"; while ! nc -z "bounties-cp-kafka" 9092; do sleep 1; printf "-"; done; echo -e " >> kafka server has started";']
-        # - name: init-keycloak
-        #   image: busybox:latest
-        #   command: ['sh', '-c', 'echo -e "Checking for the availability of keycloak server deployment"; while ! nc -z "bounties-keycloak" 8080; do sleep 1; printf "-"; done; echo -e " >> keycloak server has started";']
       containers:
         - name: bounties-app
           image: muellners.azurecr.io/bounties:latest
@@ -60,11 +57,11 @@ spec:
             - name: JHIPSTER_CACHE_REDIS_CLUSTER
               value: "false"
             - name: SPRING_SECURITY_OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER_URI
-              value: http://bounties-keycloak:9080/auth/realms/muellners
+              # value: # TODO: GITHUB ISSUER
             - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_ID
-              value: web_app
+              # value: # TODO: GITHUB ISSUER
             - name: SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_OIDC_CLIENT_SECRET
-              value: web_app
+              # value: # TODO: GITHUB ISSUER
             - name: KAFKA_CONSUMER_KEY_DESERIALIZER
               value: 'org.apache.kafka.common.serialization.StringDeserializer'
             - name: KAFKA_CONSUMER_VALUE_DESERIALIZER

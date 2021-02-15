@@ -3,13 +3,11 @@ package org.muellners.bounties.domain;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.muellners.bounties.exceptions.NoBenefactorException;
 
 /**
  * A Bounty.0
