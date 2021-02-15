@@ -1,6 +1,6 @@
 {
-  "id": "jhipster",
-  "realm": "jhipster",
+  "id": "bounties",
+  "realm": "muellners",
   "notBefore": 0,
   "revokeRefreshToken": false,
   "refreshTokenMaxReuse": 0,
@@ -43,10 +43,10 @@
       {
         "id": "a2350d85-938e-440c-847c-35086fe0f1d8",
         "name": "ROLE_ADMIN",
-        "description": "Jhipster administrator role",
+        "description": "Bounties administrator role",
         "composite": false,
         "clientRole": false,
-        "containerId": "jhipster",
+        "containerId": "bounties",
         "attributes": {}
       },
       {
@@ -55,16 +55,16 @@
         "description": "${role_offline-access}",
         "composite": false,
         "clientRole": false,
-        "containerId": "jhipster",
+        "containerId": "bounties",
         "attributes": {}
       },
       {
         "id": "8b1a0e78-24be-49ed-bc74-6471bd8d0f8f",
         "name": "ROLE_USER",
-        "description": "Jhipster user role",
+        "description": "Bounties user role",
         "composite": false,
         "clientRole": false,
-        "containerId": "jhipster",
+        "containerId": "bounties",
         "attributes": {}
       },
       {
@@ -73,7 +73,7 @@
         "description": "${role_uma_authorization}",
         "composite": false,
         "clientRole": false,
-        "containerId": "jhipster",
+        "containerId": "bounties",
         "attributes": {}
       }
     ],
@@ -467,14 +467,14 @@
       "clientId": "account",
       "name": "${client_account}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/jhipster/account/",
+      "baseUrl": "/realms/muellners/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
       "defaultRoles": ["manage-account", "view-profile"],
-      "redirectUris": ["/realms/jhipster/account/*"],
+      "redirectUris": ["/realms/muellners/account/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -498,13 +498,13 @@
       "clientId": "account-console",
       "name": "${client_account-console}",
       "rootUrl": "${authBaseUrl}",
-      "baseUrl": "/realms/jhipster/account/",
+      "baseUrl": "/realms/muellners/account/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": ["/realms/jhipster/account/*"],
+      "redirectUris": ["/realms/muellners/account/*"],
       "webOrigins": [],
       "notBefore": 0,
       "bearerOnly": false,
@@ -754,13 +754,13 @@
       "clientId": "security-admin-console",
       "name": "${client_security-admin-console}",
       "rootUrl": "${authAdminUrl}",
-      "baseUrl": "/admin/jhipster/console/",
+      "baseUrl": "/admin/muellners/console/",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "**********",
-      "redirectUris": ["/admin/jhipster/console/*"],
+      "redirectUris": ["/admin/muellners/console/*"],
       "webOrigins": ["+"],
       "notBefore": 0,
       "bearerOnly": false,
@@ -838,7 +838,7 @@
       "authenticationFlowBindingOverrides": {},
       "fullScopeAllowed": true,
       "nodeReRegistrationTimeout": -1,
-      "defaultClientScopes": ["web-origins", "jhipster", "role_list", "roles", "profile", "email"],
+      "defaultClientScopes": ["web-origins", "bounties", "role_list", "roles", "profile", "email"],
       "optionalClientScopes": ["address", "phone", "offline_access", "microprofile-jwt"]
     }
   ],
@@ -917,8 +917,8 @@
     },
     {
       "id": "3880d5d9-fced-4446-97fe-0434f2bb76ea",
-      "name": "jhipster",
-      "description": "Jhipster specific claims",
+      "name": "bounties",
+      "description": "Bounties specific claims",
       "protocol": "openid-connect",
       "attributes": {
         "display.on.consent.screen": "false"

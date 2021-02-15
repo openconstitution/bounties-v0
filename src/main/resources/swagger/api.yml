@@ -25,16 +25,16 @@ components:
       description: OAuth2 authentication with KeyCloak
       flows:
         authorizationCode:
-          authorizationUrl: http://localhost:9080/auth/realms/jhipster/protocol/openid-connect/auth
-          tokenUrl: http://localhost:9080/auth/realms/jhipster/protocol/openid-connect/token
+          authorizationUrl: http://localhost:9080/auth/realms/muellners/protocol/openid-connect/auth
+          tokenUrl: http://localhost:9080/auth/realms/muellners/protocol/openid-connect/token
           scopes:
-            jhipster: Jhipster specific claims
+            muellners: Jhipster specific claims
             email: Email claims
             profile: Profile claims
     openId:
       type: openIdConnect
       description: OpenID Connect authentication with KeyCloak
-      openIdConnectUrl: http://localhost:9080/auth/realms/jhipster/.well-known/openid-configuration
+      openIdConnectUrl: http://localhost:9080/auth/realms/muellners/.well-known/openid-configuration
 security:
-  - oauth: [jhipster, email, profile]
-  - openId: [jhipster, email, profile]
+  - oauth: [muellners, email, profile]
+  - openId: [muellners, email, profile]
