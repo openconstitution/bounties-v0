@@ -36,7 +36,12 @@ version = "0.0.1-SNAPSHOT"
 description = ""
 
 bootRun {
-    jvmArgs = ["-Des.set.netty.runtime.available.processors=false"]
+    jvmArgs = [
+            "-Des.set.netty.runtime.available.processors=false",
+            "-Dio.netty.tryReflectionSetAccessible=true",
+            "--illegal-access=warn",
+            "--add-opens java.base/jdk.internal.misc=ALL-UNNAMED"
+    ]
 }
 
 sourceCompatibility=1.8
