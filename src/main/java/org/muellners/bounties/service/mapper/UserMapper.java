@@ -18,15 +18,12 @@ import java.util.stream.Collectors;
 @Service
 public class UserMapper {
 
-    private final ProfileMapper profileMapper;
-
-    public UserMapper(ProfileMapper profileMapper) {
-        this.profileMapper = profileMapper;
+    public UserMapper() {
+        //
     }
 
     public UserDTO toDto(User user) {
         final UserDTO userDTO = new UserDTO(user);
-        userDTO.setProfile(profileMapper.toDTO(user.getProfile()));
         return userDTO;
     }
 
@@ -37,13 +34,15 @@ public class UserMapper {
             User user = new User();
             user.setId(userDTO.getId());
             user.setLogin(userDTO.getLogin());
-            user.setFirstName(userDTO.getFirstName());
-            user.setLastName(userDTO.getLastName());
+            user.setName(userDTO.getName());
             user.setEmail(userDTO.getEmail());
             user.setImageUrl(userDTO.getImageUrl());
-            user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
-            user.setProfile(profileMapper.toEntity(userDTO.getProfile()));
+            user.setAbout(userDTO.getAbout());
+            user.setVotes(userDTO.getVotes());
+            user.setGithubProfileUrl(userDTO.getGithubProfileUrl());
+            user.setGithubOrgName(userDTO.getGithubOrgName());
+            user.setWalletAddress(userDTO.getWalletAddress());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
             return user;

@@ -21,18 +21,18 @@ public class UserCriteria implements Serializable, Criteria {
 
 	private StringFilter id;
 	private StringFilter login;
-	private StringFilter firstName;
-	private StringFilter lastName;
+	private StringFilter name;
 	private StringFilter email;
-	private LongFilter profileId;
+	private StringFilter githubOrgName;
+	private StringFilter githubProfileUrl;
 
 	public UserCriteria(final UserCriteria other) {
 		other.id.copy();
 		other.login.copy();
-		other.firstName.copy();
-		other.lastName.copy();
+		other.name.copy();
 		other.email.copy();
-		other.profileId.copy();
+		other.githubOrgName.copy();
+		other.githubProfileUrl.copy();
 	}
 
 	public StringFilter getId() {
@@ -51,20 +51,12 @@ public class UserCriteria implements Serializable, Criteria {
 		this.login = login;
 	}
 
-	public StringFilter getFirstName() {
-		return firstName;
+	public StringFilter getName() {
+		return name;
 	}
 
-	public void setFirstName(StringFilter firstName) {
-		this.firstName = firstName;
-	}
-
-	public StringFilter getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(StringFilter lastName) {
-		this.lastName = lastName;
+	public void setName(StringFilter name) {
+		this.name = name;
 	}
 
 	public StringFilter getEmail() {
@@ -75,12 +67,20 @@ public class UserCriteria implements Serializable, Criteria {
 		this.email = email;
 	}
 
-	public LongFilter getProfileId() {
-		return profileId;
+	public StringFilter getGithubOrgName() {
+		return githubOrgName;
 	}
 
-	public void setProfileId(LongFilter profileId) {
-		this.profileId = profileId;
+	public void setGithubOrgName(StringFilter githubOrgName) {
+		this.githubOrgName = githubOrgName;
+	}
+
+	public StringFilter getGithubProfileUrl() {
+		return githubProfileUrl;
+	}
+
+	public void setGithubProfileUrl(StringFilter githubProfileUrl) {
+		this.githubProfileUrl = githubProfileUrl;
 	}
 
 	@Override

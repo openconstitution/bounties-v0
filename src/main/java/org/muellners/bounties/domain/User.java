@@ -22,7 +22,7 @@ import java.util.Set;
  * A user.
  */
 @Entity
-@Table(name = "jhi_user")
+@Table(name = "b_user")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class User extends AbstractAuditingEntity {
 
@@ -38,21 +38,13 @@ public class User extends AbstractAuditingEntity {
     private String login;
 
     @Size(max = 50)
-    @Column(name = "first_name", length = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    @Column(name = "last_name", length = 50)
-    private String lastName;
+    @Column(name = "name", length = 150)
+    private String name;
 
     @Email
     @Size(min = 5, max = 254)
     @Column(length = 254, unique = true)
     private String email;
-
-    @NotNull
-    @Column(nullable = false)
-    private boolean activated = false;
 
     @Size(min = 2, max = 10)
     @Column(name = "lang_key", length = 10)
@@ -62,14 +54,25 @@ public class User extends AbstractAuditingEntity {
     @Column(name = "image_url", length = 256)
     private String imageUrl;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn(name = "profile_id")
-	private Profile profile;
+    @Column(name = "votes")
+    private Integer votes;
+
+    @Column(name = "gh_profile_url")
+    private String githubProfileUrl;
+
+    @Column(name = "about")
+    private String about;
+
+    @Column(name = "wallet_address")
+    private String walletAddress;
+
+    @Column(name = "gh_org_name")
+    private String githubOrgName;
 
     @JsonIgnore
     @ManyToMany
     @JoinTable(
-        name = "jhi_user_authority",
+        name = "b_user_authority",
         joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
         inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "name")})
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -94,20 +97,52 @@ public class User extends AbstractAuditingEntity {
         this.login = StringUtils.lowerCase(login, Locale.ENGLISH);
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getLastName() {
-        return lastName;
+    public Integer getVotes() {
+        return votes;
     }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
+    public String getGithubProfileUrl() {
+        return githubProfileUrl;
+    }
+
+    public void setGithubProfileUrl(String githubProfileUrl) {
+        this.githubProfileUrl = githubProfileUrl;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getWalletAddress() {
+        return walletAddress;
+    }
+
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
+    }
+
+    public String getGithubOrgName() {
+        return githubOrgName;
+    }
+
+    public void setGithubOrgName(String githubOrgName) {
+        this.githubOrgName = githubOrgName;
     }
 
     public String getEmail() {
@@ -126,28 +161,12 @@ public class User extends AbstractAuditingEntity {
         this.imageUrl = imageUrl;
     }
 
-    public boolean getActivated() {
-        return activated;
-    }
-
-    public void setActivated(boolean activated) {
-        this.activated = activated;
-    }
-
     public String getLangKey() {
         return langKey;
     }
 
     public void setLangKey(String langKey) {
         this.langKey = langKey;
-    }
-
-    public Profile getProfile() {
-        return profile;
-    }
-
-    public void setProfile(Profile profile) {
-        this.profile = profile;
     }
 
     public Set<Authority> getAuthorities() {
@@ -175,16 +194,21 @@ public class User extends AbstractAuditingEntity {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "User{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated='" + activated + '\'' +
-            ", langKey='" + langKey + '\'' +
-            "}";
+                "id='" + id + '\'' +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", langKey='" + langKey + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", votes=" + votes +
+                ", githubProfileUrl='" + githubProfileUrl + '\'' +
+                ", about='" + about + '\'' +
+                ", walletAddress='" + walletAddress + '\'' +
+                ", githubOrgName='" + githubOrgName + '\'' +
+                '}';
     }
 }

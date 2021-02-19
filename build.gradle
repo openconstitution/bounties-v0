@@ -40,7 +40,7 @@ bootRun {
             "-Des.set.netty.runtime.available.processors=false",
             "-Dio.netty.tryReflectionSetAccessible=true",
             "--illegal-access=warn",
-            "--add-opens java.base/jdk.internal.misc=ALL-UNNAMED"
+//            "--add-opens java.base/jdk.internal.misc=ALL-UNNAMED"
     ]
 }
 
@@ -218,7 +218,7 @@ gitProperties {
 checkstyle {
     toolVersion '${checkstyle_version}'
     configFile file("checkstyle.xml")
-    checkstyleTest.enabled = false
+    checkstyleTest.enabled = true
 }
 nohttp {
     source.include "build.gradle", "README.md"

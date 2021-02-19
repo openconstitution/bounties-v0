@@ -21,14 +21,14 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 @RestController
-@RequestMapping("/api/bounties-kafka")
+@RequestMapping("/api/kafka")
 public class BountiesKafkaResource {
 
     private final Logger log = LoggerFactory.getLogger(BountiesKafkaResource.class);
 
     private final KafkaProperties kafkaProperties;
-    private KafkaProducer<String, String> producer;
-    private ExecutorService sseExecutorService = Executors.newCachedThreadPool();
+    private final KafkaProducer<String, String> producer;
+    private final ExecutorService sseExecutorService = Executors.newCachedThreadPool();
 
     public BountiesKafkaResource(KafkaProperties kafkaProperties) {
         this.kafkaProperties = kafkaProperties;

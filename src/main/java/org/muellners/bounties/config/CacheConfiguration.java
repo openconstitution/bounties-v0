@@ -57,8 +57,8 @@ public class CacheConfiguration {
     }
 
     @Bean
-    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cm) {
-        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cm);
+    public HibernatePropertiesCustomizer hibernatePropertiesCustomizer(javax.cache.CacheManager cacheManager) {
+        return hibernateProperties -> hibernateProperties.put(ConfigSettings.CACHE_MANAGER, cacheManager);
     }
 
     @Bean
@@ -76,7 +76,6 @@ public class CacheConfiguration {
             createCache(cm, org.muellners.bounties.domain.Fund.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Issue.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.Option.class.getName(), jcacheConfiguration);
-            createCache(cm, org.muellners.bounties.domain.Profile.class.getName(), jcacheConfiguration);
             createCache(cm, org.muellners.bounties.domain.BountyKeyword.class.getName(), jcacheConfiguration);
         };
     }

@@ -4,7 +4,6 @@ import org.muellners.bounties.domain.User;
 import org.muellners.bounties.service.dto.UserDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,20 +20,16 @@ public class UserMapperTest {
     private static final String DEFAULT_ID = "id1";
 
     private UserMapper userMapper;
-    private ProfileMapper profileMapper;
     private User user;
     private UserDTO userDto;
 
     @BeforeEach
     public void init() {
-        profileMapper = new ProfileMapper();
-        userMapper = new UserMapper(profileMapper);
+        userMapper = new UserMapper();
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
-        user.setActivated(true);
         user.setEmail("johndoe@localhost");
-        user.setFirstName("john");
-        user.setLastName("doe");
+        user.setName("john doe");
         user.setImageUrl("image_url");
         user.setLangKey("en");
 
