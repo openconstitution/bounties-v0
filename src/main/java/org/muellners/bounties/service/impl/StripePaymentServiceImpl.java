@@ -20,6 +20,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class StripePaymentServiceImpl implements StripePaymentService {
@@ -45,7 +46,7 @@ public class StripePaymentServiceImpl implements StripePaymentService {
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
 
         @SuppressWarnings("unused")
-        final BountyDTO bounty = bountyService.findOne(bountyId);
+        final Optional<BountyDTO> bounty = bountyService.findOne(bountyId);
 
         if (currency == null) {
             currency = "USD";
@@ -73,10 +74,10 @@ public class StripePaymentServiceImpl implements StripePaymentService {
                                              final String receiptEmail, final Long bountyId, final String currency,
                                              final List<String> paymentMethods) {
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
-        final BountyDTO bounty = bountyService.findOne(bountyId);
+        final Optional<BountyDTO> bounty = bountyService.findOne(bountyId);
         try {
             final PaymentIntent paymentIntent = PaymentIntent.retrieve(paymentIntentId);
-            final BigDecimal amount = bounty.getAmount();
+            final BigDecimal amount = bounty.orElseThrow(NullPointerException::new).getAmount();
 
             Map<String, Object> paymentIntentParams = new HashMap<String, Object>();
             if (amount != null) {
@@ -132,12 +133,12 @@ public class StripePaymentServiceImpl implements StripePaymentService {
     public String createPaymentMethod(final String cardNumber, final String cardExpiryDate,
                                              final String cardCvcNumber) throws StripeException {
         Stripe.apiKey = env.getProperty("application.stripe.api-key");
-        
+
         final String expiryMonth = cardExpiryDate.substring(0, 2);
         final String expiryYear = "20".concat(cardExpiryDate.substring(2));
 
         log.debug("Expiry Month: {} and Expiry Year: {}", expiryMonth, expiryYear);
-        
+
         Map<String, Object> card = new HashMap<>();
         card.put("number", cardNumber);
         card.put("exp_month", expiryMonth);

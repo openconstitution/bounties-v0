@@ -52,14 +52,24 @@ public class OAuth2UserServiceCustom extends DefaultOAuth2UserService {
 	}
 
 	public static User setUserAttr(final User user, final Map<String, Object> attr) {
-		user.setId((String) attr.get("id"));
+		if (attr.get("id") != null) {
+			user.setId(Long.valueOf((Integer) attr.get("id")));
+		}
+
 		user.setLogin((String) attr.get("login"));
 		user.setName((String) attr.get("name"));
 		user.setEmail(((String) attr.get("email")).toLowerCase());
 		user.setImageUrl((String) attr.get("avatar_url"));
-		user.setGithubProfileUrl((String) attr.get("html_url"));
-		user.setCreatedDate((Instant) attr.get("created_at"));
-		user.setLastModifiedDate((Instant) attr.get("updated_at"));
+
+		if (attr.get("html_url") != null) {
+			user.setGithubProfileUrl((String) attr.get("html_url"));
+		}
+		if (attr.get("created_at") != null) {
+			user.setCreatedDate(Instant.parse((String) attr.get("created_at")));
+		}
+		if (attr.get("updated_at") != null) {
+			user.setLastModifiedDate(Instant.parse((String) attr.get("updated_at")));
+		}
 
 		if (attr.get("langKey") != null) {
 			user.setLangKey((String) attr.get("langKey"));

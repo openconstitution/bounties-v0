@@ -8,11 +8,29 @@
     -->
     <changeSet id="20200809142715-2" author="xurror">
 
+		<addForeignKeyConstraint baseColumnNames="bounty_id"
+								 baseTableName="bounty_keyword"
+								 constraintName="fk_bounty_keyword_bounty_id"
+								 referencedColumnNames="id"
+								 referencedTableName="bounty"/>
+
+		<addForeignKeyConstraint baseColumnNames="bounty_id"
+								 baseTableName="fund"
+								 constraintName="fk_fund_bounty_id"
+								 referencedColumnNames="id"
+								 referencedTableName="bounty"/>
+
+		<addForeignKeyConstraint baseColumnNames="resolver_id"
+								 baseTableName="b_issue"
+								 constraintName="fk_b_issue_resolver_b_user_id"
+								 referencedColumnNames="id"
+								 referencedTableName="b_user"/>
+
         <addForeignKeyConstraint baseColumnNames="hunter_id"
                                  baseTableName="bounty"
                                  constraintName="fk_bounty_hunter_user_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="jhi_user"/>
+                                 referencedTableName="b_user"/>
 
         <addForeignKeyConstraint baseColumnNames="issue_id"
                                  baseTableName="bounty"

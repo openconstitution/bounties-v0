@@ -49,14 +49,14 @@
             <column name="expiry_date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="hunter_id" type="varchar(100)">
+            <column name="hunter_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="created_by" type="varchar(50)">
+            <column name="created_by" type="varchar(150)">
                 <constraints nullable="false"/>
             </column>
             <column name="created_date" type="timestamp"/>
-            <column name="last_modified_by" type="varchar(50)"/>
+            <column name="last_modified_by" type="varchar(150)"/>
             <column name="last_modified_date" type="timestamp"/>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>

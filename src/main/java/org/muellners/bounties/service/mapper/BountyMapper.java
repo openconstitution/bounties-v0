@@ -27,14 +27,14 @@ public class BountyMapper {
         this.optionService = optionService;
     }
 
-    public List<BountyDTO> bountiesToBountyDTOs(final List<Bounty> bounties) {
+    public List<BountyDTO> toDTOs(final List<Bounty> bounties) {
         return bounties.stream()
             .filter(Objects::nonNull)
-            .map(this::bountyToBountyDTO)
+            .map(this::toDTO)
             .collect(Collectors.toList());
     }
-    
-    public BountyDTO bountyToBountyDTO(final Bounty bounty) {
+
+    public BountyDTO toDTO(final Bounty bounty) {
         final BountyDTO bountyDTO = new BountyDTO(bounty);
         bountyDTO.setFunds(bounty.getFunds().stream()
                         .map(fundMapper::fundToFundDTO)
@@ -42,14 +42,14 @@ public class BountyMapper {
         return bountyDTO;
     }
 
-    public List<Bounty> bountyDTOsToBounties(final List<BountyDTO> bountyDTOs) {
+    public List<Bounty> toEntities(final List<BountyDTO> bountyDTOs) {
         return bountyDTOs.stream()
             .filter(Objects::nonNull)
-            .map(this::bountyDTOToBounty)
+            .map(this::toEntity)
             .collect(Collectors.toList());
     }
 
-    public Bounty bountyDTOToBounty(final BountyDTO bountyDTO) {
+    public Bounty toEntity(final BountyDTO bountyDTO) {
         if (bountyDTO == null) {
             return null;
         } else {

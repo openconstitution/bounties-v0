@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
+import java.util.Optional;
+
 /**
  * Service Implementation for managing {@link Bounty}.
  */
@@ -58,7 +60,7 @@ public interface BountyService {
 	 * @return the entity.
 	 */
 	@Transactional(readOnly = true)
-	BountyDTO findOne(Long id);
+	Optional<BountyDTO> findOne(Long id);
 
 	/**
 	 * Add funds to one bounty by id.

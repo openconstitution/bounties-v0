@@ -13,7 +13,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -29,7 +28,7 @@ public class User extends AbstractAuditingEntity {
     private static final long serialVersionUID = 1L;
 
     @Id
-    private String id;
+    private Long id;
 
     @NotNull
     @Pattern(regexp = Constants.LOGIN_REGEX)
@@ -80,11 +79,11 @@ public class User extends AbstractAuditingEntity {
     private Set<Authority> authorities = new HashSet<>();
 
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -120,6 +120,11 @@ public class Bounty extends AbstractAuditingEntity {
         return issue;
     }
 
+    public Bounty issue(Issue issue) {
+    	this.issue = issue;
+    	return this;
+	}
+
     public void setIssue(Issue issue) {
         this.issue = issue;
     }
@@ -156,6 +161,11 @@ public class Bounty extends AbstractAuditingEntity {
     public Option getCommitment() {
         return commitment;
     }
+
+    public Bounty commitment(Option commitment) {
+    	this.commitment = commitment;
+    	return this;
+	}
 
     public void setCommitment(Option commitment) {
         this.commitment = commitment;
@@ -264,13 +274,14 @@ public class Bounty extends AbstractAuditingEntity {
     public String toString() {
         return "Bounty{"
                 + "id=" + getId() + ", status='" + getStatus() + "'"
-                + ", issueUrl='" + getIssue() + "'"
+                + ", issue='" + getIssue() + "'"
                 + ", amount='" + getAmount() + "'"
                 + ", experience='" + getExperience() + "'"
-                + ", commitment=" + getCommitment()
+                + ", commitment='" + getCommitment() + "'"
                 + ", type='" + getType() + "'"
                 + ", category='" + getCategory() + "'"
                 + ", keywords='" + getKeywords() + "'"
+				+ ", funds='" + getFunds() + "'"
                 + ", permission='" + isPermission() + "'"
                 + ", expiryDate='" + getExpiryDate() + "'"
                 + ", hunter='" + getHunter() + "'"

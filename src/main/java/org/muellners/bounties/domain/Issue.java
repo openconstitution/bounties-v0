@@ -69,6 +69,11 @@ public class Issue implements Serializable {
 		return status;
 	}
 
+	public Issue status(Option status) {
+		this.status = status;
+		return this;
+	}
+
 	public void setStatus(Option status) {
 		this.status = status;
 	}
@@ -110,7 +115,7 @@ public class Issue implements Serializable {
 				"id=" + id +
 				", url='" + url + '\'' +
 				", status=" + status +
-				", resolver=" + resolver +
-				'}';
+				", resolver='" + resolver + "'" +
+			'}';
 	}
 }

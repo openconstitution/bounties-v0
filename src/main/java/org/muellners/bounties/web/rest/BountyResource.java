@@ -1,5 +1,6 @@
 package org.muellners.bounties.web.rest;
 
+import io.github.jhipster.web.util.ResponseUtil;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.BountyService;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link org.muellners.bounties.domain.Bounty}.
@@ -124,7 +126,6 @@ public class BountyResource {
      *         bounty is not valid, or with status
      *         {@code 500 (Internal Server Error)} if the bounty couldn't be
      *         updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bounties")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
@@ -159,7 +160,7 @@ public class BountyResource {
      * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
      */
     @GetMapping("/bounties/count")
-    public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) BountyCriteria criteria) {
+    public ResponseEntity<Long> countFunds(@RequestParam(name = "criteria", required = false) BountyCriteria criteria) {
         log.debug("REST request to count Bounties by criteria: {}", criteria);
         return ResponseEntity.ok().body(bountyQueryService.countByCriteria(criteria));
     }
@@ -174,8 +175,8 @@ public class BountyResource {
     @GetMapping("/bounties/{id}")
     public ResponseEntity<BountyDTO> getBounty(@PathVariable final Long id) {
         log.debug("REST request to get Bounty : {}", id);
-        final BountyDTO bountyDTO = bountyService.findOne(id);
-        return ResponseEntity.ok().body(bountyDTO);
+        final Optional<BountyDTO> bountyDTO = bountyService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(bountyDTO);
     }
 
     /**

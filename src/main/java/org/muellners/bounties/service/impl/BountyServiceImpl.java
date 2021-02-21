@@ -1,6 +1,7 @@
 package org.muellners.bounties.service.impl;
 
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.Fund;
 import org.muellners.bounties.domain.User;
 import org.muellners.bounties.domain.enumeration.Status;
 import org.muellners.bounties.repository.BountyRepository;
@@ -18,8 +19,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,25 +50,27 @@ public class BountyServiceImpl implements BountyService {
     public BountyDTO save(final BountyDTO bountyDTO) {
         log.debug("Request to save Bounty : {}", bountyDTO);
         // Before we go and save the url from git/bitbucket/jira/or anything else
-        final Bounty bounty = bountyMapper.bountyDTOToBounty(bountyDTO);
-
+        final Bounty bounty = bountyMapper.toEntity(bountyDTO);
+		bounty.setAmount(bounty.getFunds().stream()
+				.map(Fund::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
+		bountyRepository.save(bounty);
         log.debug("Updated Bounty : {}", bounty);
         Bounty result = bountyRepository.save(bounty);
-        return bountyMapper.bountyToBountyDTO(result);
+        return bountyMapper.toDTO(result);
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<BountyDTO> findAll() {
         log.debug("Request to get all Bounty");
-        return bountyMapper.bountiesToBountyDTOs(bountyRepository.findAll());
+        return bountyMapper.toDTOs(bountyRepository.findAll());
     }
 
     @Override
 	@Transactional(readOnly = true)
 	public Page<BountyDTO> findAll(Pageable pageable) {
 		log.debug("Request to get all Bounty");
-		return bountyRepository.findAll(pageable).map(bountyMapper::bountyToBountyDTO);
+		return bountyRepository.findAll(pageable).map(bountyMapper::toDTO);
 	}
 
     @Override
@@ -74,15 +79,15 @@ public class BountyServiceImpl implements BountyService {
         log.debug("Request to get all Bounties by {} by {}", status, hunterLogin);
         final User hunter = userRepository.findOneByLogin(hunterLogin).orElseThrow(IllegalArgumentException::new);
         return bountyRepository.findByStatusAndHunter(status, hunter).stream()
-                .map(bountyMapper::bountyToBountyDTO).collect(Collectors.toList());
+                .map(bountyMapper::toDTO).collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public BountyDTO findOne(Long id) {
+    public Optional<BountyDTO> findOne(Long id) {
         log.debug("Request to get Bounty : {}", id);
         final Optional<Bounty> bounty = bountyRepository.findById(id);
-        return bountyMapper.bountyToBountyDTO(bounty.orElseThrow(IllegalArgumentException::new));
+		return bounty.map(bountyMapper::toDTO);
     }
 
     @Override
@@ -92,8 +97,11 @@ public class BountyServiceImpl implements BountyService {
         final Bounty bounty = bountyRepository.findById(id)
                         .orElseThrow(EntityNotFoundException::new);
         funds.stream().map(fund -> bounty.addFunds(this.fundMapper.fundDTOToFund(fund)));
+		bounty.setAmount(bounty.getFunds().stream()
+				.map(Fund::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
+        bountyRepository.save(bounty);
         log.debug("Bounty with added funds {}", bounty);
-        return bountyMapper.bountyToBountyDTO(bounty);
+        return bountyMapper.toDTO(bounty);
     }
 
     @Override
@@ -103,8 +111,11 @@ public class BountyServiceImpl implements BountyService {
         final Bounty bounty = bountyRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
         funds.stream().map(fund -> bounty.removeFunds(this.fundMapper.fundDTOToFund(fund)));
+		bounty.setAmount(bounty.getFunds().stream()
+				.map(Fund::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add));
+		bountyRepository.save(bounty);
         log.debug("Bounty with removed funds {}", bounty);
-        return bountyMapper.bountyToBountyDTO(bounty);
+        return bountyMapper.toDTO(bounty);
     }
 
     @Override

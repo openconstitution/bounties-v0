@@ -104,6 +104,8 @@ public class Option extends AbstractAuditingEntity {
     public String toString() {
         return "Option{" +
                 "id=" + getId() +
+				", name=" + getName() +
+				", key=" + getKey() +
                 ", value=" + getValue() +
                 "}";
     }
