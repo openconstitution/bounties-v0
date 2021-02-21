@@ -52,14 +52,14 @@ module.exports = (options) => webpackMerge(commonConfig({ env: ENV }), {
         '/login',
         '/auth'
       ],
-      target: `http${options.tls ? 's' : ''}://localhost:8080`,
+      target: `http${options.tls ? 's' : ''}://localhost:8081`,
       secure: false,
       changeOrigin: options.tls
     },{
       context: [
         '/websocket'
       ],
-      target: 'ws://127.0.0.1:8080',
+      target: 'ws://127.0.0.1:8081',
       ws: true
     }],
     watchOptions: {

@@ -165,7 +165,7 @@ public class HibernateTimeZoneIT {
     }
 
     private String generateSqlRequest(String fieldName, long id) {
-        return format("SELECT %s FROM jhi_date_time_wrapper where id=%d", fieldName, id);
+        return format("SELECT %s FROM b_date_time_wrapper where id=%d", fieldName, id);
     }
 
     private void assertThatDateStoredValueIsEqualToInsertDateValueOnGMTTimeZone(SqlRowSet sqlRowSet, String expectedValue) {

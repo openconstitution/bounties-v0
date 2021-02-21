@@ -37,13 +37,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Transactional
 public class UserServiceIT {
 
+	private static final Long DEFAULT_ID = 1L;
+
     private static final String DEFAULT_LOGIN = "johndoe";
 
     private static final String DEFAULT_EMAIL = "johndoe@localhost";
 
-    private static final String DEFAULT_FIRSTNAME = "john";
-
-    private static final String DEFAULT_LASTNAME = "doe";
+    private static final String DEFAULT_NAME = "john doe";
 
     private static final String DEFAULT_IMAGEURL = "http://placehold.it/50x50";
 
@@ -63,25 +63,26 @@ public class UserServiceIT {
     public void init() {
         user = new User();
         user.setLogin(DEFAULT_LOGIN);
-        user.setActivated(true);
         user.setEmail(DEFAULT_EMAIL);
-        user.setFirstName(DEFAULT_FIRSTNAME);
-        user.setLastName(DEFAULT_LASTNAME);
+        user.setName(DEFAULT_NAME);
         user.setImageUrl(DEFAULT_IMAGEURL);
         user.setLangKey(DEFAULT_LANGKEY);
 
         userDetails = new HashMap<>();
-        userDetails.put("sub", DEFAULT_LOGIN);
+		userDetails.put("id", 1);
+        userDetails.put("login", DEFAULT_LOGIN);
         userDetails.put("email", DEFAULT_EMAIL);
-        userDetails.put("given_name", DEFAULT_FIRSTNAME);
-        userDetails.put("family_name", DEFAULT_LASTNAME);
-        userDetails.put("picture", DEFAULT_IMAGEURL);
+        userDetails.put("name", DEFAULT_NAME);
+		userDetails.put("avatar_url", DEFAULT_IMAGEURL);
+//		userDetails.put("html_url", DEFAULT_IMAGEURL);
+//		userDetails.put("created_at", DEFAULT_IMAGEURL);
+//		userDetails.put("updated_at", DEFAULT_IMAGEURL);
     }
 
     @Test
     @Transactional
     public void assertThatAnonymousUserIsNotGet() {
-        user.setId(Constants.ANONYMOUS_USER);
+        user.setId(1L);
         user.setLogin(Constants.ANONYMOUS_USER);
         if (!userRepository.findOneByLogin(Constants.ANONYMOUS_USER).isPresent()) {
             userRepository.saveAndFlush(user);
@@ -100,24 +101,11 @@ public class UserServiceIT {
         UserDTO userDTO = userService.getUserFromAuthentication(authentication);
 
         assertThat(userDTO.getLogin()).isEqualTo(DEFAULT_LOGIN);
-        assertThat(userDTO.getFirstName()).isEqualTo(DEFAULT_FIRSTNAME);
-        assertThat(userDTO.getLastName()).isEqualTo(DEFAULT_LASTNAME);
+        assertThat(userDTO.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(userDTO.getEmail()).isEqualTo(DEFAULT_EMAIL);
-        assertThat(userDTO.isActivated()).isTrue();
         assertThat(userDTO.getLangKey()).isEqualTo(Constants.DEFAULT_LANGUAGE);
         assertThat(userDTO.getImageUrl()).isEqualTo(DEFAULT_IMAGEURL);
         assertThat(userDTO.getAuthorities()).contains(AuthoritiesConstants.ANONYMOUS);
-    }
-
-    @Test
-    @Transactional
-    public void testUserDetailsWithUsername() {
-        userDetails.put("preferred_username", "TEST");
-
-        OAuth2AuthenticationToken authentication = createMockOAuth2AuthenticationToken(userDetails);
-        UserDTO userDTO = userService.getUserFromAuthentication(authentication);
-
-        assertThat(userDTO.getLogin()).isEqualTo("test");
     }
 
     @Test
@@ -169,8 +157,8 @@ public class UserServiceIT {
         Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.ANONYMOUS));
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(Constants.ANONYMOUS_USER, Constants.ANONYMOUS_USER, authorities);
         usernamePasswordAuthenticationToken.setDetails(userDetails);
-        OAuth2User user = new DefaultOAuth2User(authorities, userDetails, "sub");
+        OAuth2User user = new DefaultOAuth2User(authorities, userDetails, "login");
 
-        return new OAuth2AuthenticationToken(user, authorities, "oidc");
+        return new OAuth2AuthenticationToken(user, authorities, "github");
     }
 }
