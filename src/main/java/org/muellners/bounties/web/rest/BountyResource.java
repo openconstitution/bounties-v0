@@ -1,16 +1,14 @@
 package org.muellners.bounties.web.rest;
 
+import io.github.jhipster.web.util.ResponseUtil;
 import org.muellners.bounties.domain.Bounty;
 import org.muellners.bounties.security.AuthoritiesConstants;
 import org.muellners.bounties.service.BountyService;
-import org.muellners.bounties.service.FundService;
 import org.muellners.bounties.service.criteria.BountyCriteria;
-import org.muellners.bounties.service.criteria.OptionCriteria;
 import org.muellners.bounties.service.dto.BountyDTO;
 import org.muellners.bounties.service.dto.FundDTO;
 import org.muellners.bounties.service.query.BountyQueryService;
 import org.muellners.bounties.web.rest.errors.BadRequestAlertException;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,10 +18,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link org.muellners.bounties.domain.Bounty}.
@@ -42,13 +40,11 @@ public class BountyResource {
 
     private final BountyService bountyService;
     private BountyQueryService bountyQueryService;
-    private final FundService fundService;
 
     public BountyResource(final BountyService bountyService,
-                          final BountyQueryService bountyQueryService,
-                          final FundService fundService) {
+                          final BountyQueryService bountyQueryService) {
         this.bountyService = bountyService;
-        this.fundService = fundService;
+        this.bountyQueryService = bountyQueryService;
     }
 
     /**
@@ -130,7 +126,6 @@ public class BountyResource {
      *         bounty is not valid, or with status
      *         {@code 500 (Internal Server Error)} if the bounty couldn't be
      *         updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/bounties")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.USER + "\")")
@@ -165,7 +160,7 @@ public class BountyResource {
      * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
      */
     @GetMapping("/bounties/count")
-    public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) BountyCriteria criteria) {
+    public ResponseEntity<Long> countFunds(@RequestParam(name = "criteria", required = false) BountyCriteria criteria) {
         log.debug("REST request to count Bounties by criteria: {}", criteria);
         return ResponseEntity.ok().body(bountyQueryService.countByCriteria(criteria));
     }
@@ -180,8 +175,8 @@ public class BountyResource {
     @GetMapping("/bounties/{id}")
     public ResponseEntity<BountyDTO> getBounty(@PathVariable final Long id) {
         log.debug("REST request to get Bounty : {}", id);
-        final BountyDTO bountyDTO = bountyService.findOne(id);
-        return ResponseEntity.ok().body(bountyDTO);
+        final Optional<BountyDTO> bountyDTO = bountyService.findOne(id);
+        return ResponseUtil.wrapOrNotFound(bountyDTO);
     }
 
     /**

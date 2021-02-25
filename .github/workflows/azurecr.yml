@@ -1,18 +1,32 @@
 name: Azure Container Registry Login and Push
 
-on:
-  push:
-    branches: [master]
+on: [pull_request, issues]
+
+# on:
+#   push:
+#     branches: [master]
 
 jobs:
   main:
     runs-on: ubuntu-latest
     steps:
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+
+    # Execute Gradle commands in GitHub Actions workflows
+    # => https://github.com/marketplace/actions/gradle-command
+    - uses: eskatos/gradle-command-action@v1
+      with:
+        arguments: bootjar -Pprod jibDockerBuild
+        wrapper-cache-enabled: true
+        dependencies-cache-enabled: true
+        configuration-cache-enabled: true
     - uses: azure/docker-login@v1
       with:
         login-server: muellners.azurecr.io
         username: ${{ secrets.REGISTRY_USERNAME }}
         password: ${{ secrets.REGISTRY_PASSWORD }}
     - run: |
-        ./gradlew bootjar -Pprod jibDockerBuild
+        docker tag bounties muellners.azurecr.io/bounties:latest
         docker push muellners.azurecr.io/bounties:latest

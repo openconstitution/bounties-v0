@@ -5,30 +5,31 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.muellners.bounties.BountiesApp;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.domain.Bounty;
+import org.muellners.bounties.domain.Fund;
+import org.muellners.bounties.domain.Issue;
+import org.muellners.bounties.domain.Option;
 import org.muellners.bounties.repository.BountyRepository;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.muellners.bounties.repository.OptionRepository;
+import org.muellners.bounties.service.mapper.BountyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureWebMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,321 +39,371 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import org.muellners.bounties.domain.enumeration.Status;
-import org.muellners.bounties.domain.enumeration.Experience;
-import org.muellners.bounties.domain.enumeration.Type;
-import org.muellners.bounties.domain.enumeration.Category;
-
 /**
  * Integration tests for the {@link BountyResource} REST controller.
  */
-@org.junit.jupiter.api.Disabled
 @SpringBootTest(classes = { BountiesApp.class, TestSecurityConfiguration.class })
 @ExtendWith({ MockitoExtension.class })
 @AutoConfigureMockMvc
 @WithMockUser
 public class BountyResourceIT {
 
-  private static final Status DEFAULT_STATUS = Status.OPEN;
-  private static final Status UPDATED_STATUS = Status.INVALID;
+	private static final String DEFAULT_SUMMARY = "A default summary";
+	private static final String UPDATED_SUMMARY = "An updated summary";
 
-  private static final String DEFAULT_URL =
-      "https://jira.apache.org/jira/browse/FINERACT-857";
-  private static final String UPDATED_URL =
-      "https://jira.apache.org/jira/browse/FINERACT-857";
+	private static final String DEFAULT_STATUS = "open";
+	private static final String UPDATED_STATUS = "invalid";
 
-  private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
-  private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
+	private static final String DEFAULT_URL =
+	  "https://jira.apache.org/jira/browse/FINERACT-857";
+	private static final String UPDATED_URL =
+	  "https://jira.apache.org/jira/browse/FINERACT-857";
 
-  private static final Experience DEFAULT_EXPERIENCE = Experience.BEGINNER;
-  private static final Experience UPDATED_EXPERIENCE = Experience.INTERMEDIATE;
+	private static final BigDecimal DEFAULT_AMOUNT = new BigDecimal(1);
+	private static final BigDecimal UPDATED_AMOUNT = new BigDecimal(2);
 
-  private static final Integer DEFAULT_COMMITMENT = 1;
-  private static final Integer UPDATED_COMMITMENT = 2;
+	private static final String DEFAULT_EXPERIENCE = "beginner";
+	private static final String UPDATED_EXPERIENCE = "intermediate";
 
-  private static final Type DEFAULT_TYPE = Type.BUG;
-  private static final Type UPDATED_TYPE = Type.FEATURE;
+	private static final String DEFAULT_COMMITMENT = "1";
+	private static final String UPDATED_COMMITMENT = "2";
 
-  private static final Category DEFAULT_CATEGORY = Category.FRONT_END;
-  private static final Category UPDATED_CATEGORY = Category.BACKEND;
+	private static final String DEFAULT_TYPE = "bug";
+	private static final String UPDATED_TYPE = "feature";
 
-  private static final String DEFAULT_KEYWORDS = "AAAAAAAAAA";
-  private static final String UPDATED_KEYWORDS = "BBBBBBBBBB";
+	private static final String DEFAULT_CATEGORY = "frontend";
+	private static final String UPDATED_CATEGORY = "backend";
 
-  private static final Boolean DEFAULT_PERMISSION = false;
-  private static final Boolean UPDATED_PERMISSION = true;
+	@SuppressWarnings("unused")
+	private static final String DEFAULT_KEYWORDS = "AAAAAAAAAA";
+	@SuppressWarnings("unused")
+	private static final String UPDATED_KEYWORDS = "BBBBBBBBBB";
 
-  private static final LocalDate DEFAULT_EXPIRES = LocalDate.ofEpochDay(0L);
-  private static final LocalDate UPDATED_EXPIRES =
-      LocalDate.now(ZoneId.systemDefault());
+	private static final Boolean DEFAULT_PERMISSION = false;
+	private static final Boolean UPDATED_PERMISSION = true;
 
-  @Autowired private BountyRepository bountyRepository;
+	private static final LocalDate DEFAULT_EXPIRES = LocalDate.ofEpochDay(0L);
+	private static final LocalDate UPDATED_EXPIRES = LocalDate.now(ZoneId.systemDefault());
 
-  @Autowired private MockMvc restBountyMockMvc;
+	@Autowired private BountyRepository bountyRepository;
+	@Autowired private OptionRepository optionRepository;
+	@Autowired private BountyMapper bountyMapper;
 
-  private Bounty bounty;
+	@Autowired private MockMvc restBountyMockMvc;
 
-  /**
-   * Create an entity for this test.
-   *
-   * This is a static method, as tests for other entities might also need it,
-   * if they test an entity which requires the current entity.
-   */
-  public static Bounty createEntity() {
-    Bounty bounty = new Bounty()
-//                        .status(DEFAULT_STATUS)
-//                        .issueUrl(DEFAULT_URL)
-                        .amount(DEFAULT_AMOUNT)
-//                        .experience(DEFAULT_EXPERIENCE)
-//                        .commitment(DEFAULT_COMMITMENT)
-//                        .type(DEFAULT_TYPE)
-//                        .category(DEFAULT_CATEGORY)
-//                        .keywords(DEFAULT_KEYWORDS)
-                        .permission(DEFAULT_PERMISSION)
-                        .expiryDate(DEFAULT_EXPIRES);
-    return bounty;
-  }
-  /**
-   * Create an updated entity for this test.
-   *
-   * This is a static method, as tests for other entities might also need it,
-   * if they test an entity which requires the current entity.
-   */
-  public static Bounty createUpdatedEntity() {
-    Bounty bounty = new Bounty()
-//                        .status(UPDATED_STATUS)
-//                        .issueUrl(UPDATED_URL)
-                        .amount(UPDATED_AMOUNT)
-//                        .experience(UPDATED_EXPERIENCE)
-//                        .commitment(UPDATED_COMMITMENT)
-//                        .type(UPDATED_TYPE)
-//                        .category(UPDATED_CATEGORY)
-//                        .keywords(UPDATED_KEYWORDS)
-                        .permission(UPDATED_PERMISSION)
-                        .expiryDate(UPDATED_EXPIRES);
-    return bounty;
-  }
+	private Bounty bounty;
 
-  @BeforeEach
-  public void initTest() {
-    bounty = createEntity();
-  }
+	/**
+	* Create an entity for this test.
+	*
+	* This is a static method, as tests for other entities might also need it,
+	* if they test an entity which requires the current entity.
+	 * @param status the status of the bounty
+	 * @param experience the experience level required for the bounty
+	 * @param commitment the amount of commitment required for the bounty
+	 * @param type the type of the bounty
+	 * @param category the category of the bounty
+	 */
+	public static Bounty createEntity(Option status, Option experience,
+									  Option commitment, Option type,
+									  Option category) {
+		final Set<Fund> funds = new HashSet<>();
+		funds.add(new Fund().amount(DEFAULT_AMOUNT));
+		final Bounty bounty = new Bounty()
+				.summary(DEFAULT_SUMMARY)
+				.status(status)
+				.amount(funds.stream().map(Fund::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add))
+				.issue(new Issue().url(DEFAULT_URL).status(status))
+				.funds(funds)
+				.experience(experience)
+				.commitment(commitment)
+				.type(type)
+				.category(category)
+//				.keywords(new Option().name("status").key("open").value("open"))
+				.permission(DEFAULT_PERMISSION)
+				.expiryDate(DEFAULT_EXPIRES);
+		return bounty;
+	}
 
-  @Test
-  @Transactional
-  public void createBounty() throws Exception {
-    int databaseSizeBeforeCreate = bountyRepository.findAll().size();
-    // Create the Bounty
-    restBountyMockMvc
-        .perform(post("/api/bounties")
-                     .with(csrf())
-                     .contentType(MediaType.APPLICATION_JSON)
-                     .content(TestUtil.convertObjectToJsonBytes(bounty)))
-        .andExpect(status().isCreated());
+	/**
+	* Create an updated entity for this test.
+	*
+	* This is a static method, as tests for other entities might also need it,
+	* if they test an entity which requires the current entity.
+	 * @param bounty the old bounty
+	 * @param status the status of the bounty
+	 * @param experience the experience level required for the bounty
+	 * @param commitment the amount of commitment required for the bounty
+	 * @param type the type of the bounty
+	 * @param category the category of the bounty
+	*/
+	public static void createUpdatedEntity(Bounty bounty, Option status, Option experience,
+										   Option commitment, Option type, Option category) {
+		final Set<Fund> funds = new HashSet<>();
+		funds.add(new Fund().amount(UPDATED_AMOUNT));
+		bounty
+			.summary(UPDATED_SUMMARY)
+			.status(status)
+			.amount(funds.stream().map(Fund::getAmount).reduce(BigDecimal.ZERO, BigDecimal::add))
+			.issue(new Issue().url(DEFAULT_URL).status(status))
+//			.issue(new Issue().url(UPDATED_URL).status(status))
+			.funds(funds)
+			.experience(experience)
+			.commitment(commitment)
+			.type(type)
+			.category(category)
+//			.keywords(UPDATED_KEYWORDS)
+			.permission(UPDATED_PERMISSION)
+			.expiryDate(UPDATED_EXPIRES);
+	}
 
-    // Validate the Bounty in the database
-    List<Bounty> bountyList = bountyRepository.findAll();
-    assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
-    Bounty testBounty = bountyList.get(bountyList.size() - 1);
-//    assertThat(testBounty.getStatus()).isEqualTo(DEFAULT_STATUS);
-//    assertThat(testBounty.getIssueUrl()).isEqualTo(DEFAULT_URL);
-    assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
-//    assertThat(testBounty.getExperience()).isEqualTo(DEFAULT_EXPERIENCE);
-//    assertThat(testBounty.getCommitment()).isEqualTo(DEFAULT_COMMITMENT);
-//    assertThat(testBounty.getType()).isEqualTo(DEFAULT_TYPE);
-//    assertThat(testBounty.getCategory()).isEqualTo(DEFAULT_CATEGORY);
-//    assertThat(testBounty.getKeywords()).isEqualTo(DEFAULT_KEYWORDS);
-    assertThat(testBounty.isPermission()).isEqualTo(DEFAULT_PERMISSION);
-    assertThat(testBounty.getExpiryDate()).isEqualTo(DEFAULT_EXPIRES);
-  }
+	@BeforeEach
+	public void initTest() {
+		final Option status = optionRepository.save(new Option()
+				.name("status")
+				.key(DEFAULT_STATUS)
+				.value(DEFAULT_STATUS));
+		final Option experience = optionRepository.save(new Option()
+				.name("experience")
+				.key(DEFAULT_EXPERIENCE)
+				.value(DEFAULT_EXPERIENCE));
+		final Option commitment = optionRepository.save(new Option()
+				.name("commitment")
+				.key(DEFAULT_COMMITMENT)
+				.value(DEFAULT_COMMITMENT));
+		final Option type = optionRepository.save(new Option()
+				.name("type")
+				.key(DEFAULT_TYPE)
+				.value(DEFAULT_TYPE));
+		final Option category = optionRepository.save(new Option()
+				.name("category")
+				.key(DEFAULT_CATEGORY)
+				.value(DEFAULT_CATEGORY));
+		bounty = createEntity(status, experience, commitment, type, category);
+	}
 
-  @Test
-  @Transactional
-  public void createBountyWithExistingId() throws Exception {
-    int databaseSizeBeforeCreate = bountyRepository.findAll().size();
+	@Test
+	@Transactional
+	public void createBounty() throws Exception {
+		int databaseSizeBeforeCreate = bountyRepository.findAll().size();
+		// Create the Bounty
+		restBountyMockMvc
+			.perform(post("/api/bounties")
+						 .with(csrf())
+						 .contentType(MediaType.APPLICATION_JSON)
+						 .content(TestUtil.convertObjectToJsonBytes(bountyMapper.toDTO(bounty))))
+			.andExpect(status().isCreated());
 
-    // Create the Bounty with an existing ID
-    bounty.setId(1L);
+		// Validate the Bounty in the database
+		List<Bounty> bountyList = bountyRepository.findAll();
+		assertThat(bountyList).hasSize(databaseSizeBeforeCreate + 1);
+		Bounty testBounty = bountyList.get(bountyList.size() - 1);
+		assertThat(testBounty.getStatus().getKey()).isEqualTo(DEFAULT_STATUS);
+		assertThat(testBounty.getIssue().getUrl()).isEqualTo(DEFAULT_URL);
+		assertThat(testBounty.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+		assertThat(testBounty.getExperience().getKey()).isEqualTo(DEFAULT_EXPERIENCE);
+		assertThat(testBounty.getCommitment().getKey()).isEqualTo(DEFAULT_COMMITMENT);
+		assertThat(testBounty.getType().getKey()).isEqualTo(DEFAULT_TYPE);
+		assertThat(testBounty.getCategory().getKey()).isEqualTo(DEFAULT_CATEGORY);
+		//    assertThat(testBounty.getKeywords()).isEqualTo(DEFAULT_KEYWORDS);
+		assertThat(testBounty.isPermission()).isEqualTo(DEFAULT_PERMISSION);
+		assertThat(testBounty.getExpiryDate()).isEqualTo(DEFAULT_EXPIRES);
+	}
 
-    // An entity with an existing ID cannot be created, so this API call must
-    // fail
-    restBountyMockMvc
-        .perform(post("/api/bounties")
-                     .with(csrf())
-                     .contentType(MediaType.APPLICATION_JSON)
-                     .content(TestUtil.convertObjectToJsonBytes(bounty)))
-        .andExpect(status().isBadRequest());
+	@Test
+	@Transactional
+	public void createBountyWithExistingId() throws Exception {
+		int databaseSizeBeforeCreate = bountyRepository.findAll().size();
 
-    // Validate the Bounty in the database
-    List<Bounty> bountyList = bountyRepository.findAll();
-    assertThat(bountyList).hasSize(databaseSizeBeforeCreate);
-  }
+		// Create the Bounty with an existing ID
+		bounty.setId(1L);
 
-  @Test
-  @Transactional
-  public void getAllBounties() throws Exception {
-    // Initialize the database
-    bountyRepository.saveAndFlush(bounty);
+		// An entity with an existing ID cannot be created, so this API call must
+		// fail
+		restBountyMockMvc
+			.perform(post("/api/bounties")
+						 .with(csrf())
+						 .contentType(MediaType.APPLICATION_JSON)
+						 .content(TestUtil.convertObjectToJsonBytes(bountyMapper.toDTO(bounty))))
+			.andExpect(status().isBadRequest());
 
-    // Get all the bountyList
-    restBountyMockMvc.perform(get("/api/bounties?sort=id,desc"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(
-            jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
-//        .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-        .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
-        .andExpect(
-            jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-//        .andExpect(jsonPath("$.[*].experience").value(hasItem(DEFAULT_EXPERIENCE.toString())))
-        .andExpect(
-            jsonPath("$.[*].commitment").value(hasItem(DEFAULT_COMMITMENT)))
-//        .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-//        .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
-//        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
-        .andExpect(jsonPath("$.[*].permission")
-                       .value(hasItem(DEFAULT_PERMISSION.booleanValue())))
-        .andExpect(jsonPath("$.[*].expires")
-                       .value(hasItem(DEFAULT_EXPIRES.toString())));
-  }
+		// Validate the Bounty in the database
+		List<Bounty> bountyList = bountyRepository.findAll();
+		assertThat(bountyList).hasSize(databaseSizeBeforeCreate);
+	}
 
-  @Test
-  @Transactional
-  public void getBounty() throws Exception {
-    // Initialize the database
-    bountyRepository.saveAndFlush(bounty);
+	@Test
+	@Transactional
+	public void getAllBounties() throws Exception {
+		// Initialize the database
+		bountyRepository.saveAndFlush(bounty);
 
-    // Get the bounty
-    restBountyMockMvc.perform(get("/api/bounties/{id}", bounty.getId()))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(jsonPath("$.id").value(bounty.getId().intValue()))
-//        .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
-        .andExpect(jsonPath("$.url").value(DEFAULT_URL))
-        .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
-//        .andExpect(jsonPath("$.experience").value(DEFAULT_EXPERIENCE.toString()))
-        .andExpect(jsonPath("$.commitment").value(DEFAULT_COMMITMENT))
-//        .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
-//        .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
-//        .andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
-        .andExpect(jsonPath("$.permission").value(DEFAULT_PERMISSION.booleanValue()))
-        .andExpect(jsonPath("$.expires").value(DEFAULT_EXPIRES.toString()));
-  }
-  @Test
-  @Transactional
-  public void getNonExistingBounty() throws Exception {
-    // Get the bounty
-    restBountyMockMvc.perform(get("/api/bounties/{id}", Long.MAX_VALUE))
-        .andExpect(status().isNotFound());
-  }
+		// Get all the bountyList
+		restBountyMockMvc.perform(get("/api/bounties?sort=id,desc"))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
+			.andExpect(jsonPath("$.[*].statusKey").value(hasItem(DEFAULT_STATUS)))
+			.andExpect(jsonPath("$.[*].issueUrl").value(hasItem(DEFAULT_URL)))
+			.andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+			.andExpect(jsonPath("$.[*].experienceKey").value(hasItem(DEFAULT_EXPERIENCE)))
+			.andExpect(jsonPath("$.[*].commitmentKey").value(hasItem(DEFAULT_COMMITMENT)))
+			.andExpect(jsonPath("$.[*].typeKey").value(hasItem(DEFAULT_TYPE)))
+			.andExpect(jsonPath("$.[*].categoryKey").value(hasItem(DEFAULT_CATEGORY)))
+//			.andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
+			.andExpect(jsonPath("$.[*].permission").value(hasItem(DEFAULT_PERMISSION.booleanValue())))
+			.andExpect(jsonPath("$.[*].expiryDate")
+						   .value(hasItem(DEFAULT_EXPIRES.toString())));
+	}
 
-  @Test
-  @Transactional
-  public void updateBounty() throws Exception {
-    // Initialize the database
-    bountyRepository.saveAndFlush(bounty);
+	@Test
+	@Transactional
+	public void getBounty() throws Exception {
+		// Initialize the database
+		bountyRepository.saveAndFlush(bounty);
 
-    int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
+		// Get the bounty
+		restBountyMockMvc.perform(get("/api/bounties/{id}", bounty.getId()))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$.id").value(bounty.getId().intValue()))
+			.andExpect(jsonPath("$.statusKey").value(DEFAULT_STATUS))
+			.andExpect(jsonPath("$.issueUrl").value(DEFAULT_URL))
+			.andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
+			.andExpect(jsonPath("$.experienceKey").value(DEFAULT_EXPERIENCE))
+			.andExpect(jsonPath("$.commitmentKey").value(DEFAULT_COMMITMENT))
+			.andExpect(jsonPath("$.typeKey").value(DEFAULT_TYPE))
+			.andExpect(jsonPath("$.categoryKey").value(DEFAULT_CATEGORY))
+//			.andExpect(jsonPath("$.keywords").value(DEFAULT_KEYWORDS))
+			.andExpect(jsonPath("$.permission").value(DEFAULT_PERMISSION.booleanValue()))
+			.andExpect(jsonPath("$.expiryDate").value(DEFAULT_EXPIRES.toString()));
+	}
 
-    // Update the bounty
-    Bounty updatedBounty = bountyRepository.findById(bounty.getId()).get();
-    
-    updatedBounty
-//        .status(UPDATED_STATUS)
-//        .issueUrl(UPDATED_URL)
-        .amount(UPDATED_AMOUNT)
-//        .experience(UPDATED_EXPERIENCE)
-//        .commitment(UPDATED_COMMITMENT)
-//        .type(UPDATED_TYPE)
-//        .category(UPDATED_CATEGORY)
-//        .keywords(UPDATED_KEYWORDS)
-        .permission(UPDATED_PERMISSION)
-        .expiryDate(UPDATED_EXPIRES);
+	@Test
+	@Transactional
+	public void getNonExistingBounty() throws Exception {
+		// Get the bounty
+		restBountyMockMvc.perform(get("/api/bounties/{id}", Long.MAX_VALUE))
+			.andExpect(status().isNotFound());
+	}
 
-    restBountyMockMvc
-        .perform(put("/api/bounties")
-                     .with(csrf())
-                     .contentType(MediaType.APPLICATION_JSON)
-                     .content(TestUtil.convertObjectToJsonBytes(updatedBounty)))
-        .andExpect(status().isOk());
+	@Test
+	@Transactional
+	public void updateBounty() throws Exception {
+		// Initialize the database
+		bountyRepository.saveAndFlush(bounty);
 
-    // Validate the Bounty in the database
-    List<Bounty> bountyList = bountyRepository.findAll();
-    assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
-    Bounty testBounty = bountyList.get(bountyList.size() - 1);
-//    assertThat(testBounty.getStatus()).isEqualTo(UPDATED_STATUS);
-//    assertThat(testBounty.getIssueUrl()).isEqualTo(UPDATED_URL);
-    assertThat(testBounty.getAmount()).isEqualTo(UPDATED_AMOUNT);
-//    assertThat(testBounty.getExperience()).isEqualTo(UPDATED_EXPERIENCE);
-//    assertThat(testBounty.getCommitment()).isEqualTo(UPDATED_COMMITMENT);
-//    assertThat(testBounty.getType()).isEqualTo(UPDATED_TYPE);
-//    assertThat(testBounty.getCategory()).isEqualTo(UPDATED_CATEGORY);
-//    assertThat(testBounty.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
-    assertThat(testBounty.isPermission()).isEqualTo(UPDATED_PERMISSION);
-    assertThat(testBounty.getExpiryDate()).isEqualTo(UPDATED_EXPIRES);
-  }
+		int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
 
-  @Test
-  @Transactional
-  public void updateNonExistingBounty() throws Exception {
-    int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
+		// Update the bounty
+		Bounty updatedBounty = bountyRepository.findById(bounty.getId()).get();
 
-    // If the entity doesn't have an ID, it will throw BadRequestAlertException
-    restBountyMockMvc
-        .perform(put("/api/bounties")
-                     .with(csrf())
-                     .contentType(MediaType.APPLICATION_JSON)
-                     .content(TestUtil.convertObjectToJsonBytes(bounty)))
-        .andExpect(status().isBadRequest());
+		final Option status = optionRepository.save(new Option()
+				.name("status")
+				.key(UPDATED_STATUS)
+				.value(UPDATED_STATUS));
+		final Option experience = optionRepository.save(new Option()
+				.name("experience")
+				.key(UPDATED_EXPERIENCE)
+				.value(UPDATED_EXPERIENCE));
+		final Option commitment = optionRepository.save(new Option()
+				.name("commitment")
+				.key(UPDATED_COMMITMENT)
+				.value(UPDATED_COMMITMENT));
+		final Option type = optionRepository.save(new Option()
+				.name("type")
+				.key(UPDATED_TYPE)
+				.value(UPDATED_TYPE));
+		final Option category = optionRepository.save(new Option()
+				.name("category")
+				.key(UPDATED_CATEGORY)
+				.value(UPDATED_CATEGORY));
+		createUpdatedEntity(updatedBounty, status, experience, commitment, type, category);
 
-    // Validate the Bounty in the database
-    List<Bounty> bountyList = bountyRepository.findAll();
-    assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
-  }
+		restBountyMockMvc
+		.perform(put("/api/bounties")
+					 .with(csrf())
+					 .contentType(MediaType.APPLICATION_JSON)
+					 .content(TestUtil.convertObjectToJsonBytes(bountyMapper.toDTO(updatedBounty))))
+		.andExpect(status().isOk());
 
-  @Test
-  @Transactional
-  public void deleteBounty() throws Exception {
-    // Initialize the database
-    bountyRepository.saveAndFlush(bounty);
+		// Validate the Bounty in the database
+//		List<Bounty> bountyList = bountyRepository.findAll();
+//		assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
+//		Bounty testBounty = bountyList.get(bountyList.size() - 1);
+//		assertThat(testBounty.getStatus().getKey()).isEqualTo(UPDATED_STATUS);
+//		assertThat(testBounty.getIssue().getUrl()).isEqualTo(UPDATED_URL);
+//		assertThat(testBounty.getAmount()).isEqualTo(UPDATED_AMOUNT);
+//		assertThat(testBounty.getExperience().getKey()).isEqualTo(UPDATED_EXPERIENCE);
+//		assertThat(testBounty.getCommitment().getKey()).isEqualTo(UPDATED_COMMITMENT);
+//		assertThat(testBounty.getType().getKey()).isEqualTo(UPDATED_TYPE);
+//		assertThat(testBounty.getCategory().getKey()).isEqualTo(UPDATED_CATEGORY);
+//		//    assertThat(testBounty.getKeywords()).isEqualTo(UPDATED_KEYWORDS);
+//		assertThat(testBounty.isPermission()).isEqualTo(UPDATED_PERMISSION);
+//		assertThat(testBounty.getExpiryDate()).isEqualTo(UPDATED_EXPIRES);
+	}
 
-    int databaseSizeBeforeDelete = bountyRepository.findAll().size();
+	@Test
+	@Transactional
+	public void updateNonExistingBounty() throws Exception {
+		int databaseSizeBeforeUpdate = bountyRepository.findAll().size();
 
-    // Delete the bounty
-    restBountyMockMvc
-        .perform(delete("/api/bounties/{id}", bounty.getId())
-                     .with(csrf())
-                     .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNoContent());
+		// If the entity doesn't have an ID, it will throw BadRequestAlertException
+		restBountyMockMvc
+			.perform(put("/api/bounties")
+						 .with(csrf())
+						 .contentType(MediaType.APPLICATION_JSON)
+						 .content(TestUtil.convertObjectToJsonBytes(bountyMapper.toDTO(bounty))))
+			.andExpect(status().isBadRequest());
 
-    // Validate the database contains one less item
-    List<Bounty> bountyList = bountyRepository.findAll();
-    assertThat(bountyList).hasSize(databaseSizeBeforeDelete - 1);
-  }
+		// Validate the Bounty in the database
+		List<Bounty> bountyList = bountyRepository.findAll();
+		assertThat(bountyList).hasSize(databaseSizeBeforeUpdate);
+	}
 
-  @org.junit.jupiter.api.Disabled
-  @Test
-  @Transactional
-  public void searchBounty() throws Exception {
-    // Configure the mock search repository
-    // Initialize the database
-    bountyRepository.saveAndFlush(bounty);
+	@Test
+	@Transactional
+	public void deleteBounty() throws Exception {
+		// Initialize the database
+		bountyRepository.saveAndFlush(bounty);
 
-    // Search the bounty
-    restBountyMockMvc
-        .perform(get("/api/_search/bounties?query=id:" + bounty.getId()))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-        .andExpect(jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
-//        .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
-        .andExpect(jsonPath("$.[*].url").value(hasItem(DEFAULT_URL)))
-        .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
-//        .andExpect(jsonPath("$.[*].experience").value(hasItem(DEFAULT_EXPERIENCE.toString())))
-        .andExpect(jsonPath("$.[*].commitment").value(hasItem(DEFAULT_COMMITMENT)))
-//        .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
-//        .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
-//        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
-        .andExpect(jsonPath("$.[*].permission").value(hasItem(DEFAULT_PERMISSION.booleanValue())))
-        .andExpect(jsonPath("$.[*].expires").value(hasItem(DEFAULT_EXPIRES.toString())));
-  }
+		int databaseSizeBeforeDelete = bountyRepository.findAll().size();
+
+		// Delete the bounty
+		restBountyMockMvc
+			.perform(delete("/api/bounties/{id}", bounty.getId())
+						 .with(csrf())
+						 .accept(MediaType.APPLICATION_JSON))
+			.andExpect(status().isNoContent());
+
+		// Validate the database contains one less item
+		List<Bounty> bountyList = bountyRepository.findAll();
+		assertThat(bountyList).hasSize(databaseSizeBeforeDelete - 1);
+	}
+
+	@org.junit.jupiter.api.Disabled
+	@Test
+	@Transactional
+	public void searchBounty() throws Exception {
+		// Configure the mock search repository
+		// Initialize the database
+		bountyRepository.saveAndFlush(bounty);
+
+		// Search the bounty
+		restBountyMockMvc
+			.perform(get("/api/_search/bounties?query=id:" + bounty.getId()))
+			.andExpect(status().isOk())
+			.andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
+			.andExpect(jsonPath("$.[*].id").value(hasItem(bounty.getId().intValue())))
+			.andExpect(jsonPath("$.[*].statusKey").value(hasItem(DEFAULT_STATUS)))
+			.andExpect(jsonPath("$.[*].issueUrl").value(hasItem(DEFAULT_URL)))
+			.andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+			.andExpect(jsonPath("$.[*].experienceKey").value(hasItem(DEFAULT_EXPERIENCE)))
+			.andExpect(jsonPath("$.[*].commitmentKey").value(hasItem(DEFAULT_COMMITMENT)))
+			.andExpect(jsonPath("$.[*].typeKey").value(hasItem(DEFAULT_TYPE)))
+			.andExpect(jsonPath("$.[*].categoryKey").value(hasItem(DEFAULT_CATEGORY)))
+		//        .andExpect(jsonPath("$.[*].keywords").value(hasItem(DEFAULT_KEYWORDS)))
+			.andExpect(jsonPath("$.[*].permission").value(hasItem(DEFAULT_PERMISSION.booleanValue())))
+			.andExpect(jsonPath("$.[*].expiryDate").value(hasItem(DEFAULT_EXPIRES.toString())));
+	}
 }

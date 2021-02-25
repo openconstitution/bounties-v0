@@ -103,7 +103,7 @@ public class FundResource {
      * @return the [ResponseEntity] with status `200 (OK)` and the count in body.
      */
     @GetMapping("/funds/count")
-    public ResponseEntity<Long> countOptions(@RequestParam(name = "criteria", required = false) FundCriteria criteria) {
+    public ResponseEntity<Long> countFunds(@RequestParam(name = "criteria", required = false) FundCriteria criteria) {
         log.debug("REST request to count Funds by criteria: {}", criteria);
         return ResponseEntity.ok().body(fundQueryService.countByCriteria(criteria));
     }

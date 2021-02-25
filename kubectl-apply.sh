@@ -19,10 +19,7 @@ exit 0
 }
 
 init() {
-    kubectl create secret generic bounties-keycloak-db-secret --from-literal=username=admin --from-literal=password=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
     kubectl create secret generic bounties-mysql-secret --from-literal=username=root --from-literal=password=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 16)
-
-    kubectl apply -f kubernetes/keycloak-realm-configmap.yml
 }
 
 logSummary() {

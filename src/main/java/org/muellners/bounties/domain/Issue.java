@@ -14,11 +14,12 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "b_issue")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Issue {
+public class Issue implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -68,6 +69,11 @@ public class Issue {
 		return status;
 	}
 
+	public Issue status(Option status) {
+		this.status = status;
+		return this;
+	}
+
 	public void setStatus(Option status) {
 		this.status = status;
 	}
@@ -109,7 +115,7 @@ public class Issue {
 				"id=" + id +
 				", url='" + url + '\'' +
 				", status=" + status +
-				", resolver=" + resolver +
-				'}';
+				", resolver='" + resolver + "'" +
+			'}';
 	}
 }

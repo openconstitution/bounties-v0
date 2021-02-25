@@ -5,6 +5,7 @@ import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.domain.Authority;
 import org.muellners.bounties.domain.User;
 
+import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.time.Instant;
 import java.util.Set;
@@ -15,18 +16,15 @@ import java.util.stream.Collectors;
  */
 public class UserDTO {
 
-    private String id;
+    private Long id;
 
     @NotBlank
     @Pattern(regexp = Constants.LOGIN_REGEX)
     @Size(min = 1, max = 50)
     private String login;
 
-    @Size(max = 50)
-    private String firstName;
-
-    @Size(max = 50)
-    private String lastName;
+    @Size(max = 150)
+    private String name;
 
     @Email
     @Size(min = 5, max = 254)
@@ -37,10 +35,19 @@ public class UserDTO {
 
     private boolean activated = false;
 
-    @Size(min = 2, max = 10)
     private String langKey;
 
-    private ProfileDTO profile;
+    private Integer votes;
+
+    private String githubProfileUrl;
+
+    private String about;
+
+    private String walletAddress;
+
+    private String githubOrgName;
+
+    private Set<String> authorities;
 
     private String createdBy;
 
@@ -50,8 +57,6 @@ public class UserDTO {
 
     private Instant lastModifiedDate;
 
-    private Set<String> authorities;
-
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -59,12 +64,15 @@ public class UserDTO {
     public UserDTO(User user) {
         this.id = user.getId();
         this.login = user.getLogin();
-        this.firstName = user.getFirstName();
-        this.lastName = user.getLastName();
+        this.name = user.getName();
         this.email = user.getEmail();
-        this.activated = user.getActivated();
         this.imageUrl = user.getImageUrl();
         this.langKey = user.getLangKey();
+        this.votes = user.getVotes();
+        this.githubProfileUrl = user.getGithubProfileUrl();
+        this.about = user.getAbout();
+        this.walletAddress = user.getWalletAddress();
+        this.githubOrgName = user.getGithubOrgName();
         this.createdBy = user.getCreatedBy();
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
@@ -74,11 +82,11 @@ public class UserDTO {
             .collect(Collectors.toSet());
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -90,20 +98,12 @@ public class UserDTO {
         this.login = login;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -138,12 +138,44 @@ public class UserDTO {
         this.langKey = langKey;
     }
 
-    public ProfileDTO getProfile() {
-        return profile;
+    public Integer getVotes() {
+        return votes;
     }
 
-    public void setProfile(ProfileDTO profile) {
-        this.profile = profile;
+    public void setVotes(Integer votes) {
+        this.votes = votes;
+    }
+
+    public String getGithubProfileUrl() {
+        return githubProfileUrl;
+    }
+
+    public void setGithubProfileUrl(String githubProfileUrl) {
+        this.githubProfileUrl = githubProfileUrl;
+    }
+
+    public String getAbout() {
+        return about;
+    }
+
+    public void setAbout(String about) {
+        this.about = about;
+    }
+
+    public String getWalletAddress() {
+        return walletAddress;
+    }
+
+    public void setWalletAddress(String walletAddress) {
+        this.walletAddress = walletAddress;
+    }
+
+    public String getGithubOrgName() {
+        return githubOrgName;
+    }
+
+    public void setGithubOrgName(String githubOrgName) {
+        this.githubOrgName = githubOrgName;
     }
 
     public String getCreatedBy() {
@@ -190,18 +222,23 @@ public class UserDTO {
     @Override
     public String toString() {
         return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+                "id='" + id + '\'' +
+                ", login='" + login + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", activated=" + activated +
+                ", langKey='" + langKey + '\'' +
+                ", votes=" + votes +
+                ", githubProfileUrl='" + githubProfileUrl + '\'' +
+                ", about='" + about + '\'' +
+                ", walletAddress='" + walletAddress + '\'' +
+                ", githubOrgName='" + githubOrgName + '\'' +
+                ", authorities=" + authorities +
+                ", createdBy='" + createdBy + '\'' +
+                ", createdDate=" + createdDate +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                '}';
     }
 }

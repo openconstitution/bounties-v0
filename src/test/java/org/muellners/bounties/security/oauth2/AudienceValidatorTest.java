@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test class for the {@link AudienceValidator} utility class.
  */
+@SuppressWarnings("rawtypes")
 public class AudienceValidatorTest {
 
     private final AudienceValidator validator = new AudienceValidator(Arrays.asList("api://default"));

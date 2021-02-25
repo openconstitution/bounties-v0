@@ -1,7 +1,6 @@
 package org.muellners.bounties.service.query;
 
 import io.github.jhipster.service.QueryService;
-import org.muellners.bounties.domain.Profile_;
 import org.muellners.bounties.domain.User;
 import org.muellners.bounties.domain.User_;
 import org.muellners.bounties.repository.UserRepository;
@@ -13,8 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.persistence.criteria.JoinType;
 import java.util.List;
 
 /**
@@ -29,7 +26,7 @@ public class UserQueryService extends QueryService<User> {
 
 	private final Logger log = LoggerFactory.getLogger(UserQueryService.class);
 
-	private UserRepository userRepository;
+	private final UserRepository userRepository;
 
 	public UserQueryService(final UserRepository userRepository) {
 		this.userRepository = userRepository;
@@ -89,18 +86,17 @@ public class UserQueryService extends QueryService<User> {
 			if (criteria.getLogin() != null) {
 				specification = specification.and(buildStringSpecification(criteria.getLogin(), User_.login));
 			}
-			if (criteria.getFirstName() != null) {
-				specification = specification.and(buildStringSpecification(criteria.getFirstName(), User_.firstName));
-			}
-			if (criteria.getLastName() != null) {
-				specification = specification.and(buildStringSpecification(criteria.getLastName(), User_.lastName));
+			if (criteria.getName() != null) {
+				specification = specification.and(buildStringSpecification(criteria.getName(), User_.name));
 			}
 			if (criteria.getEmail() != null) {
 				specification = specification.and(buildStringSpecification(criteria.getEmail(), User_.email));
 			}
-			if (criteria.getId() != null) {
-				specification = specification.and(buildSpecification(criteria.getProfileId(),
-						(root) -> root.join(User_.profile, JoinType.LEFT).get(Profile_.id)));
+			if (criteria.getGithubOrgName() != null) {
+				specification = specification.and(buildStringSpecification(criteria.getGithubOrgName(), User_.githubOrgName));
+			}
+			if (criteria.getGithubProfileUrl() != null) {
+				specification = specification.and(buildStringSpecification(criteria.getGithubProfileUrl(), User_.githubProfileUrl));
 			}
 		}
 		return specification;

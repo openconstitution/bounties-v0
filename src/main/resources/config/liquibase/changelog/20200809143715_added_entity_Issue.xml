@@ -22,7 +22,7 @@
             <column name="status_id" type="bigint">
                 <constraints nullable="true" />
             </column>
-            <column name="resolver_id" type="varchar(100)">
+            <column name="resolver_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

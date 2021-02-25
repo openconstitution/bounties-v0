@@ -3,7 +3,6 @@ resources:
   - kubernetes/bounties-deployment.yml
   - kubernetes/bounties-service.yml
   - kubernetes/bounties-mysql.yml
-  - kubernetes/bounties-keycloak.yml
   - kubernetes/bounties-kafka.yml
   - kubernetes/bounties-redis.yml
 # patchesJson6902:

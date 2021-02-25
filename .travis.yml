@@ -42,7 +42,7 @@ install:
 script:
   - chmod +x gradlew
   - ./gradlew checkstyleNohttp
-  - ./gradlew clean test integrationTest -Ptestcontainers
+  - ./gradlew clean test integrationTest
   #  - ./gradlew npm_run_test-ci -PnodeInstall --no-daemon
   - ./gradlew bootJar -Pprod -x test
 after_script:

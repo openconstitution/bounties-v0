@@ -1,56 +1,34 @@
 package org.muellners.bounties.web.rest;
 
+import org.junit.jupiter.api.Disabled;
 import org.muellners.bounties.config.KafkaProperties;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.testcontainers.containers.KafkaContainer;
-
 import java.time.Duration;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@Disabled
 class BountiesKafkaResourceIT {
 
-    private static boolean started = false;
-    private static KafkaContainer kafkaContainer;
+	private final String bootStrapServers = "localhost:9092";
+	private MockMvc restMockMvc;
 
-    private MockMvc restMockMvc;
-
-    @BeforeAll
-    static void startServer() {
-        if (!started) {
-            startTestcontainer();
-            started = true;
-        }
-    }
-
-    private static void startTestcontainer() {
-        // TODO: withNetwork will need to be removed soon
-        // See discussion at https://github.com/jhipster/generator-jhipster/issues/11544#issuecomment-609065206
-        kafkaContainer = new KafkaContainer("5.5.0").withNetwork(null);
-        kafkaContainer.start();
-    }
-
-    @BeforeEach
+	@BeforeEach
     void setup() {
         KafkaProperties kafkaProperties = new KafkaProperties();
         Map<String, String> producerProps = getProducerProps();
@@ -65,9 +43,10 @@ class BountiesKafkaResourceIT {
         restMockMvc = MockMvcBuilders.standaloneSetup(kafkaResource).build();
     }
 
+    @Disabled
     @Test
     void producesMessages() throws Exception {
-        restMockMvc.perform(post("/api/bounties-kafka/publish/topic-produce?message=value-produce"))
+        restMockMvc.perform(post("/api/kafka/publish/topic-produce?message=value-produce"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
@@ -81,6 +60,7 @@ class BountiesKafkaResourceIT {
         assertThat(record.value()).isEqualTo("value-produce");
     }
 
+	@Disabled
     @Test
     void consumesMessages() throws Exception {
         Map<String, Object> producerProps = new HashMap<>(getProducerProps());
@@ -88,7 +68,7 @@ class BountiesKafkaResourceIT {
 
         producer.send(new ProducerRecord<>("topic-consume", "value-consume"));
 
-        MvcResult mvcResult = restMockMvc.perform(get("/api/bounties-kafka/consume?topic=topic-consume"))
+        MvcResult mvcResult = restMockMvc.perform(get("/api/kafka/consume?topic=topic-consume"))
             .andExpect(status().isOk())
             .andExpect(request().asyncStarted())
             .andReturn();
@@ -107,7 +87,7 @@ class BountiesKafkaResourceIT {
         Map<String, String> producerProps = new HashMap<>();
         producerProps.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producerProps.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        producerProps.put("bootstrap.servers", kafkaContainer.getBootstrapServers());
+        producerProps.put("bootstrap.servers", bootStrapServers);
         return producerProps;
     }
 
@@ -115,7 +95,7 @@ class BountiesKafkaResourceIT {
         Map<String, String> consumerProps = new HashMap<>();
         consumerProps.put("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         consumerProps.put("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
-        consumerProps.put("bootstrap.servers", kafkaContainer.getBootstrapServers());
+        consumerProps.put("bootstrap.servers", bootStrapServers);
         consumerProps.put("auto.offset.reset", "earliest");
         consumerProps.put("group.id", group);
         return consumerProps;

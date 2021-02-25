@@ -6,11 +6,12 @@ import org.testcontainers.containers.GenericContainer;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
+@SuppressWarnings("rawtypes")
 public class RedisTestContainerExtension implements BeforeAllCallback {
 
-    private static AtomicBoolean started = new AtomicBoolean(false);
+    private static final AtomicBoolean started = new AtomicBoolean(false);
 
-    private static GenericContainer redis = new GenericContainer("redis:6.0.4").withExposedPorts(6379);
+    private static final GenericContainer redis = new GenericContainer("redis:6.0.4").withExposedPorts(6379);
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) throws Exception {

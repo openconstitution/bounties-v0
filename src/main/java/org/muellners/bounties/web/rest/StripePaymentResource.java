@@ -88,10 +88,11 @@ public class StripePaymentResource {
 	    final String paymentMethodId = apiJsonObject.get("paymentMethodId").getAsString();
 //	    final String receiptEmail = apiJsonObject.get("receiptEmail").getAsString();
 //	    final String currency = apiJsonObject.get("currency").getAsString();
+//
+//        if (bountyId == null) {
+//            throw new BadRequestAlertException("Cannot create a payment intent for a non-existent bounty", ENTITY_NAME, "nullid");
+//        }
 
-        if (bountyId == null) {
-            throw new BadRequestAlertException("Cannot create a payment intent for a non-existent bounty", ENTITY_NAME, "nullid");
-        }
         final PaymentIntent paymentIntent = this.stripePaymentService.createPaymentIntent(paymentMethodId, null,
 		        bountyId, null);
         return ResponseEntity.created(new URI("/api/payment-intents/" + paymentIntent.getId()))

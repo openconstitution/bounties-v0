@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
+@SuppressWarnings("unused")
 @Configuration
 @EnableJpaRepositories("org.muellners.bounties.repository")
 @EnableJpaAuditing(auditorAwareRef = "springSecurityAuditorAware")

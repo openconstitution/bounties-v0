@@ -2,14 +2,12 @@ package org.muellners.bounties.repository;
 
 import org.muellners.bounties.BountiesApp;
 
-import org.muellners.bounties.RedisTestContainerExtension;
 import org.muellners.bounties.config.Constants;
 import org.muellners.bounties.config.TestSecurityConfiguration;
 import org.muellners.bounties.config.audit.AuditEventConverter;
 import org.muellners.bounties.domain.PersistentAuditEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.actuate.audit.AuditEvent;
 import org.springframework.boot.test.context.SpringBootTest;

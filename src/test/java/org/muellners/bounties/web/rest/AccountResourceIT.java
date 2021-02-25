@@ -51,11 +51,12 @@ public class AccountResourceIT {
     @Transactional
     public void testGetExistingAccount() throws Exception {
         Map<String, Object> userDetails = new HashMap<>();
-        userDetails.put("sub", TEST_USER_LOGIN);
+        userDetails.put("id", 1);
+        userDetails.put("login", TEST_USER_LOGIN);
         userDetails.put("email", "john.doe@jhipster.com");
         Collection<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
-        OAuth2User user = new DefaultOAuth2User(authorities, userDetails, "sub");
-        OAuth2AuthenticationToken authentication = new OAuth2AuthenticationToken(user, authorities, "oidc");
+        OAuth2User user = new DefaultOAuth2User(authorities, userDetails, "login");
+        OAuth2AuthenticationToken authentication = new OAuth2AuthenticationToken(user, authorities, "github");
         TestSecurityContextHolder.getContext().setAuthentication(authentication);
 
         restAccountMockMvc.perform(get("/api/account")
